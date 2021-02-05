@@ -18,12 +18,14 @@ ___
 	<li>PLEASE DO NOT CHANGE THE MAIN BRANCH IN ANY CIRCUMSTANCES!</li>
 </ul>
 
-<p>Danh is here!!!!! 
+<p>  
+Danh is here!!!!! 
 
 Justin is here!!!!!
 
 Raamish is here!!!!
 
 Ayman is here!!!!
-</p>
 
+Steven is here!!!!
+</p>
