@@ -1,7 +1,8 @@
-package ca.ualberta.appraisal;
+package ca.ualberta.appraisal.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import ca.ualberta.appraisal.R;
 
 public class MainActivity extends AppCompatActivity {
 
