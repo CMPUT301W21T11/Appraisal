@@ -1,4 +1,0 @@
-ca/ualberta/appraisal/MainActivity.java
- ca.ualberta.appraisal.MainActivity
-ca/ualberta/appraisal/BuildConfig.java
- ca.ualberta.appraisal.BuildConfig
