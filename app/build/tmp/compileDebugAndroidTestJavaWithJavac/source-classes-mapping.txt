@@ -1,4 +1,0 @@
-ca/ualberta/appraisal/test/BuildConfig.java
- ca.ualberta.appraisal.test.BuildConfig
-ca/ualberta/appraisal/ExampleInstrumentedTest.java
- ca.ualberta.appraisal.ExampleInstrumentedTest

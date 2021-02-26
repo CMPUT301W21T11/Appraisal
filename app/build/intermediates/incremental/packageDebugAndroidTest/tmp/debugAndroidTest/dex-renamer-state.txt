@@ -1,4 +1,0 @@
-#Wed Feb 17 18:47:24 EST 2021
-base.0=D\:\\Study\\DEV\\Android\\group_project\\CMPUT301_Proj1\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeDexDebugAndroidTest\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
