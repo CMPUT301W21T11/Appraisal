@@ -1,8 +1,9 @@
-package com.example.appraisal;
+package com.example.appraisal.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import com.example.appraisal.R;
 
 public class MainActivity extends AppCompatActivity {
 
