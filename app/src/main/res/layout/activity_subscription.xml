@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="674dp">
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:text="home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/home" android:layout_weight="1"/>
+            <Button
+                    android:text="search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/search" android:layout_weight="1"/>
+            <Button
+                    android:text="forum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/forum" android:layout_weight="1"/>
+            <Button
+                    android:text="list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/myExperiment" android:layout_weight="1"/>
+            <Button
+                    android:text="profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/profile" android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
