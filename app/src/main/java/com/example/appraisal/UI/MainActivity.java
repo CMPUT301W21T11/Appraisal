@@ -1,5 +1,6 @@
 package com.example.appraisal.UI;
 
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,5 +12,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void toSelection(View v) {
+        // TODO Bring the user from main menu, to experiment type menu
+        // (Selection Activity)
     }
 }
