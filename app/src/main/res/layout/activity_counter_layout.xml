@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
     android:padding="10dp">
 
+
+    <ImageView
+
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/chart" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp"
-        android:gravity="center">
+        android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,15 +34,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Placeholder"/>
+            android:text=" Number of blue cars"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:paddingTop="10dp"
+        android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,6 +69,8 @@
          android:text="Add Geolocation"
          android:textAllCaps="true"
          android:layout_gravity="center"
+         android:textColor="@color/white"
+         android:drawableLeft="@drawable/add_icon"
          android:layout_marginTop="20dp"
          android:layout_marginBottom="40dp"/>
 
@@ -72,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="50dp"
+        android:textSize="60dp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"/>
@@ -90,8 +105,8 @@
     <Button
         android:id="@+id/save_btn"
         android:layout_marginTop="100dp"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_width="wrap_content"
         android:text="Save"
         android:textAllCaps="true"
         android:layout_gravity="center"/>
