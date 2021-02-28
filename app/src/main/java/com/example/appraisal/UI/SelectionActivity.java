@@ -26,7 +26,7 @@ public class SelectionActivity extends AppCompatActivity {
 
     public void toCounter(View v) {
             
-        Intent intent = new Intent(this, BasicCounterActivity.class);
+        Intent intent = new Intent(this, CounterActivity.class);
         startActivity(intent);
     }
 

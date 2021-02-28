@@ -95,13 +95,13 @@
 
 
     <Button
-        android:id="@+id/add_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="Add"
-        android:textAllCaps="true"
-        android:backgroundTint="@color/green"
-        android:layout_gravity="center"/>
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/green"
+            android:layout_gravity="center" android:onClick="increment"/>
 
 
     <Button
