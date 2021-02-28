@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp"
+    android:padding="10dp">
+
+
+    <ImageView
+
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/chart" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:gravity="left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Number of blue cars"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:gravity="left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type:"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Count Based Trial"/>
+
+    </LinearLayout>
+
+
+
+     <Button
+         android:id="@+id/add_geo"
+         android:layout_width="wrap_content"
+         android:layout_height="match_parent"
+         android:text="Add Geolocation"
+         android:textAllCaps="true"
+         android:layout_gravity="center"
+         android:textColor="@color/white"
+         android:layout_marginTop="20dp"
+         android:backgroundTint="@color/grey"
+         android:drawableLeft="@drawable/add"
+         android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Record your trials below!"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:id="@+id/count_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+
+    <Button
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/green"
+            android:layout_gravity="center" android:onClick="increment"/>
+
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_marginTop="100dp"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:text="Save"
+        android:textAllCaps="true"
+        android:backgroundTint="@color/blue"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

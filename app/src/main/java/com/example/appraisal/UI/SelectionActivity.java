@@ -1,5 +1,6 @@
 package com.example.appraisal.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,9 @@ public class SelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
+
+
+
     }
 
     public void toBinomial(View v) {
@@ -21,7 +25,9 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toCounter(View v) {
-        // TODO
+            
+        Intent intent = new Intent(this, CounterActivity.class);
+        startActivity(intent);
     }
 
     public void toMeasurement(View v) {
