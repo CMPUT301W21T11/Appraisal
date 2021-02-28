@@ -57,6 +57,8 @@
          android:textAllCaps="true"
          android:layout_gravity="center"
          android:layout_marginTop="20dp"
+         android:backgroundTint="@color/grey"
+         android:drawableLeft="@drawable/add"
          android:layout_marginBottom="40dp"/>
 
     <TextView
@@ -84,6 +86,7 @@
         android:layout_height="match_parent"
         android:text="Add"
         android:textAllCaps="true"
+        android:backgroundTint="@color/green"
         android:layout_gravity="center"/>
 
 
@@ -94,6 +97,7 @@
         android:layout_height="match_parent"
         android:text="Save"
         android:textAllCaps="true"
+        android:backgroundTint="@color/blue"
         android:layout_gravity="center"/>
 
 </LinearLayout>
