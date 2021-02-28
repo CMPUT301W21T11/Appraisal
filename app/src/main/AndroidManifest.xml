@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".UI.SelectionActivity">
+
+        </activity>
+
+        <activity android:name=".UI.CounterActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
