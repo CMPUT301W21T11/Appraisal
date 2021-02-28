@@ -1,5 +1,6 @@
 package com.example.appraisal.UI;
 
+import android.content.Intent;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toSelection(View v) {
         // TODO Bring the user from main menu, to experiment type menu
-        // (Selection Activity)
+        Intent intent = new Intent(this, SelectionActivity.class);
+        startActivity(intent);
     }
 }
