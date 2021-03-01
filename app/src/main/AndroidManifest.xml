@@ -25,6 +25,10 @@
 
         </activity>
 
+        <activity android:name=".UI.MeasurementActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
