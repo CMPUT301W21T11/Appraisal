@@ -2,6 +2,8 @@ package com.example.appraisal.model;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.CountTrial;
 import com.example.appraisal.backend.Experiment;
 import com.example.appraisal.backend.User;
@@ -9,10 +11,12 @@ import com.example.appraisal.backend.User;
 public class CounterModel {
     private final CountTrial data;
     private final Experiment currentExperiment;
-    private final int maxTrailCount = Integer.MAX_VALUE;
+    private final int maxTrailCount;
 
-    public CounterModel(User currentUser, Experiment currentExperiment) {
+    public CounterModel(@NonNull Experiment currentExperiment) {
+        User currentUser = MainModel.getInstance().getCurrent_user();
         this.currentExperiment = currentExperiment;
+        this.maxTrailCount = Integer.MAX_VALUE;
         data = new CountTrial(currentUser, currentExperiment.getPid());
     }
 

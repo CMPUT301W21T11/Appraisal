@@ -1,8 +1,9 @@
 package com.example.appraisal.backend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Experiment {
+public class Experiment implements Serializable {
     private String title;
     private String description;
     private ArrayList<Trial> list_o_trail;
