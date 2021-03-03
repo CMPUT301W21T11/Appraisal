@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.backend.BinomialTrial;
 
 public class SelectionActivity extends AppCompatActivity {
     // TODO
@@ -18,7 +19,8 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toBinomial(View v) {
-        // TODO
+        Intent binomial_intent = new Intent(this, BinomialActivity.class);
+        startActivity(binomial_intent);
     }
 
     public void toCounter(View v) {
