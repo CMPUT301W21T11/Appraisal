@@ -24,11 +24,13 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toCounter(View v) {
-        // TODO
+        Intent intent = new Intent(this, CounterActivity.class);
+        startActivity(intent);
     }
 
     public void toMeasurement(View v) {
-        // TODO
+        Intent intent = new Intent(this, MeasurementActivity.class);
+        startActivity(intent);
     }
 
     public void toIntCount(View v) {

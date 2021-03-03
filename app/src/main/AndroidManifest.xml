@@ -20,7 +20,18 @@
         <activity android:name=".UI.SelectionActivity">
 
         </activity>
-        <activity android:name=".UI.BinomialActivity"></activity>
+
+        <activity android:name=".UI.BinomialActivity">
+      
+        </activity>
+
+        <activity android:name=".UI.CounterActivity">
+
+        </activity>
+
+        <activity android:name=".UI.MeasurementActivity">
+
+        </activity>
 
     </application>
 
