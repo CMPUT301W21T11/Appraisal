@@ -3,43 +3,61 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
+
     <LinearLayout
-            android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ListView
+            android:id="@+id/subscribedList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="674dp">
-            <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/subscribedList"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:text="home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/home" android:layout_weight="1"/>
-            <Button
-                    android:text="search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/search" android:layout_weight="1"/>
-            <Button
-                    android:text="forum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/forum" android:layout_weight="1"/>
-            <Button
-                    android:text="list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/myExperiment" android:layout_weight="1"/>
-            <Button
-                    android:text="profile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/profile" android:layout_weight="1"/>
-        </LinearLayout>
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="home" />
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="search" />
+
+        <Button
+            android:id="@+id/forum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="forum" />
+
+        <Button
+            android:id="@+id/myExperiment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="list" />
+
+        <Button
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="profile" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
