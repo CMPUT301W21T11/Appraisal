@@ -17,7 +17,7 @@ public class CounterModel {
         User currentUser = MainModel.getInstance().getCurrent_user();
         this.currentExperiment = currentExperiment;
         this.maxTrailCount = Integer.MAX_VALUE;
-        data = new CountTrial(currentUser, currentExperiment.getPid());
+        data = new CountTrial(currentUser, null);
     }
 
     public void increase() {
@@ -33,10 +33,6 @@ public class CounterModel {
     }
 
     public void saveToExperiment() {
-        try {
-            currentExperiment.addTrail(data);
-        } catch (Exception e) {
-            Log.d("Error", "Mismatch PID");
-        }
+        currentExperiment.addTrial(data);
     }
 }

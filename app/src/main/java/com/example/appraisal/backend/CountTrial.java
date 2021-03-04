@@ -5,11 +5,10 @@ import android.os.Build;
 public class CountTrial extends Trial {
     private int counter;
 
-    public CountTrial(User conductor, String parentExperimentID) {
-        super(conductor, parentExperimentID);
+    public CountTrial(User conductor, GeoLocation location) {
+        super(conductor, location);
         counter = 0;
     }
-
     public void increase() {
         counter++;
     }

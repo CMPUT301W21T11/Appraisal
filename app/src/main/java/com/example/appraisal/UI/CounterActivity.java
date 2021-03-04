@@ -13,17 +13,18 @@ import com.example.appraisal.model.CounterModel;
 public class CounterActivity extends AppCompatActivity {
 
     private CounterModel model;
-    private TextView counter_view;
-
+    private TextView counter_view, exp_description, exp_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_layout);
+        TextViewInit();
 
-        Experiment currentExperiment = (Experiment) getIntent().getSerializableExtra("currentExperiment");
+        // Experiment currentExperiment = (Experiment) getIntent().getSerializableExtra("currentExperiment");
+        Experiment currentExperiment = new Experiment("Watching blue cars", "Test description", "Count trial",null,null);
         model = new CounterModel(currentExperiment);
-
-        counter_view = (TextView) findViewById(R.id.count_view);
+        exp_description.setText(currentExperiment.getDescription());
+        exp_type.setText(currentExperiment.getType());
     }
 
     public void increment(View v) {
@@ -42,5 +43,11 @@ public class CounterActivity extends AppCompatActivity {
         // accordingly
         String result = String.valueOf(model.getCount());
         counter_view.setText(result);
+    }
+
+    private void TextViewInit() {
+        counter_view = (TextView) findViewById(R.id.activityCounterLayoutCounterView);
+        exp_description = (TextView) findViewById(R.id.activityCounterLayoutDescription);
+        exp_type = (TextView) findViewById(R.id.activityCounterLayoutExperimentType);
     }
 }

@@ -20,43 +20,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:orientation="horizontal"
-        android:gravity="left">
+        android:gravity="start"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description:"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
         <TextView
+            android:id="@+id/activityCounterLayoutDescription"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Number of blue cars"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:gravity="start"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:gravity="left">
+        android:paddingTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type:"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
 
         <TextView
+            android:id="@+id/activityCounterLayoutExperimentType"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Count Based Trial"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -78,20 +80,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Record your trials below!"
-        android:textSize="30dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="40dp"
+        android:text=" Record your trials below!"
+        android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/count_view"
+        android:id="@+id/activityCounterLayoutCounterView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="60dp"
-        android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:text="0"
+        android:textSize="60sp"
+        android:textStyle="bold" />
 
 
     <Button
@@ -106,12 +108,12 @@
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_marginTop="100dp"
-        android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:text="Save"
-        android:textAllCaps="true"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
         android:backgroundTint="@color/blue"
-        android:layout_gravity="center"/>
+        android:text="Save"
+        android:textAllCaps="true" />
 
 </LinearLayout>
