@@ -27,7 +27,7 @@ public class NonNegativeIntegerModel {
             data.setNonNegIntCount(count);
             currentExperiment.addTrial(data);
         } else {
-            throw new ArithmeticException("Integer overflow");
+            throw new NumberFormatException("Integer overflow");
         }
     }
 }

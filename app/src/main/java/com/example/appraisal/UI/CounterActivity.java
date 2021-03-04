@@ -37,8 +37,6 @@ public class CounterActivity extends AppCompatActivity {
             toast.setDuration(Toast.LENGTH_SHORT);
             toast.show();
         }
-
-
         // The model will change. Then request the data from model, update display
         // accordingly
         String result = String.valueOf(model.getCount());
