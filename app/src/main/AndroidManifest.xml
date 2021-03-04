@@ -21,6 +21,10 @@
 
         </activity>
 
+        <activity android:name=".UI.ExpSubscriptionActivity">
+
+        </activity>
+
         <activity android:name=".UI.BinomialActivity">
       
         </activity>
