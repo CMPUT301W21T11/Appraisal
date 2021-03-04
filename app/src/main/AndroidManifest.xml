@@ -25,6 +25,18 @@
 
         </activity>
 
+        <activity android:name=".UI.ForumHomeActivity">
+
+        </activity>
+
+        <activity android:name=".UI.ForumQuestionsActivity">
+
+        </activity>
+
+        <activity android:name=".UI.ForumRepliesActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
