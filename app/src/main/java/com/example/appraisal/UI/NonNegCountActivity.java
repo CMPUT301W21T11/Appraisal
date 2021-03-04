@@ -34,24 +34,26 @@ public class NonNegCountActivity extends AppCompatActivity {
     }
 
     public void saveToExperiment(View v) {
-        Toast toast = new Toast(this);
+        Toast toast = new Toast(this); // User warning popup
         toast.setDuration(Toast.LENGTH_SHORT);
         try {
             String userInput = countResult.getText().toString();
             long count = Long.parseLong(userInput);
             model.saveToExperiment(count);
         } catch (NumberFormatException e) {
+            // Usually happens when user inputs is too large
             toast.setText("Holy crap what are you trying to count my goddess");
             toast.show();
             return;
         } catch (Exception e) {
+            // When user Inputs a negative count
             toast.setText("Integer must be non-negative!");
             toast.show();
             return;
         }
-        toast.setText("Success!");
+        toast.setText("Success!"); // else notify success
         toast.show();
-        finish();
+        finish(); // end activity
     }
 
     private void ViewInit() {

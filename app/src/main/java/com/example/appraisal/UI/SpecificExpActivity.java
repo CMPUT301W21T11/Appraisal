@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.appraisal.R;
 
-public class ExperimentSpecActivity extends AppCompatActivity {
+public class SpecificExpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_experiment_spec);
+        setContentView(R.layout.activity_specific_exp);
     }
 }
