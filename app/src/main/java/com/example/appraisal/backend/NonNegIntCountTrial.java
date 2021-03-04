@@ -1,17 +1,22 @@
 package com.example.appraisal.backend;
 
 public class NonNegIntCountTrial extends Trial {
-
-    // probably should change variable name lol
-    private int integer;
+    private long nonNegIntCount;
 
     public NonNegIntCountTrial(User conductor, GeoLocation location) {
         super(conductor, location);
-        integer = 0;
+        nonNegIntCount = 0;
     }
 
-    // should probably rename this too sry 3 am brain
-    public int getInteger() {
-        return integer;
+    public long getNonNegIntCount() {
+        return nonNegIntCount;
+    }
+
+    public void setNonNegIntCount(long nonNegIntCount) throws Exception{
+        if (nonNegIntCount < 0) {
+            throw new Exception("Error: Negative integer");
+        } else {
+            this.nonNegIntCount = nonNegIntCount;
+        }
     }
 }

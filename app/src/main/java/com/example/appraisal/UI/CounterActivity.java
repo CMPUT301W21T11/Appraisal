@@ -45,6 +45,11 @@ public class CounterActivity extends AppCompatActivity {
         counter_view.setText(result);
     }
 
+    public void saveToExperiment(View v) {
+        model.saveToExperiment();
+        finish();
+    }
+
     private void TextViewInit() {
         counter_view = (TextView) findViewById(R.id.activityCounterLayoutCounterView);
         exp_description = (TextView) findViewById(R.id.activityCounterLayoutDescription);

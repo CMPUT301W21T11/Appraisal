@@ -9,20 +9,25 @@ import com.example.appraisal.backend.User;
 public class NonNegativeIntegerModel {
     private final NonNegIntCountTrial data;
     private final Experiment currentExperiment;
-    private final int maxTrailCount;
+    private final long maxTrailCount;
 
     public NonNegativeIntegerModel(@NonNull Experiment currentExperiment) {
         User currentUser = MainModel.getInstance().getCurrent_user();
         this.currentExperiment = currentExperiment;
-        this.maxTrailCount = Integer.MAX_VALUE;
+        this.maxTrailCount = Long.MAX_VALUE;
         data = new NonNegIntCountTrial(currentUser, null);
     }
 
-    public int getCount() {
-        return data.getInteger();
+    public long getCount() {
+        return data.getNonNegIntCount();
     }
 
-    public void saveToExperiment() {
-        currentExperiment.addTrial(data);
+    public void saveToExperiment(long count) throws Exception{
+        if (data.getNonNegIntCount() < maxTrailCount) {
+            data.setNonNegIntCount(count);
+            currentExperiment.addTrial(data);
+        } else {
+            throw new ArithmeticException("Integer overflow");
+        }
     }
 }

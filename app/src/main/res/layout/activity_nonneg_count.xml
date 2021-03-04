@@ -28,7 +28,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/nonNegDescriptionText"
+            android:id="@+id/activityNonNegDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -49,7 +49,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/nonNegTypeText"
+            android:id="@+id/activityNonNegTypeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -77,14 +77,14 @@
         android:textSize="30dp" />
 
     <EditText
-        android:id="@+id/editTextnonNeg"
+        android:id="@+id/activityNonnegCountResultEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="4"
         android:text="0"
         android:layout_marginBottom="20dp"
-        android:inputType="numberSigned"
+        android:inputType="number"
         android:textAlignment="center"/>
 
     <!-- why tf do xml comments work like this but temporary commenting until we figure
@@ -107,5 +107,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:backgroundTint="@color/blue"
+        android:onClick="saveToExperiment"
         android:text="save" />
 </LinearLayout>
