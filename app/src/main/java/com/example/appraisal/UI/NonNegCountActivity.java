@@ -26,11 +26,12 @@ public class NonNegCountActivity extends AppCompatActivity {
         ViewInit();
 
         // test code
-        Experiment currentExperiment = new Experiment("Watching blue cars", "Test description", "Non-Negative integer trial",null,null);
+        // Experiment currentExperiment = new Experiment("Watching blue cars", "Test description", "Non-Negative integer trial",null,null);
 
+        Experiment currentExperiment = new Experiment();
         model = new NonNegativeIntegerModel(currentExperiment);
-        nonNegDescriptionText.setText(currentExperiment.getDescription());
-        nonNegTypeText.setText(currentExperiment.getType());
+        nonNegDescriptionText.setText("Test");
+        nonNegTypeText.setText("test");
     }
 
     public void saveToExperiment(View v) {

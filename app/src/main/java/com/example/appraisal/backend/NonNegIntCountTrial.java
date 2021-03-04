@@ -3,8 +3,8 @@ package com.example.appraisal.backend;
 public class NonNegIntCountTrial extends Trial {
     private long nonNegIntCount;
 
-    public NonNegIntCountTrial(User conductor, GeoLocation location) {
-        super(conductor, location);
+    public NonNegIntCountTrial(User conductor) {
+        //super(conductor);
         nonNegIntCount = 0;
     }
 

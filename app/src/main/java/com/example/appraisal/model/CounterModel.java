@@ -17,7 +17,7 @@ public class CounterModel {
         User currentUser = MainModel.getInstance().getCurrent_user();
         this.currentExperiment = currentExperiment;
         this.maxTrailCount = Integer.MAX_VALUE;
-        data = new CountTrial(currentUser, null);
+        data = new CountTrial(currentUser);
     }
 
     public void increase() {
@@ -33,6 +33,6 @@ public class CounterModel {
     }
 
     public void saveToExperiment() {
-        currentExperiment.addTrial(data);
+        //currentExperiment.addTrial(data);
     }
 }

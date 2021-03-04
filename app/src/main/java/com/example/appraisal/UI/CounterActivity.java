@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.Experiment;
 import com.example.appraisal.model.CounterModel;
+import com.example.appraisal.model.NonNegativeIntegerModel;
 
 public class CounterActivity extends AppCompatActivity {
 
@@ -20,11 +21,10 @@ public class CounterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_counter_layout);
         TextViewInit();
 
-        // Experiment currentExperiment = (Experiment) getIntent().getSerializableExtra("currentExperiment");
-        Experiment currentExperiment = new Experiment("Watching blue cars", "Test description", "Count trial",null,null);
+        Experiment currentExperiment = new Experiment();
         model = new CounterModel(currentExperiment);
-        exp_description.setText(currentExperiment.getDescription());
-        exp_type.setText(currentExperiment.getType());
+        exp_description.setText("Test");
+        exp_type.setText("test");
     }
 
     public void increment(View v) {

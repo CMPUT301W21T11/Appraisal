@@ -5,8 +5,7 @@ import android.os.Build;
 public class CountTrial extends Trial {
     private int counter;
 
-    public CountTrial(User conductor, GeoLocation location) {
-        super(conductor, location);
+    public CountTrial(User conductor) {
         counter = 0;
     }
     public void increase() {

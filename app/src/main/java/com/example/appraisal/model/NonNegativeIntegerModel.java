@@ -15,7 +15,7 @@ public class NonNegativeIntegerModel {
         User currentUser = MainModel.getInstance().getCurrent_user();
         this.currentExperiment = currentExperiment;
         this.maxTrailCount = Long.MAX_VALUE;
-        data = new NonNegIntCountTrial(currentUser, null);
+        data = new NonNegIntCountTrial(currentUser);
     }
 
     public long getCount() {
@@ -25,7 +25,7 @@ public class NonNegativeIntegerModel {
     public void saveToExperiment(long count) throws Exception{
         if (data.getNonNegIntCount() < maxTrailCount) {
             data.setNonNegIntCount(count);
-            currentExperiment.addTrial(data);
+            //currentExperiment.addTrial(data);
         } else {
             throw new NumberFormatException("Integer overflow");
         }
