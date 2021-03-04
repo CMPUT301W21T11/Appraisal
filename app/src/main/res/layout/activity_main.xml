@@ -20,7 +20,10 @@
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
-            tools:layout_editor_absoluteX="160dp"/>
-            android:layout_height="wrap_content" android:id="@+id/button5" tools:layout_editor_absoluteY="326dp"
+            android:layout_height="wrap_content" android:id="@+id/button5"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="160dp"
+            android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="326dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
