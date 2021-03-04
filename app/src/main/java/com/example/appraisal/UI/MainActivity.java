@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toSelection(View v) {
         // TODO Bring the user from main menu, to experiment type menu
-        Intent intent = new Intent(this, SelectionActivity.class);
+        Intent intent = new Intent(this, ExpSubscriptionActivity.class);
         startActivity(intent);
     }
 }
