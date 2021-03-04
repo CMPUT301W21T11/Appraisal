@@ -26,15 +26,21 @@
         </activity>
 
         <activity android:name=".UI.ForumHomeActivity">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.MainActivity" />
         </activity>
 
         <activity android:name=".UI.ForumQuestionsActivity">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.ForumHomeActivity" />
         </activity>
 
         <activity android:name=".UI.ForumRepliesActivity">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.ForumQuestionsActivity" />
         </activity>
 
     </application>
