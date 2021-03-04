@@ -45,7 +45,7 @@ public class NonNegCountActivity extends AppCompatActivity {
             toast.show();
             return;
         } catch (Exception e) {
-            toast.setText("Integer must be positive!");
+            toast.setText("Integer must be non-negative!");
             toast.show();
             return;
         }
