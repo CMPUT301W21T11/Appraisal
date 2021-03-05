@@ -2,11 +2,13 @@ package com.example.appraisal.UI.SpecificExpFragments;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class SpecificExpViewAdapter extends FragmentStateAdapter {
-    public SpecificExpViewAdapter(@NonNull Fragment fragment) {
-        super(fragment);
+    private final int PAGE_NUM = 4;
+    public SpecificExpViewAdapter(FragmentActivity fm) {
+        super(fm);
     }
 
     @NonNull
@@ -16,17 +18,17 @@ public class SpecificExpViewAdapter extends FragmentStateAdapter {
             case 0:
                 return new SpecificExpDetailsFragment();
             case 1:
-                return new SpecificExpDetailsFragment();
+                return new SpecificExpQRCodeFragment();
             case 2:
-                return new SpecificExpDetailsFragment();
+                return new SpecificExpDataAnalysisFragment();
             case 3:
-                return new SpecificExpDetailsFragment();
+                return new SpecificExpContributorsFragment();
         }
         return null;
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return PAGE_NUM;
     }
 }

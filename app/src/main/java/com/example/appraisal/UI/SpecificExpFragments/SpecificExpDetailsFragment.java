@@ -12,12 +12,11 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 
 public class SpecificExpDetailsFragment extends Fragment {
-    public static final String ARG_OBJECT = "exp_details";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.item1_view_pager, container, false);
+        return inflater.inflate(R.layout.activity_specific_exp_experiment_details, container, false);
     }
 }
