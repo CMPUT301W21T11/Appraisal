@@ -21,7 +21,7 @@
 
         </activity>
 
-        <activity android:name=".UI.CounterActivity">
+        <activity android:name=".UI.NonNegCountActivity">
 
         </activity>
 
