@@ -25,6 +25,18 @@
 
         </activity>
 
+        <activity android:name=".UI.DetailsActivity">
+
+        </activity>
+
+        <activity android:name=".UI.DetailSelectionActivity">
+
+        </activity>
+
+        <activity android:name=".UI.DataAnalysisActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
