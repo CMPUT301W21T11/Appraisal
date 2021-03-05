@@ -27,8 +27,7 @@ public class NonNegCountActivity extends AppCompatActivity {
         // Adjust the model
         String user_input = counter_view.getText().toString();
         try {
-            long count = Long.parseLong(user_input);
-            model.saveCount(count);
+            model.saveCount(user_input);
         } catch (NumberFormatException e) {
             Log.d("Warning", "User input caused integer overflow");
             return;
