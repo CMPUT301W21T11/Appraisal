@@ -43,6 +43,10 @@
                 android:value=".UI.ForumQuestionsActivity" />
         </activity>
 
+        <activity android:name=".UI.MyExperimentActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
