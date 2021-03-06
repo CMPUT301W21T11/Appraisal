@@ -34,6 +34,7 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toIntCount(View v) {
-        // TODO
+        Intent intent = new Intent(this, NonNegIntCountActivity.class);
+        startActivity(intent);
     }
 }
