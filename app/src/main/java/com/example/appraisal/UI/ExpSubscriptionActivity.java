@@ -24,7 +24,7 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
     private List<String> subscribed_content;
     private ArrayAdapter<String> adapter;
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +55,8 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
 
     public void toMyExps(View v) {
         // When click on expList button
-       // Intent intent = new Intent(this, MyExperimentActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, MyExperimentActivity.class);
+        startActivity(intent);
     }
 
     public void toProfile(View v) {
