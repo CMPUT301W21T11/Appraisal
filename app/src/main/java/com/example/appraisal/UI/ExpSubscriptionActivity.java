@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.subscription;
+package com.example.appraisal.UI;
 
 import android.content.Intent;
 import android.os.Build;
@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.ForumHomeActivity;
+import com.example.appraisal.UI.MyExperimentActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +54,9 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
     }
 
     public void toMyExps(View v) {
-        // TODO When click on expList button
+        // When click on expList button
+       // Intent intent = new Intent(this, MyExperimentActivity.class);
+        //startActivity(intent);
     }
 
     public void toProfile(View v) {

@@ -51,7 +51,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="list" />
+            android:text="list"
+            android:onClick="toMyExperiments"/>
 
         <Button
             android:id="@+id/profile"

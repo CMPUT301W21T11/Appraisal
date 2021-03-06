@@ -19,11 +19,13 @@ public class MyExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_measurement);
+        setContentView(R.layout.activity_my_exp);
 
         my_experiment_display = findViewById(R.id.my_experiments);
         model = new MyExperimentModel();
 
         
     }
+
+
 }
