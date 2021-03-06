@@ -16,8 +16,6 @@ public class SelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
-
-
     }
 
     public void toBinomial(View v) {
@@ -25,18 +23,18 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toCounter(View v) {
-            
-        Intent intent = new Intent(this, CounterActivity.class);
-        startActivity(intent);
     }
 
     public void toMeasurement(View v) {
         // TODO
     }
 
+    public void toDetails(View v) {
+        Intent intent = new Intent(this, SpecificExpActivity.class);
+        startActivity(intent);
+    }
     public void toIntCount(View v) {
-
-        Intent i = new Intent(this, NonNegCountActivity.class);
-        startActivity(i);
+        Intent intent = new Intent(this, NonNegCountActivity.class);
+        startActivity(intent);
     }
 }

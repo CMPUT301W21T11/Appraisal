@@ -4,61 +4,34 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.appraisal.R;
-import com.example.appraisal.backend.Experiment;
-import com.example.appraisal.model.NonNegativeIntegerModel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.appraisal.R;
+import com.example.appraisal.model.NonNegIntCountModel;
 
 public class NonNegCountActivity extends AppCompatActivity {
 
-    private NonNegativeIntegerModel model;
-    private TextView nonNegDescriptionText, nonNegTypeText;
-    private EditText countResult;
+    private NonNegIntCountModel model;
+    private EditText counter_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nonneg_count);
-        ViewInit();
+        setContentView(R.layout.activity_nonneg_count_layout);
 
-        // test code
-        Experiment currentExperiment = new Experiment("Watching blue cars", "Test description", "Non-Negative integer trial",null,null);
-
-        model = new NonNegativeIntegerModel(currentExperiment);
-        nonNegDescriptionText.setText(currentExperiment.getDescription());
-        nonNegTypeText.setText(currentExperiment.getType());
+        counter_view = findViewById(R.id.nonneg_count_input);
+        model = new NonNegIntCountModel();
     }
 
-    public void saveToExperiment(View v) {
-        Toast toast = new Toast(this); // User warning popup
-        toast.setDuration(Toast.LENGTH_SHORT);
+    public void saveAndReturn(View v) {
+        // Adjust the model
+        String user_input = counter_view.getText().toString();
         try {
-            String userInput = countResult.getText().toString();
-            long count = Long.parseLong(userInput);
-            model.saveToExperiment(count);
+            model.saveCount(user_input);
         } catch (NumberFormatException e) {
-            // Usually happens when user inputs is too large
-            toast.setText("Holy crap what are you trying to count my goddess");
-            toast.show();
-            return;
-        } catch (Exception e) {
-            // When user Inputs a negative count
-            toast.setText("Integer must be non-negative!");
-            toast.show();
+            Log.d("Warning", "User input caused integer overflow");
             return;
         }
-        toast.setText("Success!"); // else notify success
-        toast.show();
-        finish(); // end activity
-    }
-
-    private void ViewInit() {
-        nonNegDescriptionText = (TextView) findViewById(R.id.activityNonNegDescriptionText);
-        nonNegTypeText = (TextView) findViewById(R.id.activityNonNegTypeText);
-        countResult = (EditText) findViewById(R.id.activityNonnegCountResultEditText);
+        finish();
     }
 }
