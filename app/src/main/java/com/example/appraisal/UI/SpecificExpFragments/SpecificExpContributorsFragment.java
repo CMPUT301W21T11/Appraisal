@@ -31,9 +31,9 @@ public class SpecificExpContributorsFragment extends Fragment {
         // initialize recyclerView
         recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
         adapter = new SpecificExpContributorsViewAdapter(contributors); // initialize adapter
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
         recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
         return view;
     }
 }
