@@ -21,7 +21,7 @@
 
         </activity>
 
-        <activity android:name=".UI.ExpSubscriptionActivity">
+        <activity android:name=".UI.subscription.ExpSubscriptionActivity">
 
         </activity>
 

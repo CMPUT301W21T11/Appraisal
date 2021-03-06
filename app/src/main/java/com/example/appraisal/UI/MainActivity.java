@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import com.example.appraisal.R;
+import com.example.appraisal.UI.subscription.ExpSubscriptionActivity;
 
 public class MainActivity extends AppCompatActivity {
 
