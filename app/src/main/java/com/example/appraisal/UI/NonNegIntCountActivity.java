@@ -23,15 +23,11 @@ public class NonNegIntCountActivity extends AppCompatActivity {
     }
 
     public void saveAndReturn(View v) {
-        // Adjust the model
+        // get input
         String user_input = counter_view.getText().toString();
-        try {
-            long count = Long.parseLong(user_input);
-            model.saveCount(count);
-        } catch (NumberFormatException e) {
-            Log.d("Warning", "User input caused integer overflow");
-            return;
-        }
-        finish();
+
+        // Adjust the model
+        model.addIntCount(user_input);
+        counter_view.setText("");
     }
 }

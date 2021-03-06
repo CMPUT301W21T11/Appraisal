@@ -87,11 +87,12 @@
             android:id="@+id/inputMeasurement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.00"
             android:textSize="60dp"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:hint="0.00"
+            android:inputType="numberDecimal"/>
 
 
     <Button
@@ -101,7 +102,8 @@
             android:text="Add"
             android:textAllCaps="true"
             android:backgroundTint="@color/green"
-            android:layout_gravity="center" android:onClick="addMeasurement"/>
+            android:layout_gravity="center"
+            android:onClick="addMeasurement"/>
 
 
     <Button

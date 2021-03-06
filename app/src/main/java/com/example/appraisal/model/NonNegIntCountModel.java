@@ -1,5 +1,6 @@
 package com.example.appraisal.model;
 
+import android.util.Log;
 import com.example.appraisal.backend.NonNegIntCountTrial;
 
 public class NonNegIntCountModel {
@@ -9,11 +10,11 @@ public class NonNegIntCountModel {
         data = new NonNegIntCountTrial();
     }
 
-    public void saveCount(long count) {
-        data.setCounter(count);
+    public void addIntCount(String s) {
+        data.addIntCount(s);
     }
 
     public long getCount() {
-        return data.getCounter();
+        return data.getCount();
     }
 }
