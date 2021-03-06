@@ -16,21 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.SelectionActivity"></activity>
-        <activity android:name=".UI.NonNegCountActivity"></activity>
+        <activity android:name=".UI.SelectionActivity" />
+        <activity android:name=".UI.NonNegCountActivity" />
         <activity android:name=".UI.SpecificExpActivity"/>
-
-        <activity android:name=".UI.DetailsActivity">
-
-        </activity>
-
-        <activity android:name=".UI.DetailSelectionActivity">
-
-        </activity>
-
-        <activity android:name=".UI.DataAnalysisActivity">
-
-        </activity>
 
     </application>
 

@@ -23,8 +23,6 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toCounter(View v) {
-        Intent intent = new Intent(this, SpecificExpActivity.class);
-        startActivity(intent);
     }
 
     public void toMeasurement(View v) {
@@ -32,7 +30,7 @@ public class SelectionActivity extends AppCompatActivity {
     }
 
     public void toDetails(View v) {
-        Intent intent = new Intent(this, DetailSelectionActivity.class);
+        Intent intent = new Intent(this, SpecificExpActivity.class);
         startActivity(intent);
     }
     public void toIntCount(View v) {

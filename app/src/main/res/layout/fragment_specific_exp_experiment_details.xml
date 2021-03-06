@@ -84,6 +84,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#736F6F" />
+
     <Button
         android:id="@+id/specific_exp_details_geolocation_map_button"
         android:layout_width="289dp"

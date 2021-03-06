@@ -17,6 +17,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_specific_exp_experiment_details, container, false);
+        return inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
     }
 }
