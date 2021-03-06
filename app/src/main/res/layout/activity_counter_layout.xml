@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="10dp"
-    android:padding="10dp"
-    android:paddingStart="10dp">
+    android:padding="10dp">
 
 
     <ImageView
@@ -23,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
-        android:gravity="start"
-        android:layout_marginStart="20dp">
+        android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,10 +32,9 @@
 
 
         <TextView
-            android:id="@+id/nonNeg_count_descrption_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Number of blue cars" />
+            android:text=" Number of blue cars"/>
 
     </LinearLayout>
 
@@ -47,8 +44,7 @@
         android:layout_marginLeft="20dp"
         android:orientation="horizontal"
         android:paddingTop="10dp"
-        android:gravity="left"
-        android:layout_marginStart="20dp">
+        android:gravity="left">
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,10 +54,9 @@
 
 
         <TextView
-            android:id="@+id/nonNeg_count_type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Count Based Trial" />
+            android:text=" Count Based Trial"/>
 
     </LinearLayout>
 
@@ -84,32 +79,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" Record your trials below!"
-        android:textSize="30sp"
+        android:textSize="30dp"
         android:layout_gravity="center"
         android:layout_marginBottom="40dp"/>
 
-    <EditText
-        android:id="@+id/nonneg_count_input"
-        android:layout_width="178dp"
+    <TextView
+        android:id="@+id/count_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="60dp"
+        android:textStyle="bold"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:hint="0"
-        android:inputType="number"
-        android:textSize="60sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="20dp"/>
+
+
+    <Button
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Add"
+            android:textAllCaps="true"
+            android:backgroundTint="@color/green"
+            android:layout_gravity="center" android:onClick="increment"/>
 
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:backgroundTint="@color/blue"
-        android:onClick="saveAndReturn"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
         android:text="Save"
-        android:textAllCaps="true" />
+        android:textAllCaps="true"
+        android:backgroundTint="@color/blue"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
