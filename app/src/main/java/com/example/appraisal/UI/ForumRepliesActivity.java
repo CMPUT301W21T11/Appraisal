@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ForumRepliesActivity extends AppCompatActivity {
 
@@ -25,11 +26,9 @@ public class ForumRepliesActivity extends AppCompatActivity {
         replies = new ArrayList<>();
 
         String []experiments = {"Reply 1", "Reply 2", "Reply 3", "Reply 4"};
-        for(int i = 0; i <experiments.length; i++){
-            replies.add(experiments[i]);
-        }
-
+        Collections.addAll(replies, experiments);
         reply_adapter = new ArrayAdapter<>(this, R.layout.list_content, replies);
+
         reply_list.setAdapter(reply_adapter);
     }
 }
