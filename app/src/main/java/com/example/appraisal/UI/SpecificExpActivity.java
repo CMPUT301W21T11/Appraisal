@@ -21,17 +21,20 @@ public class SpecificExpActivity extends AppCompatActivity {
     private SpecificExpViewAdapter specific_exp_view_adapter;
     private ViewPager2 viewpager;
 
-    private String[] tab_names= {"DETAILS", "QR CODE", "DATA ANALYSIS", "CONTRIBUTORS"};
+    // tab names
+    private final String[] tab_names= {"DETAILS", "QR CODE", "DATA ANALYSIS", "CONTRIBUTORS"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // inflate content and initialize adapter
         setContentView(R.layout.activity_specific_exp);
         viewpager = (ViewPager2) findViewById(R.id.specific_exp_pager);
-        specific_exp_view_adapter = new SpecificExpViewAdapter(this);
+        specific_exp_view_adapter = new SpecificExpViewAdapter(this, tab_names.length);
         viewpager.setAdapter(specific_exp_view_adapter);
 
+        // initialize tabs and attach to this activity
         TabLayout tabLayout = findViewById(R.id.specific_exp_tab_layout);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setText(tab_names[position]));
         tabLayoutMediator.attach();

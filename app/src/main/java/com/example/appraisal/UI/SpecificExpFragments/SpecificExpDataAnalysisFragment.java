@@ -40,11 +40,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private void dropInit(View v) {
         // initialize buttons and set on click listeners for expanding details
         ImageView histogram_drop = v.findViewById(R.id.fragment_experiment_data_analysis_histogramDrop);
-        ImageView quartilles_drop = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesDrop);
+        ImageView quartiles_drop = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesDrop);
         ImageView plot_drop = v.findViewById(R.id.fragment_experiment_data_analysis_plotsDrop);
 
         histogram_drop.setOnClickListener(v1 -> toggle_histogram(v1));
-        quartilles_drop.setOnClickListener(v2 -> toggle_quartiles(v2));
+        quartiles_drop.setOnClickListener(v2 -> toggle_quartiles(v2));
         plot_drop.setOnClickListener(v3 -> toggle_plots(v3));
     }
 
