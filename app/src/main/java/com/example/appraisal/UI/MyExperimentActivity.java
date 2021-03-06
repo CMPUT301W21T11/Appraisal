@@ -1,6 +1,29 @@
 package com.example.appraisal.UI;
 
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.appraisal.R;
+import com.example.appraisal.model.MeasurementModel;
+import com.example.appraisal.model.MyExperimentModel;
+
+import java.util.List;
 
 public class MyExperimentActivity extends AppCompatActivity {
+    private ListView my_experiment_display;
+    private MyExperimentModel model;
+    private ArrayAdapter<String> adapter;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_measurement);
+
+        my_experiment_display = findViewById(R.id.my_experiments);
+        model = new MyExperimentModel();
+
+        
+    }
 }
