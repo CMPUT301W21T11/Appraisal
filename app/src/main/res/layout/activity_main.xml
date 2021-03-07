@@ -6,24 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".UI.MainActivity">
 
-    
+
     <Button
-            
+
             android:text="GUEST"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/toSelection"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="160dp"
             android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:onClick="toSelection"
+            app:layout_constraintEnd_toEndOf="parent" android:onClick="toHome"
             android:layout_marginTop="472dp" android:layout_marginEnd="163dp" android:layout_marginRight="163dp"
             app:layout_constraintHorizontal_bias="1.0"/>
     <Button
-            android:text="Button"
+            android:text="dummy-totroals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/button5"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="160dp"
-            android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="326dp"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="124dp"
+            android:layout_marginStart="124dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="328dp" android:onClick="toSelection"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
