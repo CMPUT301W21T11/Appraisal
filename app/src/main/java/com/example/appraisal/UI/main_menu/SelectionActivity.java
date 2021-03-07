@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.UI.SpecificExpActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -36,6 +37,10 @@ public class SelectionActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toDetails(View v) {
+        Intent intent = new Intent(this, SpecificExpActivity.class);
+        startActivity(intent);
+    }
     public void toIntCount(View v) {
         Intent intent = new Intent(this, NonNegIntCountActivity.class);
         startActivity(intent);

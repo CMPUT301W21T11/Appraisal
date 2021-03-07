@@ -1,4 +1,4 @@
 package com.example.appraisal.backend;
 
-public class GeoLocation {
+public class SpecificExperiment {
 }

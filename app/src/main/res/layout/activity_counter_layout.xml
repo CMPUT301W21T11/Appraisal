@@ -103,7 +103,6 @@
         android:backgroundTint="@color/green"
         android:layout_gravity="center" android:onClick="increment"/>
 
-
     <Button
         android:id="@+id/save_btn"
         android:layout_marginTop="100dp"

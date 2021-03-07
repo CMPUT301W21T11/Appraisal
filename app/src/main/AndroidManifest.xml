@@ -59,8 +59,11 @@
 
         </activity>
 
+        <activity android:name=".UI.SpecificExpActivity"/>
+
         <activity android:name=".UI.trial.NonNegIntCountActivity">
         </activity>
+
 
     </application>
 

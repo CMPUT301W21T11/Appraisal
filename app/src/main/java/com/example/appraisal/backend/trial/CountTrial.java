@@ -3,6 +3,7 @@ package com.example.appraisal.backend.trial;
 import com.example.appraisal.backend.trial.Trial;
 
 public class CountTrial extends Trial {
+
     private int counter;
 
     public CountTrial() {
@@ -16,4 +17,5 @@ public class CountTrial extends Trial {
     public int getCount() {
         return counter;
     }
+
 }
