@@ -6,11 +6,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.model.MainModel;
-import com.example.appraisal.model.MeasurementModel;
 import com.example.appraisal.model.MyExperimentModel;
-import com.google.firebase.firestore.CollectionReference;
-
-import java.util.List;
 
 public class MyExperimentActivity extends AppCompatActivity {
     private ListView my_experiment_display;

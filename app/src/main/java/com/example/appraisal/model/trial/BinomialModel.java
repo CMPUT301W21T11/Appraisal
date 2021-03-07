@@ -1,6 +1,6 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.trial;
 
-import com.example.appraisal.backend.BinomialTrial;
+import com.example.appraisal.backend.trial.BinomialTrial;
 
 public class BinomialModel {
     private BinomialTrial bin_trial;

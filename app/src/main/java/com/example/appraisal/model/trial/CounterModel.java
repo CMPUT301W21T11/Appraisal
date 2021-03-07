@@ -1,6 +1,6 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.trial;
 
-import com.example.appraisal.backend.CountTrial;
+import com.example.appraisal.backend.trial.CountTrial;
 
 public class CounterModel {
     private CountTrial data;

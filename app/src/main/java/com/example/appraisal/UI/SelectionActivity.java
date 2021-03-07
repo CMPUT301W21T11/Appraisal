@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.backend.BinomialTrial;
+import com.example.appraisal.UI.trial.BinomialActivity;
+import com.example.appraisal.UI.trial.CounterActivity;
+import com.example.appraisal.UI.trial.MeasurementActivity;
+import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 
 public class SelectionActivity extends AppCompatActivity {
     // TODO

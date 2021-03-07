@@ -1,11 +1,11 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.trial;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.model.MeasurementModel;
+import com.example.appraisal.model.trial.MeasurementModel;
 
 public class MeasurementActivity extends AppCompatActivity {
     private EditText input_measurement;

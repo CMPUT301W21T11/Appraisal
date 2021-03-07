@@ -51,19 +51,19 @@
 
         </activity>
 
-        <activity android:name=".UI.BinomialActivity">
+        <activity android:name=".UI.trial.BinomialActivity">
       
         </activity>
 
-        <activity android:name=".UI.CounterActivity">
+        <activity android:name=".UI.trial.CounterActivity">
 
         </activity>
 
-        <activity android:name=".UI.MeasurementActivity">
+        <activity android:name=".UI.trial.MeasurementActivity">
 
         </activity>
 
-        <activity android:name=".UI.NonNegIntCountActivity">
+        <activity android:name=".UI.trial.NonNegIntCountActivity">
 
         </activity>
 

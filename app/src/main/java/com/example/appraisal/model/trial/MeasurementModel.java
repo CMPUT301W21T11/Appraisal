@@ -1,7 +1,7 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.trial;
 
 import android.util.Log;
-import com.example.appraisal.backend.MeasurementTrial;
+import com.example.appraisal.backend.trial.MeasurementTrial;
 
 public class MeasurementModel {
     private MeasurementTrial data;

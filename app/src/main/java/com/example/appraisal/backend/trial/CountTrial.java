@@ -1,4 +1,6 @@
-package com.example.appraisal.backend;
+package com.example.appraisal.backend.trial;
+
+import com.example.appraisal.backend.trial.Trial;
 
 public class CountTrial extends Trial {
     private int counter;

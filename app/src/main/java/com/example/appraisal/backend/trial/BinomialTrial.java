@@ -1,8 +1,5 @@
-package com.example.appraisal.backend;
+package com.example.appraisal.backend.trial;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 public class BinomialTrial extends Trial {
     private int success_counter;

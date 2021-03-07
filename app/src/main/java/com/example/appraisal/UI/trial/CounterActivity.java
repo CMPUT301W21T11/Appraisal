@@ -1,11 +1,11 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.trial;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.model.CounterModel;
+import com.example.appraisal.model.trial.CounterModel;
 
 public class CounterActivity extends AppCompatActivity {
 

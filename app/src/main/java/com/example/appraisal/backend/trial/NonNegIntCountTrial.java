@@ -1,6 +1,7 @@
-package com.example.appraisal.backend;
+package com.example.appraisal.backend.trial;
 
 import android.util.Log;
+import com.example.appraisal.backend.trial.Trial;
 
 public class NonNegIntCountTrial extends Trial {
     private int counter;

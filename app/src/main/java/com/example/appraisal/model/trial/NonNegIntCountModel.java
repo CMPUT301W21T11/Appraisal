@@ -1,7 +1,6 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.trial;
 
-import android.util.Log;
-import com.example.appraisal.backend.NonNegIntCountTrial;
+import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 
 public class NonNegIntCountModel {
     private NonNegIntCountTrial data;
