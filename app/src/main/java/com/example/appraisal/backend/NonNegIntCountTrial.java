@@ -16,7 +16,7 @@ public class NonNegIntCountTrial extends Trial {
             Log.d("Warning", "User input caused integer overflow");
         }
 
-        counter = count;
+        counter += count;
     }
 
     public int getCount() {

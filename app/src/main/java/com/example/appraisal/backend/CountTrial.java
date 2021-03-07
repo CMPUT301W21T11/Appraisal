@@ -15,4 +15,5 @@ public class CountTrial extends Trial {
     public int getCount() {
         return counter;
     }
+
 }

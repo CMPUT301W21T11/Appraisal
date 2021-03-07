@@ -33,6 +33,10 @@ public class SelectionActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void toDetails(View v) {
+        Intent intent = new Intent(this, SpecificExpActivity.class);
+        startActivity(intent);
+    }
     public void toIntCount(View v) {
         Intent intent = new Intent(this, NonNegIntCountActivity.class);
         startActivity(intent);

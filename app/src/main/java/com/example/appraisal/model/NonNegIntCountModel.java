@@ -1,6 +1,7 @@
 package com.example.appraisal.model;
 
 import android.util.Log;
+
 import com.example.appraisal.backend.NonNegIntCountTrial;
 
 public class NonNegIntCountModel {
