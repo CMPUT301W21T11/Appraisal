@@ -1,4 +1,4 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.main_menu;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -17,38 +17,34 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".UI.SelectionActivity">
+        <activity android:name=".UI.main_menu.SelectionActivity">
 
         </activity>
 
-        <activity android:name=".UI.ExpSubscriptionActivity">
+        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity">
 
         </activity>
 
-        <activity android:name=".UI.ForumHomeActivity">
+        <activity android:name=".UI.main_menu.forum.ForumHomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.MainActivity" />
         </activity>
 
-        <activity android:name=".UI.ForumQuestionsActivity">
+        <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.ForumHomeActivity" />
+                android:value=".UI.main_menu.forum.ForumHomeActivity" />
         </activity>
 
-        <activity android:name=".UI.ForumRepliesActivity">
+        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.ForumQuestionsActivity" />
+                android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
-        <activity android:name=".UI.MyExperimentActivity">
+        <activity android:name=".UI.main_menu.MyExperimentActivity">
         
-        </activity>
-
-        <activity android:name=".UI.SelectionActivity">
-
         </activity>
 
         <activity android:name=".UI.trial.BinomialActivity">

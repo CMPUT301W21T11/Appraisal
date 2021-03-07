@@ -1,19 +1,17 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.main_menu.forum;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ForumQuestionsActivity extends AppCompatActivity {
+public class ForumQuestionsActivity extends MainMenuCommonActivity {
 
     private ListView question_list;
     private ArrayList<String> questions;

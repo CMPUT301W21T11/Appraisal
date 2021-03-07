@@ -1,4 +1,4 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.main_menu.subscription;
 
 import android.content.Intent;
 import android.os.Build;
@@ -10,14 +10,13 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.UI.ForumHomeActivity;
-import com.example.appraisal.UI.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ExpSubscriptionActivity extends AppCompatActivity {
+public class ExpSubscriptionActivity extends MainMenuCommonActivity {
 
     // TODO
     private ListView subscribed_list;
@@ -37,29 +36,5 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
         subscribed_list = findViewById(R.id.subscribedList);
         adapter = new ArrayAdapter<>(this, R.layout.list_content, subscribed_content);
         subscribed_list.setAdapter(adapter);
-    }
-
-    public void toHome(View v) {
-        // TODO When click on home button
-    }
-
-    public void toSearch(View v) {
-        // TODO When click on search button
-    }
-
-    public void toForum(View v) {
-        // When click on forum button
-        Intent intent = new Intent(this, ForumHomeActivity.class);
-        startActivity(intent);
-    }
-
-    public void toMyExps(View v) {
-        // When click on expList button
-        Intent intent = new Intent(this, MyExperimentActivity.class);
-        startActivity(intent);
-    }
-
-    public void toProfile(View v) {
-        // TODO When click on profile button
     }
 }

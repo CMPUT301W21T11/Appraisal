@@ -1,4 +1,4 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.main_menu;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -8,7 +8,7 @@ import com.example.appraisal.R;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.MyExperimentModel;
 
-public class MyExperimentActivity extends AppCompatActivity {
+public class MyExperimentActivity extends MainMenuCommonActivity {
     private ListView my_experiment_display;
     private MyExperimentModel model;
     private ArrayAdapter<String> adapter;

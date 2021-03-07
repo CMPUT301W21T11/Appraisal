@@ -1,4 +1,4 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.main_menu.forum;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -7,11 +7,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ForumRepliesActivity extends AppCompatActivity {
+public class ForumRepliesActivity extends MainMenuCommonActivity {
 
     private ListView reply_list;
     private ArrayList<String> replies;
