@@ -43,7 +43,7 @@
                 android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
-        <activity android:name=".UI.main_menu.MyExperimentActivity">
+        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity">
         
         </activity>
 
