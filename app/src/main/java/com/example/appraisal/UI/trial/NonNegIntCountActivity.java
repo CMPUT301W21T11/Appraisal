@@ -1,15 +1,13 @@
-package com.example.appraisal.UI;
+package com.example.appraisal.UI.trial;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.model.NonNegIntCountModel;
+import com.example.appraisal.model.trial.NonNegIntCountModel;
 
-public class NonNegCountActivity extends AppCompatActivity {
+public class NonNegIntCountActivity extends AppCompatActivity {
 
     private NonNegIntCountModel model;
     private EditText counter_view;
@@ -24,15 +22,11 @@ public class NonNegCountActivity extends AppCompatActivity {
     }
 
     public void saveAndReturn(View v) {
-        // Adjust the model
+        // get input
         String user_input = counter_view.getText().toString();
-        try {
-            long count = Long.parseLong(user_input);
-            model.saveCount(count);
-        } catch (NumberFormatException e) {
-            Log.d("Warning", "User input caused integer overflow");
-            return;
-        }
-        finish();
+
+        // Adjust the model
+        model.addIntCount(user_input);
+        counter_view.setText("");
     }
 }
