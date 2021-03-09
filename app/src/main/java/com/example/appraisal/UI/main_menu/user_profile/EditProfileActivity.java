@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.backend.user.User;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -14,6 +15,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText name_edit;
     private EditText email_edit;
     private EditText phone_edit;
+    private User current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,24 +26,29 @@ public class EditProfileActivity extends AppCompatActivity {
         email_edit = (EditText)findViewById(R.id.email_address_edittext);
         phone_edit = (EditText)findViewById(R.id.phone_number_edittext);
 
-        Bundle profile_bundle = getIntent().getExtras();
-        String[] profile_array = profile_bundle.getStringArray("profile");
+        current_user = getIntent().getExtras().getParcelable("user");
 
-        name_edit.setText(profile_array[0]);
-        email_edit.setText(profile_array[1]);
-        phone_edit.setText(profile_array[2]);
+        name_edit.setText(current_user.getUsername());
+        email_edit.setText(current_user.getEmail());
+        phone_edit.setText(current_user.getPhoneNumber());
     }
 
     public void applyChangesToProfile(View v) {
 
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        intent.putExtra("updated profile",
-                new String[] {name_edit.getText().toString(),
-                        email_edit.getText().toString(),
-                        phone_edit.getText().toString()});
+        User new_user = new User(current_user.getID(),
+                name_edit.getText().toString(),
+                email_edit.getText().toString(),
+                phone_edit.getText().toString()
+        );
 
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        Intent intent = new Intent(this, UserProfileActivity.class);Bundle bundle = new Bundle();
+
+        bundle.putParcelable("user", new_user);
+        // setResult(Activity.RESULT_OK, intent);
+        intent.putExtras(bundle);
+
+        // finish();
+        startActivity(intent);
     }
 
     public void cancelChangesToProfile(View v) {

@@ -42,7 +42,6 @@
                 android:id="@+id/name_edittext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="user"
                 android:textColor="@color/black"
                 android:textSize="24sp"/>
 
