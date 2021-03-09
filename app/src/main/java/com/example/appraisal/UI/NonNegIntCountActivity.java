@@ -10,24 +10,24 @@ import com.example.appraisal.model.NonNegIntCountModel;
 
 public class NonNegIntCountActivity extends AppCompatActivity {
 
-    private NonNegIntCountModel model;
-    private EditText counter_view;
+  private NonNegIntCountModel model;
+  private EditText counter_view;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nonneg_count_layout);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_nonneg_count_layout);
 
-        counter_view = findViewById(R.id.nonneg_count_input);
-        model = new NonNegIntCountModel();
-    }
+    counter_view = findViewById(R.id.nonneg_count_input);
+    model = new NonNegIntCountModel();
+  }
 
-    public void saveAndReturn(View v) {
-        // get input
-        String user_input = counter_view.getText().toString();
+  public void saveAndReturn(View v) {
+    // get input
+    String user_input = counter_view.getText().toString();
 
-        // Adjust the model
-        model.addIntCount(user_input);
-        counter_view.setText("");
-    }
+    // Adjust the model
+    model.addIntCount(user_input);
+    counter_view.setText("");
+  }
 }

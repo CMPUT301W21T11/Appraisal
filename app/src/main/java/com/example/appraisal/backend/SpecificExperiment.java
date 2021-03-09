@@ -1,4 +1,3 @@
 package com.example.appraisal.backend;
 
-public class SpecificExperiment {
-}
+public class SpecificExperiment {}
