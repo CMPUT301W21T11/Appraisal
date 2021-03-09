@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.appraisal.R;
@@ -42,16 +41,13 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
                 Bundle updated_profile = data.getExtras();
                 String[] updated_profile_array = updated_profile.getStringArray("updated profile");
 
                 name_view.setText(updated_profile_array[0]);
                 email_view.setText(updated_profile_array[1]);
                 phone_view.setText(updated_profile_array[2]);
-            }
         }
     }
 }
