@@ -1,6 +1,8 @@
 package com.example.appraisal.UI.main_menu;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,11 @@ public class MyExperimentActivity extends MainMenuCommonActivity {
 
         //my_exp_reference = db.collection("Cities");
         
+    }
+
+    public void publishExperiment(View v) {
+        Intent publishExp_intent = new Intent(this, PublishExpActivity.class);
+        startActivity(publishExp_intent);
     }
 
 
