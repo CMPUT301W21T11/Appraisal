@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.UI.main_menu.forum.ForumHomeActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
+import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 
 public class MainMenuCommonActivity extends AppCompatActivity {
     public void toHome(View v) {
@@ -36,6 +37,9 @@ public class MainMenuCommonActivity extends AppCompatActivity {
     }
 
     public void toProfile(View v) {
-        // TODO When click on profile button
+        // if (this.getClass() == UserProfileActivity.class)
+        //     return;
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
     }
 }
