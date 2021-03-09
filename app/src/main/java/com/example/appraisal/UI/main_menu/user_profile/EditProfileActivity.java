@@ -44,18 +44,20 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, UserProfileActivity.class);Bundle bundle = new Bundle();
 
         bundle.putParcelable("user", new_user);
-        // setResult(Activity.RESULT_OK, intent);
         intent.putExtras(bundle);
 
-        // finish();
+        // TODO Before send the user back to the profile, update the Firebase accordingly
         startActivity(intent);
     }
 
     public void cancelChangesToProfile(View v) {
-
         Intent intent = new Intent(this, UserProfileActivity.class);
 
-        setResult(Activity.RESULT_CANCELED, intent);
-        finish();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", current_user);
+
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.user.User;
 
+import java.util.Locale;
+
 public class UserProfileActivity extends AppCompatActivity {
     private TextView name_view;
     private TextView email_view;
@@ -25,19 +27,20 @@ public class UserProfileActivity extends AppCompatActivity {
         email_view = findViewById(R.id.email_address_textview);
         phone_view = findViewById(R.id.phone_number_textview);
 
-        if (getIntent().getExtras().getParcelable("user") == null) {
+        // TODO This part will need to be replace by data from the Firebase, not dummy data.
+        if (getIntent().getExtras() == null) {
             User dummy = new User("dummyID1234", "John",
                     "abc@hotmail.com", "780 999 9999");
 
             setUserDisplay(dummy);
-            return;
+            current_user = dummy;
         }
         else {
             Bundle b = getIntent().getExtras();
             User sent_information = b.getParcelable("user");
 
             setUserDisplay(sent_information);
-            return;
+            current_user = sent_information;
         }
     }
 
@@ -53,36 +56,10 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditProfileActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable("user", new User("dummyID1234",
-                name_view.getText().toString(),
-                email_view.getText().toString(),
-                phone_view.getText().toString())
-        );
+        bundle.putParcelable("user", current_user);
 
         intent.putExtras(bundle);
-
-        // intent.putExtra("profile", new String[] {name_view.getText().toString(),
-        //         email_view.getText().toString(),
-        //         phone_view.getText().toString()});
-
-        // startActivityForResult(intent, 1);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            Bundle updated_profile = data.getExtras();
-            String[] updated_profile_array =
-                    updated_profile.getStringArray("updated profile");
-
-            name_view.setText(updated_profile_array[0]);
-            email_view.setText(updated_profile_array[1]);
-            phone_view.setText(updated_profile_array[2]);
-        }
     }
 
 }
