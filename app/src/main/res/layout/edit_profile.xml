@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="45dp"
         android:orientation="horizontal">
 
 
@@ -38,14 +38,13 @@
             android:textColor="@color/black"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/name_textview"
+        <EditText
+            android:id="@+id/name_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="user"
-            android:background="@null"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
     </LinearLayout>
 
@@ -66,12 +65,11 @@
             android:textColor="@color/black"
             android:textSize="24sp"/>
 
-        <TextView
-            android:id="@+id/email_address_textview"
+        <EditText
+            android:id="@+id/email_address_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="user@ualberta.ca"
-            android:background="@null"
             android:textColor="@color/black"
             android:textSize="24sp" />
 
@@ -93,27 +91,47 @@
             android:textColor="@color/black"
             android:textSize="24sp"/>
 
-        <TextView
-            android:id="@+id/phone_number_textview"
+        <EditText
+            android:id="@+id/phone_number_edittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+1 780 999 9999"
-            android:background="@null"
             android:textColor="@color/black"
             android:textSize="24sp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/edit_profile_btn"
-        android:layout_marginTop="100dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Edit Profile"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:layout_gravity="center_horizontal">
+
+
+    <Button
+        android:id="@+id/apply_changes_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="Save"
         android:textAllCaps="true"
         android:backgroundTint="@color/blue"
-        android:layout_gravity="center"
-        android:onClick="editUserProfile"/>
+        android:onClick="applyChangesToProfile"/>
+
+    <Button
+        android:id="@+id/cancel_changes_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="Cancel"
+        android:textAllCaps="true"
+        android:layout_marginLeft="30dp"
+        android:backgroundTint="@color/blue"
+        android:onClick="cancelChangesToProfile"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

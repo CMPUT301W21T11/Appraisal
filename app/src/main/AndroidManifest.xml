@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
-        <activity android:name=".UI.UserProfileActivity"></activity>
+        <activity android:name=".UI.EditProfileActivity"></activity>
+        <activity android:name=".UI.UserProfileActivity" />
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.SelectionActivity"></activity>
-        <activity android:name=".UI.ExpSubscriptionActivity"></activity>
+        <activity android:name=".UI.SelectionActivity" />
+        <activity android:name=".UI.ExpSubscriptionActivity" />
         <activity android:name=".UI.ForumHomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

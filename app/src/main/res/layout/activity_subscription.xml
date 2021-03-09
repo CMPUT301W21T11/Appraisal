@@ -60,12 +60,13 @@
 <!--            android:layout_weight="1"-->
 <!--            android:text="list" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/profile"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="profile" />-->
+            <Button
+                android:id="@+id/profile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="profile"
+                android:onClick="toProfile"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
