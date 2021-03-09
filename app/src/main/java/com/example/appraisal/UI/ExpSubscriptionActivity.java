@@ -1,10 +1,13 @@
 package com.example.appraisal.UI;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 
@@ -19,6 +22,7 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
     private List<String> subscribed_content;
     private ArrayAdapter<String> adapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,7 @@ public class ExpSubscriptionActivity extends AppCompatActivity {
     }
 
     public void toProfile(View v) {
-        // TODO When click on profile button
+        Intent profile_intent = new Intent(this, UserProfileActivity.class);
+        startActivity(profile_intent);
     }
 }
