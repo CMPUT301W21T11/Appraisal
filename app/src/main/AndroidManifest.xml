@@ -35,6 +35,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.ForumQuestionsActivity" />
         </activity>
+
+        <activity android:name=".UI.AuthenticationActivity"></activity>
     </application>
 
 </manifest>
