@@ -6,17 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".UI.MainActivity">
 
-    
+
     <Button
-            
-            android:text="GUEST"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/toSelection"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="160dp"
-            android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:onClick="toSelection"
-            android:layout_marginTop="472dp" android:layout_marginEnd="163dp" android:layout_marginRight="163dp"
-            app:layout_constraintHorizontal_bias="1.0"/>
+        android:id="@+id/toSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="163dp"
+        android:layout_marginRight="163dp"
+        android:onClick="toSelection"
+        android:text="GUEST"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
             android:text="Button"
             android:layout_width="wrap_content"
@@ -25,5 +31,27 @@
             android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="326dp"/>
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/check_userId"
+        app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="160dp"
+        android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="326dp"/>
+
+    <Button
+        android:id="@+id/check_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check username"
+        android:onClick="toCheckUsername"
+        app:layout_constraintStart_toStartOf="parent"
+
+        tools:layout_editor_absoluteX="101dp"
+        tools:layout_editor_absoluteY="623dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
