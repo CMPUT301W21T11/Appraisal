@@ -2,12 +2,16 @@ package com.example.appraisal.model;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainModel implements DataRequestable{
+
+/**
+ * This structure is the major backend that host the connection to Firebase and many other things. This is a Singleton
+ * design pattern and should be called at least once right after the app starts via {@link #createInstance()}
+ */
+public class MainModel implements DataRequestable {
     private static MainModel single_instance;
 
     private FirebaseFirestore db;
@@ -26,19 +30,39 @@ public class MainModel implements DataRequestable{
     }
 
     /**
-     * Use this method to create one single instance
+     * Use this method to create one single instance of the MainModel. If left untouched, its lifetime would persists
+     * throughout the whole app. Should be called at least once right after the app starts.
      */
-    public static void getInstance(){
-        if (single_instance == null){
+    public static void createInstance(){
+        if (single_instance == null) {
             single_instance = new MainModel();
         }
     }
 
-    public List<String> getSubscriptionList(){
-        return subscription_list;
+    /**
+     * This method is used to check the if the single_instance is null or not
+     * @return True if created, False if null
+     */
+    public static boolean existed() {
+        return single_instance != null;
     }
 
-    @Override
+    /**
+     * This method remove the existence of the single_instance. MAY CAUSES @{@link NullPointerException}!!!
+     */
+    public static void kill() {
+        single_instance = null;
+    }
+
+    /**
+     * This method reset the single_instance to a fresh start
+     */
+    public static void reset() {
+        single_instance = new MainModel();
+    }
+
+
+
     public List<String> requestMyExpIndex() {
         CollectionReference ref = db.collection("Users").document("User0000").collection("Subscriptions");
         return new ArrayList<String>();
