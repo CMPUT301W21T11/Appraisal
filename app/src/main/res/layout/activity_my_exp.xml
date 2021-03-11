@@ -80,7 +80,7 @@
 
         android:backgroundTint="@color/purple_500"
         android:clickable="true"
-        android:onClick="publishExperiment"
+        android:onClick="publishNewExperiment"
         app:layout_constraintBottom_toTopOf="@+id/tab_bar_f_q"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_icon"

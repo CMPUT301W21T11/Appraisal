@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-import com.example.appraisal.UI.main_menu.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.my_experiments.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.SelectionActivity;
 
 public class MainActivity extends AppCompatActivity {
