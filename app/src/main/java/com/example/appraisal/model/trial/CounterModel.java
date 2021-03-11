@@ -16,4 +16,6 @@ public class CounterModel {
     public int getCount() {
         return data.getCount();
     }
+
+    public void toExperiment() { data.getExperiment().addTrial(data);}
 }

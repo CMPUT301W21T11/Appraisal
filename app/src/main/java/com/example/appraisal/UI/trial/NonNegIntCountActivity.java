@@ -28,7 +28,7 @@ public class NonNegIntCountActivity extends AppCompatActivity {
 
         // Adjust the model
         model.addIntCount(user_input);
-        counter_view.setText("");
+        counter_view.setText("0");
         model.toExperiment();
     }
 }

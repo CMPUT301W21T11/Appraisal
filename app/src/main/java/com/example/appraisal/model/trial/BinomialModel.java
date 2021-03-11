@@ -24,4 +24,6 @@ public class BinomialModel {
     public int getFailureCount(){
         return bin_trial.getFailureCount();
     }
+
+    public void toExperiment() { bin_trial.getExperiment().addTrial(bin_trial);}
 }
