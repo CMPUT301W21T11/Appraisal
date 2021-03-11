@@ -34,8 +34,8 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_quartilesImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_quartilesGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/chart"
@@ -168,8 +168,8 @@
                 android:focusable="true" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_histogramImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_histogramGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/chart"
@@ -206,8 +206,8 @@
                 android:focusable="true" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_plotsImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_plotsGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/chart"

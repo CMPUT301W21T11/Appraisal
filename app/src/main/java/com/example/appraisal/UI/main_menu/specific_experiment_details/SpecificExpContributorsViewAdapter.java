@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.backend.User;
+import com.example.appraisal.backend.user.User;
 
 import java.util.ArrayList;
 

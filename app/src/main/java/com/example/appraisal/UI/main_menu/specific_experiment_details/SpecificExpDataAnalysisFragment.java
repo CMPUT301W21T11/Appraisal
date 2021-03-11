@@ -11,11 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
+import com.jjoe64.graphview.GraphView;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
-    private ImageView quartilesImage;
-    private ImageView histogramImage;
-    private ImageView plotsImage;
+    private GraphView quartileGraph;
+    private GraphView histogram;
+    private GraphView exp_plot_over_time;
 
     @Nullable
     @Override
@@ -27,14 +28,14 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void imageViewInit(View v) {
-        // initialize views
-        quartilesImage = (ImageView) v.findViewById(R.id.fragment_experiment_data_analysis_quartilesImage);
-        histogramImage = (ImageView) v.findViewById(R.id.fragment_experiment_data_analysis_histogramImage);
-        plotsImage = (ImageView) v.findViewById(R.id.fragment_experiment_data_analysis_plotsImage);
-        // Hide image until button is clicked
-        quartilesImage.setVisibility(View.GONE);
-        histogramImage.setVisibility(View.GONE);
-        plotsImage.setVisibility(View.GONE);
+        // initialize graphs
+        quartileGraph = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesGraph);
+        histogram = v.findViewById(R.id.fragment_experiment_data_analysis_histogramGraph);
+        exp_plot_over_time = v.findViewById(R.id.fragment_experiment_data_analysis_plotsGraph);
+        // Hide graphs until button is clicked
+        quartileGraph.setVisibility(View.GONE);
+        histogram.setVisibility(View.GONE);
+        exp_plot_over_time.setVisibility(View.GONE);
     }
 
     private void dropInit(View v) {
@@ -49,21 +50,21 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     public void toggle_quartiles(View v) {
-        quartilesImage.setVisibility(quartilesImage.isShown()
+        quartileGraph.setVisibility(quartileGraph.isShown()
                 ? View.GONE
                 : View.VISIBLE);
 
     }
 
     public void toggle_histogram(View v) {
-        histogramImage.setVisibility(histogramImage.isShown()
+        histogram.setVisibility(histogram.isShown()
                 ? View.GONE
                 : View.VISIBLE);
 
     }
 
     public void toggle_plots(View v) {
-        plotsImage.setVisibility(plotsImage.isShown()
+        exp_plot_over_time.setVisibility(exp_plot_over_time.isShown()
                 ? View.GONE
                 : View.VISIBLE);
 
