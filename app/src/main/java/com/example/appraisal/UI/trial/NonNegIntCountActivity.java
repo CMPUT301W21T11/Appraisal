@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.trial.NonNegIntCountModel;
 
 public class NonNegIntCountActivity extends AppCompatActivity {

@@ -1,9 +1,9 @@
 package com.example.appraisal.backend.trial;
 
 import android.util.Log;
-import com.example.appraisal.backend.trial.Trial;
 
 public class NonNegIntCountTrial extends Trial {
+
     private int counter;
     public NonNegIntCountTrial() {
         counter = 0;
@@ -23,4 +23,6 @@ public class NonNegIntCountTrial extends Trial {
     public int getCount() {
         return counter;
     }
+
+
 }

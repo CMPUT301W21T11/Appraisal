@@ -16,4 +16,7 @@ public class NonNegIntCountModel {
     public long getCount() {
         return data.getCount();
     }
+
+    // seems like a redundant call?
+    public void toExperiment() { data.current_experiment.addTrial(data);}
 }
