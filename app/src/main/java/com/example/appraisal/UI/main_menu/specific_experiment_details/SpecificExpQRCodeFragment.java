@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.SpecificExpFragments;
+package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import androidx.fragment.app.Fragment;
 
