@@ -10,7 +10,7 @@ import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.SelectionActivity;
 
-abstract public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
