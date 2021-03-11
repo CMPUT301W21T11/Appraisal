@@ -78,6 +78,7 @@
             android:layout_marginRight="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:backgroundTint="@color/purple_500"
-            app:srcCompat="@drawable/add_icon"/>
+            app:srcCompat="@drawable/add_icon"
+            android:onClick="toNewExperiment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
