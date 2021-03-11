@@ -148,7 +148,7 @@ public class MainModel implements DataRequestable {
             throw new Exception("single_instance is not initiated");
         }
 
-        if (single_instance.chosen_experiment == null) {
+        if (single_instance.current_user == null) {
             throw new Exception("No User was set (NullPointerException)");
         }
 

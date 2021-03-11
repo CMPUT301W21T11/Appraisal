@@ -56,4 +56,7 @@ public class Experiment implements Parcelable {
         trial_list.add(trial);
     }
 
+    public String getTitle() {
+        return title;
+    }
 }
