@@ -1,15 +1,14 @@
 package com.example.appraisal.UI.main_menu.user_profile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.appraisal.R;
 import com.example.appraisal.backend.user.User;
-
-import java.util.Locale;
 
 public class UserProfileActivity extends AppCompatActivity {
     private TextView name_view;
