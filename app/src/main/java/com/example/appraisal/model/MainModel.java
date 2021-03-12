@@ -39,6 +39,8 @@ public class MainModel implements DataRequestable {
     private MainModel(){
         db = FirebaseFirestore.getInstance();
 
+        auth.sign_in();
+
         //Check if user is signed in (non-null) and update UI accordingly.
         if (auth.isLoggedIn()){
             user_id = auth.get_userID();
@@ -46,7 +48,6 @@ public class MainModel implements DataRequestable {
 
             // Get their information
         } else {
-            auth.sign_in();
             user_id = auth.get_userID();
             is_new = true;
         }
@@ -246,12 +247,6 @@ public class MainModel implements DataRequestable {
 
 
 
-
-    }
-
-    public static void signOutUser() {
-
-        auth.sign_out();
 
     }
 

@@ -26,9 +26,6 @@ import static com.example.appraisal.model.MainModel.getUserReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    public FirebaseAuthentication auth = new FirebaseAuthentication();
-    public static String user_id;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,16 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    public void signOut(View v){
-
-        TextView userID = (TextView) findViewById(R.id.user_id);
-
-        MainModel.signOutUser();
-
-        userID.setText(null);
 
     }
 

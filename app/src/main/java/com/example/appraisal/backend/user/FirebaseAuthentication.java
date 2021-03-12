@@ -20,7 +20,6 @@ public class FirebaseAuthentication {
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signInAnonymously();
     }
 
     /**
@@ -30,12 +29,15 @@ public class FirebaseAuthentication {
         mAuth.signInAnonymously();
     }
 
-    /**
-     * Used to sign out a user but will not be available to the user.
-     */
-    public void sign_out(){
-        mAuth.signOut();
-    }
+//    /**
+//     * Used to sign out a user but will not be available to the user.
+//     */
+//    public void sign_out(){
+//        mAuth.signOut();
+//
+//        mAuth.signInAnonymously();
+//        String id = get_userID();
+//    }
 
     /**
      * Get the user id
@@ -48,6 +50,7 @@ public class FirebaseAuthentication {
             return mAuth.getCurrentUser().getUid();
         }
         else {
+
             return "None";
         }
 
