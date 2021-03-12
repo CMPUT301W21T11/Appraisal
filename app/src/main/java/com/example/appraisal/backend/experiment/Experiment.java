@@ -81,14 +81,22 @@ public class Experiment implements Serializable {
 
     public void setIs_ended(Boolean is_ended) {
         this.is_ended = is_ended;
+ 
     }
 
     public void addTrial(Trial trial) {
         trial_list.add(trial);
     }
+ 
+
+    public String getTitle() {
+        return title;
+    }
+ 
     public ArrayList<Trial> getTrials() {
         return trial_list;
     }
+
 
 }
 
