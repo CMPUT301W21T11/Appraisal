@@ -41,7 +41,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //        }
 
         try {
-            user_reference = MainModel.getUserReference("User0000");
+            user_reference = MainModel.getUserReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,11 +49,12 @@ public class UserProfileActivity extends AppCompatActivity {
         user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String user_id = user_reference.get().toString();
                 String user_name = value.get("user_name").toString();
                 String user_email = value.get("user_email").toString();
                 String phone_number = value.get("phone_number").toString();
 
-                User temp = new User("User0000", user_name, user_email, phone_number);
+                User temp = new User(user_id, user_name, user_email, phone_number);
 
                 try {
                     MainModel.setCurrentUser(temp);

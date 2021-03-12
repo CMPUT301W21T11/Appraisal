@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.w3c.dom.Text;
+
 import static com.example.appraisal.model.MainModel.getUserReference;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MainModel.createInstance();
+
+        MainModel.checkUserStatus();
 
         // Check if user is signed in (non-null) and update UI accordingly.
 //        if (auth.isLoggedIn()){
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void quickTest(View v) throws Exception {
 
-        DocumentReference user_reference = MainModel.getUserReference("User0000");
+        DocumentReference user_reference = MainModel.getUserReference();
 
         user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -82,5 +87,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void signOut(View v){
+
+        TextView userID = (TextView) findViewById(R.id.user_id);
+
+        MainModel.signOutUser();
+
+        userID.setText(null);
+
+    }
+
+    public void signIn(View v){
+
+        TextView userID = (TextView) findViewById(R.id.user_id);
+
+        userID.setText(MainModel.signInUser());
     }
 }
