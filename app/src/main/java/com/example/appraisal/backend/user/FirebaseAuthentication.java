@@ -29,16 +29,6 @@ public class FirebaseAuthentication {
         mAuth.signInAnonymously();
     }
 
-//    /**
-//     * Used to sign out a user but will not be available to the user.
-//     */
-//    public void sign_out(){
-//        mAuth.signOut();
-//
-//        mAuth.signInAnonymously();
-//        String id = get_userID();
-//    }
-
     /**
      * Get the user id
      * @return
