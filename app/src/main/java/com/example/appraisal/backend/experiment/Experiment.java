@@ -14,6 +14,9 @@ public class Experiment implements Parcelable {
     private String title;
     private String description;
     private User owner;
+    // Need a way to store list of contributors
+    private List<User> contributors;
+    // Also need a way to tell what is the type of this experiment
 
     public Experiment(String title, String description, User owner) {
         this.title = title;
@@ -58,5 +61,13 @@ public class Experiment implements Parcelable {
 
     public String getTitle() {
         return title;
+    }
+
+    public ArrayList<Trial> getTrials() {
+        return new ArrayList<>(trial_list);
+    }
+
+    public User getOwner() {
+        return new User(owner.getID(), owner.getUsername(), owner.getEmail(), owner.getPhoneNumber());
     }
 }

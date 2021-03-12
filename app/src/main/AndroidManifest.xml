@@ -44,11 +44,11 @@
         </activity>
 
         <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity">
-        
+
         </activity>
 
         <activity android:name=".UI.trial.BinomialActivity">
-      
+
         </activity>
 
         <activity android:name=".UI.trial.CounterActivity">
@@ -59,11 +59,19 @@
 
         </activity>
 
-        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"/>
-
         <activity android:name=".UI.trial.NonNegIntCountActivity">
+
         </activity>
-        
+
+        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity">
+
+        </activity>
+
+        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity">
+
+        </activity>
+
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"/>
     </application>
 
 </manifest>

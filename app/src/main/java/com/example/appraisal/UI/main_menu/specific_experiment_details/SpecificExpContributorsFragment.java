@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.SpecificExpModel;
 
 import java.util.ArrayList;
 
 public class SpecificExpContributorsFragment extends Fragment {
     private RecyclerView recyclerView;
     private SpecificExpContributorsViewAdapter adapter;
+    private SpecificExpModel model;
 
     @Nullable
     @Override
@@ -28,9 +30,12 @@ public class SpecificExpContributorsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_specific_exp_contributors, container, false);
         ArrayList<User> contributors = new ArrayList<>(); // filler code to get the adapter running
 
+        // initialize model
+        model = new SpecificExpModel();
+
         // initialize recyclerView
         recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
-        adapter = new SpecificExpContributorsViewAdapter(contributors); // initialize adapter
+        adapter = new SpecificExpContributorsViewAdapter(contributors, model); // initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
