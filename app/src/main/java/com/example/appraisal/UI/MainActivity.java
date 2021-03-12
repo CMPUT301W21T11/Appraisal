@@ -2,8 +2,10 @@ package com.example.appraisal.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
@@ -11,29 +13,38 @@ import com.example.appraisal.UI.main_menu.SelectionActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.backend.user.FirebaseAuthentication;
+import com.example.appraisal.model.MainModel;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import static com.example.appraisal.model.MainModel.getUserReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected FirebaseAuthentication auth = new FirebaseAuthentication();
-    protected static String user_id;
+    public FirebaseAuthentication auth = new FirebaseAuthentication();
+    public static String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MainModel.createInstance();
+
         // Check if user is signed in (non-null) and update UI accordingly.
-        if (auth.isLoggedIn()){
-            user_id = auth.get_userID();
-
-            // Get their information
-        } else {
-            auth.sign_in();
-            user_id = auth.get_userID();
-
-            // Push the ID into firebase
-
-        }
+//        if (auth.isLoggedIn()){
+//            user_id = auth.get_userID();
+//
+//            // Get their information
+//        } else {
+//            auth.sign_in();
+//            user_id = auth.get_userID();
+//
+//            // Push the ID into firebase
+//
+//        }
 
     }
 
@@ -53,5 +64,23 @@ public class MainActivity extends AppCompatActivity {
         // TODO Bring the user from main menu, to experiment type menu
         Intent intent = new Intent(this, MyExperimentActivity.class);
         startActivity(intent);
+    }
+
+    public void quickTest(View v) throws Exception {
+
+        DocumentReference user_reference = MainModel.getUserReference("User0000");
+
+        user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                String user_name = value.get("user_name").toString();
+
+                Log.d("onEvent: ",user_name);
+
+
+            }
+        });
+
     }
 }

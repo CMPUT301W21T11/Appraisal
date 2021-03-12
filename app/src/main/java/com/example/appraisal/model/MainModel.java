@@ -3,6 +3,7 @@ package com.example.appraisal.model;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -21,8 +22,11 @@ public class MainModel implements DataRequestable {
     private User current_user;
     private Experiment chosen_experiment;
 
+
     private MainModel(){
         db = FirebaseFirestore.getInstance();
+
+
 
         /**
          * HAS TO BE REFACTORED AFTER FIREBASE DATA QUERY IS READY
@@ -153,5 +157,17 @@ public class MainModel implements DataRequestable {
         }
 
         return single_instance.current_user;
+    }
+
+    public static DocumentReference getUserReference(String id) throws Exception {
+
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        final DocumentReference user_reference = single_instance.db.collection("Users")
+                .document(id);
+
+        return user_reference;
     }
 }
