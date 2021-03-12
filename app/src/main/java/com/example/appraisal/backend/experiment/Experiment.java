@@ -1,10 +1,13 @@
 package com.example.appraisal.backend.experiment;
 
+import android.os.Parcelable;
+
 import com.example.appraisal.backend.trial.Trial;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Experiment {
+public class Experiment implements Serializable {
     //private Integer exp_id;       // is this needed?
     //private Integer num_of_subs;  // is this needed?
     private String owner;

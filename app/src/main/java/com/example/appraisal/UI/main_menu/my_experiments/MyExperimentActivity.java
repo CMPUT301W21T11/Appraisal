@@ -3,6 +3,7 @@ package com.example.appraisal.UI.main_menu.my_experiments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,10 +17,10 @@ import com.example.appraisal.model.MyExperimentModel;
 
 import java.util.ArrayList;
 
-public class MyExperimentActivity extends MainMenuCommonActivity {
+public class MyExperimentActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener{
     private ListView my_experiment_display;
     private MyExperimentModel model;
-    private ArrayAdapter<Experiment> adapter;
+    private static ArrayAdapter<Experiment> adapter;
     private ArrayList<Experiment> exp_list;
 
     @Override
@@ -36,6 +37,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity {
         MainModel.getInstance();
 
         adapter = new ExpAdapter(this, exp_list);
+        my_experiment_display.setOnItemClickListener(selectExListener);
         my_experiment_display.setAdapter(adapter);
     }
 
@@ -44,5 +46,22 @@ public class MyExperimentActivity extends MainMenuCommonActivity {
         startActivity(publishExp_intent);
     }
 
+    private final AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Experiment experiment = exp_list.get(position);
+            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
+            fragment.show(getSupportFragmentManager(), "Edit Experiment Status");
+        }
+    };
+
+    @Override
+    public void onButtonPressed(){
+
+    }
+
+    public static ArrayAdapter<Experiment> getAdapter(){
+        return adapter;
+    }
 
 }
