@@ -1,4 +1,5 @@
 package com.example.appraisal.backend.trial;
 
-abstract public class Trial {
+ 
+public abstract class Trial {
 }

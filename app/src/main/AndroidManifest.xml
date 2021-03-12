@@ -42,8 +42,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
+          
+        <activity android:name=".UI.main_menu.my_experiments.MyExperimentActivity">
 
-        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity">
         
         </activity>
 
@@ -70,6 +71,11 @@
         <activity android:name=".UI.main_menu.user_profile.UserProfileActivity">
 
         </activity>
+  
+        <activity android:name=".UI.main_menu.my_experiments.PublishExpActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
