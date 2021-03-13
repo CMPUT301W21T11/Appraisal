@@ -10,12 +10,14 @@ public class User implements Parcelable {
     private String username;
     private String email;
     private String phone_number;
+    private Integer num_of_exp;
 
-    public User(String ID, String username, String email, String phone_number) {
+    public User(String ID, String username, String email, String phone_number,Integer num_of_exp) {
         this.ID = ID;
         this.username = username;
         this.email = email;
         this.phone_number = phone_number;
+        this.num_of_exp = num_of_exp;
     }
 
     protected User(Parcel in) {
@@ -68,5 +70,13 @@ public class User implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.email);
         dest.writeString(this.phone_number);
+    }
+
+    public Integer getNum_of_exp() {
+        return num_of_exp;
+    }
+
+    public void setNum_of_exp(Integer num_of_exp) {
+        this.num_of_exp = num_of_exp;
     }
 }

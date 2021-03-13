@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class Experiment implements Serializable {
     //private Integer exp_id;       // is this needed?
-    //private Integer num_of_subs;  // is this needed?
     private String owner;
     private String description;
     private String type;
@@ -21,8 +20,6 @@ public class Experiment implements Serializable {
     private Boolean is_ended;
     private ArrayList<Trial> trial_list;
 
-    // is experiment is created after filling in all values and pressing PUBLISH ???
-    // assumption yes:
     public Experiment(String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.owner = owner;
         this.description = description;
@@ -87,11 +84,7 @@ public class Experiment implements Serializable {
     public void addTrial(Trial trial) {
         trial_list.add(trial);
     }
- 
 
-    public String getTitle() {
-        return title;
-    }
  
     public ArrayList<Trial> getTrials() {
         return trial_list;

@@ -38,8 +38,9 @@ public class EditProfileActivity extends AppCompatActivity {
         User new_user = new User(current_user.getID(),
                 name_edit.getText().toString(),
                 email_edit.getText().toString(),
-                phone_edit.getText().toString()
-        );
+                phone_edit.getText().toString(),
+                0
+        ); // 0 is added to fix constructor error
 
         Intent intent = new Intent(this, UserProfileActivity.class);Bundle bundle = new Bundle();
 

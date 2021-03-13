@@ -54,7 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 String user_email = value.get("user_email").toString();
                 String phone_number = value.get("phone_number").toString();
 
-                User temp = new User(user_id, user_name, user_email, phone_number);
+                User temp = new User(user_id, user_name, user_email, phone_number, 0);
+                // 0 is added to fix constructor error
 
                 try {
                     MainModel.setCurrentUser(temp);

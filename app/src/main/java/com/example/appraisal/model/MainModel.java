@@ -3,6 +3,7 @@ package com.example.appraisal.model;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.FirebaseAuthentication;
@@ -11,7 +12,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,9 +31,10 @@ public class MainModel implements DataRequestable {
     private static MainModel single_instance;
 
     private FirebaseFirestore db;
-    private List<String> subscription_list;
+
     private static User current_user;
     private Experiment chosen_experiment;
+    private static ArrayList<Experiment> my_experiments;
 
     public static FirebaseAuthentication auth = new FirebaseAuthentication();
     public static String user_id;
@@ -38,6 +43,8 @@ public class MainModel implements DataRequestable {
 
     private MainModel(){
         db = FirebaseFirestore.getInstance();
+
+        my_experiments = new ArrayList<>();
 
         auth.sign_in();
 
@@ -209,46 +216,78 @@ public class MainModel implements DataRequestable {
 //    }
 
     public static void checkUserStatus() {
+//        setUpNewUser();
 
+        if (is_new){
+            setUpNewUser();
+        }
+        else {
+            loadCurrentUser();
+        }
 
+    }
+
+    public static void setUpNewUser(){
         Log.d("checkUserStatus", "I am running");
 
 
-            current_user = new User(user_id, "", "", "");
+        current_user = new User(user_id, "", "", "", 0);
 
-            Log.d("Is_new", "I am running");
+        Log.d("Is_new", "I am running");
 
-            Log.d("user ID", user_id);
+        Log.d("user ID", user_id);
 
-            Log.d("Is new", Boolean.toString(is_new));
+        Log.d("Is new", Boolean.toString(is_new));
 
-            CollectionReference new_user = single_instance.db.collection("Users");
+        CollectionReference new_user = single_instance.db.collection("Users");
 
-            // Create a new user with a first and last name
-            Map<String, Object> user_info = new HashMap<>();
-            user_info.put("user_name", "");
-            user_info.put("user_email", "");
-            user_info.put("phone_number", "");
+        // Create a new user with a first and last name
+        Map<String, Object> user_info = new HashMap<>();
+        user_info.put("user_name", "");
+        user_info.put("user_email", "");
+        user_info.put("phone_number", "");
+        user_info.put("num_of_my_exp", 0);
 
-            // Add a new document with a generated ID
-            new_user.document(user_id).set(user_info)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("***", "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("***", "Error writing document", e);
-                        }
-                    });
-
-
-
+        // Add a new document with a generated ID
+        new_user.document(user_id).set(user_info)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("***", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("***", "Error writing document", e);
+                    }
+                });
 
     }
+
+    public static void loadCurrentUser() {
+        // get data from firebase
+        // update local user object
+        single_instance.db.collection("Users").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                String user_name = value.get("user_name").toString();
+                String user_email = value.get("user_email").toString();
+                String phone_number = value.get("phone_number").toString();
+                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
+
+                User current_user = new User(user_id, user_name, user_email, phone_number, num_of_exp);
+
+                try {
+                    MainModel.setCurrentUser(current_user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
 
     public static String signInUser() {
 
@@ -259,4 +298,14 @@ public class MainModel implements DataRequestable {
         return user_id;
 
     }
+
+    public static CollectionReference getExperimentReference() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
+        return experiment_reference;
+    }
+
 }
