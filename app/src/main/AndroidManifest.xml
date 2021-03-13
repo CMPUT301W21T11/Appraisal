@@ -4,11 +4,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
+        <activity android:name=".UI.BeginActivity"></activity>
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,27 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".UI.main_menu.SelectionActivity">
-
-        </activity>
-
-        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity">
-
-        </activity>
-
+        <activity android:name=".UI.main_menu.SelectionActivity"></activity>
+        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"></activity>
         <activity android:name=".UI.main_menu.forum.ForumHomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.MainActivity" />
         </activity>
-
         <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.forum.ForumHomeActivity" />
         </activity>
-
         <activity android:name=".UI.main_menu.forum.ForumRepliesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

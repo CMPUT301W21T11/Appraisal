@@ -1,15 +1,20 @@
 package com.example.appraisal.model;
 
+
 import android.util.Log;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+
+import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,28 +41,32 @@ public class MainModel implements DataRequestable {
     private Experiment chosen_experiment;
     private static ArrayList<Experiment> my_experiments;
 
-    public static FirebaseAuthentication auth = new FirebaseAuthentication();
+    //    public static FirebaseAuthentication auth;
     public static String user_id;
     public static boolean is_new;
 
+    public static FirebaseAuthentication mAuth;
 
-    private MainModel(){
+
+    private MainModel() {
         db = FirebaseFirestore.getInstance();
 
-        my_experiments = new ArrayList<>();
+        mAuth = new FirebaseAuthentication();
 
-        auth.sign_in();
+        mAuth.sign_in();
 
         //Check if user is signed in (non-null) and update UI accordingly.
-        if (auth.isLoggedIn()){
-            user_id = auth.get_userID();
+        if (mAuth.isLoggedIn()) {
+            //user_id = mAuth.get_userID();
             is_new = false;
 
             // Get their information
         } else {
-            user_id = auth.get_userID();
+
+            //user_id = mAuth.get_userID();
             is_new = true;
         }
+
     }
 
     /**
@@ -72,6 +81,7 @@ public class MainModel implements DataRequestable {
 
     /**
      * This method is used to check the if the single_instance is null or not
+     *
      * @return True if created, False if null
      */
     public static boolean existed() {
@@ -127,7 +137,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     * experiment was chosen
+     *                   experiment was chosen
      */
     public static Experiment getCurrentExperiment() throws Exception {
         if (single_instance == null) {
@@ -173,7 +183,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     * experiment was chosen
+     *                   experiment was chosen
      */
     public static User getCurrentUser() throws Exception {
         if (single_instance == null) {
@@ -199,21 +209,6 @@ public class MainModel implements DataRequestable {
         return user_reference;
     }
 
-//    public void authenticate(){
-
-//        //Check if user is signed in (non-null) and update UI accordingly.
-//        if (auth.isLoggedIn()){
-//            user_id = auth.get_userID();
-//            is_new = false;
-//
-//            // Get their information
-//        } else {
-//            auth.sign_in();
-//            user_id = auth.get_userID();
-//            is_new = true;
-//        }
-
-//    }
 
     public static void checkUserStatus() {
 //        setUpNewUser();
@@ -227,9 +222,11 @@ public class MainModel implements DataRequestable {
 
     }
 
-    public static void setUpNewUser(){
+    public static void setUpNewUser() {
+
         Log.d("checkUserStatus", "I am running");
 
+        user_id = signInUser();
 
         current_user = new User(user_id, "", "", "", 0);
 
@@ -246,7 +243,6 @@ public class MainModel implements DataRequestable {
         user_info.put("user_name", "");
         user_info.put("user_email", "");
         user_info.put("phone_number", "");
-        user_info.put("num_of_my_exp", 0);
 
         // Add a new document with a generated ID
         new_user.document(user_id).set(user_info)
@@ -262,7 +258,6 @@ public class MainModel implements DataRequestable {
                         Log.w("***", "Error writing document", e);
                     }
                 });
-
     }
 
     public static void loadCurrentUser() {
@@ -290,22 +285,22 @@ public class MainModel implements DataRequestable {
 
 
     public static String signInUser() {
-
-        auth.sign_in();
-
-        user_id = auth.get_userID();
-
-        return user_id;
-
+       return mAuth.get_userID();
     }
 
-    public static CollectionReference getExperimentReference() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-
-        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
-        return experiment_reference;
+    public static void setUserID(String id){
+        user_id = id;
     }
+
+
+
+//    public static CollectionReference getExperimentReference() throws Exception {
+//        if (single_instance == null) {
+//            throw new Exception("single_instance is not initiated");
+//        }
+//
+//        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
+//        return experiment_reference;
+//    }
 
 }
