@@ -211,8 +211,7 @@ public class MainModel implements DataRequestable {
 
 
     public static void checkUserStatus() {
-//        setUpNewUser();
-
+        user_id = signInUser();
         if (is_new){
             setUpNewUser();
         }
@@ -225,8 +224,6 @@ public class MainModel implements DataRequestable {
     public static void setUpNewUser() {
 
         Log.d("checkUserStatus", "I am running");
-
-        user_id = signInUser();
 
         current_user = new User(user_id, "", "", "", 0);
 
@@ -243,6 +240,7 @@ public class MainModel implements DataRequestable {
         user_info.put("user_name", "");
         user_info.put("user_email", "");
         user_info.put("phone_number", "");
+        user_info.put("num_of_my_exp", 0);
 
         // Add a new document with a generated ID
         new_user.document(user_id).set(user_info)
@@ -263,6 +261,7 @@ public class MainModel implements DataRequestable {
     public static void loadCurrentUser() {
         // get data from firebase
         // update local user object
+        Log.d("user id", user_id);
         single_instance.db.collection("Users").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -294,13 +293,13 @@ public class MainModel implements DataRequestable {
 
 
 
-//    public static CollectionReference getExperimentReference() throws Exception {
-//        if (single_instance == null) {
-//            throw new Exception("single_instance is not initiated");
-//        }
-//
-//        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
-//        return experiment_reference;
-//    }
+    public static CollectionReference getExperimentReference() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
+        return experiment_reference;
+    }
 
 }

@@ -58,24 +58,18 @@ public class ExpStatusFragment extends DialogFragment {
         setStatusField();
         ArrayAdapter<Experiment> adapter = MyExperimentActivity.getAdapter();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogTheme);
         return builder
                 .setView(view)
                 .setNegativeButton("Cancel", null)
-                .setNeutralButton("End", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        experiment.setIs_ended(true);
-                        adapter.notifyDataSetChanged();
-                    }
-                })
-                .setPositiveButton("Unpublish", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         experiment.setIs_published(false);
                         adapter.notifyDataSetChanged();
                     }
                 }).create();
+
 
     }
 
@@ -98,4 +92,5 @@ public class ExpStatusFragment extends DialogFragment {
             status.setText("Unpublished");
         }
     }
+
 }
