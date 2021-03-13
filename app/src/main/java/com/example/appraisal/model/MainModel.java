@@ -1,6 +1,7 @@
 package com.example.appraisal.model;
 
 import android.util.Log;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
@@ -39,18 +40,27 @@ public class MainModel implements DataRequestable {
     private MainModel(){
         db = FirebaseFirestore.getInstance();
 
-        auth.sign_in();
-
-        //Check if user is signed in (non-null) and update UI accordingly.
-        if (auth.isLoggedIn()){
-            user_id = auth.get_userID();
-            is_new = false;
-
-            // Get their information
-        } else {
-            user_id = auth.get_userID();
-            is_new = true;
-        }
+//        auth.sign_in();
+//
+//        //Check if user is signed in (non-null) and update UI accordingly.
+//        if (auth.isLoggedIn()){
+//            user_id = auth.get_userID();
+//            is_new = false;
+//
+//            // Get their information
+//        } else {
+//
+//            final Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // Do something after 5s = 5000ms
+//                    user_id = auth.get_userID();
+//
+//                }
+//            }, 2000);
+//            is_new = true;
+//        }
     }
 
     /**
@@ -210,6 +220,20 @@ public class MainModel implements DataRequestable {
 
     public static void checkUserStatus() {
 
+        auth.sign_in();
+
+        //Check if user is signed in (non-null) and update UI accordingly.
+        if (auth.isLoggedIn()){
+            user_id = auth.get_userID();
+            is_new = false;
+
+            // Get their information
+        } else {
+            auth.sign_out();
+            auth.sign_in();
+            user_id = auth.get_userID();
+            is_new = true;
+        }
 
         Log.d("checkUserStatus", "I am running");
 

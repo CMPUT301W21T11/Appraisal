@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.appraisal.model.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -16,11 +17,21 @@ import static android.content.ContentValues.TAG;
 public class FirebaseAuthentication {
     // Authentication
     protected static FirebaseAuth mAuth;
+    protected FirebaseAuth.AuthStateListener authStateListener;
 
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
+
+    public void sign_out(){
+        mAuth.signOut();
+
+        mAuth.signInAnonymously();
+        String id = get_userID();
+
+    }
+
 
     /**
      * Sign in the user anonymously
@@ -35,8 +46,6 @@ public class FirebaseAuthentication {
      */
 
     public String get_userID(){
-
-        mAuth.signInAnonymously();
 
         if (mAuth.getCurrentUser() != null) {
             return mAuth.getCurrentUser().getUid();
