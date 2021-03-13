@@ -50,15 +50,10 @@ public class MainModel implements DataRequestable {
 
         mAuth.sign_in();
 
-        //Check if user is signed in (non-null) and update UI accordingly.
         if (mAuth.isLoggedIn()) {
-            //user_id = mAuth.get_userID();
             is_new = false;
 
-            // Get their information
         } else {
-
-            //user_id = mAuth.get_userID();
             is_new = true;
         }
 
@@ -213,12 +208,21 @@ public class MainModel implements DataRequestable {
 
         current_user = new User(user_id, "", "", "");
 
-        Log.d("Is_new", "I am running");
-
         Log.d("user ID", user_id);
 
         Log.d("Is new", Boolean.toString(is_new));
 
+        if (is_new){
+            setupNewUser();
+        }
+
+    }
+
+    public static String signInUser() {
+       return mAuth.get_userID();
+    }
+
+    public static void setupNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
 
         // Create a new user with a first and last name
@@ -241,18 +245,21 @@ public class MainModel implements DataRequestable {
                         Log.w("***", "Error writing document", e);
                     }
                 });
-
-
     }
 
+    // Method to be called to retrieve a document reference of a specific user on the database
+    public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
 
-    public static String signInUser() {
-       return mAuth.get_userID();
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        final DocumentReference other_user_reference = single_instance.db.collection("Users")
+                .document(other_user_id);
+
+        return other_user_reference;
     }
 
-    public static void setUserID(String id){
-        user_id = id;
-    }
 
 
 }

@@ -20,8 +20,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView name_view;
     private TextView email_view;
     private TextView phone_view;
-
-    private User current_user;
+    private TextView id_view;
 
     private DocumentReference user_reference;
 
@@ -30,15 +29,10 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        id_view = findViewById(R.id.user_id_textview);
         name_view = findViewById(R.id.name_textview);
         email_view = findViewById(R.id.email_address_textview);
         phone_view = findViewById(R.id.phone_number_textview);
-//
-//        try {
-//            current_user = MainModel.getCurrentUser();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         try {
             user_reference = MainModel.getUserReference();
@@ -54,49 +48,33 @@ public class UserProfileActivity extends AppCompatActivity {
                 String user_email = value.get("user_email").toString();
                 String phone_number = value.get("phone_number").toString();
 
-                User temp = new User(user_id, user_name, user_email, phone_number);
+                User user = new User(user_id, user_name, user_email, phone_number);
 
                 try {
-                    MainModel.setCurrentUser(temp);
+                    MainModel.setCurrentUser(user);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                setUserDisplay(temp);
+                setUserDisplay(user);
             }
         });
-
-//       // TODO This part will need to be replace by data from the Firebase, not dummy data.
-//        if (getIntent().getExtras() == null) {
-////            User dummy = new User("dummyID1234", "John",
-////                    "abc@hotmail.com", "780 999 9999");
-////
-////            setUserDisplay(dummy);
-////            current_user = dummy;
-//
-//        }
-//        else {
-//            Bundle b = getIntent().getExtras();
-//            User sent_information = b.getParcelable("user");
-//
-//            setUserDisplay(sent_information);
-//            current_user = sent_information;
-//        }
     }
 
 
     private void setUserDisplay(User u) {
+        id_view.setText("@"+u.getID().substring(0, 7));
         name_view.setText(u.getUsername());
         email_view.setText(u.getEmail());
         phone_view.setText(u.getPhoneNumber());
     }
 
-    public void editUserProfile(View v) {
+    public void editUserProfile(View v) throws Exception {
 
         Intent intent = new Intent(this, EditProfileActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable("user", current_user);
+        bundle.putParcelable("user", MainModel.getCurrentUser());
 
         intent.putExtras(bundle);
         startActivity(intent);
