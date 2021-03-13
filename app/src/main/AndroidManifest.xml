@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
+        <activity android:name=".UI.BeginActivity"></activity>
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,60 +17,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".UI.main_menu.SelectionActivity">
-
-        </activity>
-
-        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity">
-
-        </activity>
-
+        <activity android:name=".UI.main_menu.SelectionActivity"></activity>
+        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"></activity>
         <activity android:name=".UI.main_menu.forum.ForumHomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.MainActivity" />
         </activity>
-
         <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.forum.ForumHomeActivity" />
         </activity>
-
         <activity android:name=".UI.main_menu.forum.ForumRepliesActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
-
-        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity">
-        
-        </activity>
-
-        <activity android:name=".UI.trial.BinomialActivity">
-      
-        </activity>
-
-        <activity android:name=".UI.trial.CounterActivity">
-
-        </activity>
-
-        <activity android:name=".UI.trial.MeasurementActivity">
-
-        </activity>
-
-        <activity android:name=".UI.trial.NonNegIntCountActivity">
-
-        </activity>
-
-        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity">
-
-        </activity>
-
-        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity">
-
-        </activity>
+        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity"></activity>
+        <activity android:name=".UI.trial.BinomialActivity"></activity>
+        <activity android:name=".UI.trial.CounterActivity"></activity>
+        <activity android:name=".UI.trial.MeasurementActivity"></activity>
+        <activity android:name=".UI.trial.NonNegIntCountActivity"></activity>
+        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity"></activity>
+        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity"></activity>
     </application>
 
 </manifest>

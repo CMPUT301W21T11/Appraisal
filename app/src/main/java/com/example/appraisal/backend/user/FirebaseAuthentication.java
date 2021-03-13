@@ -13,6 +13,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.concurrent.Executor;
+
 public class FirebaseAuthentication {
     // Authentication
 
@@ -42,12 +44,14 @@ public class FirebaseAuthentication {
      * @return
      */
 
-    public String get_userID() throws Exception{
-        if (mAuth.getCurrentUser() == null) {
-            throw new Exception("Current user is null");
+    public String get_userID()  {
+        if (mAuth.getCurrentUser() != null) {
+            return mAuth.getCurrentUser().getUid();
 
         }
-        return mAuth.getCurrentUser().getUid();
+        else{
+            return "None";
+        }
     }
 
     /**
