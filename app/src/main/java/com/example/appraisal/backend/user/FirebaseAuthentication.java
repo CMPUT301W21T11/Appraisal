@@ -15,7 +15,7 @@ import static android.content.ContentValues.TAG;
 
 public class FirebaseAuthentication {
     // Authentication
-    protected FirebaseAuth mAuth;
+    protected static FirebaseAuth mAuth;
 
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
@@ -35,6 +35,8 @@ public class FirebaseAuthentication {
      */
 
     public String get_userID(){
+
+        mAuth.signInAnonymously();
 
         if (mAuth.getCurrentUser() != null) {
             return mAuth.getCurrentUser().getUid();
