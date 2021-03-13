@@ -1,10 +1,10 @@
 package com.example.appraisal.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.SelectionActivity;
@@ -18,11 +18,8 @@ public class BeginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_begin);
-
         MainModel.checkUserStatus();
-
     }
-
 
     public void toSelection(View v) {
         // TODO Bring the user from main menu, to experiment type menu
@@ -41,7 +38,5 @@ public class BeginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MyExperimentActivity.class);
         startActivity(intent);
     }
-
-
 
 }

@@ -2,28 +2,12 @@ package com.example.appraisal.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.SelectionActivity;
-import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.model.MainModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,18 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signIn(View v){
-
         id =  MainModel.signInUser();
         Intent begin_intent = new Intent(this, BeginActivity.class);
         startActivity(begin_intent);
     }
-
-
-
-
-
-
-
 
 
 //    public void toSelection(View v) {
