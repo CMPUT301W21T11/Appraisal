@@ -1,6 +1,12 @@
 name: Android Pull and Push Continuous Integration
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   # Build the App
