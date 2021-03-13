@@ -1,7 +1,12 @@
 package com.example.appraisal.model;
 
+import android.util.Log;
+
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
+import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -16,7 +21,16 @@ public class SpecificExpModel {
     private SpecificExperiment specificExperiment;
 
     public SpecificExpModel() {
-        specificExperiment = new SpecificExperiment();
+        Experiment current_experiment = null;
+        try {
+            current_experiment = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            // Create dummy data
+            Log.d("Error","MainModel.getCurrentExperiment() returned null. Filling in dummy data to prevent crash");
+            current_experiment = new Experiment("Test", "Test", new User("Test", "Test", "Test@mail.com", "1234"));
+            current_experiment.addTrial(new CountTrial());
+        }
+        specificExperiment = new SpecificExperiment(current_experiment);
     }
 
     public DataPoint[] getTimePlotDataPoints() {

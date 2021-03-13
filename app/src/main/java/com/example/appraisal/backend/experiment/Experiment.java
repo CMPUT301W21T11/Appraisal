@@ -15,8 +15,7 @@ public class Experiment implements Parcelable {
     private String description;
     private User owner;
     // Need a way to store list of contributors
-    private List<User> contributors;
-    // Also need a way to tell what is the type of this experiment
+    // Also need a way to tell what is the type of this experiment (can use getClass() method)
 
     public Experiment(String title, String description, User owner) {
         this.title = title;
