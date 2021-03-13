@@ -2,29 +2,28 @@ package com.example.appraisal.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.SelectionActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.model.MainModel;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import org.w3c.dom.Text;
-
-import static com.example.appraisal.model.MainModel.getUserReference;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    // Authentication
+    protected FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
         MainModel.createInstance();
 
-        MainModel.checkUserStatus();
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        signInAnonymously();
 
-        // Check if user is signed in (non-null) and update UI accordingly.
-//        if (auth.isLoggedIn()){
-//            user_id = auth.get_userID();
-//
-//            // Get their information
-//        } else {
-//            auth.sign_in();
-//            user_id = auth.get_userID();
-//
-//            // Push the ID into firebase
-//
-//        }
 
     }
 
@@ -68,28 +57,68 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void quickTest(View v) throws Exception {
+//    public void quickTest(View v) throws Exception {
+//
+//        DocumentReference user_reference = MainModel.getUserReference();
+//
+//        user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+//
+//                String user_name = value.get("user_name").toString();
+//
+//                Log.d("onEvent: ",user_name);
+//
+//
+//            }
+//        });
+//
+//    }
 
-        DocumentReference user_reference = MainModel.getUserReference();
+//    public void signIn(){
+//
+//        TextView userID = (TextView) findViewById(R.id.user_id);
+//
+//        userID.setText(MainModel.signInUser());
+//    }
 
-        user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                String user_name = value.get("user_name").toString();
-
-                Log.d("onEvent: ",user_name);
-
-
-            }
-        });
-
+    private void updateUI(FirebaseUser user) {
+        TextView user_id = findViewById(R.id.user_id);
+        if (user != null) {
+            user_id.setText("User ID: " + mAuth.getCurrentUser().getUid());
+        } else {
+            user_id.setText("User ID: " + mAuth.getCurrentUser());
+        }
     }
 
-    public void signIn(View v){
 
-        TextView userID = (TextView) findViewById(R.id.user_id);
-
-        userID.setText(MainModel.signInUser());
+    /**
+     * Sign in the user anonymously
+     */
+    private void signInAnonymously() {
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            updateUI(null);
+                        }
+                    }
+                });
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
 }

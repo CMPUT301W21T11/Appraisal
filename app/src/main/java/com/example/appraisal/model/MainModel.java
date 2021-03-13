@@ -1,23 +1,20 @@
 package com.example.appraisal.model;
 
+
 import android.util.Log;
-import android.os.Handler;
+
 
 import androidx.annotation.NonNull;
 
+
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -32,35 +29,13 @@ public class MainModel implements DataRequestable {
     private static User current_user;
     private Experiment chosen_experiment;
 
-    public static FirebaseAuthentication auth = new FirebaseAuthentication();
+//    public static FirebaseAuthentication auth;
     public static String user_id;
     public static boolean is_new;
 
 
-    private MainModel(){
+    private MainModel() {
         db = FirebaseFirestore.getInstance();
-
-//        auth.sign_in();
-//
-//        //Check if user is signed in (non-null) and update UI accordingly.
-//        if (auth.isLoggedIn()){
-//            user_id = auth.get_userID();
-//            is_new = false;
-//
-//            // Get their information
-//        } else {
-//
-//            final Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    // Do something after 5s = 5000ms
-//                    user_id = auth.get_userID();
-//
-//                }
-//            }, 2000);
-//            is_new = true;
-//        }
     }
 
     /**
@@ -75,6 +50,7 @@ public class MainModel implements DataRequestable {
 
     /**
      * This method is used to check the if the single_instance is null or not
+     *
      * @return True if created, False if null
      */
     public static boolean existed() {
@@ -130,7 +106,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     * experiment was chosen
+     *                   experiment was chosen
      */
     public static Experiment getCurrentExperiment() throws Exception {
         if (single_instance == null) {
@@ -176,7 +152,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     * experiment was chosen
+     *                   experiment was chosen
      */
     public static User getCurrentUser() throws Exception {
         if (single_instance == null) {
@@ -218,69 +194,121 @@ public class MainModel implements DataRequestable {
 
 //    }
 
-    public static void checkUserStatus() {
 
-        auth.sign_in();
+//    public static void checkUserStatus() {
+//
+//        auth.sign_in();
+//
+//        //Check if user is signed in (non-null) and update UI accordingly.
+//        if (auth.isLoggedIn()){
+//            user_id = auth.get_userID();
+//            is_new = false;
+//
+//            // Get their information
+//        } else {
+//            auth.sign_out();
+//            auth.sign_in();
+//            user_id = auth.get_userID();
+//            is_new = true;
+//        }
+//
+//        Log.d("checkUserStatus", "I am running");
+//
+//
+//            current_user = new User(user_id, "", "", "");
+//
+//            Log.d("Is_new", "I am running");
+//
+//            Log.d("user ID", user_id);
+//
+//            Log.d("Is new", Boolean.toString(is_new));
+//
+//            CollectionReference new_user = single_instance.db.collection("Users");
+//
+//            // Create a new user with a first and last name
+//            Map<String, Object> user_info = new HashMap<>();
+//            user_info.put("user_name", "");
+//            user_info.put("user_email", "");
+//            user_info.put("phone_number", "");
+//
+//            // Add a new document with a generated ID
+//            new_user.document(user_id).set(user_info)
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            Log.d("***", "DocumentSnapshot successfully written!");
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Log.w("***", "Error writing document", e);
+//                        }
+//                    });
+//
+//
+//
+//
+//    }
+//
+//    public static String signInUser() {
+//
+//        auth.sign_in();
+//
+//    public static void checkUserStatus() {
+//
+//
+//        Log.d("checkUserStatus", "I am running");
+//
+//
+//        current_user = new User(user_id, "", "", "");
+//
+//        Log.d("Is_new", "I am running");
+//
+//        Log.d("user ID", user_id);
+//
+//        Log.d("Is new", Boolean.toString(is_new));
+//
+//        CollectionReference new_user = single_instance.db.collection("Users");
+//
+//        // Create a new user with a first and last name
+//        Map<String, Object> user_info = new HashMap<>();
+//        user_info.put("user_name", "");
+//        user_info.put("user_email", "");
+//        user_info.put("phone_number", "");
+//
+//        // Add a new document with a generated ID
+//        new_user.document(user_id).set(user_info)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Log.d("***", "DocumentSnapshot successfully written!");
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("***", "Error writing document", e);
+//                    }
+//                });
+//
+//
+//    }
 
-        //Check if user is signed in (non-null) and update UI accordingly.
-        if (auth.isLoggedIn()){
-            user_id = auth.get_userID();
-            is_new = false;
 
-            // Get their information
-        } else {
-            auth.sign_out();
-            auth.sign_in();
-            user_id = auth.get_userID();
-            is_new = true;
-        }
+//    public static void signInUser() throws Exception {
+//        auth.sign_in();
+//    }
 
-        Log.d("checkUserStatus", "I am running");
+//    public String getUserID() throws Exception {
+//
+//        user_id = auth.get_userID();
+//
+//        return user_id;
+//    }
+//
+//     public FirebaseAuthentication firebaseAuth(){
+//        return auth;
+//     }
 
-
-            current_user = new User(user_id, "", "", "");
-
-            Log.d("Is_new", "I am running");
-
-            Log.d("user ID", user_id);
-
-            Log.d("Is new", Boolean.toString(is_new));
-
-            CollectionReference new_user = single_instance.db.collection("Users");
-
-            // Create a new user with a first and last name
-            Map<String, Object> user_info = new HashMap<>();
-            user_info.put("user_name", "");
-            user_info.put("user_email", "");
-            user_info.put("phone_number", "");
-
-            // Add a new document with a generated ID
-            new_user.document(user_id).set(user_info)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d("***", "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("***", "Error writing document", e);
-                        }
-                    });
-
-
-
-
-    }
-
-    public static String signInUser() {
-
-        auth.sign_in();
-
-        user_id = auth.get_userID();
-
-        return user_id;
-
-    }
 }
