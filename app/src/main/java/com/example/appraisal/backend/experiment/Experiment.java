@@ -1,14 +1,17 @@
 package com.example.appraisal.backend.experiment;
 
-import android.os.Parcelable;
-
 import com.example.appraisal.backend.trial.Trial;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This is Experiment object class.
+ * It has getters for all values except exp_ID.
+ * It has setters for checking status and adding trials.
+ */
 public class Experiment implements Serializable {
-    //private Integer exp_id;       // is this needed?
+    private String exp_id;
     private String owner;
     private String description;
     private String type;
@@ -20,7 +23,8 @@ public class Experiment implements Serializable {
     private Boolean is_ended;
     private ArrayList<Trial> trial_list;
 
-    public Experiment(String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
+    public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
+        this.exp_id = exp_id;
         this.owner = owner;
         this.description = description;
         this.type = type;
@@ -33,9 +37,9 @@ public class Experiment implements Serializable {
         trial_list = new ArrayList<>();
     }
 
-    // assumption experiment details cannot be edited after creating it
-    // experiment can only be unpublished or ended (only these have setters)
-    // all fields have getters
+    public String getExp_id() {
+        return exp_id;
+    }
 
     public String getOwner() {
         return owner;
@@ -68,6 +72,7 @@ public class Experiment implements Serializable {
     public Boolean getIs_published() {
         return is_published;
     }
+
     public void setIs_published(Boolean is_published) {
         this.is_published = is_published;
     }
@@ -85,11 +90,9 @@ public class Experiment implements Serializable {
         trial_list.add(trial);
     }
 
- 
     public ArrayList<Trial> getTrials() {
         return trial_list;
     }
-
 
 }
 
