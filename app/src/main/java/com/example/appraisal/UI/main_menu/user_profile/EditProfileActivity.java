@@ -1,15 +1,19 @@
 package com.example.appraisal.UI.main_menu.user_profile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.appraisal.R;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
@@ -25,12 +29,15 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText phone_edit;
     private User current_user;
     private DocumentReference user_reference;
+    private View view;
+    private Button save_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        save_button = (Button)findViewById(R.id.apply_changes_btn);
 
         id_view = (TextView)findViewById(R.id.id_textview);
         name_edit = (EditText)findViewById(R.id.name_edittext);
@@ -42,16 +49,60 @@ public class EditProfileActivity extends AppCompatActivity {
         id_view.setText("@"+current_user.getID().substring(0, 7));
         name_edit.setText(current_user.getUsername());
         email_edit.setText(current_user.getEmail());
-        phone_edit.setText(current_user.getPhoneNumber());
+        phone_edit.setText("");
+
+
+        phone_edit.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                final int[] keyDel = new int[1];
+                phone_edit.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_DEL)
+                            keyDel[0] = 1;
+                        return false;
+                    }
+                });
+
+                if (keyDel[0] == 0) {
+                    int len = phone_edit.getText().length();
+                    if(len == 1 || len == 5 || len == 9) {
+                        phone_edit.setText(phone_edit.getText() + "-");
+                        phone_edit.setSelection(phone_edit.getText().length());
+                    }
+                } else {
+                    keyDel[0] = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0){
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+        });
+
+
+
+
+
     }
 
     public void applyChangesToProfile(View v) throws Exception {
+
+        String email = email_edit.getText().toString();
+        String phone = phone_edit.getText().toString();
 
         User updated_user = new User(current_user.getID(),
                 name_edit.getText().toString(),
                 email_edit.getText().toString(),
                 phone_edit.getText().toString()
         );
+
 
         MainModel.setCurrentUser(updated_user);
 

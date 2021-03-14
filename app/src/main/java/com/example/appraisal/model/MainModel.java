@@ -3,17 +3,13 @@ package com.example.appraisal.model;
 
 import android.util.Log;
 
-
 import androidx.annotation.NonNull;
 
-
-import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;

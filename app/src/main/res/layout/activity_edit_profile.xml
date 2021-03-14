@@ -44,7 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="24sp"/>
+                android:maxLength="10"
+                android:textSize="24sp"
+                android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
+                android:tooltipText="No more than 10 characters"/>
 
     </LinearLayout>
 
@@ -55,7 +58,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-
 
         <TextView
                 android:layout_width="wrap_content"
@@ -70,8 +72,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="user@ualberta.ca"
+                android:maxLength="64"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:inputType="textEmailAddress"
+                android:digits="_.abcdefghijklmnopqrstuvwxyzAB@CDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
+                android:tooltipText="john_doe@example.com"/>
 
     </LinearLayout>
 
@@ -97,8 +103,11 @@
                 android:layout_height="wrap_content"
                 android:text="+1 780 999 9999"
                 android:textColor="@color/black"
-                android:textSize="24sp" />
-
+                android:digits="0123456789"
+                android:maxLength="14"
+                android:textSize="24sp"
+                android:inputType="phone"
+                android:tooltipText="17809993333"/>
     </LinearLayout>
 
     <LinearLayout
