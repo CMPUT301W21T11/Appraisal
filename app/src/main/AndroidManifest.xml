@@ -39,8 +39,8 @@
         <activity android:name=".UI.trial.CounterActivity"></activity>
         <activity android:name=".UI.trial.MeasurementActivity"></activity>
         <activity android:name=".UI.trial.NonNegIntCountActivity"></activity>
-        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity"></activity>
-        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity">
+        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity" android:label="Edit Profile"></activity>
+        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity" android:label="My Profile">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity"/>
