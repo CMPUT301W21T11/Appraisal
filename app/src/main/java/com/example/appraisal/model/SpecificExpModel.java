@@ -18,7 +18,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SpecificExpModel {
-    private SpecificExperiment specificExperiment;
+    private final SpecificExperiment specificExperiment;
 
     public SpecificExpModel() {
         Experiment current_experiment = null;
@@ -29,28 +29,19 @@ public class SpecificExpModel {
             Log.d("Error","MainModel.getCurrentExperiment() returned null. Filling in dummy data to prevent crash");
             current_experiment = new Experiment("Test", "Test", new User("Test", "Test", "Test@mail.com", "1234"));
             current_experiment.addTrial(new CountTrial());
+            current_experiment.addTrial(new CountTrial());
+
         }
         specificExperiment = new SpecificExperiment(current_experiment);
     }
 
+    /**
+     * This function returns an array of DataPoint objects for plotting the Trial over Time Plot
+     * @return DataPoint[]
+     *      Return DataPoint objects for plotting. Used by GraphView
+     */
     public DataPoint[] getTimePlotDataPoints() {
-        List<Trial> list_of_trials = specificExperiment.getList_of_trials();
-
-        // hashmap to store all the trial count for a given date
-        // sort by date
-        SortedMap<Date, Integer> data_points = new TreeMap<>();
-        for (Trial trial:list_of_trials) {
-            Date key = trial.getTrialDate();
-            if (data_points.containsKey(key)) { // i.e. date entry already exist
-                // increase trial count
-                int count = data_points.get(key);
-                count++;
-                data_points.put(key, count);
-            } else {
-                // create new entry
-                data_points.put(key, 1);
-            }
-        }
+        SortedMap<Date, Integer> data_points = specificExperiment.getTrialsPerDate();
 
         // Convert HashMap to DataPoint
         List<DataPoint> data_list = new ArrayList<>();
@@ -63,7 +54,12 @@ public class SpecificExpModel {
         return data_list.toArray(new DataPoint[0]);
     }
 
-    public int getTrialCount() {
-        return specificExperiment.getTrialCount();
+    /**
+     * This function returns the number of trials conducted by the given Experiment
+     * @return int
+     *      This is the length of list_of_trials (Note: NOT necessary the no. of trials conducted
+     */
+    public int getListOfTrialLength() {
+        return specificExperiment.getList_of_trials().size();
     }
 }

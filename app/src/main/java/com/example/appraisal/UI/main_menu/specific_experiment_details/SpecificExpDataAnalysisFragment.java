@@ -1,6 +1,8 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
     private GraphView quartileGraph;
@@ -33,9 +37,15 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // initialize layout
         View v = inflater.inflate(R.layout.fragment_experiment_data_analysis, container, false);
+
+        ExecutorService async_executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+
         graphViewInit(v);
-        generateGraphs();
-        graphDropInit(v);
+        async_executor.execute(() -> {
+            generateGraphs();
+            handler.post(() -> graphDropInit(v));
+        });
         return v;
     }
 
@@ -71,11 +81,16 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
-        exp_plot_over_time.addSeries(new LineGraphSeries<>(data_points)); // add to graph
+        // set datapoints visible
+        LineGraphSeries<DataPoint> time_plot_data = new LineGraphSeries<>(data_points);
+        time_plot_data.setDrawDataPoints(true);
+        time_plot_data.setDataPointsRadius(13f);
+        exp_plot_over_time.addSeries(time_plot_data); // add to graph
 
         // initialize axises
         exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
+        exp_plot_over_time.getGridLabelRenderer().setPadding(50);
 
         if (data_points.length > 0) {
             exp_plot_over_time.getViewport().setMinX(data_points[0].getX());
@@ -83,9 +98,35 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         } else {
             exp_plot_over_time.getViewport().setMinX(new Date().getTime());
         }
+
+        // setting axises intervals
+        // The ideal of able to set integer intervals on GraphView is taken from this StackOverflow Thread:
+        // Author: user3261759 (URL: https://stackoverflow.com/users/3261759/user3261759)
+        // Thread URL: https://stackoverflow.com/posts/21505958/revisions
+
         exp_plot_over_time.getViewport().setMinY(0);
 
+        int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
+        int interval = 1;
+        if ((max_value <= 10)) {
+            interval = 1;
+        } else if (max_value <= 50) {
+            interval = 5;
+        } else if (max_value <= 100) {
+            interval = 100;
+        } else if (max_value >= 200){
+            interval = 200;
+        }
+        int max_label = max_value;
+        while (max_label % interval != 0) {
+            max_label++;
+        }
+        exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
+
+        exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
+        exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
+
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
     }
 

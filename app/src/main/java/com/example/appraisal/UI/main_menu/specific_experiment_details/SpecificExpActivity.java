@@ -12,6 +12,9 @@ import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+/**
+ * This is the UI class for Specific Experiment Activity
+ */
 public class SpecificExpActivity extends AppCompatActivity {
 
     // This tab view and view pager UI interface is taken from android developers documentation
@@ -25,6 +28,10 @@ public class SpecificExpActivity extends AppCompatActivity {
     // tab names
     private final String[] tab_names= {"DETAILS", "QR CODE", "DATA ANALYSIS", "CONTRIBUTORS"};
 
+    /**
+     * When called, create an instance of the Activity. Should only be called by the android framework
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
