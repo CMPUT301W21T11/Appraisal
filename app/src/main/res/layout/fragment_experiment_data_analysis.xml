@@ -34,10 +34,12 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_quartilesImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_quartilesGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/chart"
             tools:srcCompat="@drawable/chart" />
 
@@ -168,10 +170,12 @@
                 android:focusable="true" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_histogramImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_histogramGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/chart"
             tools:srcCompat="@drawable/chart" />
 
@@ -191,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:text="Plots"
+                android:text="Trials Over Time"
                 android:textSize="30sp" />
 
             <ImageView
@@ -206,8 +210,8 @@
                 android:focusable="true" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/fragment_experiment_data_analysis_plotsImage"
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/fragment_experiment_data_analysis_plotsGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:srcCompat="@drawable/chart"

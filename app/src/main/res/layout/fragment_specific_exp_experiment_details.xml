@@ -81,7 +81,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="start|center_vertical"
-                android:text="Yes" />
+                android:text="Yes"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <View

@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.SpecificExpFragments;
+package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.backend.User;
+import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.SpecificExpModel;
 
 import java.util.ArrayList;
 
@@ -21,9 +22,11 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     // Author: Steven Heung (CCID: syheung)
 
     private final ArrayList<User> contributors;
+    private final SpecificExpModel model;
 
-    public SpecificExpContributorsViewAdapter(ArrayList<User> contributors) {
+    public SpecificExpContributorsViewAdapter(ArrayList<User> contributors, SpecificExpModel model) {
         this.contributors = contributors;
+        this.model = model;
     }
 
     @NonNull
@@ -38,6 +41,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
         // This is where we should pass to model and database. However for now this is some test code to get it running
+
         // test codes! Will not be in final version ==================//
         if (position == 0) {
             holder.setIs_owner();
