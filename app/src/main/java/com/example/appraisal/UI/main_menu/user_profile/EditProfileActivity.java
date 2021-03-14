@@ -49,47 +49,7 @@ public class EditProfileActivity extends AppCompatActivity {
         id_view.setText("@"+current_user.getID().substring(0, 7));
         name_edit.setText(current_user.getUsername());
         email_edit.setText(current_user.getEmail());
-        phone_edit.setText("");
-
-
-        phone_edit.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                final int[] keyDel = new int[1];
-                phone_edit.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_DEL)
-                            keyDel[0] = 1;
-                        return false;
-                    }
-                });
-
-                if (keyDel[0] == 0) {
-                    int len = phone_edit.getText().length();
-                    if(len == 1 || len == 5 || len == 9) {
-                        phone_edit.setText(phone_edit.getText() + "-");
-                        phone_edit.setSelection(phone_edit.getText().length());
-                    }
-                } else {
-                    keyDel[0] = 0;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0){
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-        });
-
-
-
-
-
+        phone_edit.setText(current_user.getPhoneNumber());
     }
 
     public void applyChangesToProfile(View v) throws Exception {
@@ -102,7 +62,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 email_edit.getText().toString(),
                 phone_edit.getText().toString()
         );
-
 
         MainModel.setCurrentUser(updated_user);
 
@@ -128,7 +87,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         Log.w("USER UPDATE", "Error updating document", e);
                     }
                 });
-
 
         Intent intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);

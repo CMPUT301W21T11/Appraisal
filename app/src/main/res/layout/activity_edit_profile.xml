@@ -103,8 +103,8 @@
                 android:layout_height="wrap_content"
                 android:text="+1 780 999 9999"
                 android:textColor="@color/black"
-                android:digits="0123456789"
-                android:maxLength="14"
+                android:digits="+-0123456789"
+                android:maxLength="15"
                 android:textSize="24sp"
                 android:inputType="phone"
                 android:tooltipText="17809993333"/>
