@@ -3,22 +3,23 @@ package com.example.appraisal.model;
 import android.util.Log;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
 import com.example.appraisal.backend.trial.CountTrial;
-import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.User;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class SpecificExpModel {
     private final SpecificExperiment specificExperiment;
+    private final double stdDev;
+    private final Quartile quartile;
+    private final double mean;
 
     public SpecificExpModel() {
         Experiment current_experiment = null;
@@ -33,6 +34,9 @@ public class SpecificExpModel {
 
         }
         specificExperiment = new SpecificExperiment(current_experiment);
+        stdDev = specificExperiment.getExperimentStDev();
+        quartile = specificExperiment.getQuartile();
+        mean = specificExperiment.getExperimentMean();
     }
 
     /**
@@ -56,10 +60,37 @@ public class SpecificExpModel {
 
     /**
      * This function returns the number of trials conducted by the given Experiment
-     * @return int
+     * @return trial_length_string
      *      This is the length of list_of_trials (Note: NOT necessary the no. of trials conducted
      */
-    public int getListOfTrialLength() {
-        return specificExperiment.getList_of_trials().size();
+    public String getListOfTrialLength() {
+        return String.valueOf(specificExperiment.getList_of_trials().size());
+    }
+
+    /**
+     * This function returns the standard deviation of the given experiment
+     * @return stdDev_string
+     *      Standard Deviation of the given experiment
+     */
+    public String getStdDev() {
+        return String.format("%.2f",stdDev);
+    }
+
+    /**
+     * This function returns the Quartile object of the given experiment
+     * @return quartile {@link Quartile}
+     *      The Quartile object contains all the quartile information
+     */
+    public Quartile getQuartileInfo() {
+        return quartile;
+    }
+
+    /**
+     * This function returns the mean of the given experiment
+     * @return mean_string
+     *      Mean of the given experiment
+     */
+    public String getMean() {
+        return String.format("%.2f",mean);
     }
 }

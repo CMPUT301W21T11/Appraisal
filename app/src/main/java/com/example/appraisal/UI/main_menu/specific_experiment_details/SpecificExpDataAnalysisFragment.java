@@ -7,26 +7,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.model.SpecificExpModel;
+import com.github.mikephil.charting.charts.CandleStickChart;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleEntry;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
-    private GraphView quartileGraph;
+    private CandleStickChart quartileGraph;
     private GraphView histogram;
     private GraphView exp_plot_over_time;
+
+    private TextView mean;
+    private TextView median;
+    private TextView stdDev;
 
     private SpecificExpModel model;
     @Nullable
@@ -43,10 +55,26 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         graphViewInit(v);
         async_executor.execute(() -> {
-            generateGraphs();
-            handler.post(() -> graphDropInit(v));
+            generateTimePlot();
+            generateQuartileGraph();
+            generateHistogram();
+            handler.post(() -> {
+                textViewInit(v);
+                graphDropInit(v);
+            });
         });
+
         return v;
+    }
+
+    private void textViewInit(View v) {
+        mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
+        median = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMedianText);
+        stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
+
+        mean.setText(model.getMean());
+        median.setText(String.format("%.2f",model.getQuartileInfo().getMedian()));
+        stdDev.setText(model.getStdDev());
     }
 
     private void graphViewInit(View v) {
@@ -74,7 +102,24 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         plot_drop.setOnClickListener(v3 -> toggle_plots());
     }
 
-    private void generateGraphs() {
+    private void generateHistogram() {
+
+    }
+
+    private void generateQuartileGraph() {
+        Quartile quartile_data = model.getQuartileInfo();
+        float low = quartile_data.getFirstQuartile() - (1.5 * quartile_data.getIQR());
+        float high = quartile_data.getThirdQuartile() + (1.5 * quartile_data.getIQR());
+
+        List<CandleEntry> ceList = new ArrayList<CandleEntry>(new CandleEntry(0, low, quartile_data.getFirstQuartile(), quartile_data.getThirdQuartile(), high));
+
+
+        CandleData cd = new CandleData();
+        quartileGraph.setData(cd);
+        quartileGraph.invalidate();
+    }
+
+    private void generateTimePlot() {
         // Initialize time plot graph
         // The graph date plot initialization is taken from GraphView's documentation
         // Author:

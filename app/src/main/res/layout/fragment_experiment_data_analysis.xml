@@ -34,14 +34,12 @@
 
         </LinearLayout>
 
-        <com.jjoe64.graphview.GraphView
+        <com.github.mikephil.charting.charts.CandleStickChart
             android:id="@+id/fragment_experiment_data_analysis_quartilesGraph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/chart"
-            tools:srcCompat="@drawable/chart" />
+            android:layout_marginEnd="20dp" />
 
         <View
             android:layout_width="300dp"
@@ -175,9 +173,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/chart"
-            tools:srcCompat="@drawable/chart" />
+            android:layout_marginEnd="20dp" />
 
         <View
             android:layout_width="match_parent"
@@ -213,9 +209,7 @@
         <com.jjoe64.graphview.GraphView
             android:id="@+id/fragment_experiment_data_analysis_plotsGraph"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/chart"
-            tools:srcCompat="@drawable/chart" />
+            android:layout_height="200dp" />
 
         <View
             android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class Experiment implements Parcelable {
     private String description;
     private User owner;
     // Need a way to store list of contributors
+    private List<User> contributors;
     // Also need a way to tell what is the type of this experiment (can use getClass() method)
 
     public Experiment(String title, String description, User owner) {
@@ -22,6 +24,7 @@ public class Experiment implements Parcelable {
         this.description = description;
         this.owner = owner;
         trial_list = new ArrayList<>();
+        contributors = new ArrayList<>();
     }
 
     public Experiment(Parcel in) {
@@ -68,5 +71,13 @@ public class Experiment implements Parcelable {
 
     public User getOwner() {
         return new User(owner.getID(), owner.getUsername(), owner.getEmail(), owner.getPhoneNumber());
+    }
+
+    public void addContributor(User user) {
+        contributors.add(user);
+    }
+
+    public List<User> getContributors() {
+        return new ArrayList<>(contributors);
     }
 }
