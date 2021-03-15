@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.UI.main_menu.forum.ForumHomeActivity;
-import com.example.appraisal.UI.main_menu.my_experiments.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 

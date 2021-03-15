@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.appraisal.R;
@@ -31,12 +32,12 @@ public class ExpAdapter extends ArrayAdapter<Experiment> {
 
         TextView description = view.findViewById(R.id.exp_desc);
         TextView type = view.findViewById(R.id.exp_type);
-        TextView owner = view.findViewById(R.id.owner_name);
+        LinearLayout owner = view.findViewById(R.id.owner_row);
         TextView status = view.findViewById(R.id.exp_status);
 
         description.setText(exp_current.getDescription());
         type.setText(exp_current.getType());
-        owner.setText(exp_current.getOwner());
+        owner.setVisibility(View.GONE);
 
         if (exp_current.getIs_published() && !exp_current.getIs_ended()) {
             status.setText("Published & Open");

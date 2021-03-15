@@ -21,7 +21,7 @@ public class Experiment implements Serializable {
     private Boolean is_geolocation_required;
     private Boolean is_published;
     private Boolean is_ended;
-    private ArrayList<Trial> trial_list;
+//    private ArrayList<User> experimenters_list;
 
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
@@ -34,7 +34,7 @@ public class Experiment implements Serializable {
         this.region = region;
         this.is_published = true;
         this.is_ended = false;
-        trial_list = new ArrayList<>();
+//        experimenters_list = new ArrayList<>();
     }
 
     public String getExp_id() {
@@ -85,14 +85,5 @@ public class Experiment implements Serializable {
         this.is_ended = is_ended;
  
     }
-
-    public void addTrial(Trial trial) {
-        trial_list.add(trial);
-    }
-
-    public ArrayList<Trial> getTrials() {
-        return trial_list;
-    }
-
 }
 

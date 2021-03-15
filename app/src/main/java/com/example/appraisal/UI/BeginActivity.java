@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.SelectionActivity;
-import com.example.appraisal.UI.main_menu.my_experiments.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.model.MainModel;
 
