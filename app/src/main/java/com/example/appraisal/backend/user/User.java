@@ -6,7 +6,6 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     private String ID;
-
     private String username;
     private String email;
     private String phone_number;
@@ -36,10 +35,6 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
 
     public String getID() {
         return ID;
