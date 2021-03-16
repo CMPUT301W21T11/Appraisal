@@ -106,6 +106,6 @@ public class SpecificExpModel {
     }
 
     public float getHistogramIntervalWidth() {
-        return specificExperiment.getHistogramIntervalWidth();
+        return (float) specificExperiment.getHistogramIntervalWidth();
     }
 }
