@@ -141,18 +141,7 @@ public class SpecificExperiment {
         return (float) Math.sqrt((square_error / total));
     }
 
-
-
-    /**
-     * Return the Frequency of each trial measurements for a predefined interval
-     * @return data_points
-     *     This is the hash table of no. of trials for each interval
-     */
-    public SortedMap<Float, Integer> getHistogramIntervalFrequency() {
-        // How to calculate measurement frequency and intervals are taken from MoreStream
-        // Author: MoreStream
-        // URL: https://www.moresteam.com/toolbox/histogram.cfm
-        SortedMap<Float, Integer> data_points = new TreeMap<>();
+    public float getHistogramIntervalWidth() {
         int INTERVAL_NUM = 12; // Fixed to 12 intervals. This is the most our app could reasonably display
         if (Math.sqrt(total) < INTERVAL_NUM) {
             // If the sample does not require that many intervals we can reduce it
@@ -164,17 +153,38 @@ public class SpecificExperiment {
         float max_value = quartile.getTrialMaxValue();
 
         // calculate interval width
-        float width = (max_value - min_value) / INTERVAL_NUM;
+        return (max_value - min_value) / INTERVAL_NUM;
+    }
+
+    /**
+     * Return the Frequency of each trial measurements for a predefined interval
+     * @return data_points
+     *     This is the hash table of no. of trials for each interval
+     */
+    public SortedMap<Float, Integer> getHistogramIntervalFrequency() {
+        // How to calculate measurement frequency and intervals are taken from MoreStream
+        // Author: MoreStream
+        // URL: https://www.moresteam.com/toolbox/histogram.cfm
+        SortedMap<Float, Integer> data_points = new TreeMap<>();
+
+        float min_value = quartile.getTrialMinValue();
+        float max_value = quartile.getTrialMaxValue();
+
+        float width = getHistogramIntervalWidth();
+
         ArrayList<Float> available_interval_start_values = new ArrayList<>(); // cache the interval start values
         // initialize data_points and record interval values
-        for (float i = min_value; i < max_value; i += width) {
+        for (float i = min_value; i <= max_value; i += width) {
             data_points.put(i, 0);
             available_interval_start_values.add(i);
+            if (width == 0) {
+                break;
+            }
         }
 
         // record frequencies
         for (float measurement_i: list_of_trials_as_float) {
-            int interval_index = 0;
+            int interval_index = (int) Math.floor(measurement_i / width);
 
             // obtain interval value key
             float interval_key = available_interval_start_values.get(interval_index);

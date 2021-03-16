@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,9 +20,11 @@ import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.model.SpecificExpModel;
 import com.github.mikephil.charting.charts.CandleStickChart;
 import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -102,21 +106,50 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         plot_drop.setOnClickListener(v3 -> toggle_plots());
     }
 
-    private void generateHistogram() {
-
-    }
-
     private void generateQuartileGraph() {
         Quartile quartile_data = model.getQuartileInfo();
-        float low = quartile_data.getFirstQuartile() - (1.5 * quartile_data.getIQR());
-        float high = quartile_data.getThirdQuartile() + (1.5 * quartile_data.getIQR());
+        float low = (float) (quartile_data.getFirstQuartile() - (1.5 * quartile_data.getIQR()));
+        float high = (float) (quartile_data.getThirdQuartile() + (1.5 * quartile_data.getIQR()));
 
-        List<CandleEntry> ceList = new ArrayList<CandleEntry>(new CandleEntry(0, low, quartile_data.getFirstQuartile(), quartile_data.getThirdQuartile(), high));
-
-
-        CandleData cd = new CandleData();
+        List<CandleEntry> ceList = new ArrayList<CandleEntry>();
+        //ceList.add(new CandleEntry(0, low, quartile_data.getFirstQuartile(), quartile_data.getThirdQuartile(), high));
+        ceList.add(new CandleEntry(0, 1.2f, 2.0f, 3.5f, 4.4f));
+        CandleDataSet dataSet= new CandleDataSet(ceList, "Box Plot");
+        dataSet.setColor(Color.rgb(80,80,80));
+        dataSet.setShadowColor(Color.DKGRAY);
+        dataSet.setShadowWidth(0.7f);
+        dataSet.setValueTextColor(Color.RED);
+        CandleData cd = new CandleData(dataSet);
         quartileGraph.setData(cd);
         quartileGraph.invalidate();
+    }
+
+    private void generateHistogram() {
+        // obtain data points
+
+        DataPoint[] dataPoints = model.getHistogramDataPoints();
+        BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
+        barGraphSeries.setSpacing(1); // set a bit of spacing between bars for readability
+
+        histogram.addSeries(barGraphSeries);
+
+        histogram.getGridLabelRenderer().setPadding(50);
+
+        float interval = model.getHistogramIntervalWidth();
+
+        if (interval == 0) {
+            histogram.getViewport().setMinX(barGraphSeries.getLowestValueX() - 0.1);
+            histogram.getViewport().setMaxX(barGraphSeries.getHighestValueX() + 0.1);
+        } else {
+            histogram.getViewport().setMinX(barGraphSeries.getLowestValueX() - (0.5 * interval));
+            histogram.getViewport().setMaxX(barGraphSeries.getHighestValueX() + (0.5 * interval));
+        }
+        histogram.getViewport().setMinY(0);
+
+        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length);
+        histogram.getViewport().setXAxisBoundsManual(true);
+        histogram.getViewport().setYAxisBoundsManual(true);
+
     }
 
     private void generateTimePlot() {
@@ -173,6 +206,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
 
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
+
+        exp_plot_over_time.getViewport().setScalable(true);
+        exp_plot_over_time.getViewport().setScrollable(true);
     }
 
     private void toggle_quartiles() {

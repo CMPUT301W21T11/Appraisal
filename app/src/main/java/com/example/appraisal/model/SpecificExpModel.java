@@ -58,6 +58,17 @@ public class SpecificExpModel {
         return data_list.toArray(new DataPoint[0]);
     }
 
+    public DataPoint[] getHistogramDataPoints() {
+        SortedMap<Float, Integer> data_points = specificExperiment.getHistogramIntervalFrequency();
+        List<DataPoint> data_list = new ArrayList<>();
+        for (Map.Entry<Float, Integer> entry: data_points.entrySet()) {
+            float interval = entry.getKey();
+            int count = entry.getValue();
+            data_list.add(new DataPoint(interval, count));
+        }
+
+        return data_list.toArray(new DataPoint[0]);
+    }
     /**
      * This function returns the number of trials conducted by the given Experiment
      * @return trial_length_string
@@ -92,5 +103,9 @@ public class SpecificExpModel {
      */
     public String getMean() {
         return String.format("%.2f",mean);
+    }
+
+    public float getHistogramIntervalWidth() {
+        return specificExperiment.getHistogramIntervalWidth();
     }
 }
