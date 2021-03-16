@@ -16,7 +16,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
+import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -125,7 +129,13 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // Calculate Maximum and minimum excluding outliers
         float minimum = (float) (quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR()));
+        if (minimum < quartiles.getTrialMinValue()) {
+            minimum = quartiles.getTrialMinValue();
+        }
         float maximum = (float) (quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR()));
+        if (maximum > quartiles.getTrialMaxValue()) {
+            maximum = quartiles.getTrialMaxValue();
+        }
 
         // Calculate outlier percentage
         int outlier_count = quartiles.getOutLiers().size();
@@ -146,7 +156,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
-        barGraphSeries.setSpacing(1); // set a bit of spacing between bars for readability
+        barGraphSeries.setSpacing(5); // set a bit of spacing between bars for readability
 
         histogram.addSeries(barGraphSeries);
 
@@ -167,6 +177,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
+        histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+
     }
 
     private void generateTimePlot() {
@@ -186,10 +198,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
         exp_plot_over_time.getGridLabelRenderer().setPadding(50);
+        exp_plot_over_time.getGridLabelRenderer().setHorizontalLabelsAngle(135);
 
         if (data_points.length > 0) {
             exp_plot_over_time.getViewport().setMinX(data_points[0].getX());
-            exp_plot_over_time.getViewport().setMaxX(data_points[data_points.length - 1].getX());
+            exp_plot_over_time.getViewport().setMaxX(data_points[0].getX() + 5*24*60*60*1000); // increment 5 days
         } else {
             exp_plot_over_time.getViewport().setMinX(new Date().getTime());
         }
@@ -217,6 +230,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             max_label++;
         }
         exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
+        exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(5);
 
         exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);

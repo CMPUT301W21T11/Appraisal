@@ -66,7 +66,7 @@ public class Quartile {
 
             } else if (trial instanceof MeasurementTrial) {
                 MeasurementTrial t4 = (MeasurementTrial) trial;
-                // TODO: after measurement trial is implemented
+                trial_list.add(t4.getMeasurement());
             }
         }
 

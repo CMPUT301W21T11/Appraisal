@@ -11,12 +11,14 @@ public class MeasurementModel {
     }
 
     public void addMeasurement(String measurement) {
+        float value = 0;
         try {
-            double value = Double.parseDouble(measurement);
+            value = Float.parseFloat(measurement);
         }
         catch (Exception e) {
             Log.i("PROBLEM WITH INPUT!: ", measurement);
         }
+        data.setMeasurement(value);
     }
 
     public void toExperiment() { data.getExperiment().addTrial(data);}

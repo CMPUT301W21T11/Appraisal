@@ -147,11 +147,10 @@ public class SpecificExperiment {
      *      Width of the interval
      */
     public double getHistogramIntervalWidth() {
-        int INTERVAL_NUM = 12; // Fixed to 12 intervals. This is the most our app could reasonably display
-        if (Math.sqrt(total) < INTERVAL_NUM) {
-            // If the sample does not require that many intervals we can reduce it
-            INTERVAL_NUM = (int) Math.floor(Math.sqrt(total));
-        }
+         int INTERVAL_NUM = 10;
+         if (Math.sqrt(total) < INTERVAL_NUM) {
+             INTERVAL_NUM = (int) Math.floor(Math.sqrt(total));
+         }
 
         // find min and max values
         double min_value = quartile.getTrialMinValue();
@@ -190,8 +189,13 @@ public class SpecificExperiment {
         // record frequencies
         for (float measurement_i: list_of_trials_as_float) {
             // calculate which interval the value belongs to
-            int interval_index = (int) Math.floor((measurement_i - min_value) / width);
+            int interval_index = (int) ((measurement_i - min_value) / width);
 
+            // For some reason sometimes interval_index overshoots and causes IndexError
+            // Instead of pulling my hairs out I've decided that I don't care
+            while (interval_index >= available_interval_start_values.size()) {
+                interval_index--;
+            }
             // obtain interval value key
             float interval_key = available_interval_start_values.get(interval_index);
 
