@@ -1,7 +1,6 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,38 +12,36 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.model.SpecificExpModel;
-import com.github.mikephil.charting.charts.CandleStickChart;
-import com.github.mikephil.charting.data.CandleData;
-import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
-    private CandleStickChart quartileGraph;
     private GraphView histogram;
     private GraphView exp_plot_over_time;
-
-    private TextView mean;
-    private TextView median;
-    private TextView stdDev;
+    private ConstraintLayout quartileTable;
 
     private SpecificExpModel model;
+
+    /**
+     * This is the Overridden onCreateView method from the Fragment class
+     * @param inflater -- LayoutInflater object for inflating the Fragment
+     * @param container -- ViewGroup object that contains the layout
+     * @param savedInstanceState -- Bundle object
+     * @return v -- View of the initialized Fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,16 +51,19 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // initialize layout
         View v = inflater.inflate(R.layout.fragment_experiment_data_analysis, container, false);
 
+        // start async task
         ExecutorService async_executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
-        graphViewInit(v);
+        graphViewInit(v); // initialize graph views
         async_executor.execute(() -> {
+            // graph generation thread
             generateTimePlot();
-            generateQuartileGraph();
             generateHistogram();
             handler.post(() -> {
-                textViewInit(v);
+                // UI thread
+                generateQuartileTable();
+                generateExpStats(v);
                 graphDropInit(v);
             });
         });
@@ -71,10 +71,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         return v;
     }
 
-    private void textViewInit(View v) {
-        mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
-        median = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMedianText);
-        stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
+    private void generateExpStats(View v) {
+        // initialize and set experiment stats
+        TextView mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
+        TextView median = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMedianText);
+        TextView stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
 
         mean.setText(model.getMean());
         median.setText(String.format("%.2f",model.getQuartileInfo().getMedian()));
@@ -83,14 +84,14 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
     private void graphViewInit(View v) {
         // initialize graphs
-        quartileGraph = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesGraph);
         histogram = v.findViewById(R.id.fragment_experiment_data_analysis_histogramGraph);
         exp_plot_over_time = v.findViewById(R.id.fragment_experiment_data_analysis_plotsGraph);
+        quartileTable = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesTable);
 
         // Hide graphs until button is clicked
-        quartileGraph.setVisibility(View.GONE);
         histogram.setVisibility(View.GONE);
         exp_plot_over_time.setVisibility(View.GONE);
+        quartileTable.setVisibility(View.GONE);
     }
 
     private void graphDropInit(View v) {
@@ -106,22 +107,38 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         plot_drop.setOnClickListener(v3 -> toggle_plots());
     }
 
-    private void generateQuartileGraph() {
-        Quartile quartile_data = model.getQuartileInfo();
-        float low = (float) (quartile_data.getFirstQuartile() - (1.5 * quartile_data.getIQR()));
-        float high = (float) (quartile_data.getThirdQuartile() + (1.5 * quartile_data.getIQR()));
+    private void generateQuartileTable() {
+        // Note: Box Plot does not have good, off the shelf and free to use library
+        // And no I'm not writing my own renderer, I don't have that time
+        // So ya it will be a table instead, which still gets the job done
 
-        List<CandleEntry> ceList = new ArrayList<CandleEntry>();
-        //ceList.add(new CandleEntry(0, low, quartile_data.getFirstQuartile(), quartile_data.getThirdQuartile(), high));
-        ceList.add(new CandleEntry(0, 1.2f, 2.0f, 3.5f, 4.4f));
-        CandleDataSet dataSet= new CandleDataSet(ceList, "Box Plot");
-        dataSet.setColor(Color.rgb(80,80,80));
-        dataSet.setShadowColor(Color.DKGRAY);
-        dataSet.setShadowWidth(0.7f);
-        dataSet.setValueTextColor(Color.RED);
-        CandleData cd = new CandleData(dataSet);
-        quartileGraph.setData(cd);
-        quartileGraph.invalidate();
+        // Initialize tables textview
+        TextView min = quartileTable.findViewById(R.id.fragment_exp_data_analysis_minimum);
+        TextView q1 = quartileTable.findViewById(R.id.fragment_exp_data_analysis_q1);
+        TextView q3 = quartileTable.findViewById(R.id.fragment_exp_data_analysis_q3);
+        TextView max = quartileTable.findViewById(R.id.fragment_exp_data_analysis_maximum);
+        TextView iqr = quartileTable.findViewById(R.id.fragment_exp_data_analysis_iqr);
+        TextView outlier_percent = quartileTable.findViewById(R.id.fragment_exp_data_analysis_outlier_percent);
+
+        // obtain quartile info from model
+        Quartile quartiles = model.getQuartileInfo();
+
+        // Calculate Maximum and minimum excluding outliers
+        float minimum = (float) (quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR()));
+        float maximum = (float) (quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR()));
+
+        // Calculate outlier percentage
+        int outlier_count = quartiles.getOutLiers().size();
+        int total = quartiles.getTotalNumTrial();
+        float percent = (outlier_count / (float) total) * 100;
+
+        // Set values to TextViews
+        min.setText(String.valueOf(minimum));
+        max.setText(String.valueOf(maximum));
+        q1.setText(String.valueOf(quartiles.getFirstQuartile()));
+        q3.setText(String.valueOf(quartiles.getThirdQuartile()));
+        iqr.setText(String.valueOf(quartiles.getIQR()));
+        outlier_percent.setText(String.format("%.2f%%", percent));
     }
 
     private void generateHistogram() {
@@ -212,10 +229,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void toggle_quartiles() {
-        if (quartileGraph.isShown()) {
-            quartileGraph.setVisibility(View.GONE);
+        if (quartileTable.isShown()) {
+            quartileTable.setVisibility(View.GONE);
         } else {
-            quartileGraph.setVisibility(View.VISIBLE);
+            quartileTable.setVisibility(View.VISIBLE);
         }
     }
 

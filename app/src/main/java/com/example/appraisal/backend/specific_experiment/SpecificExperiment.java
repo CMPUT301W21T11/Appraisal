@@ -113,12 +113,12 @@ public class SpecificExperiment {
             return 0;
         }
 
-        float sum = 0;
+        double sum = 0;
         for (float d: list_of_trials_as_float) {
             sum += d;
         }
 
-        return sum / (float) total;
+        return (float) (sum / total);
     }
 
     /**
@@ -132,7 +132,7 @@ public class SpecificExperiment {
         }
 
         float mean = getExperimentMean();
-        float square_error = 0;
+        double square_error = 0;
 
         for (float d_i: list_of_trials_as_float) {
             square_error += Math.pow(d_i - mean, 2);
@@ -141,7 +141,12 @@ public class SpecificExperiment {
         return (float) Math.sqrt((square_error / total));
     }
 
-    public float getHistogramIntervalWidth() {
+    /**
+     * Return the width of the interval of the generated histogram
+     * @return width
+     *      Width of the interval
+     */
+    public double getHistogramIntervalWidth() {
         int INTERVAL_NUM = 12; // Fixed to 12 intervals. This is the most our app could reasonably display
         if (Math.sqrt(total) < INTERVAL_NUM) {
             // If the sample does not require that many intervals we can reduce it
@@ -149,8 +154,8 @@ public class SpecificExperiment {
         }
 
         // find min and max values
-        float min_value = quartile.getTrialMinValue();
-        float max_value = quartile.getTrialMaxValue();
+        double min_value = quartile.getTrialMinValue();
+        double max_value = quartile.getTrialMaxValue();
 
         // calculate interval width
         return (max_value - min_value) / INTERVAL_NUM;
@@ -170,21 +175,22 @@ public class SpecificExperiment {
         float min_value = quartile.getTrialMinValue();
         float max_value = quartile.getTrialMaxValue();
 
-        float width = getHistogramIntervalWidth();
+        double width = getHistogramIntervalWidth();
 
         ArrayList<Float> available_interval_start_values = new ArrayList<>(); // cache the interval start values
         // initialize data_points and record interval values
         for (float i = min_value; i <= max_value; i += width) {
             data_points.put(i, 0);
             available_interval_start_values.add(i);
-            if (width == 0) {
+            if (width == 0) { // edge case when the experiment is empty
                 break;
             }
         }
 
         // record frequencies
         for (float measurement_i: list_of_trials_as_float) {
-            int interval_index = (int) Math.floor(measurement_i / width);
+            // calculate which interval the value belongs to
+            int interval_index = (int) Math.floor((measurement_i - min_value) / width);
 
             // obtain interval value key
             float interval_key = available_interval_start_values.get(interval_index);

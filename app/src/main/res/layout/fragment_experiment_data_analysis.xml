@@ -34,15 +34,134 @@
 
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.CandleStickChart
-            android:id="@+id/fragment_experiment_data_analysis_quartilesGraph"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_experiment_data_analysis_quartilesTable"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="210dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp" />
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:text="Minimum:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_minimum"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_minimum"
+                android:layout_width="220sp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:hapticFeedbackEnabled="false"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:text="First Quartile:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_q1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_q1"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:gravity="end"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_exp_data_analysis_minimum" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:text="Third Quartile:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_q3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_q3"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:gravity="end"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_exp_data_analysis_q1" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:text="Maximum:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_maximum"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:text="IQR:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_iqr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:text="Outlier Percentage:"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_exp_data_analysis_outlier_percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_maximum"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:gravity="end"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_exp_data_analysis_q3" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_iqr"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:gravity="end"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_exp_data_analysis_maximum" />
+
+            <TextView
+                android:id="@+id/fragment_exp_data_analysis_outlier_percent"
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:gravity="end"
+                android:textSize="21sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_exp_data_analysis_iqr" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:background="#736F6F" />

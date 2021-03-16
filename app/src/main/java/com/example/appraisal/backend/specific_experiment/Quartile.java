@@ -17,8 +17,8 @@ public class Quartile {
     private final List<Trial> list_of_trials;
     private final int total;
     private final List<Float> sorted_list_of_trials_as_double;
-    private float q1;
-    private float q3;
+    private final float q1;
+    private final float q3;
 
     /**
      * Constructor of the Quartile class
@@ -152,6 +152,12 @@ public class Quartile {
         return getThirdQuartile() - getFirstQuartile();
     }
 
+    /**
+     * Return the list of outlier values
+     * Outliers are values that exceed the min and max range.
+     * @return outLiers
+     *      List of outliers
+     */
     public List<Float> getOutLiers() {
         List<Float> outLiers = new ArrayList<>();
         double upper = q3 + (1.5 * getIQR());
