@@ -24,5 +24,6 @@ public class MeasurementActivity extends AppCompatActivity {
         String input = input_measurement.getText().toString();
         model.addMeasurement(input);
         input_measurement.setText("0.00");
+        model.toExperiment();
     }
 }

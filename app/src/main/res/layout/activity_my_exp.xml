@@ -15,10 +15,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-                android:id="@+id/my_experiments"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp"></ListView>
+            android:id="@+id/my_experiments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp" />
 
     </LinearLayout>
 
