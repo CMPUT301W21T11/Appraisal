@@ -129,10 +129,10 @@ public class SpecificExpTest {
      */
     @Test
     public void testHistogramInterval() {
-        double int_width = (Collections.max(control_list_int) - Collections.min(control_list_int)) / (double) 100;
+        double int_width = (Collections.max(control_list_int) - Collections.min(control_list_int)) / (double) 10;
         assertEquals(int_width, test_obj_int.getHistogramIntervalWidth(), MARGIN_OF_ERROR);
 
-        double float_width = (Collections.max(control_list_float) - Collections.min(control_list_float)) / (double) 100;
+        double float_width = (Collections.max(control_list_float) - Collections.min(control_list_float)) / (double) 10;
         assertEquals(float_width, test_obj_float.getHistogramIntervalWidth(), MARGIN_OF_ERROR);
     }
 }
