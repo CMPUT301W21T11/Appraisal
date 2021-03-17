@@ -3,18 +3,14 @@ package com.example.appraisal.model;
 
 import android.util.Log;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-
-import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -55,15 +51,10 @@ public class MainModel implements DataRequestable {
 
         mAuth.sign_in();
 
-        //Check if user is signed in (non-null) and update UI accordingly.
         if (mAuth.isLoggedIn()) {
-            //user_id = mAuth.get_userID();
             is_new = false;
 
-            // Get their information
         } else {
-
-            //user_id = mAuth.get_userID();
             is_new = true;
         }
 
@@ -225,14 +216,24 @@ public class MainModel implements DataRequestable {
 
         Log.d("checkUserStatus", "I am running");
 
-        current_user = new User(user_id, "", "", "", 0);
+        current_user = new User(user_id, "", "", "");
 
-        Log.d("Is_new", "I am running");
 
         Log.d("user ID", user_id);
 
         Log.d("Is new", Boolean.toString(is_new));
 
+        if (is_new){
+            setupNewUser();
+        }
+
+    }
+
+    public static String signInUser() {
+       return mAuth.get_userID();
+    }
+
+    public static void setupNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
 
         // Create a new user with a first and last name
@@ -270,8 +271,8 @@ public class MainModel implements DataRequestable {
                 String phone_number = value.get("phone_number").toString();
                 Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
 
-                User current_user = new User(user_id, user_name, user_email, phone_number, num_of_exp);
-
+                User current_user = new User(user_id, user_name, user_email, phone_number);
+                current_user.setNum_of_exp(num_of_exp);
                 try {
                     MainModel.setCurrentUser(current_user);
                 } catch (Exception e) {
@@ -279,17 +280,20 @@ public class MainModel implements DataRequestable {
                 }
             }
         });
+    }
+    // Method to be called to retrieve a document reference of a specific user on the database
+    public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
 
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        final DocumentReference other_user_reference = single_instance.db.collection("Users")
+                .document(other_user_id);
+
+        return other_user_reference;
     }
 
-
-    public static String signInUser() {
-       return mAuth.get_userID();
-    }
-
-    public static void setUserID(String id){
-        user_id = id;
-    }
 
 
 

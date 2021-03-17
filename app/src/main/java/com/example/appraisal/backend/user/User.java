@@ -12,12 +12,12 @@ public class User implements Parcelable {
     private String phone_number;
     private Integer num_of_exp;
 
-    public User(String ID, String username, String email, String phone_number,Integer num_of_exp) {
+    public User(String ID, String username, String email, String phone_number) {
         this.ID = ID;
         this.username = username;
         this.email = email;
         this.phone_number = phone_number;
-        this.num_of_exp = num_of_exp;
+        this.num_of_exp = 0;
     }
 
     protected User(Parcel in) {
