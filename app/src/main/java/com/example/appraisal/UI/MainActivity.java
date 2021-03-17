@@ -13,8 +13,6 @@ import com.example.appraisal.model.MainModel;
 public class MainActivity extends AppCompatActivity {
 
 
-    String id;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signIn(View v){
-        id =  MainModel.signInUser();
         Intent begin_intent = new Intent(this, BeginActivity.class);
         startActivity(begin_intent);
     }

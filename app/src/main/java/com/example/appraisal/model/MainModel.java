@@ -212,29 +212,34 @@ public class MainModel implements DataRequestable {
 
     }
 
-    public static void setUpNewUser() {
-
-        Log.d("checkUserStatus", "I am running");
-
-        current_user = new User(user_id, "", "", "");
-
-
-        Log.d("user ID", user_id);
-
-        Log.d("Is new", Boolean.toString(is_new));
-
-        if (is_new){
-            setupNewUser();
-        }
-
-    }
+//    public static void setUpNewUser() {
+//
+//        Log.d("checkUserStatus", "I am running");
+//
+//
+//
+//
+//        Log.d("user ID", user_id);
+//
+//        Log.d("Is new", Boolean.toString(is_new));
+//
+//        if (is_new){
+//            setupNewUser();
+//        }
+//
+//    }
 
     public static String signInUser() {
        return mAuth.get_userID();
     }
 
-    public static void setupNewUser(){
+    public static void setUpNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
+
+        current_user = new User(user_id, "", "", "");
+
+//        User user = new User(user_id, "", "", "");
+//        current_user = user;
 
         // Create a new user with a first and last name
         Map<String, Object> user_info = new HashMap<>();
@@ -281,6 +286,7 @@ public class MainModel implements DataRequestable {
             }
         });
     }
+
     // Method to be called to retrieve a document reference of a specific user on the database
     public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
 

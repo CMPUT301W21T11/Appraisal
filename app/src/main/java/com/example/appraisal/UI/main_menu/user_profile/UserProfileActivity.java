@@ -47,8 +47,10 @@ public class UserProfileActivity extends AppCompatActivity {
                 String user_name = value.get("user_name").toString();
                 String user_email = value.get("user_email").toString();
                 String phone_number = value.get("phone_number").toString();
+                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
 
                 User user = new User(user_id, user_name, user_email, phone_number);
+                user.setNum_of_exp(num_of_exp);
 
                 try {
                     MainModel.setCurrentUser(user);
@@ -59,25 +61,25 @@ public class UserProfileActivity extends AppCompatActivity {
                 setUserDisplay(user);
             }
         });
-    }
+            }
 
 
-    private void setUserDisplay(User u) {
-        id_view.setText("@"+u.getID().substring(0, 7));
-        name_view.setText(u.getUsername());
-        email_view.setText(u.getEmail());
-        phone_view.setText(u.getPhoneNumber());
-    }
+            private void setUserDisplay(User u) {
+                id_view.setText("@" + u.getID().substring(0, 7));
+                name_view.setText(u.getUsername());
+                email_view.setText(u.getEmail());
+                phone_view.setText(u.getPhoneNumber());
+            }
 
-    public void editUserProfile(View v) throws Exception {
+            public void editUserProfile(View v) throws Exception {
 
-        Intent intent = new Intent(this, EditProfileActivity.class);
+                Intent intent = new Intent(this, EditProfileActivity.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("user", MainModel.getCurrentUser());
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("user", MainModel.getCurrentUser());
 
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
 
-}
+        }

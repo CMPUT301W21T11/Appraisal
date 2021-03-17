@@ -2,10 +2,7 @@ package com.example.appraisal.UI.main_menu.user_profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,9 +57,8 @@ public class EditProfileActivity extends AppCompatActivity {
         User updated_user = new User(current_user.getID(),
                 name_edit.getText().toString(),
                 email_edit.getText().toString(),
-                phone_edit.getText().toString(),
-                0
-        ); // 0 is added to fix constructor error
+                phone_edit.getText().toString()
+        );
 
         MainModel.setCurrentUser(updated_user);
 
