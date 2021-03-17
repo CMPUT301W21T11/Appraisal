@@ -5,8 +5,6 @@ import android.util.Log;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
-import com.example.appraisal.backend.trial.CountTrial;
-import com.example.appraisal.backend.user.User;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
@@ -28,9 +26,9 @@ public class SpecificExpModel {
         } catch (Exception e) {
             // Create dummy data
             Log.d("Error","MainModel.getCurrentExperiment() returned null. Filling in dummy data to prevent crash");
-            current_experiment = new Experiment("Test", "Test", new User("Test", "Test", "Test@mail.com", "1234"));
-            current_experiment.addTrial(new CountTrial());
-            current_experiment.addTrial(new CountTrial());
+//            current_experiment = new Experiment("Test", "Test", new User("Test", "Test", "Test@mail.com", "1234"));
+//            current_experiment.addTrial(new CountTrial());
+//            current_experiment.addTrial(new CountTrial());
 
         }
         specificExperiment = new SpecificExperiment(current_experiment);
@@ -111,5 +109,9 @@ public class SpecificExpModel {
      */
     public float getHistogramIntervalWidth() {
         return (float) specificExperiment.getHistogramIntervalWidth();
+    }
+
+    public void sendExpID(String id){
+        specificExperiment.getExperimentersFirestore(id);
     }
 }

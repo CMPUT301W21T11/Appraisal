@@ -301,8 +301,6 @@ public class MainModel implements DataRequestable {
     }
 
 
-
-
     public static CollectionReference getExperimentReference() throws Exception {
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");

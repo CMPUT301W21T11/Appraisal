@@ -1,9 +1,11 @@
 package com.example.appraisal.backend.experiment;
 
-import com.example.appraisal.backend.trial.Trial;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.lang.reflect.Array;
-import java.io.Serializable;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.Experimenter;
+
 import java.util.ArrayList;
 
 /**
@@ -11,13 +13,14 @@ import java.util.ArrayList;
  * It has getters for all values except exp_ID.
  * It has setters for checking status and adding trials.
  */
-public class Experiment implements Serializable {
+public class Experiment implements Parcelable {
     private String exp_id;
     private String owner;
     private String description;
-//     private User owner;
 //     // Need a way to store list of contributors
-//     private List<User> contributors;
+    private ArrayList<Experimenter> experimenters;
+    private ArrayList<Trial> trial_list;
+
     // Also need a way to tell what is the type of this experiment (can use getClass() method)
     private String type;
     private String rules;
@@ -26,13 +29,12 @@ public class Experiment implements Serializable {
     private Boolean is_geolocation_required;
     private Boolean is_published;
     private Boolean is_ended;
-//    private ArrayList<User> experimenters_list;
 
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
-//         trial_list = new ArrayList<>();
-//         contributors = new ArrayList<>();
+        this.trial_list = new ArrayList<>();
+        this.experimenters = new ArrayList<>();
 
         this.description = description;
         this.type = type;
@@ -44,6 +46,38 @@ public class Experiment implements Serializable {
         this.is_ended = false;
 //        experimenters_list = new ArrayList<>();
     }
+
+    protected Experiment(Parcel in) {
+        exp_id = in.readString();
+        owner = in.readString();
+        description = in.readString();
+        type = in.readString();
+        rules = in.readString();
+        region = in.readString();
+        if (in.readByte() == 0) {
+            minimum_trials = null;
+        } else {
+            minimum_trials = in.readInt();
+        }
+        byte tmpIs_geolocation_required = in.readByte();
+        is_geolocation_required = tmpIs_geolocation_required == 0 ? null : tmpIs_geolocation_required == 1;
+        byte tmpIs_published = in.readByte();
+        is_published = tmpIs_published == 0 ? null : tmpIs_published == 1;
+        byte tmpIs_ended = in.readByte();
+        is_ended = tmpIs_ended == 0 ? null : tmpIs_ended == 1;
+    }
+
+    public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {
+        @Override
+        public Experiment createFromParcel(Parcel in) {
+            return new Experiment(in);
+        }
+
+        @Override
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
 
     public String getExp_id() {
         return exp_id;
@@ -95,19 +129,61 @@ public class Experiment implements Serializable {
     }
 
     public ArrayList<Trial> getTrials() {
-        return new ArrayList<>(trial_list);
+
+        for(Experimenter experimenter: experimenters){
+            ArrayList<Trial> trials = experimenter.getTrial_list();
+            for (Trial trial: trials){
+                trial_list.add(trial);
+            }
+        }
+        return trial_list;
     }
 
-    public User getOwner() {
-        return new User(owner.getID(), owner.getUsername(), owner.getEmail(), owner.getPhoneNumber());
+
+
+    public ArrayList<Experimenter> getExperimenters() {
+        return experimenters;
     }
 
-    public void addContributor(User user) {
-        contributors.add(user);
+    /**
+     * Describe the kinds of special objects contained in this Parcelable
+     * instance's marshaled representation. For example, if the object will
+     * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
+     * the return value of this method must include the
+     * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
+     *
+     * @return a bitmask indicating the set of special object types marshaled
+     * by this Parcelable object instance.
+     */
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public List<User> getContributors() {
-        return new ArrayList<>(contributors);
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(exp_id);
+        dest.writeString(owner);
+        dest.writeString(description);
+        dest.writeString(type);
+        dest.writeString(rules);
+        dest.writeString(region);
+        if (minimum_trials == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(minimum_trials);
+        }
+        dest.writeByte((byte) (is_geolocation_required == null ? 0 : is_geolocation_required ? 1 : 2));
+        dest.writeByte((byte) (is_published == null ? 0 : is_published ? 1 : 2));
+        dest.writeByte((byte) (is_ended == null ? 0 : is_ended ? 1 : 2));
     }
 }
 

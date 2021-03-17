@@ -4,10 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -24,6 +24,7 @@ public class SpecificExpActivity extends AppCompatActivity {
 
     private SpecificExpViewAdapter specific_exp_view_adapter;
     private ViewPager2 viewpager;
+    private SpecificExpModel model;
 
     // tab names
     private final String[] tab_names= {"DETAILS", "QR CODE", "DATA ANALYSIS", "CONTRIBUTORS"};
@@ -35,6 +36,11 @@ public class SpecificExpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        Experiment experiment = extras.getParcelable("experiments");
+        String id = experiment.getExp_id();
+        model.sendExpID(id);
+
 
         // inflate content and initialize adapter
         setContentView(R.layout.activity_specific_exp);

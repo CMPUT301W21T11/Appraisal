@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,7 +79,7 @@ public class ExpStatusFragment extends DialogFragment {
 
         // get experiment object
         Bundle args = getArguments();
-        experiment = (Experiment) args.getSerializable("experiment");
+        experiment = (Experiment) args.getParcelable("experiment");
         exp_ID = experiment.getExp_id();
         is_published = experiment.getIs_published();
         is_ended = experiment.getIs_ended();
@@ -115,7 +117,7 @@ public class ExpStatusFragment extends DialogFragment {
      */
     public static ExpStatusFragment newInstance(Experiment experiment) {
         Bundle args = new Bundle();
-        args.putSerializable("experiment", experiment);
+        args.putParcelable("experiment", experiment);
         ExpStatusFragment fragment = new ExpStatusFragment();
         fragment.setArguments(args);
         return fragment;
@@ -184,6 +186,11 @@ public class ExpStatusFragment extends DialogFragment {
      */
     public void goViewResults(){
         // TODO: when VIEW RESULTS Button on dialog is clicked
+        Intent intent = new Intent((MyExperimentActivity)getActivity(), SpecificExpActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("experiments", experiment);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

@@ -1,25 +1,23 @@
 package com.example.appraisal.backend.specific_experiment;
 
-import android.icu.util.Measure;
-import android.util.Log;
+import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.BinomialTrial;
-import com.example.appraisal.backend.trial.CountTrial;
-import com.example.appraisal.backend.trial.MeasurementTrial;
-import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.Experimenter;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.function.BinaryOperator;
 
 /**
  * This class represents the statistical details of each experiment, e.g. Mean, Standard Deviations, Owner etc.
@@ -29,7 +27,9 @@ public class SpecificExperiment {
     private final ArrayList<Trial> list_of_trials;
     private final List<Float> list_of_trials_as_float;
     private final int total;
+    private final ArrayList<Experimenter> experimenters;
     private Quartile quartile;
+
     /**
      * Creates an instance of the Specific Experiment wrapper
      * @param current_experiment
@@ -41,6 +41,7 @@ public class SpecificExperiment {
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
         list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
+        experimenters = current_experiment.getExperimenters();
     }
 
     /**
@@ -48,7 +49,7 @@ public class SpecificExperiment {
      * @return {@link User}
      *      This is the owner of the experiment
      */
-    public User getOwner() {
+    public String getOwner() {
         return current_experiment.getOwner();
     }
 
@@ -57,8 +58,8 @@ public class SpecificExperiment {
      * @return contributors
      *      list of contributors of the experiment
      */
-    public List<User> getContributors() {
-        return current_experiment.getContributors();
+    public ArrayList<Experimenter> getContributors() {
+        return current_experiment.getExperimenters();
     }
     /**
      * Return the list of trials of the experiment
@@ -212,5 +213,51 @@ public class SpecificExperiment {
      */
     public Quartile getQuartile() {
         return quartile;
+    }
+
+    // TODO: Remove parameter
+    public void getExperimentersFirestore(String id) throws Exception {
+
+        CollectionReference reference = MainModel.getExperimentReference().document(current_experiment.getExp_id()).collection("experimenters");
+
+        reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                          @Override
+                                          public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                              // clear old list
+                                              experimenters.clear();
+                                              list_of_trials.clear();
+
+                                              for (QueryDocumentSnapshot doc : value) {
+                                                  String id = doc.getId();
+                                                  ArrayList trial_list = (ArrayList) doc.getData().get("trials_list");
+
+                                                  Experimenter experimenter = new Experimenter(id);
+                                                  experimenters.add(experimenter);
+//                    CollectionReference trials_ref = reference.document(id).collection("Trials");
+                                              }
+                                          }
+
+                                      });
+
+
+
+
+
+
+//                reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            DocumentSnapshot document = task.getResult();
+//                            if (document.exists()) {
+//                                Log.d("Pass Firestore", "DocumentSnapshot data: " + document.getData());
+//                            } else {
+//                                Log.d("Document Non Existed", "No such document");
+//                            }
+//                        } else {
+//                            Log.d("Exception", "get failed with ", task.getException());
+//                        }
+//                    }
+
     }
 }
