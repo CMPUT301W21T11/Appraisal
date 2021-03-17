@@ -2,6 +2,7 @@ package com.example.appraisal.backend.experiment;
 
 import com.example.appraisal.backend.trial.Trial;
 
+import java.lang.reflect.Array;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -14,6 +15,10 @@ public class Experiment implements Serializable {
     private String exp_id;
     private String owner;
     private String description;
+//     private User owner;
+//     // Need a way to store list of contributors
+//     private List<User> contributors;
+    // Also need a way to tell what is the type of this experiment (can use getClass() method)
     private String type;
     private String rules;
     private String region;
@@ -26,6 +31,9 @@ public class Experiment implements Serializable {
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
+//         trial_list = new ArrayList<>();
+//         contributors = new ArrayList<>();
+
         this.description = description;
         this.type = type;
         this.is_geolocation_required = is_geolocation_required;
@@ -84,6 +92,22 @@ public class Experiment implements Serializable {
     public void setIs_ended(Boolean is_ended) {
         this.is_ended = is_ended;
  
+    }
+
+    public ArrayList<Trial> getTrials() {
+        return new ArrayList<>(trial_list);
+    }
+
+    public User getOwner() {
+        return new User(owner.getID(), owner.getUsername(), owner.getEmail(), owner.getPhoneNumber());
+    }
+
+    public void addContributor(User user) {
+        contributors.add(user);
+    }
+
+    public List<User> getContributors() {
+        return new ArrayList<>(contributors);
     }
 }
 

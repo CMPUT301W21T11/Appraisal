@@ -22,9 +22,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
+
         <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity"></activity>
 
         <activity android:name=".UI.trial.BinomialActivity"></activity>
+
 
         <activity android:name=".UI.trial.CounterActivity"></activity>
 
@@ -39,7 +41,7 @@
         <activity android:name=".UI.main_menu.user_profile.UserProfileActivity" android:label="My Profile">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
-
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"/>
     </application>
 
 </manifest>

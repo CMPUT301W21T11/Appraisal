@@ -131,11 +131,12 @@
 
     <Button
         android:id="@+id/save_btn"
-        android:layout_marginTop="65dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="65dp"
+        android:onClick="save"
         android:text="Save"
-        android:textAllCaps="true"
-        android:layout_gravity="center"/>
+        android:textAllCaps="true" />
 
 </LinearLayout>
