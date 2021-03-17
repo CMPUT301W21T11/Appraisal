@@ -6,22 +6,22 @@ import java.util.ArrayList;
 
 public class Experimenter {
     private String id;
-    private ArrayList<Trial> trial_list;
+    private ArrayList<String> trial_id_list;
 
     public Experimenter(String id){
         this.id = id;
-        trial_list = new ArrayList<Trial>();
+        trial_id_list = new ArrayList<String>();
     }
 
     public String getId() {
         return id;
     }
 
-    public ArrayList<Trial> getTrial_list() {
-        return trial_list;
+    public ArrayList<String> getTrial_list() {
+        return trial_id_list;
     }
 
-    public void setTrial_list(ArrayList<Trial> trial_list) {
-        this.trial_list = trial_list;
+    public void setTrial_list(ArrayList<String> trial_list) {
+        this.trial_id_list= trial_list;
     }
 }

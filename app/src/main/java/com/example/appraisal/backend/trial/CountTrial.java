@@ -18,4 +18,5 @@ public class CountTrial extends Trial {
         return counter;
     }
 
+
 }

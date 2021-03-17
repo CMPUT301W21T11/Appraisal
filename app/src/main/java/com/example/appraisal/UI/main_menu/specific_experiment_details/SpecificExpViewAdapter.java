@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -24,6 +26,7 @@ public class SpecificExpViewAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         // Returns different fragment for different tabs
+        Log.d("position", Integer.toString(position));
         switch (position) {
             case 0:
                 return new SpecificExpDetailsFragment();

@@ -6,10 +6,10 @@ import com.example.appraisal.backend.experiment.Experiment;
 
 public class NonNegIntCountTrial extends Trial {
 
-    Experiment testExperiment = new Experiment("title", "desc", null); // TEST CODE
+//    Experiment testExperiment = new Experiment("title", "desc", null); // TEST CODE
     private int counter;
     public NonNegIntCountTrial() {
-        setExperiment(testExperiment); // TEST CODE
+//        setExperiment(testExperiment); // TEST CODE
         counter = 0;
     }
 

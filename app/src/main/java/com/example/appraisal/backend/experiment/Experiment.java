@@ -17,8 +17,9 @@ public class Experiment implements Parcelable {
     private String exp_id;
     private String owner;
     private String description;
-//     // Need a way to store list of contributors
+    // Need a way to store list of contributors
     private ArrayList<Experimenter> experimenters;
+    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
     // Also need a way to tell what is the type of this experiment (can use getClass() method)
@@ -33,6 +34,7 @@ public class Experiment implements Parcelable {
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
+        this.trial_id_list = new ArrayList<>();
         this.trial_list = new ArrayList<>();
         this.experimenters = new ArrayList<>();
 
@@ -128,18 +130,25 @@ public class Experiment implements Parcelable {
  
     }
 
-    public ArrayList<Trial> getTrials() {
+    public ArrayList<String> getTrials() {
 
         for(Experimenter experimenter: experimenters){
-            ArrayList<Trial> trials = experimenter.getTrial_list();
-            for (Trial trial: trials){
-                trial_list.add(trial);
+            ArrayList<String> trials = experimenter.getTrial_list();
+            for (String trial: trials){
+                trial_id_list.add(trial);
             }
         }
-        return trial_list;
+        return trial_id_list;
     }
 
 
+    public ArrayList<Trial> getTrialList() {
+        return trial_list;
+    }
+
+    public void addTrial(Trial trial) {
+        trial_list.add(trial);
+    }
 
     public ArrayList<Experimenter> getExperimenters() {
         return experimenters;

@@ -1,5 +1,8 @@
 package com.example.appraisal.backend.specific_experiment;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
@@ -7,7 +10,11 @@ import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.Experimenter;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,9 +32,11 @@ import java.util.TreeMap;
 public class SpecificExperiment {
     private final Experiment current_experiment;
     private final ArrayList<Trial> list_of_trials;
+    private final ArrayList<String> trial_id_list;
     private final List<Float> list_of_trials_as_float;
     private final int total;
-    private final ArrayList<Experimenter> experimenters;
+    private ArrayList<String> experimenters;
+    private ArrayList<Experimenter> experimenters_list;
     private Quartile quartile;
 
     /**
@@ -37,11 +46,12 @@ public class SpecificExperiment {
      */
     public SpecificExperiment(Experiment current_experiment) {
         this.current_experiment = current_experiment;
-        list_of_trials = current_experiment.getTrials();
+        trial_id_list = current_experiment.getTrials();
+        list_of_trials = current_experiment.getTrialList();// TODO: query the database with trial_id_list to get specific values of trials
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
         list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
-        experimenters = current_experiment.getExperimenters();
+        experimenters_list = current_experiment.getExperimenters();
     }
 
     /**
@@ -215,49 +225,53 @@ public class SpecificExperiment {
         return quartile;
     }
 
-    // TODO: Remove parameter
-    public void getExperimentersFirestore(String id) throws Exception {
+    public void getExperimentersFirestore() throws Exception {
 
-        CollectionReference reference = MainModel.getExperimentReference().document(current_experiment.getExp_id()).collection("experimenters");
+        DocumentReference doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
 
-        reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                          @Override
-                                          public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                                              // clear old list
-                                              experimenters.clear();
-                                              list_of_trials.clear();
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                experimenters.clear();
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        experimenters = (ArrayList<String>) document.getData().get("experimenters");
+                        Log.d("Pass Firestore", "DocumentSnapshot data: " + experimenters);
+                    } else {
+                        Log.d("Document Non Existed", "No such document");
+                    }
+                } else {
+                    Log.d("Exception", "get failed with ", task.getException());
+                }
+            }
+        });
 
-                                              for (QueryDocumentSnapshot doc : value) {
-                                                  String id = doc.getId();
-                                                  ArrayList trial_list = (ArrayList) doc.getData().get("trials_list");
+        CollectionReference reference = MainModel.getExperimentReference().document(current_experiment.getExp_id()).collection("Trials");
+        trial_id_list.clear();
 
-                                                  Experimenter experimenter = new Experimenter(id);
-                                                  experimenters.add(experimenter);
-//                    CollectionReference trials_ref = reference.document(id).collection("Trials");
-                                              }
-                                          }
+        for (String i: experimenters) {
+            reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    // clear old list
+                    experimenters_list.clear();
 
-                                      });
+                    for (QueryDocumentSnapshot doc : value) {
+                        String id = (String) doc.getData().get("experimenterID");
+                        if (i.equals(id)){
+                            String trial_name = doc.getId();
+                            Experimenter experimenter = new Experimenter(i);
+                            experimenter.getTrial_list().add(trial_name);
+                            experimenters_list.add(experimenter);
+                            trial_id_list.add(trial_name);
+                        }
+                    }
+                }
 
-
-
-
-
-
-//                reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                Log.d("Pass Firestore", "DocumentSnapshot data: " + document.getData());
-//                            } else {
-//                                Log.d("Document Non Existed", "No such document");
-//                            }
-//                        } else {
-//                            Log.d("Exception", "get failed with ", task.getException());
-//                        }
-//                    }
+            });
+        }
 
     }
 }
