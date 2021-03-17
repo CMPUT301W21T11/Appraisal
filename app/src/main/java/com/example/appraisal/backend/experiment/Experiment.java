@@ -1,93 +1,68 @@
 package com.example.appraisal.backend.experiment;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 
-import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * This is Experiment object class.
- * It has getters for all values except exp_ID.
- * It has setters for checking status and adding trials.
- */
-public class Experiment implements Serializable {
-    private String exp_id;
-    private String owner;
+public class Experiment implements Parcelable {
+    private List<Trial> trial_list;
+
+    private String title;
     private String description;
+    private User owner;
+    // Need a way to store list of contributors
+    private List<User> contributors;
+    // Also need a way to tell what is the type of this experiment (can use getClass() method)
 
-    private String type;
-    private String rules;
-    private String region;
-    private Integer minimum_trials;
-    private Boolean is_geolocation_required;
-    private Boolean is_published;
-    private Boolean is_ended;
-//    private ArrayList<User> experimenters_list;
-
-
-    public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
-        this.exp_id = exp_id;
-        this.owner = owner;
+    public Experiment(String title, String description, User owner) {
+        this.title = title;
         this.description = description;
-        this.type = type;
-        this.is_geolocation_required = is_geolocation_required;
-        this.minimum_trials = minimum_trials;
-        this.rules = rules;
-        this.region = region;
-        this.is_published = true;
-        this.is_ended = false;
-//        experimenters_list = new ArrayList<>();
+        this.owner = owner;
+        trial_list = new ArrayList<>();
+        contributors = new ArrayList<>();
     }
 
-    public String getExp_id() {
-        return exp_id;
+    public Experiment(Parcel in) {
+        title = in.readString();
+        description = in.readString();
+        owner = in.readParcelable(User.class.getClassLoader());
     }
 
-    public String getOwner() {
-        return owner;
+    public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {
+        @Override
+        public Experiment createFromParcel(Parcel in) {
+            return new Experiment(in);
+        }
+
+        @Override
+        public Experiment[] newArray(int size) {
+            return new Experiment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeParcelable(owner, flags);
     }
 
-    public String getType() {
-        return type;
+    public void addTrial(Trial trial) {
+        trial_list.add(trial);
     }
 
-    public String getRegion() {
-        return region;
-
-    }
-
-    public String getRules(){
-        return rules;
-    }
-
-    public Integer getMinimum_trials() {
-        return minimum_trials;
-    }
-
-    public Boolean getIs_geolocation_required() {
-        return is_geolocation_required;
-    }
-
-    public Boolean getIs_published() {
-        return is_published;
-    }
-
-    public void setIs_published(Boolean is_published) {
-        this.is_published = is_published;
-    }
-
-    public Boolean getIs_ended() {
-        return is_ended;
-    }
-
-    public void setIs_ended(Boolean is_ended) {
-        this.is_ended = is_ended;
- 
+    public String getTitle() {
+        return title;
     }
 
     public ArrayList<Trial> getTrials() {
@@ -106,4 +81,3 @@ public class Experiment implements Serializable {
         return new ArrayList<>(contributors);
     }
 }
-

@@ -1,6 +1,5 @@
 package com.example.appraisal.UI.main_menu.user_profile;
 
-import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
-import com.example.appraisal.model.MainModel;
 import com.example.appraisal.backend.user.User;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
 
 import java.util.Locale;
 
@@ -22,66 +15,51 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView name_view;
     private TextView email_view;
     private TextView phone_view;
-    private TextView id_view;
-    
-    private DocumentReference user_reference;
+
+    private User current_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        
-        id_view = findViewById(R.id.user_id_textview);
+
         name_view = findViewById(R.id.name_textview);
         email_view = findViewById(R.id.email_address_textview);
         phone_view = findViewById(R.id.phone_number_textview);
-        
-        try {
-            user_reference = MainModel.getUserReference();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        // TODO This part will need to be replace by data from the Firebase, not dummy data.
+        if (getIntent().getExtras() == null) {
+            User dummy = new User("dummyID1234", "John",
+                    "abc@hotmail.com", "780 999 9999");
+
+            setUserDisplay(dummy);
+            current_user = dummy;
         }
-      
-        user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                String user_id = user_reference.get().toString();
-                String user_name = value.get("user_name").toString();
-                String user_email = value.get("user_email").toString();
-                String phone_number = value.get("phone_number").toString();
-                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
+        else {
+            Bundle b = getIntent().getExtras();
+            User sent_information = b.getParcelable("user");
 
-                User user = new User(user_id, user_name, user_email, phone_number);
-                user.setNum_of_exp(num_of_exp);
-
-                try {
-                    MainModel.setCurrentUser(user);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                setUserDisplay(user);
-            }
-        });
-            }
+            setUserDisplay(sent_information);
+            current_user = sent_information;
+        }
+    }
 
 
     private void setUserDisplay(User u) {
-                id_view.setText("@" + u.getID().substring(0, 7));
-                name_view.setText(u.getUsername());
-                email_view.setText(u.getEmail());
-                phone_view.setText(u.getPhoneNumber());
-            }
-
-    
-
+        name_view.setText(u.getUsername());
+        email_view.setText(u.getEmail());
+        phone_view.setText(u.getPhoneNumber());
+    }
 
     public void editUserProfile(View v) {
-                Intent intent = new Intent(this, EditProfileActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("user", MainModel.getCurrentUser());
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
 
-        }
+        Intent intent = new Intent(this, EditProfileActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("user", current_user);
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+}

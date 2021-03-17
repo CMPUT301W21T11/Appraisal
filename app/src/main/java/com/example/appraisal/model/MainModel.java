@@ -1,24 +1,9 @@
 package com.example.appraisal.model;
 
-
-
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 import com.google.firebase.firestore.CollectionReference;
-
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +17,9 @@ public class MainModel implements DataRequestable {
     private static MainModel single_instance;
 
     private FirebaseFirestore db;
-
-    private static User current_user;
-
     private List<String> subscription_list;
-
+    private User current_user;
     private Experiment chosen_experiment;
-    private static ArrayList<Experiment> my_experiments;
 
     private MainModel(){
         db = FirebaseFirestore.getInstance();
@@ -173,113 +154,4 @@ public class MainModel implements DataRequestable {
 
         return single_instance.current_user;
     }
-
-    public static DocumentReference getUserReference() throws Exception {
-
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-
-        final DocumentReference user_reference = single_instance.db.collection("Users")
-                .document(user_id);
-
-        return user_reference;
-    }
-
-
-    public static void checkUserStatus() {
-        user_id = signInUser();
-        if (is_new){
-            setUpNewUser();
-        }
-        else {
-            loadCurrentUser();
-        }
-
-    }
-
-    public static String signInUser() {
-       return mAuth.get_userID();
-    }
-
-    public static void setUpNewUser(){
-        CollectionReference new_user = single_instance.db.collection("Users");
-
-        current_user = new User(user_id, "", "", "");
-
-//        User user = new User(user_id, "", "", "");
-//        current_user = user;
-
-        // Create a new user with a first and last name
-        Map<String, Object> user_info = new HashMap<>();
-        user_info.put("user_name", "");
-        user_info.put("user_email", "");
-        user_info.put("phone_number", "");
-        user_info.put("num_of_my_exp", 0);
-
-        // Add a new document with a generated ID
-        new_user.document(user_id).set(user_info)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("***", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("***", "Error writing document", e);
-                    }
-                });
-    }
-
-    public static void loadCurrentUser() {
-        // get data from firebase
-        // update local user object
-        Log.d("user id", user_id);
-        single_instance.db.collection("Users").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                String user_name = value.get("user_name").toString();
-                String user_email = value.get("user_email").toString();
-                String phone_number = value.get("phone_number").toString();
-                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
-
-                User current_user = new User(user_id, user_name, user_email, phone_number);
-                current_user.setNum_of_exp(num_of_exp);
-                try {
-                    MainModel.setCurrentUser(current_user);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    // Method to be called to retrieve a document reference of a specific user on the database
-    public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
-
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-
-        final DocumentReference other_user_reference = single_instance.db.collection("Users")
-                .document(other_user_id);
-
-        return other_user_reference;
-    }
-
-
-
-
-    public static CollectionReference getExperimentReference() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-
-        final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
-        return experiment_reference;
-    }
-
-
 }
