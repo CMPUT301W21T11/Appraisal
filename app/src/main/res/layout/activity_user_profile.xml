@@ -14,7 +14,6 @@
             app:srcCompat="@drawable/user_icon" />
 
     <TextView
-            android:id="@+id/user_id_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -49,6 +48,7 @@
                 android:textSize="24sp" />
 
     </LinearLayout>
+
 
     <LinearLayout
             android:layout_width="match_parent"

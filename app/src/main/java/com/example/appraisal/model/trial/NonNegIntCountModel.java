@@ -16,4 +16,6 @@ public class NonNegIntCountModel {
     public long getCount() {
         return data.getCount();
     }
+
+    public void toExperiment() { data.getExperiment().addTrial(data);}
 }

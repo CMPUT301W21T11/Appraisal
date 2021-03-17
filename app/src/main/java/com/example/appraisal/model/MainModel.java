@@ -1,27 +1,27 @@
 package com.example.appraisal.model;
 
 
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+
+
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -34,37 +34,27 @@ public class MainModel implements DataRequestable {
     private FirebaseFirestore db;
 
     private static User current_user;
+
+    private List<String> subscription_list;
+
     private Experiment chosen_experiment;
     private static ArrayList<Experiment> my_experiments;
 
-    //    public static FirebaseAuthentication auth;
-    public static String user_id;
-    public static boolean is_new;
-
-    public static FirebaseAuthentication mAuth;
-
-
-    private MainModel() {
+    private MainModel(){
         db = FirebaseFirestore.getInstance();
 
-        mAuth = new FirebaseAuthentication();
-
-        mAuth.sign_in();
-
-        if (mAuth.isLoggedIn()) {
-            is_new = false;
-
-        } else {
-            is_new = true;
-        }
-
+        /**
+         * HAS TO BE REFACTORED AFTER FIREBASE DATA QUERY IS READY
+         */
+        // TODO implement after USER is done
+        current_user = new User("User0000", "John", "john@mail.com", "780 999 9999");
     }
 
     /**
      * Use this method to create one single instance of the MainModel. If left untouched, its lifetime would persists
      * throughout the whole app. Should be called at least once right after the app starts.
      */
-    public static void createInstance() {
+    public static void createInstance(){
         if (single_instance == null) {
             single_instance = new MainModel();
         }
@@ -72,7 +62,6 @@ public class MainModel implements DataRequestable {
 
     /**
      * This method is used to check the if the single_instance is null or not
-     *
      * @return True if created, False if null
      */
     public static boolean existed() {
@@ -128,7 +117,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     *                   experiment was chosen
+     * experiment was chosen
      */
     public static Experiment getCurrentExperiment() throws Exception {
         if (single_instance == null) {
@@ -152,9 +141,6 @@ public class MainModel implements DataRequestable {
             throw new Exception("single_instance is not initiated");
         }
         single_instance.current_user = user;
-
-        user.setID(user_id);
-
     }
 
     /**
@@ -174,7 +160,7 @@ public class MainModel implements DataRequestable {
      *
      * @return chosen {@link Experiment}
      * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
-     *                   experiment was chosen
+     * experiment was chosen
      */
     public static User getCurrentUser() throws Exception {
         if (single_instance == null) {
@@ -211,23 +197,6 @@ public class MainModel implements DataRequestable {
         }
 
     }
-
-//    public static void setUpNewUser() {
-//
-//        Log.d("checkUserStatus", "I am running");
-//
-//
-//
-//
-//        Log.d("user ID", user_id);
-//
-//        Log.d("Is new", Boolean.toString(is_new));
-//
-//        if (is_new){
-//            setupNewUser();
-//        }
-//
-//    }
 
     public static String signInUser() {
        return mAuth.get_userID();
@@ -311,5 +280,6 @@ public class MainModel implements DataRequestable {
         final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
         return experiment_reference;
     }
+
 
 }

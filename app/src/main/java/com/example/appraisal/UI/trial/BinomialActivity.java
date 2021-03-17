@@ -43,4 +43,10 @@ public class BinomialActivity extends AppCompatActivity {
         failure_txt.setText(count);
     }
 
+    public void save(View v) {
+        model.toExperiment();
+        success_txt.setText("0");
+        failure_txt.setText("0");
+    }
+
 }
