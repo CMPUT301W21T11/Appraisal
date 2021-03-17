@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exptypes_src">
+
+        <item>Count-based trials</item>
+        <item>Binomial Trials</item>
+        <item>Non-negative Integer Trials</item>
+        <item>Measurement Trials</item>
+
+    </string-array>
+</resources>

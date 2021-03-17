@@ -3,7 +3,7 @@ package com.example.appraisal.backend.trial;
 import java.util.Date;
 import com.example.appraisal.backend.experiment.Experiment;
 
-abstract public class Trial {
+public abstract class Trial {
     public Experiment current_experiment;
     //Need to record time of the trial, in order to show the plot of trials over time
     private Date trial_date = new Date();
@@ -17,4 +17,4 @@ abstract public class Trial {
     public Date getTrialDate() {
         return trial_date;
     }
-}
+ 
