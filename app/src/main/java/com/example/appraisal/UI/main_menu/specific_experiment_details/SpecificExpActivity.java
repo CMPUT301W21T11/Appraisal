@@ -39,6 +39,7 @@ public class SpecificExpActivity extends AppCompatActivity {
         // inflate content and initialize adapter
         setContentView(R.layout.activity_specific_exp);
         viewpager = (ViewPager2) findViewById(R.id.specific_exp_pager);
+        viewpager.setUserInputEnabled(false); // disable swiping. User can switch by taping on the tabs
         specific_exp_view_adapter = new SpecificExpViewAdapter(this, tab_names.length);
         viewpager.setAdapter(specific_exp_view_adapter);
 

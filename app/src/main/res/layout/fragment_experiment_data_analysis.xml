@@ -183,11 +183,11 @@
                 android:id="@+id/fragment_experiment_data_analysis_experimentMedianText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="200dp"
-                android:layout_marginLeft="200dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="0"
                 android:textSize="30sp" />
         </LinearLayout>
@@ -215,11 +215,11 @@
                 android:id="@+id/fragment_experiment_data_analysis_experimentMeanText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="224dp"
-                android:layout_marginLeft="224dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="0"
                 android:textSize="30sp" />
         </LinearLayout>
@@ -247,11 +247,11 @@
                 android:id="@+id/fragment_experiment_data_analysis_experimentStdevText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="218dp"
-                android:layout_marginLeft="218dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="end"
                 android:text="0"
                 android:textSize="30sp" />
         </LinearLayout>
@@ -290,9 +290,7 @@
         <com.jjoe64.graphview.GraphView
             android:id="@+id/fragment_experiment_data_analysis_histogramGraph"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp" />
+            android:layout_height="200dp" />
 
         <View
             android:layout_width="match_parent"

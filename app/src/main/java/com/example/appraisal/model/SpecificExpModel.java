@@ -105,7 +105,11 @@ public class SpecificExpModel {
         return String.format("%.2f",mean);
     }
 
+    /**
+     * This function retruns the interval width of the histogram
+     * @return
+     */
     public float getHistogramIntervalWidth() {
-        return specificExperiment.getHistogramIntervalWidth();
+        return (float) specificExperiment.getHistogramIntervalWidth();
     }
 }
