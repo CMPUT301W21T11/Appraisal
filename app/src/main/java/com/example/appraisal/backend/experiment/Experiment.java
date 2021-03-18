@@ -1,6 +1,7 @@
 package com.example.appraisal.backend.experiment;
 
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +22,8 @@ public class Experiment implements Serializable {
     private Boolean is_geolocation_required;
     private Boolean is_published;
     private Boolean is_ended;
-//    private ArrayList<User> experimenters_list;
+    private ArrayList<User> experimenters_list;
+    private ArrayList<Trial> trial_list;
 
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
@@ -34,7 +36,8 @@ public class Experiment implements Serializable {
         this.region = region;
         this.is_published = true;
         this.is_ended = false;
-//        experimenters_list = new ArrayList<>();
+        experimenters_list = new ArrayList<>();
+        this.trial_list = new ArrayList<>();
     }
 
     public String getExp_id() {
@@ -83,7 +86,22 @@ public class Experiment implements Serializable {
 
     public void setIs_ended(Boolean is_ended) {
         this.is_ended = is_ended;
- 
+    }
+
+    public ArrayList<Trial> getTrials() {
+        return new ArrayList<>(trial_list);
+    }
+
+    public void addTrial(Trial trial) {
+        trial_list.add(trial);
+    }
+
+    public void addExperimenters(User user) {
+        experimenters_list.add(user);
+    }
+
+    public ArrayList<User> getExperimenters_list() {
+        return new ArrayList<>(experimenters_list);
     }
 }
 

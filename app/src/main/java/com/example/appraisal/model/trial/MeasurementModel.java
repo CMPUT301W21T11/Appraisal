@@ -18,4 +18,6 @@ public class MeasurementModel {
             Log.i("PROBLEM WITH INPUT!: ", measurement);
         }
     }
+
+    public void toExperiment() { data.getExperiment().addTrial(data);}
 }

@@ -30,4 +30,9 @@ public class CounterActivity extends AppCompatActivity {
         String result = String.valueOf(model.getCount());
         counter_view.setText(result);
     }
+
+    public void save(View v) {
+        model.toExperiment();
+        counter_view.setText("0");
+    }
 }

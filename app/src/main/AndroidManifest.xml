@@ -22,9 +22,19 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
+<<<<<<< HEAD
         <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity"></activity>
 
         <activity android:name=".UI.trial.BinomialActivity"></activity>
+=======
+        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity">
+
+        </activity>
+
+        <activity android:name=".UI.trial.BinomialActivity">
+
+        </activity>
+>>>>>>> ayman_steven
 
         <activity android:name=".UI.trial.CounterActivity"></activity>
 
@@ -40,6 +50,18 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
 
+<<<<<<< HEAD
+=======
+        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity">
+
+        </activity>
+
+        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity">
+
+        </activity>
+
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"/>
+>>>>>>> ayman_steven
     </application>
 
 </manifest>

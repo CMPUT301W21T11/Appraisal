@@ -1,12 +1,13 @@
 package com.example.appraisal.model.trial;
 
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.BinomialTrial;
 
 public class BinomialModel {
     private BinomialTrial bin_trial;
 
-    public BinomialModel(){
-        bin_trial = new BinomialTrial();
+    public BinomialModel(Experiment parent_experiment){
+        bin_trial = new BinomialTrial(parent_experiment);
     }
 
     public void addSuccess(){
@@ -24,4 +25,6 @@ public class BinomialModel {
     public int getFailureCount(){
         return bin_trial.getFailureCount();
     }
+
+    public void toExperiment() { bin_trial.getParent_experiment().addTrial(bin_trial);}
 }

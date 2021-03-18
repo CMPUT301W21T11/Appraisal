@@ -10,7 +10,6 @@
 
 
     <ImageView
-
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,8 +63,6 @@
                 android:text=" Count Based Trial" />
 
     </LinearLayout>
-
-
 
     <Button
             android:id="@+id/add_geo"

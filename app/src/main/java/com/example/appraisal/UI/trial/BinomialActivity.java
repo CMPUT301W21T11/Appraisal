@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
 
 
@@ -22,7 +24,14 @@ public class BinomialActivity extends AppCompatActivity {
 
         success_txt = findViewById(R.id.success_count);
         failure_txt = findViewById(R.id.failure_count);
-        model = new BinomialModel();
+
+        Experiment current_experiment;
+        try {
+            current_experiment = MainModel.getCurrentExperiment();
+            model = new BinomialModel(current_experiment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void incrementSuccess(View v){
@@ -41,6 +50,12 @@ public class BinomialActivity extends AppCompatActivity {
         // get new data from model, and set text
         String count = String.valueOf(model.getFailureCount());
         failure_txt.setText(count);
+    }
+
+    public void save(View v) {
+        model.toExperiment();
+        success_txt.setText("0");
+        failure_txt.setText("0");
     }
 
 }

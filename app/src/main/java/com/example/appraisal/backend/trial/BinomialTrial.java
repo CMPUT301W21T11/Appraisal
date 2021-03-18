@@ -1,11 +1,14 @@
 package com.example.appraisal.backend.trial;
 
 
+import com.example.appraisal.backend.experiment.Experiment;
+
 public class BinomialTrial extends Trial {
     private int success_counter;
     private int failure_counter;
 
-    public BinomialTrial(){
+    public BinomialTrial(Experiment parent_experiment){
+        super(parent_experiment);
         success_counter = 0;
         failure_counter = 0;
     }
