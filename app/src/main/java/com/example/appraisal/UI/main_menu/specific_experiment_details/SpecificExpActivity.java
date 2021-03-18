@@ -1,6 +1,11 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +13,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 
 /**
  * This is the UI class for Specific Experiment Activity
@@ -24,6 +32,7 @@ public class SpecificExpActivity extends AppCompatActivity {
 
     private SpecificExpViewAdapter specific_exp_view_adapter;
     private ViewPager2 viewpager;
+    private CheckBox subscribeCheckBox;
 
     // tab names
     private final String[] tab_names= {"DETAILS", "QR CODE", "DATA ANALYSIS", "CONTRIBUTORS"};
@@ -48,4 +57,5 @@ public class SpecificExpActivity extends AppCompatActivity {
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setText(tab_names[position]));
         tabLayoutMediator.attach();
     }
+
 }

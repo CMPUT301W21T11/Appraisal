@@ -80,6 +80,11 @@ public class ExpStatusFragment extends DialogFragment {
         // get experiment object
         Bundle args = getArguments();
         experiment = (Experiment) args.getParcelable("experiment");
+        try {
+            MainModel.setCurrentExperiment(experiment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         exp_ID = experiment.getExp_id();
         is_published = experiment.getIs_published();
         is_ended = experiment.getIs_ended();
