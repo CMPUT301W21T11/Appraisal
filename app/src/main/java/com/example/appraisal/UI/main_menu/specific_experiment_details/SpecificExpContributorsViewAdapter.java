@@ -1,5 +1,8 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Set;
 
 import static java.lang.String.valueOf;
 
@@ -21,12 +27,17 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     // This recyclerView idea and adapter layout is taken from Steven Heung's CMPUT 301 Assignment 1
     // Author: Steven Heung (CCID: syheung)
 
-    private final ArrayList<User> contributors;
+    private ArrayList<String> experimenters;
     private final SpecificExpModel model;
+    private Context context;
+    private SharedPreferences pref;
 
-    public SpecificExpContributorsViewAdapter(ArrayList<User> contributors, SpecificExpModel model) {
-        this.contributors = contributors;
+    public SpecificExpContributorsViewAdapter(Context context, ArrayList<String> experimenters, SpecificExpModel model, SharedPreferences pref) {
+        this.experimenters = experimenters;
+        this.context = context;
         this.model = model;
+        this.pref = pref;
+
     }
 
     @NonNull
@@ -43,19 +54,28 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         // This is where we should pass to model and database. However for now this is some test code to get it running
 
         // test codes! Will not be in final version ==================//
-        if (position == 0) {
-            holder.setIs_owner();
-        }
-
-        holder.getUser_name().setText("User" + valueOf(position + 1));
+//        if (position == 0) {
+//            holder.setIs_owner();
+//        }
+//
+//        holder.getUser_name().setText("User" + valueOf(position + 1));
+//        holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
+//        ============================================================//
+        holder.getUser_name().setText(experimenters.get(position));
         holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
-        //============================================================//
+
     }
 
     @Override
     public int getItemCount() {
-        // return contributors.size();
-        return 10; // testing codes
+        Set<String> emptySet = Collections.emptySet();
+        Set<String> set = pref.getStringSet("expKey", emptySet);
+        experimenters = new ArrayList<String>(set);
+        Log.d("ExperimenterList-----:", ""+experimenters);
+        Log.d("ExperimenterList:", ""+experimenters);
+        Log.d("Size:", String.valueOf(experimenters.size()));
+         return experimenters.size();
+//        return 10; // testing codes
     }
 
     public static class SpecificExpContributorsViewHolder extends RecyclerView.ViewHolder {

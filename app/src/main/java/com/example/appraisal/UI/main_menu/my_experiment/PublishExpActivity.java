@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,6 +95,7 @@ public class PublishExpActivity extends AppCompatActivity {
         exp_info.put("isGeolocationRequired", is_geolocation_required);
         exp_info.put("isEnded", false);
         exp_info.put("isPublished", true);
+        exp_info.put("experimenters", new ArrayList<>());
 
         // create new document for experiment with values from hash map
         reference.document(expID).set(exp_info)
