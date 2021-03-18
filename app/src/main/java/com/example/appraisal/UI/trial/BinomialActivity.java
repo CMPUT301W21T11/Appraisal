@@ -11,12 +11,19 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
 
-
+/**
+ * This is the activity for conducting binomial activity
+ */
 public class BinomialActivity extends AppCompatActivity {
     private TextView success_txt;
     private TextView failure_txt;
     private BinomialModel model;
 
+    /**
+     * create the activity and inflate it with layout. initialize model
+     * @param savedInstanceState
+     *      bundle from the previous activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +41,10 @@ public class BinomialActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Increase the success count of the trial
+     * @param v increase button
+     */
     public void incrementSuccess(View v){
         // adjust model
         model.addSuccess();
@@ -43,6 +54,10 @@ public class BinomialActivity extends AppCompatActivity {
         success_txt.setText(count);
     }
 
+    /**
+     * Increase the failure count of the trial
+     * @param v increase button
+     */
     public void incrementFailure(View v){
         //adjust model
         model.addFailure();
@@ -52,6 +67,10 @@ public class BinomialActivity extends AppCompatActivity {
         failure_txt.setText(count);
     }
 
+    /**
+     * Save the trial to the experiment
+     * @param v save button
+     */
     public void save(View v) {
         model.toExperiment();
         success_txt.setText("0");
