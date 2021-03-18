@@ -26,12 +26,7 @@ public class SpecificExpModel {
         try {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
-            // Create dummy data
-            Log.d("Error","MainModel.getCurrentExperiment() returned null. Filling in dummy data to prevent crash");
-            current_experiment = new Experiment("Test", "Test", new User("Test", "Test", "Test@mail.com", "1234"));
-            current_experiment.addTrial(new CountTrial());
-            current_experiment.addTrial(new CountTrial());
-
+            e.printStackTrace();
         }
         specificExperiment = new SpecificExperiment(current_experiment);
         stdDev = specificExperiment.getExperimentStDev();

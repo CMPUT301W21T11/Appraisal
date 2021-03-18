@@ -1,13 +1,15 @@
 package com.example.appraisal.model.trial;
 
 import android.util.Log;
+
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 
 public class MeasurementModel {
     private MeasurementTrial data;
 
-    public MeasurementModel() {
-        data = new MeasurementTrial();
+    public MeasurementModel(Experiment experiment) {
+        data = new MeasurementTrial(experiment);
     }
 
     public void addMeasurement(String measurement) {
@@ -21,5 +23,5 @@ public class MeasurementModel {
         data.setMeasurement(value);
     }
 
-    public void toExperiment() { data.getExperiment().addTrial(data);}
+    public void toExperiment() { data.getParent_experiment().addTrial(data);}
 }
