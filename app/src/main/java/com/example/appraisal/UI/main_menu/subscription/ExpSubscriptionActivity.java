@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,6 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
+import com.example.appraisal.backend.experiment.ExpAdapter;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,7 +35,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ExpSubscriptionActivity extends MainMenuCommonActivity {
+public class ExpSubscriptionActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
 
     private ListView subscribed_list;
     private ArrayList<String> user_subscriptions;
@@ -49,17 +52,48 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity {
 
         subscribed_list = findViewById(R.id.subscribedList);
         subscribed_experiments = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, R.layout.list_content, subscribed_experiments);
-
+        adapter = new ExpAdapter(this, subscribed_experiments);
 
         getSubscribedExperiments();
 
-
-        subscribed_experiments = MainModel.getSubscribed_experiments();
-        Log.d("MainModel subs:", MainModel.getSubscribed_experiments().toString());
+        subscribed_list.setOnItemClickListener(selectExListener);
         subscribed_list.setAdapter(adapter);
 
     }
+
+
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_subscription);
+
+        subscribed_list = findViewById(R.id.subscribedList);
+        subscribed_experiments = new ArrayList<>();
+        adapter = new ExpAdapter(this, subscribed_experiments);
+
+        getSubscribedExperiments();
+
+        subscribed_list.setOnItemClickListener(selectExListener);
+        subscribed_list.setAdapter(adapter);
+    }
+
+
+    /**
+     * This method gets the item in list the user clicks on, and opens up a dialog with the corresponding info.
+     */
+    private final AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Experiment experiment = subscribed_experiments.get(position);
+            try {
+                MainModel.setCurrentExperiment(experiment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
+            fragment.show(getSupportFragmentManager(), "Edit Experiment Status");
+
+        }
+    };
 
 
     public void getSubscribedExperiments() {
@@ -75,7 +109,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         user_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -114,24 +147,14 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity {
                                         Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
                                         adapter.notifyDataSetChanged();
-
                                     }
                                 }
                             });
                         }
-
-                        MainModel.setSubscribed_experiments(subscribed_experiments);
-
                     }
                 }
             }
-
         });
-
-
     }
-
-
-
 
 }
