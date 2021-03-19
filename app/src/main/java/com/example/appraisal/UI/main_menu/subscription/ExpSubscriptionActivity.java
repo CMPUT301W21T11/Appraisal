@@ -118,38 +118,40 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                     if (document.exists()) {
                         user_subscriptions = (ArrayList<String>) document.get("my_subscriptions");
 
-                        for(String subscription: user_subscriptions) {
+                        if (user_subscriptions != null) {
+                            for (String subscription : user_subscriptions) {
 
-                            exp_ref.document(subscription).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
-                                    if (doc != null && doc.exists()) {
-                                        Log.d("Current data: ", doc.getData().toString());
+                                exp_ref.document(subscription).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                                        if (doc != null && doc.exists()) {
+                                            Log.d("Current data: ", doc.getData().toString());
 
-                                        String owner_ID = (String)doc.getData().get("owner");
-                                        String exp_ID = doc.getId();
-                                        String description = (String)doc.getData().get("description");
-                                        String type = (String)doc.getData().get("type");
-                                        Boolean geo_required = (Boolean)doc.getData().get("isGeolocationRequired");
-                                        Integer min_trials = Integer.valueOf(doc.getData().get("minTrials").toString());
-                                        String rules = (String)doc.getData().get("rules");
-                                        String region = (String)doc.getData().get("region");
-                                        Boolean is_ended = (Boolean)doc.getData().get("isEnded");
-                                        Boolean is_published = (Boolean)doc.getData().get("isPublished");
+                                            String owner_ID = (String) doc.getData().get("owner");
+                                            String exp_ID = doc.getId();
+                                            String description = (String) doc.getData().get("description");
+                                            String type = (String) doc.getData().get("type");
+                                            Boolean geo_required = (Boolean) doc.getData().get("isGeolocationRequired");
+                                            Integer min_trials = Integer.valueOf(doc.getData().get("minTrials").toString());
+                                            String rules = (String) doc.getData().get("rules");
+                                            String region = (String) doc.getData().get("region");
+                                            Boolean is_ended = (Boolean) doc.getData().get("isEnded");
+                                            Boolean is_published = (Boolean) doc.getData().get("isPublished");
 
-                                        Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
+                                            Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
 
-                                        experiment.setIs_ended(is_ended);
-                                        experiment.setIs_published(is_published);
+                                            experiment.setIs_ended(is_ended);
+                                            experiment.setIs_published(is_published);
 
-                                        subscribed_experiments.add(experiment);
+                                            subscribed_experiments.add(experiment);
 
-                                        Log.d("Subscribed Experiments:", subscribed_experiments.toString());
+                                            Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
-                                        adapter.notifyDataSetChanged();
+                                            adapter.notifyDataSetChanged();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                 }

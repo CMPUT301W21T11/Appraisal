@@ -65,11 +65,12 @@ public class SpecificExpDetailsFragment extends Fragment {
                     if (document.exists()) {
                         user_subscriptions = (ArrayList <String>) document.get("my_subscriptions");
 
-                        if (user_subscriptions.contains(current_experiment.getExp_id())) {
-                            subscriptionBox.setChecked(true);
-                        }
-                        else {
-                            subscriptionBox.setChecked(false);
+                        if (user_subscriptions != null) {
+                            if (user_subscriptions.contains(current_experiment.getExp_id())) {
+                                subscriptionBox.setChecked(true);
+                            } else {
+                                subscriptionBox.setChecked(false);
+                            }
                         }
                     }
                 }
