@@ -1,7 +1,5 @@
 package com.example.appraisal.model;
 
-import android.util.Log;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
@@ -25,12 +23,7 @@ public class SpecificExpModel {
         try {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
-            // Create dummy data
-            Log.d("Error", "MainModel.getCurrentExperiment() returned null. Filling in dummy data to prevent crash");
-            current_experiment = new Experiment("Test", "Test", "Test", "Test", true, 0, "Test", "Test");
-            current_experiment.addTrial(new CountTrial());
-            current_experiment.addTrial(new CountTrial());
-
+            e.printStackTrace();
         }
         specificExperiment = new SpecificExperiment(current_experiment);
         stdDev = specificExperiment.getExperimentStDev();

@@ -22,11 +22,9 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
-
         <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity" android:label="My Experiments"></activity>
-
+ 
         <activity android:name=".UI.trial.BinomialActivity"></activity>
-
 
         <activity android:name=".UI.trial.CounterActivity"></activity>
 

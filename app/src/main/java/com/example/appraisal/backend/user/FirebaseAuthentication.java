@@ -41,9 +41,8 @@ public class FirebaseAuthentication {
 
     /**
      * Get the user id
-     * @return
+     * @return user id
      */
-
     public String get_userID()  {
         if (mAuth.getCurrentUser() != null) {
             return mAuth.getCurrentUser().getUid();
@@ -56,7 +55,7 @@ public class FirebaseAuthentication {
 
     /**
      * Get the current user
-     * @return
+     * @return the current firebase user
      */
 
     public FirebaseUser getCurrentUser(){
@@ -65,10 +64,8 @@ public class FirebaseAuthentication {
 
     /**
      * Check if the user is logged in, otherwise new user
-     * @return
+     * @return if user is logged in
      */
-
-
     public boolean isLoggedIn(){
         if (mAuth.getCurrentUser() == null){
             Log.d("isLoggedIn", "returns false");
