@@ -1,13 +1,22 @@
 package com.example.appraisal.UI.trial;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.NonNegIntCountModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NonNegIntCountActivity extends AppCompatActivity {
 
@@ -44,7 +53,49 @@ public class NonNegIntCountActivity extends AppCompatActivity {
 
         // Adjust the model
         model.addIntCount(user_input);
-        counter_view.setText("0");
         model.toExperiment();
+        storeTrialInFireBase();
+        finish();
+    }
+
+    public void storeTrialInFireBase() {
+        Experiment current_exp = null;
+        CollectionReference experiment_reference = null;
+
+        try {
+            experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            current_exp = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        String experiment_ID = current_exp.getExp_id();
+        Integer num_of_trials = current_exp.getTrial_count() + 1;
+        String name = "Trial" + num_of_trials;
+        Map<String, Object> trial_info = new HashMap<>();
+        trial_info.put("Result", String.valueOf(model.getCount()));
+        // create new document for experiment with values from hash map
+        experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("***", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("***", "Error writing document", e);
+                    }
+                });
+
+        experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
+        current_exp.setTrial_count(num_of_trials);
     }
 }

@@ -31,6 +31,10 @@ public class MeasurementModel {
         data.setMeasurement(value);
     }
 
+    public float getMeasurement() {
+        return data.getMeasurement();
+    }
+
     /**
      * Save the trial to the parent experiment
      */

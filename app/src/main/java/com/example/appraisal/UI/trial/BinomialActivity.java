@@ -1,22 +1,28 @@
 package com.example.appraisal.UI.trial;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the activity for conducting binomial activity
  */
 public class BinomialActivity extends AppCompatActivity {
-    private TextView success_txt;
-    private TextView failure_txt;
     private BinomialModel model;
 
     /**
@@ -28,9 +34,6 @@ public class BinomialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binomial);
-
-        success_txt = findViewById(R.id.success_count);
-        failure_txt = findViewById(R.id.failure_count);
 
         Experiment current_experiment;
         try {
@@ -48,10 +51,8 @@ public class BinomialActivity extends AppCompatActivity {
     public void incrementSuccess(View v){
         // adjust model
         model.addSuccess();
-
-        // get new data from model, and set text
-        String count = String.valueOf(model.getSuccessCount());
-        success_txt.setText(count);
+        storeTrialInFireBase(true);
+        finish();
     }
 
     /**
@@ -61,20 +62,55 @@ public class BinomialActivity extends AppCompatActivity {
     public void incrementFailure(View v){
         //adjust model
         model.addFailure();
-
-        // get new data from model, and set text
-        String count = String.valueOf(model.getFailureCount());
-        failure_txt.setText(count);
+        storeTrialInFireBase(false);
+        finish();
     }
 
-    /**
-     * Save the trial to the experiment
-     * @param v save button
-     */
-    public void save(View v) {
-        model.toExperiment();
-        success_txt.setText("0");
-        failure_txt.setText("0");
+
+    public void storeTrialInFireBase(Boolean outcome) {
+        Experiment current_exp = null;
+        CollectionReference experiment_reference = null;
+
+        try {
+            experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            current_exp = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        String experiment_ID = current_exp.getExp_id();
+        Integer num_of_trials = current_exp.getTrial_count() + 1;
+        String name = "Trial" + num_of_trials;
+        Map<String, Object> trial_info = new HashMap<>();
+        if (outcome == true) {
+            trial_info.put("Result", "Success");
+        } else {
+            trial_info.put("Result", "Failure");
+        }
+
+        // create new document for experiment with values from hash map
+        experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("***", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("***", "Error writing document", e);
+                    }
+                });
+
+        experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
+        current_exp.setTrial_count(num_of_trials);
     }
 
 }

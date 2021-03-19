@@ -125,6 +125,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
                         String region = (String)doc.getData().get("region");
                         Boolean is_ended = (Boolean)doc.getData().get("isEnded");
                         Boolean is_published = (Boolean)doc.getData().get("isPublished");
+                        Integer num_of_trials = Integer.valueOf(doc.getData().get("numOfTrials").toString());
 
                         // make a new experiment object with these fields
                         Experiment experiment = new Experiment(exp_ID, db_user_ID, description, type, geo_required, min_trials, rules, region);
@@ -132,6 +133,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
                         // set the values of publish and ended status
                         experiment.setIs_ended(is_ended);
                         experiment.setIs_published(is_published);
+                        experiment.setTrial_count(num_of_trials);
 
                         // add experiment to the list to display
                         exp_list.add(experiment);

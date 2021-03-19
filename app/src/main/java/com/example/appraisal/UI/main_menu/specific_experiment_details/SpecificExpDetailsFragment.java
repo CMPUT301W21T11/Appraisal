@@ -21,16 +21,21 @@ import com.example.appraisal.R;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
+import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
+import com.example.appraisal.model.trial.BinomialModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 
@@ -44,6 +49,9 @@ public class SpecificExpDetailsFragment extends Fragment {
     private ArrayList<String> user_subscriptions;
     private CheckBox subscriptionBox;
     private Button add_trial;
+    private CollectionReference exp_ref;
+    private Button view_trials;
+
 
 
     @Nullable
@@ -56,12 +64,19 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
+        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         add_trial.setOnClickListener(v1 -> addTrial());
+        view_trials.setOnClickListener(v2 -> goToViewTrials());
+
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
+        try {
+            exp_ref = MainModel.getExperimentReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,6 +149,11 @@ public class SpecificExpDetailsFragment extends Fragment {
 
     private void addTrial() {
         String type = current_experiment.getType();
+        try {
+            MainModel.setCurrentExperiment(current_experiment);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Intent intent;
         if (type.equals(Experiment.BINOMIAL)) {
             intent = new Intent(getActivity(), BinomialActivity.class);
@@ -145,8 +165,13 @@ public class SpecificExpDetailsFragment extends Fragment {
             intent = new Intent(getActivity(), MeasurementActivity.class);
             startActivity(intent);
         } else if (type.equals(Experiment.NON_NEGATIVE)) {
-            intent = new Intent(getActivity(), NonNegIntCountTrial.class);
+            intent = new Intent(getActivity(), NonNegIntCountActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void goToViewTrials() {
+        Intent intent = new Intent(this.getActivity(),ViewTrialActivity.class);
+        startActivity(intent);
     }
 }

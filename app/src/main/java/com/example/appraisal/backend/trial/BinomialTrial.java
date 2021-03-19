@@ -21,6 +21,8 @@ public class BinomialTrial extends Trial {
         failure_counter = 0;
     }
 
+
+
     /**
      * Increment its number of success
      */
@@ -53,4 +55,11 @@ public class BinomialTrial extends Trial {
         return failure_counter;
     }
 
+    public void setSuccess_counter(int success_counter) {
+        this.success_counter = success_counter;
+    }
+
+    public void setFailure_counter(int failure_counter) {
+        this.failure_counter = failure_counter;
+    }
 }

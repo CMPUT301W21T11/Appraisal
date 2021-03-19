@@ -40,6 +40,7 @@ public class Experiment implements Parcelable {
     private Boolean is_geolocation_required;
     private Boolean is_published;
     private Boolean is_ended;
+    private Integer trial_count;
 
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
@@ -56,6 +57,7 @@ public class Experiment implements Parcelable {
         this.region = region;
         this.is_published = true;
         this.is_ended = false;
+        this.trial_count = 0;
 //        experimenters_list = new ArrayList<>();
     }
 
@@ -140,6 +142,14 @@ public class Experiment implements Parcelable {
  
     }
 
+    public Integer getTrial_count() {
+        return trial_count;
+    }
+
+    public void setTrial_count(Integer trial_count) {
+        this.trial_count = trial_count;
+    }
+
     public ArrayList<String> getTrials() {
 
         for(Experimenter experimenter: experimenters){
@@ -153,8 +163,8 @@ public class Experiment implements Parcelable {
 
 
     public ArrayList<Trial> getTrialList() {
-        trial_list.add(new CountTrial());
-        trial_list.add(new CountTrial());
+       //trial_list.add(new CountTrial());
+       // trial_list.add(new CountTrial());
         return trial_list;
     }
 

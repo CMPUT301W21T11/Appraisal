@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/layout_exp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/trial_ID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="TrialID"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:text="Result:"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trial_result"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:text="result of trial" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

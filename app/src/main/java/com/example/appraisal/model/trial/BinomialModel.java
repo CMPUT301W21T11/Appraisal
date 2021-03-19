@@ -43,6 +43,14 @@ public class BinomialModel {
         return bin_trial.getFailureCount();
     }
 
+    public void setSuccessCount(Integer count) {
+        bin_trial.setSuccess_counter(count);
+    }
+
+    public void setFailureCount(Integer count) {
+        bin_trial.setFailure_counter(count);
+    }
+
     /**
      * Save the trial to the parent experiment
      */
