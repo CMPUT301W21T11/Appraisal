@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.user_profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,53 +38,77 @@ public class UserProfileActivity extends AppCompatActivity {
         phone_view = findViewById(R.id.phone_number_textview);
         edit_button = findViewById(R.id.edit_profile_btn);
 
-//        Intent intent = getIntent();
-//        String name = intent.getStringExtra("experimenter");
-//        int position = intent.getE("position");
-//
+//        // get current user
 //        String current_user = null;
 //        try {
 //            current_user = MainModel.getCurrentUser().getUsername();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//
-//        if (name.equals(current_user)){
-//            // if current user, get reference to current user profile
-//            try {
-//                user_reference = MainModel.getUserReference();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            // make edit_button visible
-//            edit_button.setVisibility(View.VISIBLE);
-//            getUserInfo(user_reference);
-//        } else {
-//            // if other user, get reference to that user
-//            try {
-//                user_reference = MainModel.retrieveSpecificUser(name);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            // make edit_button invisible
-//            edit_button.setVisibility(View.INVISIBLE);
-//            getUserInfo(user_reference);
-//        }
-//
+
+        // Get intent, and flag to know which activity it came from
+        String name;
+        Intent intent = getIntent();
+        String flag = intent.getStringExtra("flag");
+
+        // if came from Specific Activity, to view Other User
+        if (flag.equals("Other")){
+            name = intent.getStringExtra("experimenter");
+            int position = intent.getIntExtra("position", -1);
+            Log.d("User- name:", name);
+            Log.d("User-position:", String.valueOf(position));
+            showOtherUser(name);
+        }
+        else {   // else came from main activity, need to display current user
+            Log.d("user:", "from main");
+            showCurrentUser();
+        }
+    }
+
+    /**
+     * Show the details of the user that has been clicked on
+     * @param name
+     */
+    private void showOtherUser(String name) {
         try {
-            user_reference = MainModel.getUserReference();
+            user_reference = MainModel.retrieveSpecificUser(name);
+            Log.d("IDOther:", String.valueOf(user_reference));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getUserInfo(user_reference);
-
+        // make edit_button invisible
+        edit_button.setVisibility(View.INVISIBLE);
+//        id_view.setVisibility(View.INVISIBLE);
+        getUserInfo(user_reference, false);
     }
 
-    private void getUserInfo(DocumentReference user_reference) {
+    /**
+     * Show the details of the current User.
+     */
+    private void showCurrentUser() {
+        try {
+            user_reference = MainModel.getUserReference();
+            Log.d("IDMain:", String.valueOf(user_reference));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // make edit_button visible
+        edit_button.setVisibility(View.VISIBLE);
+        getUserInfo(user_reference, true);
+    }
+
+    /**
+     * Queries the database depending on which user profile needs to be displayed
+     * @param user_reference
+     * @param isMain
+     */
+    private void getUserInfo(DocumentReference user_reference, Boolean isMain) {
         user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                String user_id = user_reference.get().toString();
+                String user_id = value.getId();
+                Log.d("value.id:" , user_id);
                 String user_name = value.get("user_name").toString();
                 String user_email = value.get("user_email").toString();
                 String phone_number = value.get("phone_number").toString();
@@ -92,10 +117,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 User user = new User(user_id, user_name, user_email, phone_number);
                 user.setNum_of_exp(num_of_exp);
 
-                try {
-                    MainModel.setCurrentUser(user);
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+                if(isMain) {
+                    try {
+                        MainModel.setCurrentUser(user);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 setUserDisplay(user);
@@ -103,7 +131,10 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Set the TextFields with the user's info
+     * @param u
+     */
     private void setUserDisplay(User u) {
         id_view.setText("@" + u.getID().substring(0, 7));
         name_view.setText(u.getUsername());
@@ -111,6 +142,11 @@ public class UserProfileActivity extends AppCompatActivity {
         phone_view.setText(u.getPhoneNumber());
     }
 
+    /**
+     * Called when Edit Button is clicked, go to EditUserProfile Activity
+     * @param v
+     * @throws Exception
+     */
     public void editUserProfile(View v) throws Exception {
 
         Intent intent = new Intent(this, EditProfileActivity.class);

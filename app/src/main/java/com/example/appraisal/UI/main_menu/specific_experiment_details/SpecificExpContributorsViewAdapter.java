@@ -58,12 +58,14 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         holder.getUser_name().setText(name);
         holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
 
-//        holder.getExpLayout().setOnClickListener(v -> {
-//            Intent intent = new Intent(context, UserProfileActivity.class);
-//            intent.putExtra("experimenter", name);
-//            intent.putExtra("position", position);
-//            context.startActivity(intent);
-//        });
+        holder.getExpLayout().setOnClickListener(v -> {
+            Log.d("position clicked", String.valueOf(position));
+            Intent intent = new Intent(context, UserProfileActivity.class);
+            intent.putExtra("flag", "Other");
+            intent.putExtra("experimenter", name);
+            intent.putExtra("position", position);
+            context.startActivity(intent);
+        });
     }
 
     @Override
