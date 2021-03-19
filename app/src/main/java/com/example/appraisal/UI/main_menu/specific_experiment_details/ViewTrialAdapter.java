@@ -13,6 +13,10 @@ import com.example.appraisal.backend.specific_experiment.ViewTrial;
 
 import java.util.ArrayList;
 
+
+/**
+ * Adapter to display the trials
+ */
 public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
     private ArrayList<ViewTrial> trials;
     private Context context;
