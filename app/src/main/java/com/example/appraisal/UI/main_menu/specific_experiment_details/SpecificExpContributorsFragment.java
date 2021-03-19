@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -65,7 +58,7 @@ public class SpecificExpContributorsFragment extends Fragment {
         // get document reference
         DocumentReference doc = null;
         try {
-            doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
+            doc = MainModel.getExperimentReference().document(current_experiment.getExpId());
         } catch (Exception e) {
             e.printStackTrace();
         }

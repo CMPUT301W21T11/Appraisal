@@ -72,11 +72,11 @@ public class User implements Parcelable {
         dest.writeString(this.phone_number);
     }
 
-    public Integer getNum_of_exp() {
+    public Integer getNumOfExp() {
         return num_of_exp;
     }
 
-    public void setNum_of_exp(Integer num_of_exp) {
+    public void setNumOfExp(Integer num_of_exp) {
         this.num_of_exp = num_of_exp;
     }
 }

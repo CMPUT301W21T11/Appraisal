@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ViewTrialActivity extends AppCompatActivity {
@@ -52,7 +51,7 @@ public class ViewTrialActivity extends AppCompatActivity {
 
 
     private void getDbTrials() {
-        exp_ref.document(current_experiment.getExp_id()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 // clear old list

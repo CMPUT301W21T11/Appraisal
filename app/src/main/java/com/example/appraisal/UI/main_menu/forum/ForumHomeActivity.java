@@ -42,24 +42,4 @@ public class ForumHomeActivity extends MainMenuCommonActivity {
         forum_list.setAdapter(forum_adapter);
 
     }
-
-
-    public void forumToHome(View v) {
-        // TODO When click on home button
-    }
-
-    public void forumToSearch(View v) {
-        // TODO When click on search button
-    }
-
-    public void forumToMyExps(View v) {
-        // TODO When click on expList button
-    }
-
-    public void forumToProfile(View v) {
-        // TODO When click on profile button
-    }
-
-
-
 }

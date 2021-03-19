@@ -80,7 +80,7 @@ public class PublishExpActivity extends AppCompatActivity {
         // get reference to User Document
         DocumentReference owner = MainModel.getUserReference();
         User user = MainModel.getCurrentUser();         // get current user
-        Integer number = user.getNum_of_exp() + 1;      // increment experiment count
+        Integer number = user.getNumOfExp() + 1;      // increment experiment count
         String owner_name = user.getID();               // get anonymous user id
         String expID = owner_name + number;             // create unique experiment id
 
@@ -115,7 +115,7 @@ public class PublishExpActivity extends AppCompatActivity {
 
         // update count of experiments in database and local user object
         owner.update("num_of_my_exp", number);
-        user.setNum_of_exp(number);
+        user.setNumOfExp(number);
 
         // return to MyExperimentActivity
         navigateUpTo(new Intent(getBaseContext(), MyExperimentActivity.class));

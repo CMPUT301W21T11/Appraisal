@@ -41,10 +41,10 @@ public class ExpAdapter extends ArrayAdapter<Experiment> {
         type.setText(exp_current.getType());
         owner.setVisibility(View.GONE);
 
-        if (exp_current.getIs_published() && !exp_current.getIs_ended()) {
+        if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
             status.setText("Published & Open");
         }
-        else if (exp_current.getIs_published() && exp_current.getIs_ended()) {
+        else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
             status.setText("Published & Ended");
         }
         else {

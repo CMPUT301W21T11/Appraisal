@@ -130,9 +130,9 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
                         Experiment experiment = new Experiment(exp_ID, db_user_ID, description, type, geo_required, min_trials, rules, region);
 
                         // set the values of publish and ended status
-                        experiment.setIs_ended(is_ended);
-                        experiment.setIs_published(is_published);
-                        experiment.setTrial_count(num_of_trials);
+                        experiment.setIsEnded(is_ended);
+                        experiment.setIsPublished(is_published);
+                        experiment.setTrialCount(num_of_trials);
 
                         // add experiment to the list to display
                         exp_list.add(experiment);

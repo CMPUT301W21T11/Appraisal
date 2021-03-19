@@ -83,7 +83,7 @@ public class NonNegIntCountActivity extends AppCompatActivity {
     public void storeTrialInFireBase() {
 
 
-        String experiment_ID = current_exp.getExp_id();
+        String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
@@ -104,13 +104,13 @@ public class NonNegIntCountActivity extends AppCompatActivity {
                 });
 
         experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
-        current_exp.setTrial_count(num_of_trials);
+        current_exp.setTrialCount(num_of_trials);
     }
 
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExp_id()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,7 +120,7 @@ public class NonNegIntCountActivity extends AppCompatActivity {
 
     private void listenToNumOfTrials() {
 
-        experiment_reference.document(current_exp.getExp_id()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){

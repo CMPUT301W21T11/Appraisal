@@ -15,38 +15,39 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.Executor;
 
+/**
+ * This class responsible for authenticating users
+ */
 public class FirebaseAuthentication {
     // Authentication
 
-    protected static FirebaseAuth mAuth;
-    protected FirebaseAuth.AuthStateListener authStateListener;
+    private static FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
 
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public void sign_out(){
+    @Deprecated
+    public void signOut(){
         mAuth.signOut();
-
     }
-
 
     /**
      * Sign in the user anonymously
      */
-    public void sign_in() {
+    public void signIn() {
         mAuth.signInAnonymously();
     }
 
     /**
-     * Get the user id
+     * Instantiate a unique ID if the user login for the first time
      * @return user id
      */
-    public String get_userID()  {
+    public String getUserID()  {
         if (mAuth.getCurrentUser() != null) {
             return mAuth.getCurrentUser().getUid();
-
         }
         else{
             return "None";

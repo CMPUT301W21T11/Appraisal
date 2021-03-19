@@ -54,7 +54,7 @@ public class MainModel implements DataRequestable {
 
         is_checked = false;
 
-        mAuth.sign_in();
+        mAuth.signIn();
 
         if (mAuth.isLoggedIn()) {
             is_new = false;
@@ -221,7 +221,7 @@ public class MainModel implements DataRequestable {
     }
 
     public static String signInUser() {
-       return mAuth.get_userID();
+       return mAuth.getUserID();
     }
 
     public static void setUpNewUser(){
@@ -268,7 +268,7 @@ public class MainModel implements DataRequestable {
                 Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
 
                 User current_user = new User(user_id, user_name, user_email, phone_number);
-                current_user.setNum_of_exp(num_of_exp);
+                current_user.setNumOfExp(num_of_exp);
                 try {
                     MainModel.setCurrentUser(current_user);
                 } catch (Exception e) {

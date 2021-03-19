@@ -3,10 +3,8 @@ package com.example.appraisal.backend.experiment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.appraisal.backend.trial.BinomialTrial;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.user.User;
 import com.example.appraisal.backend.user.Experimenter;
 
 import java.util.ArrayList;
@@ -17,12 +15,6 @@ import java.util.ArrayList;
  * It has setters for checking status and adding trials.
  */
 public class Experiment implements Parcelable {
-
-    // Define experiment types:
-//    public static final String BINOMIAL = "Binomial Trials";
-//    public static final String COUNT = "Count-based trials";
-//    public static final String MEASUREMENT = "Measurement Trials";
-//    public static final String NON_NEGATIVE = "Non-negative Integer Trials";
 
     private String exp_id;
     private String owner;
@@ -58,7 +50,6 @@ public class Experiment implements Parcelable {
         this.is_published = true;
         this.is_ended = false;
         this.trial_count = 0;
-//        experimenters_list = new ArrayList<>();
     }
 
     protected Experiment(Parcel in) {
@@ -93,7 +84,7 @@ public class Experiment implements Parcelable {
         }
     };
 
-    public String getExp_id() {
+    public String getExpId() {
         return exp_id;
     }
 
@@ -117,43 +108,44 @@ public class Experiment implements Parcelable {
         return rules;
     }
 
-    public Integer getMinimum_trials() {
+    public Integer getMinimumTrials() {
         return minimum_trials;
     }
 
-    public Boolean getIs_geolocation_required() {
+    public Boolean getIsGeolocationRequired() {
         return is_geolocation_required;
     }
 
-    public Boolean getIs_published() {
+    public Boolean getIsPublished() {
         return is_published;
     }
 
-    public void setIs_published(Boolean is_published) {
+    public void setIsPublished(Boolean is_published) {
         this.is_published = is_published;
     }
 
-    public Boolean getIs_ended() {
+    public Boolean getIsEnded() {
         return is_ended;
     }
 
-    public void setIs_ended(Boolean is_ended) {
+    public void setIsEnded(Boolean is_ended) {
         this.is_ended = is_ended;
  
     }
 
-    public Integer getTrial_count() {
+    public Integer getTrialCount() {
         return trial_count;
     }
 
-    public void setTrial_count(Integer trial_count) {
+    public void setTrialCount(Integer trial_count) {
         this.trial_count = trial_count;
     }
+
 
     public ArrayList<String> getTrials() {
 
         for(Experimenter experimenter: experimenters){
-            ArrayList<String> trials = experimenter.getTrial_list();
+            ArrayList<String> trials = experimenter.getTrialList();
             for (String trial: trials){
                 trial_id_list.add(trial);
             }

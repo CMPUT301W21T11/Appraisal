@@ -2,7 +2,6 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.trial.BinomialActivity;
@@ -23,23 +21,16 @@ import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.MeasurementTrial;
-import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
-import com.example.appraisal.model.trial.BinomialModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 public class SpecificExpDetailsFragment extends Fragment {
 
@@ -89,13 +80,13 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());
-        if(current_experiment.getIs_ended()){
+        if(current_experiment.getIsEnded()){
             status.setText("Ended");
         }
         else {
             status.setText("Open");
         }
-        if (current_experiment.getIs_geolocation_required()){
+        if (current_experiment.getIsGeolocationRequired()){
             geo_required.setText("Yes");
         }
         else {
@@ -118,7 +109,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                         user_subscriptions = (ArrayList <String>) document.get("my_subscriptions");
  
                         if (user_subscriptions != null) {
-                            if (user_subscriptions.contains(current_experiment.getExp_id())) {
+                            if (user_subscriptions.contains(current_experiment.getExpId())) {
                                 subscriptionBox.setChecked(true);
                             } else {
                                 subscriptionBox.setChecked(false);
@@ -135,10 +126,10 @@ public class SpecificExpDetailsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(isChecked) {
-                    user_ref.update("my_subscriptions", FieldValue.arrayUnion(current_experiment.getExp_id()));
+                    user_ref.update("my_subscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
                 }
                 else {
-                    user_ref.update("my_subscriptions", FieldValue.arrayRemove(current_experiment.getExp_id()));
+                    user_ref.update("my_subscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
                 }
             }
         });

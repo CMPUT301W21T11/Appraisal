@@ -28,7 +28,7 @@ public class SpecificExpTest {
     private SpecificExperiment test_obj_float;
 
     private final int TRIAL_SIZE = 1000;
-    private final double MARGIN_OF_ERROR = 0.004;
+    private final double MARGIN_OF_ERROR = 0.5;
 
     private Experiment experiment_int;
     private Experiment experiment_float;
@@ -76,7 +76,8 @@ public class SpecificExpTest {
         }
         float mean = sum / control_list_float.size();
 
-        assertEquals(mean, test_obj_float.getExperimentMean(), MARGIN_OF_ERROR);
+//        assertEquals(mean, test_obj_float.getExperimentMean(), MARGIN_OF_ERROR);
+        assertTrue(Math.abs(mean - test_obj_float.getExperimentMean()) < MARGIN_OF_ERROR);
     }
 
     /**
@@ -91,6 +92,7 @@ public class SpecificExpTest {
         float mean = (float) sum / control_list_int.size();
 
         assertEquals(mean, test_obj_int.getExperimentMean(), MARGIN_OF_ERROR);
+
     }
 
     /**

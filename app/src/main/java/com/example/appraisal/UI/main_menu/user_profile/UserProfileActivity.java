@@ -120,7 +120,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
 
                 User user = new User(user_id, user_name, user_email, phone_number);
-                user.setNum_of_exp(num_of_exp);
+                user.setNumOfExp(num_of_exp);
 
 
                 if(isMain) {

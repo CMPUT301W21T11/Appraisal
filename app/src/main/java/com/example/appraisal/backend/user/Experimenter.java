@@ -4,6 +4,9 @@ import com.example.appraisal.backend.trial.Trial;
 
 import java.util.ArrayList;
 
+/**
+ * Make an experimenter object
+ */
 public class Experimenter {
     private String id;
     private ArrayList<String> trial_id_list;
@@ -17,11 +20,11 @@ public class Experimenter {
         return id;
     }
 
-    public ArrayList<String> getTrial_list() {
+    public ArrayList<String> getTrialList() {
         return trial_id_list;
     }
 
-    public void setTrial_list(ArrayList<String> trial_list) {
+    public void setTrialList(ArrayList<String> trial_list) {
         this.trial_id_list= trial_list;
     }
 }

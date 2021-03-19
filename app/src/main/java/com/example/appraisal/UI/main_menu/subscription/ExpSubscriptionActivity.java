@@ -56,7 +56,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
     }
 
-
+    @Override
     protected void onRestart() {
         super.onRestart();
         setContentView(R.layout.activity_subscription);
@@ -135,8 +135,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
                                             Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
 
-                                            experiment.setIs_ended(is_ended);
-                                            experiment.setIs_published(is_published);
+                                            experiment.setIsEnded(is_ended);
+                                            experiment.setIsPublished(is_published);
 
                                             subscribed_experiments.add(experiment);
 

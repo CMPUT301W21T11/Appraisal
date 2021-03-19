@@ -23,11 +23,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
-    CollectionReference exp_ref;
-    ListView search_result_display;
-    ArrayList<Experiment> exp_list;
-    ArrayAdapter<Experiment> adapter;
+    private CollectionReference exp_ref;
+    private ListView search_result_display;
+    private ArrayList<Experiment> exp_list;
+    private ArrayAdapter<Experiment> adapter;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
@@ -94,15 +95,13 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
                         Experiment experiment = new Experiment(exp_ID, db_user_ID, description, type, geo_required, min_trials, rules, region);
 
                         // set the values of publish and ended status
-                        experiment.setIs_ended(is_ended);
-                        experiment.setIs_published(is_published);
+                        experiment.setIsEnded(is_ended);
+                        experiment.setIsPublished(is_published);
 
                         // add experiment to the list to display
                         exp_list.add(experiment);
 
                     }
-
-
                 }
                 // notify adapter that data has change and to update the UI
                 adapter.notifyDataSetChanged();

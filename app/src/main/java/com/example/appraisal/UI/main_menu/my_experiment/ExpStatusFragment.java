@@ -87,9 +87,9 @@ public class ExpStatusFragment extends DialogFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        exp_ID = experiment.getExp_id();
-        is_published = experiment.getIs_published();
-        is_ended = experiment.getIs_ended();
+        exp_ID = experiment.getExpId();
+        is_published = experiment.getIsPublished();
+        is_ended = experiment.getIsEnded();
 
         checkOwnership();
 
@@ -202,10 +202,6 @@ public class ExpStatusFragment extends DialogFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//         Intent intent = new Intent(getActivity(), SpecificExpActivity.class);
-//         Bundle bundle = new Bundle();
-//         bundle.putParcelable("experiments", experiment);
-//         intent.putExtras(bundle);
 
         startActivity(intent);
     }

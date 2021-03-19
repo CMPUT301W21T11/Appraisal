@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
@@ -96,7 +95,7 @@ public class CounterActivity extends AppCompatActivity {
     public void storeTrialInFireBase() {
 
 
-        String experiment_ID = current_exp.getExp_id();
+        String experiment_ID = current_exp.getExpId();
 //        Integer num_of_trials = current_exp.getTrial_count() + 1;
 
         Log.d("numtrials outside", String.valueOf(firebase_num_trials));
@@ -121,14 +120,14 @@ public class CounterActivity extends AppCompatActivity {
                 });
 
         experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
-        current_exp.setTrial_count(num_of_trials);
+        current_exp.setTrialCount(num_of_trials);
     }
 
 
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExp_id()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,7 +136,7 @@ public class CounterActivity extends AppCompatActivity {
 
     private void listenToNumOfTrials() {
 
-        experiment_reference.document(current_exp.getExp_id()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){

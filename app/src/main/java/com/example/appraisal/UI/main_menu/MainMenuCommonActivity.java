@@ -11,7 +11,11 @@ import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 
-public class MainMenuCommonActivity extends AppCompatActivity {
+/**
+ * Common backbone for all UI Activities in the main menu to based on. It serves as a template for
+ * the MenuBar to avoid code duplication.
+ */
+public abstract class MainMenuCommonActivity extends AppCompatActivity {
     public void toHome(View v) {
         if (this.getClass() == ExpSubscriptionActivity.class)
             return;
@@ -43,8 +47,6 @@ public class MainMenuCommonActivity extends AppCompatActivity {
     }
 
     public void toProfile(View v) {
-        // if (this.getClass() == UserProfileActivity.class)
-        //     return;
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");
         startActivity(intent);

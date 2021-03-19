@@ -1,5 +1,8 @@
 package com.example.appraisal.backend.specific_experiment;
 
+/**
+ * Object to assist Trial display
+ */
 public class ViewTrial {
     private String ID;
     private String outcome;
