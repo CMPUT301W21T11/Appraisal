@@ -5,8 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     private ArrayList<String> user_subscriptions;
     private CheckBox subscriptionBox;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,14 +45,38 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
 
+
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+        TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+        TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+
+        desc.setText(current_experiment.getDescription());
+        type.setText(current_experiment.getType());
+        if(current_experiment.getIs_ended()){
+            status.setText("Ended");
+        }
+        else {
+            status.setText("Open");
+        }
+        if (current_experiment.getIs_geolocation_required()){
+            geo_required.setText("Yes");
+        }
+        else {
+            geo_required.setText("No");
+        }
+
 
         try {
             user_ref = MainModel.getUserReference();
@@ -89,6 +116,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                 }
             }
         });
+
 
         return v;
     }

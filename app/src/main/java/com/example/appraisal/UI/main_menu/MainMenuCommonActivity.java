@@ -40,6 +40,7 @@ public class MainMenuCommonActivity extends AppCompatActivity {
         // if (this.getClass() == UserProfileActivity.class)
         //     return;
         Intent intent = new Intent(this, UserProfileActivity.class);
+        intent.putExtra("flag", "Main");
         startActivity(intent);
     }
 }
