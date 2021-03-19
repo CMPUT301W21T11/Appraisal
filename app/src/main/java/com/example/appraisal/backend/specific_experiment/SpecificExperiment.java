@@ -68,9 +68,10 @@ public class SpecificExperiment {
      * @return contributors
      *      list of contributors of the experiment
      */
-    public ArrayList<Experimenter> getContributors() {
-        return current_experiment.getExperimenters();
+    public ArrayList<String> getContributors() {
+        return experimenters;
     }
+
     /**
      * Return the list of trials of the experiment
      * @return list_of_trials
@@ -227,6 +228,11 @@ public class SpecificExperiment {
         return quartile;
     }
 
+
+    /**
+     * Query firebase and get list of experimenters
+     * @throws Exception
+     */
     public void getExperimentersFirestore() throws Exception {
 
         DocumentReference doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
@@ -240,7 +246,9 @@ public class SpecificExperiment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         experimenters = (ArrayList<String>) document.getData().get("experimenters");
-                        Log.d("Pass Firestore", "DocumentSnapshot data: " + experimenters);
+//                        MainModel.setExperimenter_list(experimenters);
+//                        Log.d("Pass Firestore", "DocumentSnapshot data: " + experimenters);
+                        Log.d("Size:", String.valueOf(experimenters.size()));
                     } else {
                         Log.d("Document Non Existed", "No such document");
                     }
@@ -249,6 +257,16 @@ public class SpecificExperiment {
                 }
             }
         });
+
+        Log.d("SizeOutside:", String.valueOf(experimenters.size()));
+
+    }
+
+    /**
+     * Using the experimenters list, get a list of trials
+     * @throws Exception
+     */
+    public void getTrialFirestore() throws Exception{
 
         CollectionReference reference = MainModel.getExperimentReference().document(current_experiment.getExp_id()).collection("Trials");
         trial_id_list.clear();

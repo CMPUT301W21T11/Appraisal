@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/tab_bar_m_e"
+        app:layout_constraintBottom_toTopOf="@+id/tab_bar_sq"
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
-            android:id="@+id/my_experiments"
+            android:id="@+id/search_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"/>
@@ -22,7 +22,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tab_bar_m_e"
+        android:id="@+id/tab_bar_sq"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -71,21 +71,5 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
- 
-        android:id="@+id/AddExperimentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-
-        android:backgroundTint="@color/purple_500"
-        android:clickable="true"
-        android:onClick="publishNewExperiment"
-        app:layout_constraintBottom_toTopOf="@+id/tab_bar_m_e"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/add_icon"
-        app:tint="@color/white" />
- 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

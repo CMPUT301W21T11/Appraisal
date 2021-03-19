@@ -112,4 +112,7 @@ public class SpecificExpModel {
         return (float) specificExperiment.getHistogramIntervalWidth();
     }
 
+//    public ArrayList<String> getExperimenters() {
+//        return specificExperiment.getContributors();
+//    }
 }

@@ -3,6 +3,8 @@ package com.example.appraisal.backend.experiment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.appraisal.backend.trial.BinomialTrial;
+import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.backend.user.Experimenter;
@@ -151,6 +153,8 @@ public class Experiment implements Parcelable {
 
 
     public ArrayList<Trial> getTrialList() {
+        trial_list.add(new CountTrial());
+        trial_list.add(new CountTrial());
         return trial_list;
     }
 

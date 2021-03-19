@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,12 +45,14 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CheckBox subscriptionBox;
     private Button add_trial;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
+
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
@@ -57,9 +61,32 @@ public class SpecificExpDetailsFragment extends Fragment {
         try {
             current_experiment = MainModel.getCurrentExperiment();
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+        TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+        TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+
+        desc.setText(current_experiment.getDescription());
+        type.setText(current_experiment.getType());
+        if(current_experiment.getIs_ended()){
+            status.setText("Ended");
+        }
+        else {
+            status.setText("Open");
+        }
+        if (current_experiment.getIs_geolocation_required()){
+            geo_required.setText("Yes");
+        }
+        else {
+            geo_required.setText("No");
+        }
+
 
         try {
             user_ref = MainModel.getUserReference();
@@ -74,14 +101,14 @@ public class SpecificExpDetailsFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         user_subscriptions = (ArrayList <String>) document.get("my_subscriptions");
-
-                        if (user_subscriptions.contains(current_experiment.getExp_id())) {
-                            subscriptionBox.setChecked(true);
-                            add_trial.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            subscriptionBox.setChecked(false);
-                            add_trial.setVisibility((View.INVISIBLE));
+ 
+                        if (user_subscriptions != null) {
+                            if (user_subscriptions.contains(current_experiment.getExp_id())) {
+                                subscriptionBox.setChecked(true);
+                            } else {
+                                subscriptionBox.setChecked(false);
+                            }
+ 
                         }
                     }
                 }
@@ -100,6 +127,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                 }
             }
         });
+
 
         return v;
     }
