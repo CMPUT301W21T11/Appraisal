@@ -19,12 +19,11 @@ public class Experiment implements Parcelable {
     private String exp_id;
     private String owner;
     private String description;
-    // Need a way to store list of contributors
+
     private ArrayList<Experimenter> experimenters;
     private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
-    // Also need a way to tell what is the type of this experiment
     private String type;
     private String rules;
     private String region;
@@ -72,6 +71,9 @@ public class Experiment implements Parcelable {
         is_ended = tmpIs_ended == 0 ? null : tmpIs_ended == 1;
     }
 
+    /**
+     * Generates instance of Parcelable class
+     */
     public static final Creator<Experiment> CREATOR = new Creator<Experiment>() {
         @Override
         public Experiment createFromParcel(Parcel in) {
@@ -84,88 +86,162 @@ public class Experiment implements Parcelable {
         }
     };
 
+    /**
+     * Get the Id of the Experiment
+     * @return
+     */
     public String getExpId() {
         return exp_id;
     }
 
+    /**
+     * Get the Owner of the Experiment
+     * @return
+     */
     public String getOwner() {
         return owner;
     }
 
+    /**
+     * Get the Description of the Experiment
+     * @return
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Get the Type of the Experiment
+     * @return
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Get the Region of the Experiment
+     * @return
+     */
     public String getRegion() {
         return region;
     }
 
+    /**
+     * Get the Rules of the Experiment
+     * @return
+     */
     public String getRules(){
         return rules;
     }
 
+    /**
+     * Get the Minimum Number of Trials of the Experiment
+     * @return
+     */
     public Integer getMinimumTrials() {
         return minimum_trials;
     }
 
+    /**
+     * Get if the Geolocation is required for the Experiment
+     * @return
+     */
     public Boolean getIsGeolocationRequired() {
         return is_geolocation_required;
     }
 
+    /**
+     * Get is the Experiment is Published
+     * @return
+     */
     public Boolean getIsPublished() {
         return is_published;
     }
 
+    /**
+     * Change if an Experiment is Published
+     * @return
+     */
     public void setIsPublished(Boolean is_published) {
         this.is_published = is_published;
     }
 
+    /**
+     * Get is the Experiment is Ended
+     * @return
+     */
     public Boolean getIsEnded() {
         return is_ended;
     }
 
+    /**
+     * Change if an Experiment is Ended
+     * @return
+     */
     public void setIsEnded(Boolean is_ended) {
         this.is_ended = is_ended;
  
     }
 
+    /**
+     * Get the Trial Count of the Experiment
+     * @return
+     */
     public Integer getTrialCount() {
         return trial_count;
     }
 
+    /**
+     * Update the Trial Count of the Experiment
+     * @return
+     */
     public void setTrialCount(Integer trial_count) {
         this.trial_count = trial_count;
     }
 
-
+    /**
+     * Get a list of the ID's of all the trials
+     * @return
+     */
     public ArrayList<String> getTrials() {
 
         for(Experimenter experimenter: experimenters){
             ArrayList<String> trials = experimenter.getTrialList();
-            for (String trial: trials){
-                trial_id_list.add(trial);
-            }
+            trial_id_list.addAll(trials);
         }
         return trial_id_list;
     }
 
 
+    /**
+     * Get a list of Trials
+     * @return
+     */
     public ArrayList<Trial> getTrialList() {
-       trial_list.add(new CountTrial(this));
-       // trial_list.add(new CountTrial());
+        if (trial_list.size() == 0) {
+            trial_list.add(new CountTrial(this));
+        }
         return trial_list;
     }
 
+    /**
+     * Add a trial to the list of Trials
+     * @return
+     */
     public void addTrial(Trial trial) {
         trial_list.add(trial);
     }
 
+    /**
+     * Get a list of experimenters
+     * @return
+     */
     public ArrayList<Experimenter> getExperimenters() {
         return experimenters;
+    }
+
+    public void addExperimenters(Experimenter experimenter) {
+        this.experimenters.add(experimenter);
     }
 
     /**

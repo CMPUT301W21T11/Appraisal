@@ -19,8 +19,8 @@ public class Experimenter {
     }
 
     /**
-     * Get the experimenter's id
-     * @return id
+     * Get the Id of the Experimenter
+     * @return
      */
     public String getId() {
         return id;
@@ -29,13 +29,14 @@ public class Experimenter {
     /**
      * Get the trial list
      * @return an array list of string
+
      */
     public ArrayList<String> getTrialList() {
         return trial_id_list;
     }
 
     /**
-     * Set the trial list
+     * Update the list of trial ID's
      * @param trial_list
      */
     public void setTrialList(ArrayList<String> trial_list) {

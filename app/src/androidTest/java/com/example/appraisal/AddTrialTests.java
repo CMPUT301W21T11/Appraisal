@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.example.appraisal.UI.MainActivity;
+import com.example.appraisal.UI.trial.CounterActivity;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -24,10 +25,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Test class for Viewing Results. All the UI tests are written here. Robotium test framework is
+ * Test class for Adding Trials. All the UI tests are written here. Robotium test framework is
  * used
  */
-public class ViewResultsTests {
+public class AddTrialTests {
     private Solo solo;
 
     @Rule
@@ -55,10 +56,10 @@ public class ViewResultsTests {
     }
 
     /**
-     * Publishes the experiment
+     * Publishes the experiment and checks if owner is listed as the contributor
      */
     @Test
-    public void testResults() {
+    public void testAddTrials() {
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnButton("Begin");
@@ -78,7 +79,7 @@ public class ViewResultsTests {
         solo.clickOnView(fab);
 
         //Entering in test data
-        solo.enterText((EditText) solo.getView(R.id.expDesc), "Details Demo");
+        solo.enterText((EditText) solo.getView(R.id.expDesc), "Add Trials Demo");
         solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonYes));
         solo.enterText((EditText) solo.getView(R.id.expMinTrials), "20");
         solo.enterText((EditText) solo.getView(R.id.expRules), "IntentTest Rule #1");
@@ -89,40 +90,46 @@ public class ViewResultsTests {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("Details Demo", 1, 300);
+        solo.waitForText("Add Trials Demo", 1, 300);
         solo.waitForText("Status: Published & Open", 1, 300);
 
         //Testing the dialogue box
-        solo.clickOnText("Details Demo");
+        solo.clickOnText("Add Trials Demo");
         solo.waitForText("Publish Status: Published", 1, 300);
         solo.waitForText("Ended Status: Open", 1, 300);
 
         //Testing the Details tab
         View ResultsButton = solo.getView("view_results_button");
         solo.clickOnView(ResultsButton);
-        solo.waitForText("Details Demo", 1, 300);
+        solo.waitForText("Add Trials Demo", 1, 300);
         solo.waitForText("Count-based trials", 1, 300);
         solo.waitForText("Status: Open", 1, 300);
         solo.waitForText("Geo-location required: Yes", 1, 300);
 
-        solo.goBack();
-        solo.goBack();
+        //Adding a trial
+        View AddTrialButton = solo.getView("specific_exp_details_add_trial_button");
+        solo.clickOnView(AddTrialButton);
 
-        //Ending the experiment
-        solo.clickOnText("Details Demo");
-        View EndButton = solo.getView("end_button");
-        solo.clickOnView(EndButton);
-        solo.waitForText("Ended Status: Ended", 1, 300);
-        solo.clickOnButton("Done");
-        solo.waitForText("Status: Published & Ended", 1, 300);
+        //Asserts that the current activity is the CounterActivity. Otherwise, show “Wrong Activity”
+        solo.assertCurrentActivity("Wrong activity", CounterActivity.class);
 
-        //Verifying the change in the Details tab
-        solo.clickOnText("Details Demo");
-        solo.clickOnView(ResultsButton);
-        solo.waitForText("Details Demo", 1, 300);
-        solo.waitForText("Count-based trials", 1, 300);
-        solo.waitForText("Status: Ended", 1, 300);
-        solo.waitForText("Geo-location required: Yes", 1, 300);
+        //Adding 3 trials
+        View AddButton = solo.getView("add_btn");
+        solo.clickOnView(AddButton);
+        solo.clickOnView(AddButton);
+        solo.clickOnView(AddButton);
+
+        //Saving the trials
+        View UploadButton = solo.getView("save_btn");
+        solo.clickOnView(UploadButton);
+
+        //View the trials added
+        View ViewTrialsButton = solo.getView("viewTrialBtn");
+        solo.clickOnView(ViewTrialsButton);
+
+        //Verify that the trial was added
+        solo.waitForText("Trial1", 1, 300);
+        solo.waitForText("Result 3", 1, 300);
 
     }
 }

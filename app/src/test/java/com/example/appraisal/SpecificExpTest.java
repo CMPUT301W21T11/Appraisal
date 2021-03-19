@@ -1,14 +1,9 @@
 package com.example.appraisal;
 
-import android.icu.util.Measure;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
-import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
-import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +11,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedMap;
 
 import static org.junit.Assert.*;
 

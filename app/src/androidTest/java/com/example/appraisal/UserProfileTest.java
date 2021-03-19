@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 /**
- * Test class for Publishing Experiments. All the UI tests are written here. Robotium test framework is
+ * Test class for User Profiles. All the UI tests are written here. Robotium test framework is
  * used
  */
 public class UserProfileTest {
