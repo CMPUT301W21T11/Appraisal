@@ -207,9 +207,7 @@ public class Experiment implements Parcelable {
 
         for(Experimenter experimenter: experimenters){
             ArrayList<String> trials = experimenter.getTrialList();
-            for (String trial: trials){
-                trial_id_list.add(trial);
-            }
+            trial_id_list.addAll(trials);
         }
         return trial_id_list;
     }
@@ -220,8 +218,9 @@ public class Experiment implements Parcelable {
      * @return
      */
     public ArrayList<Trial> getTrialList() {
-       trial_list.add(new CountTrial(this));
-       // trial_list.add(new CountTrial());
+        if (trial_list.size() == 0) {
+            trial_list.add(new CountTrial(this));
+        }
         return trial_list;
     }
 
@@ -239,6 +238,10 @@ public class Experiment implements Parcelable {
      */
     public ArrayList<Experimenter> getExperimenters() {
         return experimenters;
+    }
+
+    public void addExperimenters(Experimenter experimenter) {
+        this.experimenters.add(experimenter);
     }
 
     /**
