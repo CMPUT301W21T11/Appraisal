@@ -87,12 +87,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");
-        startActivity(intent);
+        finish();
     }
 
     public void cancelChangesToProfile(View v) {
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");
-        startActivity(intent);
+        finish();
     }
 }
