@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class Experiment implements Parcelable {
 
     // Define experiment types:
-    public static String BINOMIAL = "Binomial Trials";
-    public static String COUNT = "Count-based trials";
-    public static String MEASUREMENT = "Measurement Trials";
-    public static String NON_NEGATIVE = "Non-negative Integer Trials";
+//    public static final String BINOMIAL = "Binomial Trials";
+//    public static final String COUNT = "Count-based trials";
+//    public static final String MEASUREMENT = "Measurement Trials";
+//    public static final String NON_NEGATIVE = "Non-negative Integer Trials";
 
     private String exp_id;
     private String owner;

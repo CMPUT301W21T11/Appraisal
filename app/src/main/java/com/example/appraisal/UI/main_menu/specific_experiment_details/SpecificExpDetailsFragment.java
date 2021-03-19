@@ -155,16 +155,16 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
         Intent intent;
-        if (type.equals(Experiment.BINOMIAL)) {
+        if (type.equals("Binomial Trials")) {
             intent = new Intent(getActivity(), BinomialActivity.class);
             startActivity(intent);
-        } else if (type.equals(Experiment.COUNT)) {
+        } else if (type.equals("Count-based trials")) {
             intent = new Intent(getActivity(), CounterActivity.class);
             startActivity(intent);
-        } else if (type.equals(Experiment.MEASUREMENT)) {
+        } else if (type.equals("Measurement Trials")) {
             intent = new Intent(getActivity(), MeasurementActivity.class);
             startActivity(intent);
-        } else if (type.equals(Experiment.NON_NEGATIVE)) {
+        } else if (type.equals("Non-negative Integer Trials")) {
             intent = new Intent(getActivity(), NonNegIntCountActivity.class);
             startActivity(intent);
         }
