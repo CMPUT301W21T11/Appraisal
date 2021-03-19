@@ -203,11 +203,13 @@ public class SpecificExperiment {
             // calculate which interval the value belongs to
             int interval_index = (int) ((measurement_i - min_value) / width);
 
-            // For some reason sometimes interval_index overshoots and causes IndexError
-            // Instead of pulling my hairs out I've decided that I don't care
-            while (interval_index >= available_interval_start_values.size()) {
-                interval_index--;
+            // safety check to prevent index errors
+            if (interval_index < 0) {
+                interval_index = 0;
+            } else if (interval_index >= available_interval_start_values.size()) {
+                interval_index = available_interval_start_values.size() - 1;
             }
+
             // obtain interval value key
             float interval_key = available_interval_start_values.get(interval_index);
 

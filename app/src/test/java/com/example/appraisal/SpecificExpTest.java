@@ -41,22 +41,22 @@ public class SpecificExpTest {
      */
     @Before
     public void init() {
-        experiment_int = new Experiment("temp","temp",new User("test", "test","test", "test"));
+        experiment_int = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
         control_list_int = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
             int count = (int) (Math.random() * (100 * Math.round(Math.random() * 10)));
             control_list_int.add(count);
-            NonNegIntCountTrial trial = new NonNegIntCountTrial();
+            NonNegIntCountTrial trial = new NonNegIntCountTrial(experiment_int);
             trial.addIntCount(String.valueOf(count));
             experiment_int.addTrial(trial);
         }
 
-        experiment_float = new Experiment("temp","temp",new User("test", "test","test", "test"));
+        experiment_float = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
         control_list_float = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
             float measurement = (float) (Math.random());
             control_list_float.add(measurement);
-            MeasurementTrial trial = new MeasurementTrial();
+            MeasurementTrial trial = new MeasurementTrial(experiment_float);
             trial.setMeasurement(measurement);
             experiment_float.addTrial(trial);
         }

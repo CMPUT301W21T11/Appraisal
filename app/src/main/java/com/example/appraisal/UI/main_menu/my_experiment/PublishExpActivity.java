@@ -96,6 +96,7 @@ public class PublishExpActivity extends AppCompatActivity {
         exp_info.put("isEnded", false);
         exp_info.put("isPublished", true);
         exp_info.put("experimenters", new ArrayList<>());
+        exp_info.put("numOfTrials", 0);
 
         // create new document for experiment with values from hash map
         reference.document(expID).set(exp_info)

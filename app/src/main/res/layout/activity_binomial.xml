@@ -73,70 +73,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/success_count"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:text="0"
-            android:textSize="60dp" />
-
-        <TextView
-            android:id="@+id/failure_count"
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:text="0"
-            android:textSize="60dp" />
-    </LinearLayout>
+        android:orientation="horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="61dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/success_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Success"
-            android:textColor="@color/white"
-            android:onClick="incrementSuccess" />
+            android:gravity="center"
+            android:onClick="incrementSuccess"
+            android:text="add success"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/failure_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Failure"
-            android:textColor="@color/white"
-            android:onClick="incrementFailure"/>
+            android:onClick="incrementFailure"
+            android:text="add failure"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="65dp"
-        android:onClick="save"
-        android:text="Save"
-        android:textAllCaps="true" />
 
 </LinearLayout>

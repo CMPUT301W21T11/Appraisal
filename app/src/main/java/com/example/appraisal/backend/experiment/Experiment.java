@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.example.appraisal.backend.trial.BinomialTrial;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.backend.user.Experimenter;
 
 import java.util.ArrayList;
@@ -16,6 +17,13 @@ import java.util.ArrayList;
  * It has setters for checking status and adding trials.
  */
 public class Experiment implements Parcelable {
+
+    // Define experiment types:
+    public static String BINOMIAL = "Binomial Trials";
+    public static String COUNT = "Count-based trials";
+    public static String MEASUREMENT = "Measurement Trials";
+    public static String NON_NEGATIVE = "Non-negative Integer Trials";
+
     private String exp_id;
     private String owner;
     private String description;
@@ -24,7 +32,7 @@ public class Experiment implements Parcelable {
     private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
-    // Also need a way to tell what is the type of this experiment (can use getClass() method)
+    // Also need a way to tell what is the type of this experiment
     private String type;
     private String rules;
     private String region;
@@ -32,6 +40,7 @@ public class Experiment implements Parcelable {
     private Boolean is_geolocation_required;
     private Boolean is_published;
     private Boolean is_ended;
+    private Integer trial_count;
 
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
@@ -48,6 +57,7 @@ public class Experiment implements Parcelable {
         this.region = region;
         this.is_published = true;
         this.is_ended = false;
+        this.trial_count = 0;
 //        experimenters_list = new ArrayList<>();
     }
 
@@ -132,6 +142,14 @@ public class Experiment implements Parcelable {
  
     }
 
+    public Integer getTrial_count() {
+        return trial_count;
+    }
+
+    public void setTrial_count(Integer trial_count) {
+        this.trial_count = trial_count;
+    }
+
     public ArrayList<String> getTrials() {
 
         for(Experimenter experimenter: experimenters){
@@ -145,8 +163,8 @@ public class Experiment implements Parcelable {
 
 
     public ArrayList<Trial> getTrialList() {
-        trial_list.add(new CountTrial());
-        trial_list.add(new CountTrial());
+       //trial_list.add(new CountTrial());
+       // trial_list.add(new CountTrial());
         return trial_list;
     }
 

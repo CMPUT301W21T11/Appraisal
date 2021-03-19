@@ -22,17 +22,17 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
-
         <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity" android:label="My Experiments"></activity>
-
+ 
         <activity android:name=".UI.trial.BinomialActivity"></activity>
-
 
         <activity android:name=".UI.trial.CounterActivity"></activity>
 
         <activity android:name=".UI.trial.MeasurementActivity"></activity>
 
         <activity android:name=".UI.trial.NonNegIntCountActivity"></activity>
+
+        <activity android:name=".UI.main_menu.specific_experiment_details.ViewTrialActivity"></activity>
 
         <activity android:name=".UI.main_menu.my_experiment.PublishExpActivity" android:label="Publish Experiment">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.my_experiment.MyExperimentActivity"/>

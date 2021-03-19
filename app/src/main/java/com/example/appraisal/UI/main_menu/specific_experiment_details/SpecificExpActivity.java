@@ -1,5 +1,6 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,7 +43,7 @@ public class SpecificExpActivity extends AppCompatActivity {
 
     /**
      * When called, create an instance of the Activity. Should only be called by the android framework
-     * @param savedInstanceState
+     * @param savedInstanceState bundle from previous activity
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class SpecificExpActivity extends AppCompatActivity {
         // inflate content and initialize adapter
         setContentView(R.layout.activity_specific_exp);
         viewpager = (ViewPager2) findViewById(R.id.specific_exp_pager);
-        viewpager.setUserInputEnabled(false); // disable swiping. User can switch by taping on the tabs
+        viewpager.setUserInputEnabled(false); // disable swiping so that user can zoom on graph. User can switch by taping on the tabs
         specific_exp_view_adapter = new SpecificExpViewAdapter(this, tab_names.length);
         viewpager.setAdapter(specific_exp_view_adapter);
 
@@ -73,5 +74,4 @@ public class SpecificExpActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
