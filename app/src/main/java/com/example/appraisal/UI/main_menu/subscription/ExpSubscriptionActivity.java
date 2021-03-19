@@ -1,6 +1,5 @@
 package com.example.appraisal.UI.main_menu.subscription;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,7 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
@@ -26,14 +25,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ExpSubscriptionActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
 

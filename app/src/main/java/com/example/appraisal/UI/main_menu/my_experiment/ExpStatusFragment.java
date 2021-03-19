@@ -192,7 +192,7 @@ public class ExpStatusFragment extends DialogFragment {
     public void goViewResults(){
         // TODO: when VIEW RESULTS Button on dialog is clicked
 
-        Intent intent = new Intent((MyExperimentActivity)getActivity(), SpecificExpActivity.class);
+        Intent intent = new Intent(getActivity(), SpecificExpActivity.class);
         try {
             MainModel.setCurrentExperiment(experiment);
         } catch (Exception e) {
