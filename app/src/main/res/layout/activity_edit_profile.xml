@@ -32,7 +32,7 @@
 
 
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="119dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:text="Username: "
@@ -40,14 +40,15 @@
                 android:textSize="24sp" />
 
         <EditText
-                android:id="@+id/name_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:maxLength="10"
-                android:textSize="24sp"
-                android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
-                android:tooltipText="No more than 10 characters"/>
+            android:id="@+id/name_edittext"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
+            android:maxLength="10"
+            android:imeOptions="actionDone"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:tooltipText="No more than 10 characters" />
 
     </LinearLayout>
 
@@ -60,24 +61,25 @@
             android:orientation="horizontal">
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="Email: "
-                android:textColor="@color/black"
-                android:textSize="24sp"/>
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:text="Email: "
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <EditText
-                android:id="@+id/email_address_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="user@ualberta.ca"
-                android:maxLength="64"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:inputType="textEmailAddress"
-                android:digits="_.abcdefghijklmnopqrstuvwxyzAB@CDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
-                android:tooltipText="john_doe@example.com"/>
+            android:id="@+id/email_address_edittext"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:digits="_.abcdefghijklmnopqrstuvwxyzAB@CDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
+            android:imeOptions="actionDone"
+            android:inputType="textEmailAddress"
+            android:maxLength="60"
+            android:text="user@ualberta.ca"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:tooltipText="john_doe@example.com" />
 
     </LinearLayout>
 
@@ -90,24 +92,25 @@
 
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:text="Phone: "
-                android:textColor="@color/black"
-                android:textSize="24sp"/>
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:text="Phone: "
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <EditText
-                android:id="@+id/phone_number_edittext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+1 780 999 9999"
-                android:textColor="@color/black"
-                android:digits="+-0123456789"
-                android:maxLength="15"
-                android:textSize="24sp"
-                android:inputType="phone"
-                android:tooltipText="17809993333"/>
+            android:id="@+id/phone_number_edittext"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
+            android:digits="+-0123456789"
+            android:imeOptions="actionDone"
+            android:inputType="phone"
+            android:maxLength="15"
+            android:text="+1 780 999 9999"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:tooltipText="17809993333" />
     </LinearLayout>
 
     <LinearLayout
