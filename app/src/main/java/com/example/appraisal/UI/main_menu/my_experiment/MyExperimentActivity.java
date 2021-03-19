@@ -86,6 +86,11 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment experiment = exp_list.get(position);
+            try {
+                MainModel.setCurrentExperiment(experiment);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
             fragment.show(getSupportFragmentManager(), "Edit Experiment Status");
 
