@@ -37,6 +37,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     private DocumentReference user_ref;
     private CollectionReference exp_ref;
 
+    /**
+     * onCreate activity
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
     }
 
+    /**
+     * Gets called when activity gets restarted
+     */
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -90,7 +96,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         }
     };
 
-
+    /**
+     * Get the experiments that the user subscribed to from the Firestore
+     */
     public void getSubscribedExperiments() {
 
         try {
@@ -105,6 +113,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
             e.printStackTrace();
         }
 
+        // Author: Google
+        // Reference: https://firebase.google.com/docs/firestore/query-data/get-data
         user_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

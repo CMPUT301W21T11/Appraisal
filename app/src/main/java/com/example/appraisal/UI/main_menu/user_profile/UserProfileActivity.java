@@ -30,6 +30,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private DocumentReference user_reference;
 
+    /**
+     * onCreate Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +112,8 @@ public class UserProfileActivity extends AppCompatActivity {
      * @param user_reference
      * @param isMain
      */
+    // Author: Google
+    // Reference: https://firebase.google.com/docs/firestore/query-data/listen
     private void getUserInfo(DocumentReference user_reference, Boolean isMain) {
         user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -138,7 +144,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Set the TextFields with the user's info
-     * @param u
+     * @param u User object
      */
     private void setUserDisplay(User u) {
         id_view.setText("@" + u.getID().substring(0, 7));
@@ -149,7 +155,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Called when Edit Button is clicked, go to EditUserProfile Activity
-     * @param v
+     * @param v View
      * @throws Exception
      */
     public void editUserProfile(View v) throws Exception {

@@ -1,13 +1,8 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,13 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.appraisal.R;
-import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.model.MainModel;
-import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 
 /**
  * This is the UI class for Specific Experiment Activity
@@ -64,6 +54,11 @@ public class SpecificExpActivity extends AppCompatActivity {
         tabLayoutMediator.attach();
     }
 
+    /**
+     * When the up button gets clicked, the activity is killed.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
