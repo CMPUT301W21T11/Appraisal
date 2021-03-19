@@ -1,0 +1,16 @@
+com.example.appraisal
+com.example.appraisal.UI
+com.example.appraisal.UI.main_menu
+com.example.appraisal.UI.main_menu.forum
+com.example.appraisal.UI.main_menu.my_experiment
+com.example.appraisal.UI.main_menu.search
+com.example.appraisal.UI.main_menu.specific_experiment_details
+com.example.appraisal.UI.main_menu.subscription
+com.example.appraisal.UI.main_menu.user_profile
+com.example.appraisal.UI.trial
+com.example.appraisal.backend.experiment
+com.example.appraisal.backend.specific_experiment
+com.example.appraisal.backend.trial
+com.example.appraisal.backend.user
+com.example.appraisal.model
+com.example.appraisal.model.trial
