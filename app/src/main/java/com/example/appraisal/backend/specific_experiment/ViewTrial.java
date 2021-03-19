@@ -12,10 +12,18 @@ public class ViewTrial {
         this.outcome = outcome;
     }
 
+    /**
+     * Gets the Id of the Trial
+     * @return
+     */
     public String getID() {
         return ID;
     }
 
+    /**
+     * Gets the outcome fo the Trial
+     * @return
+     */
     public String getOutcome() {
         return outcome;
     }

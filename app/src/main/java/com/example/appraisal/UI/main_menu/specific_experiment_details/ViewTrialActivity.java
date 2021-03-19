@@ -19,6 +19,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Activity to display the Trials
+ */
 public class ViewTrialActivity extends AppCompatActivity {
     private ListView trial_display;
     private static ArrayAdapter<ViewTrial> adapter;
@@ -49,7 +52,9 @@ public class ViewTrialActivity extends AppCompatActivity {
         trial_display.setAdapter(adapter);
     }
 
-
+    /**
+     * Queries the database to get the list of Trials
+     */
     private void getDbTrials() {
         exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

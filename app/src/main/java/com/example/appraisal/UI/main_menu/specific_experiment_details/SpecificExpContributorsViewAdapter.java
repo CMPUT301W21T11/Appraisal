@@ -26,6 +26,9 @@ import java.util.Set;
 
 import static java.lang.String.valueOf;
 
+/**
+ * This is an adapter to show the all Users who have added a trial to the experiment (i.e contributed)
+ */
 public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<SpecificExpContributorsViewAdapter.SpecificExpContributorsViewHolder> {
     // This recyclerView idea and adapter layout is taken from Steven Heung's CMPUT 301 Assignment 1
     // Author: Steven Heung (CCID: syheung)
