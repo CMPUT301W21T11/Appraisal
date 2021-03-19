@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,8 @@ public class CounterActivity extends AppCompatActivity {
 
     private CounterModel model;
     private TextView counter_view;
+    private Experiment current_exp;
+    private CollectionReference experiment_reference;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -68,12 +71,11 @@ public class CounterActivity extends AppCompatActivity {
     public void save(View v) {
         model.toExperiment();
         storeTrialInFireBase();
+        addContributor();
         finish();
     }
 
     public void storeTrialInFireBase() {
-        Experiment current_exp = null;
-        CollectionReference experiment_reference = null;
 
         try {
             experiment_reference = MainModel.getExperimentReference();
@@ -111,6 +113,19 @@ public class CounterActivity extends AppCompatActivity {
         experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
         current_exp.setTrial_count(num_of_trials);
     }
+
+    private void addContributor() {
+
+        try {
+            experiment_reference.document(current_exp.getExp_id()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 
 
 }

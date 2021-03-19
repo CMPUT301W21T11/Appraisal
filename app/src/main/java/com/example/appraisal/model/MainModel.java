@@ -40,6 +40,7 @@ public class MainModel implements DataRequestable {
     //    public static FirebaseAuthentication auth;
     public static String user_id;
     public static boolean is_new;
+    public static boolean is_checked;
 
     public static FirebaseAuthentication mAuth;
 
@@ -50,6 +51,8 @@ public class MainModel implements DataRequestable {
         db = FirebaseFirestore.getInstance();
 
         mAuth = new FirebaseAuthentication();
+
+        is_checked = false;
 
         mAuth.sign_in();
 
@@ -204,12 +207,15 @@ public class MainModel implements DataRequestable {
 
 
     public static void checkUserStatus() {
-        user_id = signInUser();
-        if (is_new){
-            setUpNewUser();
-        }
-        else {
-            loadCurrentUser();
+
+        if(is_checked == false) {
+            user_id = signInUser();
+            if (is_new) {
+                setUpNewUser();
+            } else {
+                loadCurrentUser();
+            }
+            is_checked = true;
         }
 
     }

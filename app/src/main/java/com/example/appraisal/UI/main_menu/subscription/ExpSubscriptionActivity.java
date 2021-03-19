@@ -43,6 +43,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription);
 
+        MainModel.checkUserStatus();
+
         subscribed_list = findViewById(R.id.subscribedList);
         subscribed_experiments = new ArrayList<>();
         adapter = new ExpAdapter(this, subscribed_experiments);

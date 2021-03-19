@@ -163,7 +163,7 @@ public class Experiment implements Parcelable {
 
 
     public ArrayList<Trial> getTrialList() {
-       //trial_list.add(new CountTrial());
+       trial_list.add(new CountTrial(this));
        // trial_list.add(new CountTrial());
         return trial_list;
     }
