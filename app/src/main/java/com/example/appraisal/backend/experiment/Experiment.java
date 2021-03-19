@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.backend.user.Experimenter;
 
 import java.util.ArrayList;
