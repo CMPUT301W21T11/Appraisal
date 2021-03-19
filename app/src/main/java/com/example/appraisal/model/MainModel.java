@@ -43,6 +43,8 @@ public class MainModel implements DataRequestable {
 
     public static FirebaseAuthentication mAuth;
 
+    public static ArrayList<Experiment> sub_experiments;
+
 
     private MainModel() {
         db = FirebaseFirestore.getInstance();
@@ -212,23 +214,6 @@ public class MainModel implements DataRequestable {
 
     }
 
-//    public static void setUpNewUser() {
-//
-//        Log.d("checkUserStatus", "I am running");
-//
-//
-//
-//
-//        Log.d("user ID", user_id);
-//
-//        Log.d("Is new", Boolean.toString(is_new));
-//
-//        if (is_new){
-//            setupNewUser();
-//        }
-//
-//    }
-
     public static String signInUser() {
        return mAuth.get_userID();
     }
@@ -310,4 +295,11 @@ public class MainModel implements DataRequestable {
         return experiment_reference;
     }
 
+    public static ArrayList<Experiment> getSubscribed_experiments() {
+        return sub_experiments;
+    }
+
+    public static void setSubscribed_experiments(ArrayList<Experiment> subscribed_experiments) {
+        sub_experiments = subscribed_experiments;
+    }
 }

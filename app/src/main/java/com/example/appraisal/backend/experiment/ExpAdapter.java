@@ -51,4 +51,9 @@ public class ExpAdapter extends ArrayAdapter<Experiment> {
 
         return view;
     }
+
+    public void setExperiments(ArrayList<Experiment> experiments_list){
+        this.experiments = experiments_list;
+    }
+
 }
