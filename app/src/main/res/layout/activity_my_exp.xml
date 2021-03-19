@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/tab_bar_f_e"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ListView
+            android:id="@+id/my_experiments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_bar_f_q"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toHome"
+            android:text="home" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toSearch"
+            android:text="search" />
+
+        <Button
+            android:id="@+id/forum_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toForum"
+            android:text="forum" />
+
+        <Button
+            android:id="@+id/my_exp_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toMyExps"
+            android:text="list" />
+
+        <Button
+            android:id="@+id/profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toProfile"
+            android:text="profile" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+ 
+        android:id="@+id/AddExperimentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+
+        android:backgroundTint="@color/purple_500"
+        android:clickable="true"
+        android:onClick="publishNewExperiment"
+        app:layout_constraintBottom_toTopOf="@+id/tab_bar_f_q"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add_icon"
+        app:tint="@color/white" />
+ 
+
+</androidx.constraintlayout.widget.ConstraintLayout>
