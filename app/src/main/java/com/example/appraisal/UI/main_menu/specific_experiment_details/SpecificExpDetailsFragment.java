@@ -15,8 +15,6 @@ import com.example.appraisal.model.SpecificExpModel;
 
 public class SpecificExpDetailsFragment extends Fragment {
 
-    private SpecificExpModel model;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

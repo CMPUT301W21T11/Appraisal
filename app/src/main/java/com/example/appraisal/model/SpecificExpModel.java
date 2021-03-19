@@ -1,12 +1,8 @@
 package com.example.appraisal.model;
 
-import android.util.Log;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
-import com.example.appraisal.backend.trial.CountTrial;
-import com.example.appraisal.backend.user.User;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
