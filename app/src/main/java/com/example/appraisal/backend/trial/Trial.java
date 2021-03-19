@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * This is the Trial abstract class that represent trials in general
  */
-public abstract public class Trial {
+public abstract class Trial {
     private final Experiment parent_experiment;
     private final Date trial_date = new Date(); //Need to record time of the trial, in order to show the plot of trials over time
 

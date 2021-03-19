@@ -15,6 +15,13 @@ import java.util.ArrayList;
  * It has setters for checking status and adding trials.
  */
 public class Experiment implements Parcelable {
+
+    // Define experiment types:
+    public static String BINOMIAL = "Binomial Trials";
+    public static String COUNT = "Count-based trials";
+    public static String MEASUREMENT = "Measurement Trials";
+    public static String NON_NEGATIVE = "Non-negative Integer Trials";
+
     private String exp_id;
     private String owner;
     private String description;
@@ -23,7 +30,7 @@ public class Experiment implements Parcelable {
     private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
-    // Also need a way to tell what is the type of this experiment (can use getClass() method)
+    // Also need a way to tell what is the type of this experiment
     private String type;
     private String rules;
     private String region;
