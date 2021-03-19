@@ -10,7 +10,6 @@ import android.widget.ListView;
 import androidx.annotation.Nullable;
 
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
-import com.example.appraisal.backend.experiment.ExpAdapter;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;

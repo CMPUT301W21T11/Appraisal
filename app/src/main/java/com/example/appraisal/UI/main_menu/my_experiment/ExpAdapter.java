@@ -1,4 +1,4 @@
-package com.example.appraisal.backend.experiment;
+package com.example.appraisal.UI.main_menu.my_experiment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
+
 import java.util.ArrayList;
 
 public class ExpAdapter extends ArrayAdapter<Experiment> {

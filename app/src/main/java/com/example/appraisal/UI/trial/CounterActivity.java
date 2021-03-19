@@ -124,7 +124,7 @@ public class CounterActivity extends AppCompatActivity {
         current_exp.setTrial_count(num_of_trials);
     }
 
-    
+
     private void addContributor() {
 
         try {
