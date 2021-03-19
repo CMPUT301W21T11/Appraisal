@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.google.firebase.firestore.CollectionReference;
 
@@ -38,6 +39,7 @@ public class ExpStatusFragment extends DialogFragment {
     private Boolean is_ended;
     private Experiment experiment;
     private String exp_ID;
+    private User current_user;
 
     public interface OnFragmentInteractionListener{
     }
@@ -88,6 +90,8 @@ public class ExpStatusFragment extends DialogFragment {
         exp_ID = experiment.getExp_id();
         is_published = experiment.getIs_published();
         is_ended = experiment.getIs_ended();
+
+        checkOwnership();
 
         // set textView fields
         setFields();
@@ -259,6 +263,29 @@ public class ExpStatusFragment extends DialogFragment {
         CollectionReference reference = MainModel.getExperimentReference();
         reference.document(exp_ID).update("isPublished", is_published);
         reference.document(exp_ID).update("isEnded", is_ended);
+    }
+
+
+
+    private void checkOwnership(){
+
+        try {
+            current_user = MainModel.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String owner = experiment.getOwner();
+
+        if(!owner.equals(current_user.getID())){
+            publish_switch.setVisibility(View.INVISIBLE);
+            end_switch.setVisibility(View.INVISIBLE);
+        }
+        else {
+            publish_switch.setVisibility(View.VISIBLE);
+            end_switch.setVisibility(View.VISIBLE);
+        }
+
     }
 
 }

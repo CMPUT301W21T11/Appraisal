@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
-                android:text="Username: "
+                android:text="Name: "
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 

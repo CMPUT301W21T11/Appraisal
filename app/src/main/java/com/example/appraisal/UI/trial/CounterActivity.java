@@ -89,7 +89,6 @@ public class CounterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         String experiment_ID = current_exp.getExp_id();
         Integer num_of_trials = current_exp.getTrial_count() + 1;
         String name = "Trial" + num_of_trials;

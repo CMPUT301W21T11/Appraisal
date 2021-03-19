@@ -14,6 +14,7 @@ import com.example.appraisal.model.trial.MeasurementModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -23,6 +24,8 @@ public class MeasurementActivity extends AppCompatActivity {
     private EditText input_measurement;
     private MeasurementModel model;
     private DecimalFormat dp3 = new DecimalFormat("#.##");
+    private Experiment current_exp;
+    private CollectionReference experiment_reference;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -52,12 +55,11 @@ public class MeasurementActivity extends AppCompatActivity {
         model.addMeasurement(input);
         model.toExperiment();
         storeTrialInFireBase();
+        addContributor();
         finish();
     }
 
     public void storeTrialInFireBase() {
-        Experiment current_exp = null;
-        CollectionReference experiment_reference = null;
 
         try {
             experiment_reference = MainModel.getExperimentReference();
@@ -94,5 +96,17 @@ public class MeasurementActivity extends AppCompatActivity {
 
         experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
         current_exp.setTrial_count(num_of_trials);
+    }
+
+
+    private void addContributor() {
+
+        try {
+            experiment_reference.document(current_exp.getExp_id()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

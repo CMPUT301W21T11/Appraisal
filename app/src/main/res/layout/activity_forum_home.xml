@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_below="@id/forum_search_bar"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/tab_bar_f"
+        app:layout_constraintBottom_toTopOf="@+id/forum_home_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forum_search_bar">
 
@@ -50,48 +50,48 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tab_bar_f"
+        android:id="@+id/forum_home_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-                android:id="@+id/home_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="home" android:onClick="toHome"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="home" android:onClick="toHome"
+            android:textSize="11sp"/>
 
         <Button
-                android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="search" android:onClick="toSearch"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="search" android:onClick="toSearch"
+            android:textSize="11sp"/>
 
         <Button
-                android:id="@+id/forum_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="forum" android:onClick="toForum"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toForum"
+            android:text="forum"
+            android:textSize="11sp"/>
 
         <Button
-                android:id="@+id/my_exp_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="list" android:onClick="toMyExps"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toMyExps"
+            android:text="list"
+            android:textSize="11sp"/>
 
         <Button
-                android:id="@+id/profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="profile" android:onClick="toProfile"/>
-
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="profile" android:onClick="toProfile"
+            android:textSize="10sp"/>
     </LinearLayout>
 
 

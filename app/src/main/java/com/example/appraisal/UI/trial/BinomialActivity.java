@@ -15,6 +15,7 @@ import com.example.appraisal.model.trial.BinomialModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,8 @@ import java.util.Map;
  */
 public class BinomialActivity extends AppCompatActivity {
     private BinomialModel model;
+    private Experiment current_exp;
+    private CollectionReference experiment_reference;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -63,13 +66,12 @@ public class BinomialActivity extends AppCompatActivity {
         //adjust model
         model.addFailure();
         storeTrialInFireBase(false);
+        addContributor();
         finish();
     }
 
 
     public void storeTrialInFireBase(Boolean outcome) {
-        Experiment current_exp = null;
-        CollectionReference experiment_reference = null;
 
         try {
             experiment_reference = MainModel.getExperimentReference();
@@ -112,5 +114,18 @@ public class BinomialActivity extends AppCompatActivity {
         experiment_reference.document(experiment_ID).update("numOfTrials", num_of_trials);
         current_exp.setTrial_count(num_of_trials);
     }
+
+
+    private void addContributor() {
+
+        try {
+            experiment_reference.document(current_exp.getExp_id()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
 }

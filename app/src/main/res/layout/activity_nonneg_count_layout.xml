@@ -17,53 +17,6 @@
             android:layout_gravity="center"
             app:srcCompat="@drawable/chart" />
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal"
-            android:gravity="start"
-            android:layout_marginStart="20dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description:"
-                android:textStyle="bold"/>
-
-
-        <TextView
-                android:id="@+id/nonNeg_count_descrption_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Number of blue cars" />
-
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:gravity="left"
-            android:layout_marginStart="20dp">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type:"
-                android:textStyle="bold"/>
-
-
-        <TextView
-                android:id="@+id/nonNeg_count_type_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Count Based Trial" />
-
-    </LinearLayout>
-
     <Button
             android:id="@+id/add_geo"
             android:layout_width="wrap_content"
@@ -103,10 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="40dp"
             android:backgroundTint="@color/blue"
             android:onClick="saveAndReturn"
-            android:text="Save"
+            android:text="Upload"
             android:textAllCaps="true" />
 
 </LinearLayout>
