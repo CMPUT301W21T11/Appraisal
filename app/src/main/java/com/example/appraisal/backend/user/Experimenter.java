@@ -1,7 +1,5 @@
 package com.example.appraisal.backend.user;
 
-import com.example.appraisal.backend.trial.Trial;
-
 import java.util.ArrayList;
 
 /**
@@ -11,6 +9,10 @@ public class Experimenter {
     private String id;
     private ArrayList<String> trial_id_list;
 
+    /**
+     * Constructor for an experimenter
+     * @param id
+     */
     public Experimenter(String id){
         this.id = id;
         trial_id_list = new ArrayList<String>();
@@ -25,8 +27,9 @@ public class Experimenter {
     }
 
     /**
-     * Get a list of trial ID's that the Experimenter has done
-     * @return
+     * Get the trial list
+     * @return an array list of string
+
      */
     public ArrayList<String> getTrialList() {
         return trial_id_list;

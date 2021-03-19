@@ -2,18 +2,8 @@ package com.example.appraisal.backend.user;
 
 import android.util.Log;
 
-
-import androidx.annotation.NonNull;
-
-import com.example.appraisal.model.MainModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.concurrent.Executor;
 
 /**
  * This class responsible for authenticating users
@@ -24,6 +14,9 @@ public class FirebaseAuthentication {
     private static FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+    /**
+     * Constructor for Firebase Authentication
+     */
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();

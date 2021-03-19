@@ -32,6 +32,9 @@ import com.google.firebase.firestore.FieldValue;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment when viewing specific experiment details
+ */
 public class SpecificExpDetailsFragment extends Fragment {
 
     private SpecificExpModel model;
@@ -44,7 +47,13 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button view_trials;
 
 
-
+    /**
+     * Gets called when the fragment gets created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -100,6 +109,8 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        // Author: Google
+        // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
         user_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -138,6 +149,9 @@ public class SpecificExpDetailsFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Add Trial to an Experiment
+     */
     private void addTrial() {
         String type = current_experiment.getType();
         try {
@@ -161,6 +175,9 @@ public class SpecificExpDetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * View the trials
+     */
     private void goToViewTrials() {
         Intent intent = new Intent(this.getActivity(),ViewTrialActivity.class);
         startActivity(intent);

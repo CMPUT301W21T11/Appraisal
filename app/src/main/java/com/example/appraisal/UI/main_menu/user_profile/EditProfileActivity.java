@@ -29,6 +29,10 @@ public class EditProfileActivity extends AppCompatActivity {
     private View view;
     private Button save_button;
 
+    /**
+     * onCreate activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,11 @@ public class EditProfileActivity extends AppCompatActivity {
         phone_edit.setText(current_user.getPhoneNumber());
     }
 
+    /**
+     * Gets called when user clicks the save button
+     * @param v
+     * @throws Exception
+     */
     public void applyChangesToProfile(View v) throws Exception {
 
         String email = email_edit.getText().toString();
@@ -68,6 +77,9 @@ public class EditProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Author: Google
+        // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
 
         user_reference
                 .update("user_name", name_edit.getText().toString(), "user_email", email_edit.getText().toString(),
@@ -90,6 +102,10 @@ public class EditProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Gets called when user clicks the cancel button
+     * @param v
+     */
     public void cancelChangesToProfile(View v) {
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");
