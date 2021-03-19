@@ -55,17 +55,14 @@ public class SpecificExpContributorsFragment extends Fragment {
         // initialize model
         model = new SpecificExpModel();
 
+        // get current experiment
         try {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        try {
-//            getExperimentersFirestore();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
+        // get document reference
         DocumentReference doc = null;
         try {
             doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
@@ -73,9 +70,11 @@ public class SpecificExpContributorsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        // initialize Shared Preferences
         pref = this.getActivity().getSharedPreferences("prefKey", Context.MODE_PRIVATE);
         editor = pref.edit();
 
+        // query database
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -84,9 +83,11 @@ public class SpecificExpContributorsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        // get experimenter list
                         experimenters = (ArrayList<String>) document.getData().get("experimenters");
                         Log.d("Size:", String.valueOf(experimenters.size()));
 
+                        // store in Shared Preferences
                         Set<String> set = new HashSet<String>();
                         set.addAll(experimenters);
                         editor.putStringSet("expKey", set);
@@ -101,10 +102,7 @@ public class SpecificExpContributorsFragment extends Fragment {
             }
         });
 
-        Log.d("SizeOutside:", String.valueOf(experimenters.size()));
-
-
-//        // initialize recyclerView
+        // initialize recyclerView
         recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
         adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref); // initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
@@ -112,87 +110,4 @@ public class SpecificExpContributorsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
         return view;
     }
-
-
-    public Boolean getExperimentersFirestore() throws Exception {
-
-        DocumentReference doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
-
-        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                experimenters.clear();
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        experimenters = (ArrayList<String>) document.getData().get("experimenters");
-                        Log.d("Size:", String.valueOf(experimenters.size()));
-                    } else {
-                        Log.d("Document Non Existed", "No such document");
-                    }
-                } else {
-                    Log.d("Exception", "get failed with ", task.getException());
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        Log.d("SizeOutside:", String.valueOf(experimenters.size()));
-        return true;
-    }
 }
-
-
-//doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//@Override
-//public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//        DocumentSnapshot doc = task.getResult();
-//        experimenters.clear();
-//        if (task.isSuccessful()) {
-//        DocumentSnapshot document = task.getResult();
-//        if (document.exists()) {
-//        experimenters = (ArrayList<String>) document.getData().get("experimenters");
-////                        adapter = new SpecificExpContributorsViewAdapter(context, experimenters, model, pref); // initialize adapter
-////                        recyclerView.setAdapter(adapter);
-////                        recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
-////                        if (experimenters == null){
-////                            experimenters = new ArrayList<>();
-////                        }
-//        Set<String> set = new HashSet<String>();
-//        set.addAll(experimenters);
-//        editor.putStringSet("expKey", set);
-//        editor.commit();
-//        Log.d("Pass Firestore", "DocumentSnapshot data: " + experimenters);
-//        Log.d("Size:", String.valueOf(experimenters.size()));
-//        } else {
-//        Log.d("Document Non Existed", "No such document");
-//        }
-//        } else {
-//        Log.d("Exception", "get failed with ", task.getException());
-//        }
-//        adapter.notifyDataSetChanged();
-//        }
-//        });
-//        Log.d("SizeOutside:", String.valueOf(experimenters.size()));
-
-
-//        doc.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onS(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//                experimenters = (ArrayList<String>) value.getData().get("experimenters");
-//                Log.d("ListInside", ""+experimenters);
-//
-//            }
-//        });
-//        Log.d("List", ""+experimenters);
-//
-//        Context context = this.getActivity();
-//        pref = this.getActivity().getSharedPreferences("sharedPrefKey", Context.MODE_PRIVATE);
-//        editor = pref.edit();
-
-//        recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
-
-//        ArrayList<String> contributors = model.getExperimenters(); // filler code to get the adapter running

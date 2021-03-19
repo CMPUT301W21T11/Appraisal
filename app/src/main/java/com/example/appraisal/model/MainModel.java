@@ -36,7 +36,6 @@ public class MainModel implements DataRequestable {
     private static User current_user;
     private Experiment chosen_experiment;
     private static ArrayList<Experiment> my_experiments;
-    private static ArrayList<String> experimenter_list;
 
     //    public static FirebaseAuthentication auth;
     public static String user_id;
@@ -309,15 +308,6 @@ public class MainModel implements DataRequestable {
 
         final CollectionReference experiment_reference = single_instance.db.collection("Experiments");
         return experiment_reference;
-    }
-
-
-    public static ArrayList<String> getExperimenter_list() {
-        return experimenter_list;
-    }
-
-    public static void setExperimenter_list(ArrayList<String> list) {
-
     }
 
 }

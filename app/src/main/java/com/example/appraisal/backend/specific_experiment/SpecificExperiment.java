@@ -52,7 +52,6 @@ public class SpecificExperiment {
         total = quartile.getTotalNumTrial();
         list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
         experimenters_list = current_experiment.getExperimenters();
-        experimenters = new ArrayList<>();
     }
 
     /**
@@ -228,15 +227,10 @@ public class SpecificExperiment {
     }
 
 
-//    public ArrayList<String> getExperimenterIDs(){
-//        try {
-//            getExperimentersFirestore();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return experimenters;
-//    }
-
+    /**
+     * Query firebase and get list of experimenters
+     * @throws Exception
+     */
     public void getExperimentersFirestore() throws Exception {
 
         DocumentReference doc = MainModel.getExperimentReference().document(current_experiment.getExp_id());
@@ -266,6 +260,10 @@ public class SpecificExperiment {
 
     }
 
+    /**
+     * Using the experimenters list, get a list of trials
+     * @throws Exception
+     */
     public void getTrialFirestore() throws Exception{
 
         CollectionReference reference = MainModel.getExperimentReference().document(current_experiment.getExp_id()).collection("Trials");

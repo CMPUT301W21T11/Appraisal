@@ -1,6 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
@@ -51,31 +54,28 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
-        // This is where we should pass to model and database. However for now this is some test code to get it running
-
-        // test codes! Will not be in final version ==================//
-//        if (position == 0) {
-//            holder.setIs_owner();
-//        }
-//
-//        holder.getUser_name().setText("User" + valueOf(position + 1));
-//        holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
-//        ============================================================//
-        holder.getUser_name().setText(experimenters.get(position));
+        String name = experimenters.get(position);
+        holder.getUser_name().setText(name);
         holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
 
+//        holder.getExpLayout().setOnClickListener(v -> {
+//            Intent intent = new Intent(context, UserProfileActivity.class);
+//            intent.putExtra("experimenter", name);
+//            intent.putExtra("position", position);
+//            context.startActivity(intent);
+//        });
     }
 
     @Override
     public int getItemCount() {
-        Set<String> emptySet = Collections.emptySet();
+        // get experimenters list from Shared Preferences
+        Set<String> emptySet = Collections.emptySet();             // make default an empty set
         Set<String> set = pref.getStringSet("expKey", emptySet);
         experimenters = new ArrayList<String>(set);
-        Log.d("ExperimenterList-----:", ""+experimenters);
-        Log.d("ExperimenterList:", ""+experimenters);
-        Log.d("Size:", String.valueOf(experimenters.size()));
-         return experimenters.size();
-//        return 10; // testing codes
+        Log.d("ExperimenterListSize:", String.valueOf(experimenters.size()));
+
+        // return size of list
+        return experimenters.size();
     }
 
     public static class SpecificExpContributorsViewHolder extends RecyclerView.ViewHolder {
@@ -83,6 +83,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         private final ImageView user_icon;
         private final TextView user_name;
         private final TextView is_owner;
+        private final ConstraintLayout expLayout;
 
         public SpecificExpContributorsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +91,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
             user_icon = itemView.findViewById(R.id.fragment_specific_exp_contributors_user_image);
             user_name = itemView.findViewById(R.id.fragment_specific_exp_contributors_user_name);
             is_owner = itemView.findViewById(R.id.fragment_specific_exp_contributors_isowner);
+            expLayout = itemView.findViewById(R.id.experimenter_cards);
 
             is_owner.setVisibility(View.GONE); // set the visibility of "Owner" to be gone
         }
@@ -105,6 +107,10 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
         public TextView getUser_name() {
             return user_name;
+        }
+
+        public ConstraintLayout getExpLayout() {
+            return expLayout;
         }
     }
 }
