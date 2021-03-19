@@ -11,10 +11,13 @@ import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.CounterModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
 import java.util.HashMap;
@@ -29,6 +32,7 @@ public class CounterActivity extends AppCompatActivity {
     private TextView counter_view;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
+    private int firebase_num_trials = 0;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -47,6 +51,20 @@ public class CounterActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            current_exp = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        listenToNumOfTrials();
 
     }
 
@@ -77,20 +95,13 @@ public class CounterActivity extends AppCompatActivity {
 
     public void storeTrialInFireBase() {
 
-        try {
-            experiment_reference = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            current_exp = MainModel.getCurrentExperiment();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         String experiment_ID = current_exp.getExp_id();
-        Integer num_of_trials = current_exp.getTrial_count() + 1;
+//        Integer num_of_trials = current_exp.getTrial_count() + 1;
+
+        Log.d("numtrials outside", String.valueOf(firebase_num_trials));
+
+        Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
         trial_info.put("Result", String.valueOf(model.getCount()));
@@ -113,6 +124,7 @@ public class CounterActivity extends AppCompatActivity {
         current_exp.setTrial_count(num_of_trials);
     }
 
+
     private void addContributor() {
 
         try {
@@ -120,6 +132,25 @@ public class CounterActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void listenToNumOfTrials() {
+
+        experiment_reference.document(current_exp.getExp_id()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+
+                    if (document.exists()){
+                        firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
+                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                    }
+
+                }
+            }
+        });
 
 
     }

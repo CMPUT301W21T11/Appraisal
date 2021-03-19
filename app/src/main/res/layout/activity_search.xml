@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="search" android:onClick="toSearch"
-            android:textSize="11sp"/>
+            android:textSize="10sp"/>
 
         <Button
             android:layout_width="wrap_content"

@@ -55,7 +55,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
         String name = experimenters.get(position);
-        holder.getUser_name().setText(name);
+        holder.getUser_name().setText("User @" + name.substring(0, 7));
         holder.getUser_icon().setImageResource(R.drawable.ic_launcher_foreground);
 
         holder.getExpLayout().setOnClickListener(v -> {
