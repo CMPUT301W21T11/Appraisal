@@ -95,13 +95,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment experiment = subscribed_experiments.get(position);
-//            try {
-//                MainModel.setCurrentExperiment(experiment);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
-//            fragment.show(getSupportFragmentManager(), "View Experiment");
 
             Intent intent = new Intent(context, SpecificExpActivity.class);
             try {

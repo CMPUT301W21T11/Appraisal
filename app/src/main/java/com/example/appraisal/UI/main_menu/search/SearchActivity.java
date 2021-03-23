@@ -3,6 +3,7 @@ package com.example.appraisal.UI.main_menu.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,6 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
 
         getDbExperiments();                                     // get all experiments from Database
 
-        search_result_display.setAdapter(exp_adapter);
 
         exp_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -87,6 +87,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
             }
         });
 
+        search_result_display.setAdapter(exp_adapter);
         search_result_display.setOnItemClickListener(selectExListener);
 
     }
@@ -105,20 +106,11 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
     }
 
 
-
     private AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Experiment experiment = exp_list.get(position);
-//            try {
-//                MainModel.setCurrentExperiment(experiment);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
-//            fragment.show(getSupportFragmentManager(), "View Experiment");
-
+            Experiment experiment = exp_adapter.getItem(position);
             Intent intent = new Intent(context, SpecificExpActivity.class);
             try {
                 MainModel.setCurrentExperiment(experiment);
@@ -129,6 +121,9 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
         }
     };
 
+    /**
+     * Get all experiments from Database that are published
+     */
     private void getDbExperiments() {
         exp_ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

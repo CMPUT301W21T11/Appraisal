@@ -1,6 +1,7 @@
 package com.example.appraisal.UI.main_menu.my_experiment;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,10 +76,10 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
 
         // show status of experiment
         if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
-            status.setText("Published & Open");
+            status.setText("Open");
         }
         else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
-            status.setText("Published & Ended");
+            status.setText("Ended");
         }
         else {
             status.setText("Unpublished");
@@ -88,10 +89,15 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         return view;
     }
 
-    public void setExperiments(ArrayList<Experiment> experiments_list){
-        this.experiments = experiments_list;
-    }
 
+//    public void setExperiments(ArrayList<Experiment> experiments_list){
+//        this.experiments = experiments_list;
+//    }
+
+    /**
+     * This method filters the list with the text specified by the user
+     * @return
+     */
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
@@ -108,7 +114,14 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
                     String searchStr = constraint.toString().toLowerCase();
 
                     for (Experiment exp : experiments) {
-                        if (exp.getDescription().toLowerCase().contains(searchStr)) {
+                        // check all searchable fields
+                        boolean checkDesc = exp.getDescription().toLowerCase().contains(searchStr);
+                        boolean checkOwner = exp.getOwner().toLowerCase().contains(searchStr);
+                        boolean checkType = exp.getType().toLowerCase().contains(searchStr);
+                        boolean checkStatus = checkStat(exp).toLowerCase().contains(searchStr);
+
+                        // if searched text is any of the fields, show them
+                        if (checkDesc || checkOwner || checkType || checkStatus) {
                             resultsModel.add(exp);
                             filterResults.count = resultsModel.size();
                             filterResults.values = resultsModel;
@@ -123,6 +136,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
             protected void publishResults(CharSequence constraint, FilterResults filterResults) {
 
                 experimentsFiltered = (ArrayList<Experiment>) filterResults.values;
+                Log.d("Size after filtering:", String.valueOf(experimentsFiltered.size()));
                 notifyDataSetChanged();
 //                clear();
 //                int count = experimentsFiltered == null ? 0 : experimentsFiltered.size();
@@ -131,10 +145,23 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
 //                    add(experimentsFiltered.get(i));
 //                    notifyDataSetInvalidated();
 //                }
-
-
             }
         };
         return filter;
     }
+
+    /**
+     * This method checks the status of the experiment and returns corresponding string
+     * @param exp
+     * @return
+     */
+    private String checkStat(Experiment exp) {
+        if (exp.getIsEnded()){
+            return "Ended";
+        }
+        else {
+            return "Open";
+        }
+    }
+
 }
