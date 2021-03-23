@@ -28,7 +28,7 @@ import java.util.Map;
  * This structure is the major backend that host the connection to Firebase and many other things. This is a Singleton
  * design pattern and should be called at least once right after the app starts via {@link #createInstance()}
  */
-public class MainModel implements DataRequestable {
+public class MainModel {
     private static MainModel single_instance;
 
     private FirebaseFirestore db;
@@ -49,19 +49,11 @@ public class MainModel implements DataRequestable {
 
     private MainModel() {
         db = FirebaseFirestore.getInstance();
-
         mAuth = new FirebaseAuthentication();
-
         is_checked = false;
 
-        if (mAuth.isLoggedIn()) {
-            is_new = false;
-            Log.d("is_new", String.valueOf(is_new));
-
-        } else {
-            is_new = true;
-            Log.d("is_new", String.valueOf(is_new));
-        }
+        is_new = !mAuth.isLoggedIn();
+        Log.d("is_new", String.valueOf(is_new));
 
     }
 

@@ -3,7 +3,6 @@ package com.example.appraisal;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.user.Experimenter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class is for testing the Experiment class
@@ -61,19 +60,5 @@ public class ExperimentTest {
         test_obj.addTrial(test_trial);
 
         assertEquals(control_list, test_obj.getTrialList());
-    }
-
-    /**
-     * Test if get experimenters works
-     */
-    @Test
-    public void testExperimenters() {
-        List<Experimenter> control_list = new ArrayList<>();
-        Experimenter test_exp = new Experimenter("test_id_2");
-
-        control_list.add(test_exp);
-        test_obj.addExperimenters(test_exp);
-
-        assertEquals(control_list, test_obj.getExperimenters());
     }
 }
