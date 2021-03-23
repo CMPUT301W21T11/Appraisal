@@ -3,6 +3,7 @@ package com.example.appraisal.backend.specific_experiment;
 /**
  * Object to assist Trial display
  */
+// TODO ABOUT TO BE REMOVED
 public class ViewTrial {
     private String ID;
     private String outcome;

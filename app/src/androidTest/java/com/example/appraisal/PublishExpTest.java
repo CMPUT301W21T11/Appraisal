@@ -1,27 +1,21 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-
-import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+
 import com.example.appraisal.UI.MainActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 /**
  * Test class for Publishing Experiments. All the UI tests are written here. Robotium test framework is
@@ -29,6 +23,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class PublishExpTest {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -89,8 +84,8 @@ public class PublishExpTest {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("Publish Demo", 1, 300);
-        solo.waitForText("Status: Published & Open", 1, 300);
+        solo.waitForText("Publish Demo", 1, delay_time);
+        solo.waitForText("Status: Published & Open", 1, delay_time);
     }
 
     /**
@@ -128,21 +123,21 @@ public class PublishExpTest {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("End Experiment Demo", 1, 300);
-        solo.waitForText("Status: Published & Open", 1, 300);
+        solo.waitForText("End Experiment Demo", 1, delay_time);
+        solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
         solo.clickOnText("End Experiment Demo");
-        solo.waitForText("Publish Status: Published", 1, 300);
-        solo.waitForText("Ended Status: Open", 1, 300);
+        solo.waitForText("Publish Status: Published", 1, delay_time);
+        solo.waitForText("Ended Status: Open", 1, delay_time);
 
 
         //Ending the experiment
         View EndButton = solo.getView("end_button");
         solo.clickOnView(EndButton);
-        solo.waitForText("Ended Status: Ended", 1, 300);
+        solo.waitForText("Ended Status: Ended", 1, delay_time);
         solo.clickOnButton("Done");
-        solo.waitForText("Status: Published & Ended", 1, 300);
+        solo.waitForText("Status: Published & Ended", 1, delay_time);
 
     }
 
@@ -181,30 +176,30 @@ public class PublishExpTest {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("Un-Publish Demo", 1, 300);
-        solo.waitForText("Status: Published & Open", 1, 300);
+        solo.waitForText("Un-Publish Demo", 1, delay_time);
+        solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
         solo.clickOnText("Un-Publish Demo");
-        solo.waitForText("Publish Status: Published", 1, 300);
-        solo.waitForText("Ended Status: Open", 1, 300);
+        solo.waitForText("Publish Status: Published", 1, delay_time);
+        solo.waitForText("Ended Status: Open", 1, delay_time);
 
 
         //Ending the experiment
         View EndButton = solo.getView("end_button");
         solo.clickOnView(EndButton);
-        solo.waitForText("Ended Status: Ended", 1, 300);
+        solo.waitForText("Ended Status: Ended", 1, delay_time);
         solo.clickOnButton("Done");
-        solo.waitForText("Status: Published & Ended", 1, 300);
+        solo.waitForText("Status: Published & Ended", 1, delay_time);
 
         //Un-publishing the experiment
         solo.clickOnText("Un-Publish Demo");
 
         View UnpublishButton = solo.getView("publish_button");
         solo.clickOnView(UnpublishButton);
-        solo.waitForText("Publish Status: Unublished", 1, 300);
+        solo.waitForText("Publish Status: Unublished", 1, delay_time);
         solo.clickOnButton("Done");
-        solo.waitForText("Status: Unpublished", 1, 300);
+        solo.waitForText("Status: Unpublished", 1, delay_time);
 
     }
 }

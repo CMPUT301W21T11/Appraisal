@@ -1,24 +1,8 @@
 package com.example.appraisal.backend.specific_experiment;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.user.Experimenter;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,11 +16,9 @@ import java.util.TreeMap;
 public class SpecificExperiment {
     private final Experiment current_experiment;
     private final ArrayList<Trial> list_of_trials;
-    private final ArrayList<String> trial_id_list;
+//    private final ArrayList<String> trial_id_list;
     private final List<Float> list_of_trials_as_float;
     private final int total;
-    private ArrayList<String> experimenters;
-    private ArrayList<Experimenter> experimenters_list;
     private Quartile quartile;
 
     /**
@@ -46,12 +28,12 @@ public class SpecificExperiment {
      */
     public SpecificExperiment(Experiment current_experiment) {
         this.current_experiment = current_experiment;
-        trial_id_list = current_experiment.getTrials();
+//        trial_id_list = current_experiment.getTrials();
         list_of_trials = current_experiment.getTrialList();// TODO: query the database with trial_id_list to get specific values of trials
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
         list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
-        experimenters_list = current_experiment.getExperimenters();
+//        experimenters_list = current_experiment.getExperimenters();
     }
 
     /**
@@ -63,14 +45,14 @@ public class SpecificExperiment {
         return current_experiment.getOwner();
     }
 
-    /**
-     * Return the list of contributors (i.e. people who have added trials to the experiment)
-     * @return contributors
-     *      list of contributors of the experiment
-     */
-    public ArrayList<String> getContributors() {
-        return experimenters;
-    }
+//    /**
+//     * Return the list of contributors (i.e. people who have added trials to the experiment)
+//     * @return contributors
+//     *      list of contributors of the experiment
+//     */
+//    public List getContributors() {
+//        return experimenters;
+//    }
 
     /**
      * Return the list of trials of the experiment

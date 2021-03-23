@@ -1,24 +1,15 @@
-package com.example.appraisal.backend.user;
+package com.example.appraisal.model;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Button;
 
-import androidx.annotation.NonNull;
-
-import com.example.appraisal.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * This class responsible for authenticating users
+ * PACKAGE PROTECTED
  */
-public class FirebaseAuthentication {
+class FirebaseAuthentication {
     // Authentication
 
     private static FirebaseAuth mAuth;

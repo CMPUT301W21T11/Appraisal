@@ -16,15 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
-import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
-
-import static java.lang.String.valueOf;
 
 /**
  * This is an adapter to show the all Users who have added a trial to the experiment (i.e contributed)

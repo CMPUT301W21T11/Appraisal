@@ -1,31 +1,23 @@
 package com.example.appraisal.UI;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
-
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.model.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 
 import static android.content.ContentValues.TAG;
 
@@ -35,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private Button begin_btn;
     private View loading_panel;
     private Animation begin_btn_animation;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MainModel.createInstance();
-
     }
-
 
     public void signIn(View v){
         Intent intent = new Intent(this, ExpSubscriptionActivity.class);

@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.user.Experimenter;
 
 import java.util.ArrayList;
 
@@ -20,8 +19,8 @@ public class Experiment implements Parcelable {
     private String owner;
     private String description;
 
-    private ArrayList<Experimenter> experimenters;
-    private ArrayList<String> trial_id_list;
+//    private ArrayList<Experimenter> experimenters;
+//    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
     private String type;
@@ -36,9 +35,8 @@ public class Experiment implements Parcelable {
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
-        this.trial_id_list = new ArrayList<>();
+
         this.trial_list = new ArrayList<>();
-        this.experimenters = new ArrayList<>();
 
         this.description = description;
         this.type = type;
@@ -199,18 +197,18 @@ public class Experiment implements Parcelable {
         this.trial_count = trial_count;
     }
 
-    /**
-     * Get a list of the ID's of all the trials
-     * @return
-     */
-    public ArrayList<String> getTrials() {
-
-        for(Experimenter experimenter: experimenters){
-            ArrayList<String> trials = experimenter.getTrialList();
-            trial_id_list.addAll(trials);
-        }
-        return trial_id_list;
-    }
+//    /**
+//     * Get a list of the ID's of all the trials
+//     * @return
+//     */
+//    public ArrayList<String> getTrials() {
+//
+//        for(Experimenter experimenter: experimenters){
+//            ArrayList<String> trials = experimenter.getTrialList();
+//            trial_id_list.addAll(trials);
+//        }
+//        return trial_id_list;
+//    }
 
 
     /**
@@ -232,17 +230,17 @@ public class Experiment implements Parcelable {
         trial_list.add(trial);
     }
 
-    /**
-     * Get a list of experimenters
-     * @return
-     */
-    public ArrayList<Experimenter> getExperimenters() {
-        return experimenters;
-    }
-
-    public void addExperimenters(Experimenter experimenter) {
-        this.experimenters.add(experimenter);
-    }
+//    /**
+//     * Get a list of experimenters
+//     * @return
+//     */
+//    public ArrayList<Experimenter> getExperimenters() {
+//        return experimenters;
+//    }
+//
+//    public void addExperimenters(Experimenter experimenter) {
+//        this.experimenters.add(experimenter);
+//    }
 
     /**
      * Describe the kinds of special objects contained in this Parcelable

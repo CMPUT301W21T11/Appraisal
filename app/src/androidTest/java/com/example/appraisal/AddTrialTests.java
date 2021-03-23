@@ -1,18 +1,16 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-
-import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+
 import com.example.appraisal.UI.MainActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.robotium.solo.Solo;
 
@@ -20,16 +18,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 /**
  * Test class for Adding Trials. All the UI tests are written here. Robotium test framework is
  * used
  */
 public class AddTrialTests {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =

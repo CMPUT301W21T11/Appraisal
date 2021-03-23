@@ -1,16 +1,14 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-
-import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import android.view.View;
-import android.widget.EditText;
-
 import com.example.appraisal.UI.MainActivity;
+import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.EditProfileActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 import com.robotium.solo.Solo;
@@ -19,16 +17,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 /**
  * Test class for User Profiles. All the UI tests are written here. Robotium test framework is
  * used
  */
 public class UserProfileTest {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -97,9 +92,9 @@ public class UserProfileTest {
         solo.assertCurrentActivity("Wrong activity", UserProfileActivity.class);
 
         //Verify that the profile was edited
-        solo.waitForText("Username: Test User", 1, 300);
-        solo.waitForText("Email: test@test.ca", 1, 300);
-        solo.waitForText("Phone: +17809990000", 1, 300);
+        solo.waitForText("Username: Test User", 1, delay_time);
+        solo.waitForText("Email: test@test.ca", 1, delay_time);
+        solo.waitForText("Phone: +17809990000", 1, delay_time);
 
 
     }
