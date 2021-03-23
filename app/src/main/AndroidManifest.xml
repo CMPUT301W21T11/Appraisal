@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.appraisal">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.appraisal">
 
-    <application android:allowBackup="true" android:icon="@mipmap/ic_logo" android:label="@string/app_name" android:roundIcon="@mipmap/ic_logo_round" android:supportsRtl="true" android:theme="@style/Theme.Appraisal">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Appraisal">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -9,19 +24,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity" android:label="My Subscriptions"></activity>
-        <activity android:name=".UI.main_menu.forum.ForumHomeActivity" android:label="Forum">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.MainActivity" />
+        <activity
+            android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"
+            android:label="My Subscriptions"></activity>
+        <activity
+            android:name=".UI.main_menu.forum.ForumHomeActivity"
+            android:label="Forum">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.MainActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity" android:label="Forum Questions">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumHomeActivity" />
+        <activity
+            android:name=".UI.main_menu.forum.ForumQuestionsActivity"
+            android:label="Forum Questions">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.forum.ForumHomeActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
+        <activity
+            android:name=".UI.main_menu.forum.ForumRepliesActivity"
+            android:label="Forum Replies">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>
 
-        <activity android:name=".UI.main_menu.my_experiment.MyExperimentActivity" android:label="My Experiments"></activity>
- 
+        <activity
+            android:name=".UI.main_menu.my_experiment.MyExperimentActivity"
+            android:label="My Experiments"></activity>
+
         <activity android:name=".UI.trial.BinomialActivity"></activity>
 
         <activity android:name=".UI.trial.CounterActivity"></activity>
@@ -32,16 +63,27 @@
 
         <activity android:name=".UI.main_menu.specific_experiment_details.ViewTrialActivity"></activity>
 
-        <activity android:name=".UI.main_menu.my_experiment.PublishExpActivity" android:label="Publish Experiment">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.my_experiment.MyExperimentActivity"/>
+        <activity
+            android:name=".UI.main_menu.my_experiment.PublishExpActivity"
+            android:label="Publish Experiment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.my_experiment.MyExperimentActivity" />
         </activity>
 
-        <activity android:name=".UI.main_menu.user_profile.EditProfileActivity" android:label="Edit Profile"></activity>
-        <activity android:name=".UI.main_menu.user_profile.UserProfileActivity" android:label="Profile">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
+        <activity
+            android:name=".UI.main_menu.user_profile.EditProfileActivity"
+            android:label="Edit Profile"></activity>
+        <activity
+            android:name=".UI.main_menu.user_profile.UserProfileActivity"
+            android:label="Profile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"></activity>
         <activity android:name=".UI.main_menu.search.SearchActivity"></activity>
+        <activity android:name=".UI.geolocation.GeolocationActivity" android:label="Binomial Trial #2"></activity>
     </application>
 
 </manifest>
