@@ -21,6 +21,8 @@ import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -160,16 +162,16 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
         Intent intent;
-        if (type.equals("Binomial Trials")) {
+        if (type.equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             intent = new Intent(getActivity(), BinomialActivity.class);
             startActivity(intent);
-        } else if (type.equals("Count-based trials")) {
+        } else if (type.equals(TrialType.COUNT_TRIAL.getLabel())) {
             intent = new Intent(getActivity(), CounterActivity.class);
             startActivity(intent);
-        } else if (type.equals("Measurement Trials")) {
+        } else if (type.equals(TrialType.MEASUREMENT_TRIAL.getLabel())) {
             intent = new Intent(getActivity(), MeasurementActivity.class);
             startActivity(intent);
-        } else if (type.equals("Non-negative Integer Trials")) {
+        } else if (type.equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
             intent = new Intent(getActivity(), NonNegIntCountActivity.class);
             startActivity(intent);
         }

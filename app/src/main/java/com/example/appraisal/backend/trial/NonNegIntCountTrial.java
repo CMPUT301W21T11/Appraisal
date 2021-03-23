@@ -1,9 +1,6 @@
 package com.example.appraisal.backend.trial;
 
-import android.util.Log;
-
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.Experimenter;
 import com.example.appraisal.backend.user.User;
 
 import java.util.Date;
@@ -37,7 +34,7 @@ public class NonNegIntCountTrial implements Trial {
      * This sets the counter to the supplied value
      * @param value -- the new counter value
      */
-    public void setValue(int value) {
+    public void addCount(int value) {
         counter += value;
         trial_count++;
     }

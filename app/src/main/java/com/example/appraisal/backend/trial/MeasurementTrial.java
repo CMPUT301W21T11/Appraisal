@@ -32,7 +32,7 @@ public class MeasurementTrial implements Trial {
      * @param measurement
      *      The measurement obtained
      */
-    public void setMeasurement(float measurement) {
+    public void setMeasurement(double measurement) {
         this.measurement = measurement;
     }
 

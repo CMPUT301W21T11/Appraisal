@@ -29,7 +29,7 @@ public class SpecificExperiment {
     public SpecificExperiment(Experiment current_experiment) {
         this.current_experiment = current_experiment;
 //        trial_id_list = current_experiment.getTrials();
-        list_of_trials = current_experiment.getTrialList();// TODO: query the database with trial_id_list to get specific values of trials
+        list_of_trials = current_experiment.getTrialList();
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
         list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
@@ -141,10 +141,8 @@ public class SpecificExperiment {
      *      Width of the interval
      */
     public double getHistogramIntervalWidth() {
-         int INTERVAL_NUM = 10;
-         if (Math.sqrt(total) < INTERVAL_NUM) {
-             INTERVAL_NUM = (int) Math.floor(Math.sqrt(total));
-         }
+        // using non dynamic width
+        int INTERVAL_NUM = 10;
 
         // find min and max values
         double min_value = quartile.getTrialMinValue();

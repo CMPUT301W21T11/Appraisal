@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.NonNegIntCountModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,7 +44,8 @@ public class NonNegIntCountActivity extends AppCompatActivity {
         counter_view = findViewById(R.id.nonneg_count_input);
         try {
             Experiment experiment = MainModel.getCurrentExperiment();
-            model = new NonNegIntCountModel(experiment);
+            User conductor = MainModel.getCurrentUser();
+            model = new NonNegIntCountModel(experiment, conductor);
         } catch (Exception e) {
             e.printStackTrace();
         }

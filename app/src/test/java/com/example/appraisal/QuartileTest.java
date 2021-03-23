@@ -5,6 +5,7 @@ import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,13 +38,15 @@ public class QuartileTest {
     @Before
     public void init() {
         Experiment temp = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
+        User temp_user = new User("Test", "test", "test", "test");
+
         trial_list_int = new ArrayList<>();
         control_list_int = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
             int count = (int) (Math.random() * (100 * Math.round(Math.random() * 10)));
             control_list_int.add(count);
-            NonNegIntCountTrial trial = new NonNegIntCountTrial(temp);
-            trial.addIntCount(String.valueOf(count));
+            NonNegIntCountTrial trial = new NonNegIntCountTrial(temp, temp_user);
+            trial.addCount(count);
             trial_list_int.add(trial);
         }
 
@@ -52,7 +55,7 @@ public class QuartileTest {
         for (int i = 0; i < TRIAL_SIZE; i++) {
             float measurement = (float) (Math.random());
             control_list_float.add(measurement);
-            MeasurementTrial trial = new MeasurementTrial(temp);
+            MeasurementTrial trial = new MeasurementTrial(temp, temp_user);
             trial.setMeasurement(measurement);
             trial_list_float.add(trial);
         }

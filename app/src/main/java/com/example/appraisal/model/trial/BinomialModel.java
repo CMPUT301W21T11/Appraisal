@@ -2,6 +2,9 @@ package com.example.appraisal.model.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.BinomialTrial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 
 /**
  * This is the model class for binomial trial
@@ -9,8 +12,10 @@ import com.example.appraisal.backend.trial.BinomialTrial;
 public class BinomialModel {
     private BinomialTrial bin_trial;
 
-    public BinomialModel(Experiment parent_experiment){
-        bin_trial = new BinomialTrial(parent_experiment);
+    public BinomialModel(Experiment parent_experiment, User conductor){
+        TrialFactory factory = new TrialFactory();
+        bin_trial = (BinomialTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, parent_experiment, conductor);
+
     }
 
     /**
@@ -23,32 +28,8 @@ public class BinomialModel {
     /**
      * Add a failure to the trial
      */
-    public void addFailure(){
+    public void addFailure() {
         bin_trial.addFailure();
-    }
-
-    /**
-     * Get the success count of the trial
-     * @return success_count
-     */
-    public int getSuccessCount(){
-        return bin_trial.getSuccessCount();
-    }
-
-    /**
-     * Get the failure count of the trial
-     * @return failure_count
-     */
-    public int getFailureCount(){
-        return bin_trial.getFailureCount();
-    }
-
-    public void setSuccessCount(Integer count) {
-        bin_trial.setSuccess_counter(count);
-    }
-
-    public void setFailureCount(Integer count) {
-        bin_trial.setFailure_counter(count);
     }
 
     /**

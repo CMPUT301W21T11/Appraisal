@@ -1,7 +1,12 @@
 package com.example.appraisal.model.trial;
 
+import android.util.Log;
+
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 
 /**
  * This is the model class for Non Negative Integer count trial
@@ -9,8 +14,9 @@ import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 public class NonNegIntCountModel {
     private NonNegIntCountTrial data;
 
-    public NonNegIntCountModel(Experiment parent_experiment) {
-        data = new NonNegIntCountTrial(parent_experiment);
+    public NonNegIntCountModel(Experiment parent_experiment, User conductor) {
+        TrialFactory factory = new TrialFactory();
+        data = (NonNegIntCountTrial) factory.createTrial(TrialType.NON_NEG_INT_TRIAL, parent_experiment, conductor);
     }
 
     /**
@@ -19,7 +25,13 @@ public class NonNegIntCountModel {
      *      The string of the count
      */
     public void addIntCount(String s) {
-        data.addIntCount(s);
+        try {
+            int count = Integer.parseInt(s);
+            data.addCount(count);
+        } catch (Exception e) {
+            Log.d("ERROR","Input not properly limited");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,7 +39,7 @@ public class NonNegIntCountModel {
      * @return count
      */
     public long getCount() {
-        return data.getCount();
+        return (long) data.getValue();
     }
 
     /**

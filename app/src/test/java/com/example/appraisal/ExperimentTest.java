@@ -3,6 +3,7 @@ package com.example.appraisal;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class ExperimentTest {
     @Test
     public void testAddTrial() {
         List<Trial> control_list = new ArrayList<>();
-        CountTrial test_trial = new CountTrial(test_obj);
+        CountTrial test_trial = new CountTrial(test_obj, new User("Test", "Test", "Test", "Test"));
 
         control_list.add(test_trial);
         test_obj.addTrial(test_trial);

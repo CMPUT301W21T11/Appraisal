@@ -2,6 +2,9 @@ package com.example.appraisal.model.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.CountTrial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 
 /**
  * This is the model class for a counter trial
@@ -14,15 +17,16 @@ public class CounterModel {
      * @param parent_experiment
      *      The parent experiment which the trial belongs to
      */
-    public CounterModel(Experiment parent_experiment) {
-        data = new CountTrial(parent_experiment);
+    public CounterModel(Experiment parent_experiment, User conductor) {
+        TrialFactory factory = new TrialFactory();
+        data = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, parent_experiment, conductor);
     }
 
     /**
      * increase the count of the trial
      */
     public void increase() {
-        data.increase();
+        data.addCount();
     }
 
     /**
@@ -31,7 +35,7 @@ public class CounterModel {
      *      the count of the trial
      */
     public int getCount() {
-        return data.getCount();
+        return (int) data.getValue();
     }
 
     /**
