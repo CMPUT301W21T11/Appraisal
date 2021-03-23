@@ -1,32 +1,51 @@
 package com.example.appraisal.UI.main_menu.search;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import android.view.MenuItem;
+
+
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
-import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
+import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.net.CookieHandler;
 import java.util.ArrayList;
 
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
     private CollectionReference exp_ref;
     private ListView search_result_display;
     private ArrayList<Experiment> exp_list;
-    private ArrayAdapter<Experiment> adapter;
+    private ExpAdapter exp_adapter;
+    private SearchView exp_search;
+
+    //private List<Experiment> exp_list = new ArrayList<Experiment>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +58,53 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
         }
 
         search_result_display = findViewById(R.id.search_results);
+        exp_search = findViewById(R.id.exp_search_bar);
 
         exp_list = new ArrayList<>();                           // make new list to store experiments
 
-        adapter = new ExpAdapter(this, exp_list);      // connect adapter
+        exp_adapter = new ExpAdapter(this, exp_list);      // connect adapter
 
         getDbExperiments();                                     // get all experiments from Database
 
+        search_result_display.setAdapter(exp_adapter);
+
+        exp_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //SearchActivity.this.exp_adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SearchActivity.this.exp_adapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+
         search_result_display.setOnItemClickListener(selectExListener);
-        search_result_display.setAdapter(adapter);
 
     }
 
-    private final AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+
+        if(id == R.id.exp_search_bar){
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             Experiment experiment = exp_list.get(position);
             try {
                 MainModel.setCurrentExperiment(experiment);
@@ -104,10 +155,13 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
                     }
                 }
                 // notify adapter that data has change and to update the UI
-                adapter.notifyDataSetChanged();
+                exp_adapter.notifyDataSetChanged();
             }
         });
     }
+
+
+
 
 
 }
