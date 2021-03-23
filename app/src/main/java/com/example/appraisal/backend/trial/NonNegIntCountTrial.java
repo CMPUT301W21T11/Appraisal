@@ -3,47 +3,90 @@ package com.example.appraisal.backend.trial;
 import android.util.Log;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.Experimenter;
+import com.example.appraisal.backend.user.User;
+
+import java.util.Date;
 
 /**
  * This class represents a Non negative Integer count trial
  */
-public class NonNegIntCountTrial extends Trial {
+public class NonNegIntCountTrial implements Trial {
     private int counter;
+    private int trial_count;
+
+    private final Experiment parent_experiment;
+    private final Date trial_date;
+    private final User conductor;
 
     /**
      * Creates a new Non negative Integer count trial
      * @param parent_experiment
      *      This is the parent experiment the trial belongs to
      */
-    public NonNegIntCountTrial(Experiment parent_experiment) {
-        super(parent_experiment);
+    public NonNegIntCountTrial(Experiment parent_experiment, User conductor) {
         counter = 0;
+        trial_count = 0;
+
+        this.parent_experiment = parent_experiment;
+        this.conductor = conductor;
+        trial_date = new Date();
     }
 
     /**
-     * Increase the count of the trial
-     * @param s
-     *      The count to be increased by
+     * This sets the counter to the supplied value
+     * @param value -- the new counter value
      */
-    public void addIntCount(String s) {
-        int count = 0;
-        try {
-            count = Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            Log.d("Warning", "User input caused integer overflow");
-        }
-
-        counter += count;
+    public void setValue(int value) {
+        counter += value;
+        trial_count++;
     }
 
     /**
-     * Returns the current count of the trial
-     * @return counter
-     *      current count of the trial
+     * {@inheritDoc}
      */
-    public int getCount() {
+    @Override
+    public double getValue() {
         return counter;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getSubTrialCount() {
+        return trial_count;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Experiment getParentExperiment() {
+        return parent_experiment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Date getTrialDate() {
+        return trial_date;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getConductor() {
+        return conductor;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TrialType getType() {
+        return TrialType.NON_NEG_INT_TRIAL;
+    }
 }

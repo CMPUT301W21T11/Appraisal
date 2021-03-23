@@ -54,5 +54,5 @@ public class BinomialModel {
     /**
      * Save the trial to the parent experiment
      */
-    public void toExperiment() { bin_trial.getParent_experiment().addTrial(bin_trial);}
+    public void toExperiment() { bin_trial.getParentExperiment().addTrial(bin_trial);}
 }

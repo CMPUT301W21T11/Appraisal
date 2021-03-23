@@ -35,7 +35,7 @@ public class TrialTest {
     @Test
     public void testParent() {
         BinomialTrial trial = new BinomialTrial(test_parent);
-        assertEquals(test_parent.getClass(), trial.getParent_experiment().getClass());
+        assertEquals(test_parent.getClass(), trial.getParentExperiment().getClass());
     }
 
     /**

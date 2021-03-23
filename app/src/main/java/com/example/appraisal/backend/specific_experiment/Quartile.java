@@ -34,40 +34,18 @@ public class Quartile {
     }
 
     private int initTotal() {
-        Trial trial = list_of_trials.get(0);
-        if (trial instanceof BinomialTrial) {
-            int total = 0;
-            // Binomial trials are sum of Bernoulli trials. Therefore total += total trial of each Binomial
-            for (Trial trl: list_of_trials) {
-                BinomialTrial t = (BinomialTrial) trl;
-                total = total + t.getFailureCount() + t.getSuccessCount();
-            }
-            return total;
-        } else {
-            return list_of_trials.size();
+        int t = 0;
+        for (Trial trial: list_of_trials) {
+            t += trial.getSubTrialCount();
         }
+        return t;
     }
 
     private List<Float> generateTrialListToDouble() {
         List<Float> trial_list = new ArrayList<>();
         for (Trial trial:list_of_trials) {
-            if (trial instanceof BinomialTrial) {
-                BinomialTrial t1 = (BinomialTrial) trial;
-                float prob = t1.getSuccessCount() / (float) total;
-                trial_list.add(prob);
-
-            } else if (trial instanceof CountTrial) {
-                CountTrial t2 = (CountTrial) trial;
-                trial_list.add((float) t2.getCount());
-
-            } else if (trial instanceof NonNegIntCountTrial) {
-                NonNegIntCountTrial t3 = (NonNegIntCountTrial) trial;
-                trial_list.add((float) t3.getCount());
-
-            } else if (trial instanceof MeasurementTrial) {
-                MeasurementTrial t4 = (MeasurementTrial) trial;
-                trial_list.add(t4.getMeasurement());
-            }
+            float result = (float) (trial.getValue() / trial.getSubTrialCount());
+            trial_list.add(result);
         }
 
         Collections.sort(trial_list);

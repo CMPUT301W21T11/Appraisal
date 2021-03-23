@@ -33,5 +33,5 @@ public class NonNegIntCountModel {
     /**
      * Save the trial to the experiment
      */
-    public void toExperiment() { data.getParent_experiment().addTrial(data);}
+    public void toExperiment() { data.getParentExperiment().addTrial(data);}
 }
