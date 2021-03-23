@@ -36,6 +36,8 @@ public class Experiment implements Parcelable {
         this.exp_id = exp_id;
         this.owner = owner;
 
+        this.trial_list = new ArrayList<>();
+
         this.description = description;
         this.type = type;
         this.is_geolocation_required = is_geolocation_required;

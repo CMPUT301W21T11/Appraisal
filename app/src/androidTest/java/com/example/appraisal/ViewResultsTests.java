@@ -1,27 +1,23 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-
-import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
-
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+
 import com.example.appraisal.UI.MainActivity;
+import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import java.util.Random;
 
 /**
  * Test class for Viewing Results. All the UI tests are written here. Robotium test framework is
@@ -29,6 +25,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class ViewResultsTests {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -77,8 +74,13 @@ public class ViewResultsTests {
         View fab = solo.getView("AddExperimentButton");
         solo.clickOnView(fab);
 
+        Random rn = new Random(21);
+        int hash = rn.nextInt();
+
         //Entering in test data
-        solo.enterText((EditText) solo.getView(R.id.expDesc), "Details Demo");
+        final String exp_name = "Details Demo" + Integer.toString(hash);
+
+        solo.enterText((EditText) solo.getView(R.id.expDesc), exp_name );
         solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonYes));
         solo.enterText((EditText) solo.getView(R.id.expMinTrials), "20");
         solo.enterText((EditText) solo.getView(R.id.expRules), "IntentTest Rule #1");
@@ -89,40 +91,40 @@ public class ViewResultsTests {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("Details Demo", 1, 300);
-        solo.waitForText("Status: Published & Open", 1, 300);
+        solo.waitForText(exp_name , 1, delay_time);
+        solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText("Details Demo");
-        solo.waitForText("Publish Status: Published", 1, 300);
-        solo.waitForText("Ended Status: Open", 1, 300);
+        solo.clickOnText(exp_name);
+        solo.waitForText("Publish Status: Published", 1, delay_time);
+        solo.waitForText("Ended Status: Open", 1, delay_time);
 
         //Testing the Details tab
         View ResultsButton = solo.getView("view_results_button");
         solo.clickOnView(ResultsButton);
-        solo.waitForText("Details Demo", 1, 300);
-        solo.waitForText("Count-based trials", 1, 300);
-        solo.waitForText("Status: Open", 1, 300);
-        solo.waitForText("Geo-location required: Yes", 1, 300);
+        solo.waitForText(exp_name , 1, delay_time);
+        solo.waitForText("Count-based trials", 1, delay_time);
+        solo.waitForText("Status: Open", 1, delay_time);
+        solo.waitForText("Geo-location required: Yes", 1, delay_time);
 
         solo.goBack();
         solo.goBack();
 
         //Ending the experiment
-        solo.clickOnText("Details Demo");
+        solo.clickOnText(exp_name );
         View EndButton = solo.getView("end_button");
         solo.clickOnView(EndButton);
-        solo.waitForText("Ended Status: Ended", 1, 300);
+        solo.waitForText("Ended Status: Ended", 1, delay_time);
         solo.clickOnButton("Done");
-        solo.waitForText("Status: Published & Ended", 1, 300);
+        solo.waitForText("Status: Published & Ended", 1, delay_time);
 
         //Verifying the change in the Details tab
-        solo.clickOnText("Details Demo");
+        solo.clickOnText(exp_name );
         solo.clickOnView(ResultsButton);
-        solo.waitForText("Details Demo", 1, 300);
-        solo.waitForText("Count-based trials", 1, 300);
-        solo.waitForText("Status: Ended", 1, 300);
-        solo.waitForText("Geo-location required: Yes", 1, 300);
+        solo.waitForText(exp_name , 1, delay_time);
+        solo.waitForText("Count-based trials", 1, delay_time);
+        solo.waitForText("Status: Ended", 1, delay_time);
+        solo.waitForText("Geo-location required: Yes", 1, delay_time);
 
     }
 }

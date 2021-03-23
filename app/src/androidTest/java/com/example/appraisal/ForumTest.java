@@ -19,6 +19,7 @@ import org.junit.Test;
 
 public class ForumTest {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =

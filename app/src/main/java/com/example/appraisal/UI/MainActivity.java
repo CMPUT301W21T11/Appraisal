@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private View loading_panel;
     private Animation begin_btn_animation;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MainModel.createInstance();
-
     }
-
 
     public void signIn(View v){
         Intent intent = new Intent(this, ExpSubscriptionActivity.class);
