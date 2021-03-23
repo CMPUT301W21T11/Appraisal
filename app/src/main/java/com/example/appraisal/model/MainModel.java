@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.FirebaseAuthentication;
 import com.example.appraisal.backend.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,20 +30,20 @@ import java.util.Map;
 public class MainModel {
     private static MainModel single_instance;
 
-    private FirebaseFirestore db;
+    private final FirebaseFirestore db;
 
-    private static User current_user;
+    private User current_user;
     private Experiment chosen_experiment;
-    private static ArrayList<Experiment> my_experiments;
+    private ArrayList<Experiment> my_experiments;
 
     //    public static FirebaseAuthentication auth;
-    public static String user_id;
-    public static boolean is_new;
-    public static boolean is_checked;
+    public String user_id;
+    public boolean is_new;
+    public boolean is_checked;
 
-    public static FirebaseAuthentication mAuth;
+    public FirebaseAuthentication mAuth;
 
-    public static ArrayList<Experiment> sub_experiments;
+    public ArrayList<Experiment> sub_experiments;
 
 
     private MainModel() {
@@ -150,7 +149,7 @@ public class MainModel {
         }
         single_instance.current_user = user;
 
-        user.setID(user_id);
+        user.setID(single_instance.user_id);
 
     }
 
@@ -192,34 +191,38 @@ public class MainModel {
         }
 
         final DocumentReference user_reference = single_instance.db.collection("Users")
-                .document(user_id);
+                .document(single_instance.user_id);
 
         return user_reference;
     }
 
 
-    public static void checkUserStatus() {
+    public static void checkUserStatus() throws Exception {
 
-        if(is_checked == false) {
-            user_id = signInUser();
-            if (is_new) {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        if(!single_instance.is_checked) {
+            single_instance.user_id = signInUser();
+            if (single_instance.is_new) {
                 setUpNewUser();
             } else {
                 loadCurrentUser();
             }
-            is_checked = true;
+            single_instance.is_checked = true;
         }
 
     }
 
     public static String signInUser() {
-       return mAuth.getUserID();
+       return single_instance.mAuth.getUserID();
     }
 
     public static void setUpNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
 
-        current_user = new User(user_id, "", "", "");
+        single_instance.current_user = new User(single_instance.user_id, "", "", "");
 
 //        User user = new User(user_id, "", "", "");
 //        current_user = user;
@@ -232,7 +235,7 @@ public class MainModel {
         user_info.put("num_of_my_exp", 0);
 
         // Add a new document with a generated ID
-        new_user.document(user_id).set(user_info)
+        new_user.document(single_instance.user_id).set(user_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -250,8 +253,8 @@ public class MainModel {
     public static void loadCurrentUser() {
         // get data from firebase
         // update local user object
-        Log.d("user id", user_id);
-        single_instance.db.collection("Users").document(user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        Log.d("user id", single_instance.user_id);
+        single_instance.db.collection("Users").document(single_instance.user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String user_name = value.get("user_name").toString();
@@ -259,7 +262,7 @@ public class MainModel {
                 String phone_number = value.get("phone_number").toString();
                 Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
 
-                User current_user = new User(user_id, user_name, user_email, phone_number);
+                User current_user = new User(single_instance.user_id, user_name, user_email, phone_number);
                 current_user.setNumOfExp(num_of_exp);
                 try {
                     MainModel.setCurrentUser(current_user);
@@ -293,11 +296,11 @@ public class MainModel {
         return experiment_reference;
     }
 
-    public static ArrayList<Experiment> getSubscribed_experiments() {
-        return sub_experiments;
-    }
-
-    public static void setSubscribed_experiments(ArrayList<Experiment> subscribed_experiments) {
-        sub_experiments = subscribed_experiments;
-    }
+//    public static ArrayList<Experiment> getSubscribed_experiments() {
+//        return single_instance.sub_experiments;
+//    }
+//
+//    public static void setSubscribed_experiments(ArrayList<Experiment> subscribed_experiments) {
+//        sub_experiments = subscribed_experiments;
+//    }
 }
