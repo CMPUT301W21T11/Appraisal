@@ -1,3 +1,6 @@
+![Master](https://github.com/CMPUT301W21T11/Appraisal/actions/workflows/android-ci.yml/badge.svg)
+
+
 <h1>CMPUT301 Project 1</h1>
 ___
 
