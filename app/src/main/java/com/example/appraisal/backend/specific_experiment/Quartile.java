@@ -27,10 +27,18 @@ public class Quartile {
      */
     public Quartile(List<Trial> list_of_trials) {
         this.list_of_trials = list_of_trials;
-        total = initTotal();
-        sorted_list_of_trials_as_double = generateTrialListToDouble();
-        q1 = initQ1();
-        q3 = initQ3();
+        if (list_of_trials.size() > 0) {
+            total = initTotal();
+            sorted_list_of_trials_as_double = generateTrialListToDouble();
+            q1 = initQ1();
+            q3 = initQ3();
+        } else { // in case of an empty list of trials
+            total = 0;
+            sorted_list_of_trials_as_double = new ArrayList<>();
+            sorted_list_of_trials_as_double.add(0.0f);
+            q1 = 0.0f;
+            q3 = 0.0f;
+        }
     }
 
     private int initTotal() {

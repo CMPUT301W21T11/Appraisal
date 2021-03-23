@@ -1,8 +1,10 @@
 package com.example.appraisal.backend.specific_experiment;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.MainModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,9 +88,7 @@ public class SpecificExperiment {
             Date key = trial.getTrialDate();
             if (data_points.containsKey(key)) { // i.e. date entry already exist
                 // increase trial count
-                int count = data_points.get(key);
-                count++;
-                data_points.put(key, count);
+                data_points.put(key, data_points.get(key) + 1);
             } else {
                 // create new entry
                 data_points.put(key, 1);
@@ -174,7 +174,8 @@ public class SpecificExperiment {
             data_points.put(i, 0);
             available_interval_start_values.add(i);
             if (width == 0) { // edge case when the experiment is empty
-                break;
+                data_points.put(0.0f, 0);
+                return data_points;
             }
         }
 
