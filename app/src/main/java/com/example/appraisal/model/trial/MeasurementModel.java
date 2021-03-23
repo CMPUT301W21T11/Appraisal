@@ -38,5 +38,5 @@ public class MeasurementModel {
     /**
      * Save the trial to the parent experiment
      */
-    public void toExperiment() { data.getParent_experiment().addTrial(data);}
+    public void toExperiment() { data.getParentExperiment().addTrial(data);}
 }

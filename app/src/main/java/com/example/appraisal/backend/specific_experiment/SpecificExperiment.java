@@ -1,24 +1,9 @@
 package com.example.appraisal.backend.specific_experiment;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.user.Experimenter;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -201,7 +186,7 @@ public class SpecificExperiment {
         // record frequencies
         for (float measurement_i: list_of_trials_as_float) {
             // calculate which interval the value belongs to
-            int interval_index = (int) ((measurement_i - min_value) / width);
+            int interval_index = (int) Math.floor((measurement_i - min_value) / width);
 
             // safety check to prevent index errors
             if (interval_index < 0) {

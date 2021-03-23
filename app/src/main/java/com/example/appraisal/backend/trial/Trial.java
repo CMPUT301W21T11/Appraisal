@@ -1,41 +1,61 @@
 package com.example.appraisal.backend.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 
 import java.util.Date;
 
 /**
- * This is the Trial abstract class that represent trials in general
+ * This is the Trial interface that all trial subclass should share
+ * This mainly ensures reading data from all trial subclass are unified
+ * Notice there are no setters for this interface
  */
-public abstract class Trial {
-    private final Experiment parent_experiment;
-    private final Date trial_date = new Date(); //Need to record time of the trial, in order to show the plot of trials over time
+public interface Trial {
 
     /**
-     * Create the trial object
-     * @param parent_experiment
-     *      The parent experiment of this trail
+     * This method get the value of a trial
+     * For Binomial Trial, it will return its success count
+     *
+     * @return double -- value of the trial
      */
-    public Trial(Experiment parent_experiment) {
-        this.parent_experiment = parent_experiment;
-    }
+    double getValue();
 
     /**
-     * This returns the experiment object that this trial belongs to
-     * @return parent_experiment
-     *      The parent experiment this object belongs
+     * This method return how many sub trial is conducted
+     * For binomial trial, there is totally (success + failure) amount of sub trials
+     * For Non negative integer count trial, it will return the number of time the count is entered
+     * For others, it will return 1
+     *
+     * @return int -- the number of sub trials conducted
      */
-    public Experiment getParent_experiment() {
-        return parent_experiment;
-    }
+    int getSubTrialCount();
 
     /**
-     * This returns the date which the trial was conducted
-     * @return trial_date
-     *      The Date object of the conducted date
+     * This method returns which experiment the trial belongs to
+     *
+     * @return Experiment -- the parent experiment
      */
-    public Date getTrialDate() {
-        return trial_date;
-    }
+    Experiment getParentExperiment();
+
+    /**
+     * This method returns the date which the trial is conducted
+     *
+     * @return Date -- date which the trial is conducted
+     */
+    Date getTrialDate();
+
+    /**
+     * This method returns the User that conducted the trial
+     *
+     * @return User -- the conductor of the trial
+     */
+    User getConductor();
+
+    /**
+     * This method returns the type of the experiment. It matches the create key of TrialFactory
+     *
+     * @return TrialType -- the create key of this type of trial
+     */
+    TrialType getType();
 }
 
