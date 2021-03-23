@@ -54,13 +54,13 @@ public class MainModel implements DataRequestable {
 
         is_checked = false;
 
-        mAuth.signIn();
-
         if (mAuth.isLoggedIn()) {
             is_new = false;
+            Log.d("is_new", String.valueOf(is_new));
 
         } else {
             is_new = true;
+            Log.d("is_new", String.valueOf(is_new));
         }
 
     }

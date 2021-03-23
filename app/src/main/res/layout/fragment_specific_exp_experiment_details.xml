@@ -148,7 +148,6 @@
                 android:id="@+id/viewTrialBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="goToViewTrials"
                 android:text="View trials" />
     </LinearLayout>
     </LinearLayout>
