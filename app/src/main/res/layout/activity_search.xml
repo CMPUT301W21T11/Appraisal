@@ -40,7 +40,7 @@
 
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:queryHint="Search an experiment"
+        app:queryHint="Search for an experiment"
         app:iconifiedByDefault="false"
         tools:ignore="MissingConstraints" />
 

@@ -22,12 +22,14 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     private ArrayList<Experiment> experiments;
     private ArrayList<Experiment> experimentsFiltered;
     private Context context;
+    private String activity_from;
 
-    public ExpAdapter(Context context, ArrayList<Experiment> experiments){
+    public ExpAdapter(Context context, ArrayList<Experiment> experiments, String activity_from){
         super(context, 0, experiments);
         this.experiments = experiments;
         this.experimentsFiltered = experiments;
         this.context = context;
+        this.activity_from = activity_from;
     }
 
     @Override
@@ -56,13 +58,22 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
 
         TextView description = view.findViewById(R.id.exp_desc);
         TextView type = view.findViewById(R.id.exp_type);
-        LinearLayout owner = view.findViewById(R.id.owner_row);
         TextView status = view.findViewById(R.id.exp_status);
 
         description.setText(exp_current.getDescription());
         type.setText(exp_current.getType());
-        owner.setVisibility(View.GONE);
 
+        // show owner if not from MyExperiment Activity
+        if (activity_from.equals("MyExperiment")) {
+            LinearLayout owner_row = view.findViewById(R.id.owner_row);
+            owner_row.setVisibility(View.GONE);
+        }
+        else {
+            TextView owner_name = view.findViewById(R.id.owner_name);
+            owner_name.setText(exp_current.getOwner().substring(0, 7));
+        }
+
+        // show status of experiment
         if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
             status.setText("Published & Open");
         }

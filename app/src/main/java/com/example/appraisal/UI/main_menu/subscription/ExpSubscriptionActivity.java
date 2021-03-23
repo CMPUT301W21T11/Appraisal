@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.subscription;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +39,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     private ArrayAdapter<Experiment> adapter;
     private DocumentReference user_ref;
     private CollectionReference exp_ref;
+    private Context context;
 
     /**
      * onCreate activity
@@ -52,9 +56,11 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
             e.printStackTrace();
         }
 
+        context = this;
+
         subscribed_list = findViewById(R.id.subscribedList);
         subscribed_experiments = new ArrayList<>();
-        adapter = new ExpAdapter(this, subscribed_experiments);
+        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
 
         getSubscribedExperiments();
 
@@ -73,7 +79,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
         subscribed_list = findViewById(R.id.subscribedList);
         subscribed_experiments = new ArrayList<>();
-        adapter = new ExpAdapter(this, subscribed_experiments);
+        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
 
         getSubscribedExperiments();
 
@@ -89,13 +95,21 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Experiment experiment = subscribed_experiments.get(position);
+//            try {
+//                MainModel.setCurrentExperiment(experiment);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
+//            fragment.show(getSupportFragmentManager(), "View Experiment");
+
+            Intent intent = new Intent(context, SpecificExpActivity.class);
             try {
                 MainModel.setCurrentExperiment(experiment);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
-            fragment.show(getSupportFragmentManager(), "Edit Experiment Status");
+            startActivity(intent);
 
         }
     };
@@ -136,29 +150,33 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                         if (doc != null && doc.exists()) {
                                             Log.d("Current data: ", doc.getData().toString());
 
-                                            String owner_ID = (String) doc.getData().get("owner");
-                                            String exp_ID = doc.getId();
-                                            String description = (String) doc.getData().get("description");
-                                            String type = (String) doc.getData().get("type");
-                                            Boolean geo_required = (Boolean) doc.getData().get("isGeolocationRequired");
-                                            Integer min_trials = Integer.valueOf(doc.getData().get("minTrials").toString());
-                                            String rules = (String) doc.getData().get("rules");
-                                            String region = (String) doc.getData().get("region");
-                                            Boolean is_ended = (Boolean) doc.getData().get("isEnded");
                                             Boolean is_published = (Boolean) doc.getData().get("isPublished");
+                                            if (is_published) {
 
-                                            Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
+                                                String owner_ID = (String) doc.getData().get("owner");
+                                                String exp_ID = doc.getId();
+                                                String description = (String) doc.getData().get("description");
+                                                String type = (String) doc.getData().get("type");
+                                                Boolean geo_required = (Boolean) doc.getData().get("isGeolocationRequired");
+                                                Integer min_trials = Integer.valueOf(doc.getData().get("minTrials").toString());
+                                                String rules = (String) doc.getData().get("rules");
+                                                String region = (String) doc.getData().get("region");
+                                                Boolean is_ended = (Boolean) doc.getData().get("isEnded");
 
-                                            experiment.setIsEnded(is_ended);
-                                            experiment.setIsPublished(is_published);
 
-                                            subscribed_experiments.add(experiment);
+                                                Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
 
-                                            Log.d("Subscribed Experiments:", subscribed_experiments.toString());
+                                                experiment.setIsEnded(is_ended);
+                                                experiment.setIsPublished(is_published);
 
-                                            adapter.notifyDataSetChanged();
+                                                subscribed_experiments.add(experiment);
 
-                                            subscribed_list.setAdapter(adapter);
+                                                Log.d("Subscribed Experiments:", subscribed_experiments.toString());
+
+                                                adapter.notifyDataSetChanged();
+
+                                                subscribed_list.setAdapter(adapter);
+                                            }
                                         }
                                     }
                                 });

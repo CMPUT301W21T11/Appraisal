@@ -91,7 +91,7 @@ public class ExpStatusFragment extends DialogFragment {
         is_published = experiment.getIsPublished();
         is_ended = experiment.getIsEnded();
 
-        checkOwnership();
+//        checkOwnership();
 
         // set textView fields
         setFields();
@@ -263,25 +263,25 @@ public class ExpStatusFragment extends DialogFragment {
 
 
 
-    private void checkOwnership(){
-
-        try {
-            current_user = MainModel.getCurrentUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String owner = experiment.getOwner();
-
-        if(!owner.equals(current_user.getID())){
-            publish_switch.setVisibility(View.INVISIBLE);
-            end_switch.setVisibility(View.INVISIBLE);
-        }
-        else {
-            publish_switch.setVisibility(View.VISIBLE);
-            end_switch.setVisibility(View.VISIBLE);
-        }
-
-    }
+//    private void checkOwnership(){
+//
+//        try {
+//            current_user = MainModel.getCurrentUser();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        String owner = experiment.getOwner();
+//
+//        if(!owner.equals(current_user.getID())){
+//            publish_switch.setVisibility(View.INVISIBLE);
+//            end_switch.setVisibility(View.INVISIBLE);
+//        }
+//        else {
+//            publish_switch.setVisibility(View.VISIBLE);
+//            end_switch.setVisibility(View.VISIBLE);
+//        }
+//
+//    }
 
 }

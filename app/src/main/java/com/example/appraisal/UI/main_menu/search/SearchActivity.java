@@ -1,6 +1,7 @@
 package com.example.appraisal.UI.main_menu.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 
@@ -44,6 +46,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
     private ArrayList<Experiment> exp_list;
     private ExpAdapter exp_adapter;
     private SearchView exp_search;
+    private Context context;
 
     //private List<Experiment> exp_list = new ArrayList<Experiment>();
 
@@ -57,12 +60,14 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
             e.printStackTrace();
         }
 
+        context = this;
+
         search_result_display = findViewById(R.id.search_results);
         exp_search = findViewById(R.id.exp_search_bar);
 
         exp_list = new ArrayList<>();                           // make new list to store experiments
 
-        exp_adapter = new ExpAdapter(this, exp_list);      // connect adapter
+        exp_adapter = new ExpAdapter(this, exp_list, "Search");      // connect adapter
 
         getDbExperiments();                                     // get all experiments from Database
 
@@ -106,13 +111,21 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             Experiment experiment = exp_list.get(position);
+//            try {
+//                MainModel.setCurrentExperiment(experiment);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
+//            fragment.show(getSupportFragmentManager(), "View Experiment");
+
+            Intent intent = new Intent(context, SpecificExpActivity.class);
             try {
                 MainModel.setCurrentExperiment(experiment);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ExpStatusFragment fragment = ExpStatusFragment.newInstance(experiment);
-            fragment.show(getSupportFragmentManager(), "Edit Experiment Status");
+            startActivity(intent);
         }
     };
 
@@ -130,8 +143,9 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
 
                     // get all the fields of the experiment
                     String exp_ID = doc.getId();
+                    Boolean is_published = (Boolean) doc.getData().get("isPublished");
 
-                    if (!exp_ID.equals("Exp0000")){
+                    if (!exp_ID.equals("Exp0000") && is_published){
 
                         String description = (String) doc.getData().get("description");
                         String type = (String) doc.getData().get("type");
@@ -140,7 +154,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
                         String rules = (String) doc.getData().get("rules");
                         String region = (String) doc.getData().get("region");
                         Boolean is_ended = (Boolean) doc.getData().get("isEnded");
-                        Boolean is_published = (Boolean) doc.getData().get("isPublished");
+
 
                         // make a new experiment object with these fields
                         Experiment experiment = new Experiment(exp_ID, db_user_ID, description, type, geo_required, min_trials, rules, region);
