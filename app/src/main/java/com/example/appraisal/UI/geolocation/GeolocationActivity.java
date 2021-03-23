@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,11 +32,15 @@ public class GeolocationActivity extends AppCompatActivity implements OnMapReady
         LatLng sydney = new LatLng(-34, 151);
         Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Trial #1").snippet("Success"));
         sydneyMarker.showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         LatLng edmontonLatLng = new LatLng(54,  113.4938);
         Marker edmontonMarker = mMap.addMarker(new MarkerOptions().position(edmontonLatLng).title("Trial #2").snippet("Failure"));
         edmontonMarker.showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(edmontonLatLng));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(edmontonLatLng));
+
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(edmontonLatLng).zoom(10).build();
+
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 }
