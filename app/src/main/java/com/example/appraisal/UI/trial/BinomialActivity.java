@@ -107,9 +107,9 @@ public class BinomialActivity extends AppCompatActivity {
         Map<String, Object> trial_info = new HashMap<>();
 
         if (outcome) {
-            trial_info.put("result", "1");
+            trial_info.put("result", "1"); // 1 indicates success
         } else {
-            trial_info.put("result", "0");
+            trial_info.put("result", "0"); // 0 indicates failure
         }
 
         // put trial date as current date
