@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,11 +14,26 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+
+// Location Purposes
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
+// Google Maps
+import com.google.android.libraries.maps.CameraUpdateFactory;
+import com.google.android.libraries.maps.GoogleMap;
+import com.google.android.libraries.maps.GoogleMap.OnMyLocationButtonClickListener;
+import com.google.android.libraries.maps.GoogleMap.OnMyLocationClickListener;
+import com.google.android.libraries.maps.OnMapReadyCallback;
+import com.google.android.libraries.maps.SupportMapFragment;
+import com.google.android.libraries.maps.model.CameraPosition;
+import com.google.android.libraries.maps.model.LatLng;
+import com.google.android.libraries.maps.model.Marker;
+import com.google.android.libraries.maps.model.MarkerOptions;
+
+// Tasks
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +47,23 @@ public class GeolocationActivity extends AppCompatActivity implements
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private boolean permissionDenied = false;
+    private boolean locationPermissionGranted;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    // Set up key values for storing activity state
+    private static final String KEY_CAMERA_POSITION = "camera_position";
+    private static final String KEY_LOCATION = "location";
+
+    private Location lastKnownLocation;
+
+    private LatLng currentLocation;
+
+    private CameraPosition cameraPosition;
+
+    // Default location is near Edmonton City Centre
+    private final LatLng defaultLocation = new LatLng(53.546123, -113.493822);
+    private static final int DEFAULT_ZOOM = 15;
 
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
@@ -42,6 +75,19 @@ public class GeolocationActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Retrieve location and camera position from saved instance state.
+//        if (savedInstanceState != null) {
+//            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+//            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
+//        }
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            getCurrentLocation();
+//        }
+
         setContentView(R.layout.activity_geolocation);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -49,25 +95,13 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+//        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
+
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
-
-
-//        LatLng sydney = new LatLng(-34, 151);
-//        Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Trial #1").snippet("Success"));
-//        sydneyMarker.showInfoWindow();
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//
-//        LatLng edmontonLatLng = new LatLng(54,  113.4938);
-//        Marker edmontonMarker = mMap.addMarker(new MarkerOptions().position(edmontonLatLng).title("Trial #2").snippet("Failure"));
-//        edmontonMarker.showInfoWindow();
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(edmontonLatLng));
-//
-////        CameraPosition cameraPosition = new CameraPosition.Builder().target(edmontonLatLng).zoom(10).build();
-//
-////        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     /**
@@ -78,6 +112,8 @@ public class GeolocationActivity extends AppCompatActivity implements
                 == PackageManager.PERMISSION_GRANTED) {
             if (mMap != null) {
                 mMap.setMyLocationEnabled(true);
+                locationPermissionGranted = true;
+                getDeviceLocation();
             }
         } else {
             // Permission to access the location is missing. Show rationale and request permission
@@ -104,7 +140,6 @@ public class GeolocationActivity extends AppCompatActivity implements
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return;
         }
-
         if (PermissionUtils.isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
             // Enable the my location layer if the permission has been granted.
             enableMyLocation();
@@ -132,6 +167,74 @@ public class GeolocationActivity extends AppCompatActivity implements
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
+    }
+
+//    @SuppressLint("MissingPermission")
+//    private void getCurrentLocation() {
+//        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+//            @Override
+//            public void onSuccess(Location location) {
+//                if (location != null) {
+//                    Log.d("Lat", String.valueOf(location.getLatitude()));
+//                    Log.d("Long", String.valueOf(location.getLongitude()));
+//                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+//                }
+//            }
+//        });
+//
+//        Log.d("LatLng", String.valueOf(currentLocation));
+//    }
+
+    private void getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted) {
+                Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
+                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful()) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+                            Log.d("Latitude", String.valueOf(lastKnownLocation.getLatitude()));
+                            Log.d("Longitude", String.valueOf(lastKnownLocation.getLongitude()));
+                            if (lastKnownLocation != null) {
+
+                                LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(),
+                                        lastKnownLocation.getLongitude());
+
+                                LatLng currentLocation1 = new LatLng(lastKnownLocation.getLatitude() + 0.005,
+                                        lastKnownLocation.getLongitude());
+
+                                LatLng currentLocation2 = new LatLng(lastKnownLocation.getLatitude() + 0.007,
+                                        lastKnownLocation.getLongitude());
+
+
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(lastKnownLocation.getLatitude(),
+                                                lastKnownLocation.getLongitude()), 15));
+
+                                Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation1).title("Trial1").snippet("Failure"));
+                                currentLocationMarker.showInfoWindow();
+
+                                Marker currentLocationMarker1 = mMap.addMarker(new MarkerOptions().position(currentLocation2).title("Trial2").snippet("Success"));
+                                currentLocationMarker1.showInfoWindow();
+                            }
+                        } else {
+                            mMap.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e)  {
+            Log.e("Exception: %s", e.getMessage(), e);
+        }
     }
 
 }
