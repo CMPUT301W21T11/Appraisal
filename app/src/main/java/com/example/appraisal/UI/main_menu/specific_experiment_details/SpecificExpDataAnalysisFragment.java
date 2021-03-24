@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +46,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private Experiment current_experiment;
     private User current_experimenter;
 
+    private Activity mActivity;
+
     /**
      * This is the Overridden onCreateView method from the Fragment class
      * @param inflater -- LayoutInflater object for inflating the Fragment
@@ -77,6 +81,29 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         return v;
     }
+
+    /**
+     * This method is used to obtain the parent activity. Since we are querying, using getActivity()
+     * Could sometimes return null pointer exception, due to the query thread not finished
+     * @param context -- the parent activity context
+     */
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        mActivity = (Activity) context;
+    }
+
+    /**
+     * This method overrides the super on detach and set mActivity to null, prevent memory leak.
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mActivity = null;
+    }
+
 
     private void trialFirebaseInit(View v) {
         CollectionReference trials = null;
@@ -260,9 +287,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises
-        exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
-        exp_plot_over_time.getGridLabelRenderer().setPadding(50);
+        exp_plot_over_time.getGridLabelRenderer().setPadding(90);
         exp_plot_over_time.getGridLabelRenderer().setHorizontalLabelsAngle(135);
 
         if (data_points.length > 0) {
@@ -281,8 +308,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
         int interval = 1;
-        if ((max_value <= 10)) {
+        if ((max_value <= 5)) {
             interval = 1;
+        } else if (max_value <= 10) {
+            interval = 2;
         } else if (max_value <= 50) {
             interval = 5;
         } else if (max_value <= 100) {
