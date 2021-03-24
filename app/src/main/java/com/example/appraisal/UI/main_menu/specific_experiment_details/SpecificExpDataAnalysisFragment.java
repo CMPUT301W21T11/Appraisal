@@ -1,9 +1,6 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +16,10 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
-import com.example.appraisal.backend.trial.NonNegIntCountTrial;
-import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.trial.TrialFactory;
-import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -38,8 +27,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
     private GraphView histogram;
@@ -78,12 +65,12 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // initialize model
         model = new SpecificExpModel(current_experiment);
         viewInitThread(v);
-        trialOnChangeListener(v);
+        trialFirebaseInit(v);
 
         return v;
     }
 
-    private void trialOnChangeListener(View v) {
+    private void trialFirebaseInit(View v) {
         CollectionReference trials = null;
         try {
             CollectionReference experiment = MainModel.getExperimentReference();

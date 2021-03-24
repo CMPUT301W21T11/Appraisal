@@ -31,7 +31,7 @@ public interface Trial extends Comparable<Trial> {
 
     /**
      * This method get the value of a trial
-     * For Binomial Trial, it will return its success count
+     * For Bernoulli trials, it wil return 1 to indicate success, and 0 for failure
      *
      * @return double -- value of the trial
      */
