@@ -129,16 +129,23 @@ public class GeolocationActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * Gets called when the user clicks the crosshair icon
+     * @return
+     */
     @Override
     public boolean onMyLocationButtonClick() {
 //        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         return false;
     }
 
+    /**
+     * Gets called when user clicks the blue dot on the map
+     * @param location
+     */
     @Override
     public void onMyLocationClick(@NonNull @NotNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
-//        LatLng current_location = new LatLng(, );
     }
 
     @Override
@@ -206,7 +213,6 @@ public class GeolocationActivity extends AppCompatActivity implements
                                         currentLocation, 15));
 
 
-
                             }
                         } else {
                             mMap.moveCamera(CameraUpdateFactory
@@ -216,12 +222,12 @@ public class GeolocationActivity extends AppCompatActivity implements
                     }
                 });
             }
-        } catch (SecurityException e)  {
+        } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
 
-    public void saveMarkerLocation(View v){
+    public void saveMarkerLocation(View v) {
         finish();
     }
 
@@ -232,6 +238,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Gets activated as soon as the user holds the marker
+     *
      * @param marker
      */
     @Override
@@ -241,6 +248,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Gets activated while user is dragging the marker across the map
+     *
      * @param marker
      */
     @Override
@@ -250,6 +258,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Gets activated once the user dropped the marker somewhere else
+     *
      * @param marker
      */
     @Override
