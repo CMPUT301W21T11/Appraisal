@@ -1,10 +1,9 @@
 package com.example.appraisal.backend.specific_experiment;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +17,7 @@ import java.util.TreeMap;
 public class SpecificExperiment {
     private final Experiment current_experiment;
     private final ArrayList<Trial> list_of_trials;
-//    private final ArrayList<String> trial_id_list;
-    private final List<Float> list_of_trials_as_float;
+    private List<Float> list_of_trials_as_float;
     private final int total;
     private Quartile quartile;
 
@@ -30,12 +28,14 @@ public class SpecificExperiment {
      */
     public SpecificExperiment(Experiment current_experiment) {
         this.current_experiment = current_experiment;
-//        trial_id_list = current_experiment.getTrials();
         list_of_trials = current_experiment.getTrialList();
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
-        list_of_trials_as_float = quartile.getListOfTrialsAsFloat();
-//        experimenters_list = current_experiment.getExperimenters();
+        List<Trial> sorted_trials = quartile.getSortedListOfTrials();
+        list_of_trials_as_float = new ArrayList<>();
+        for (Trial t: sorted_trials) {
+            list_of_trials_as_float.add((float) t.getValue());
+        }
     }
 
     /**
@@ -46,15 +46,6 @@ public class SpecificExperiment {
     public String getOwner() {
         return current_experiment.getOwner();
     }
-
-//    /**
-//     * Return the list of contributors (i.e. people who have added trials to the experiment)
-//     * @return contributors
-//     *      list of contributors of the experiment
-//     */
-//    public List getContributors() {
-//        return experimenters;
-//    }
 
     /**
      * Return the list of trials of the experiment
@@ -141,9 +132,18 @@ public class SpecificExperiment {
      *      Width of the interval
      */
     public double getHistogramIntervalWidth() {
+        // safety check
+        if (total == 0) {
+            return 1;
+        }
+
         // using non dynamic width
         int INTERVAL_NUM = 10;
-
+        if (list_of_trials.get(0).getType() == TrialType.BINOMIAL_TRIAL) {
+            INTERVAL_NUM = 2; // For bernoulli trials there are only 2 possible values
+        } else if (Math.round(Math.sqrt(list_of_trials.size())) < INTERVAL_NUM) {
+            INTERVAL_NUM = (int) Math.round(Math.sqrt(list_of_trials.size()));
+        }
         // find min and max values
         double min_value = quartile.getTrialMinValue();
         double max_value = quartile.getTrialMaxValue();
@@ -163,16 +163,16 @@ public class SpecificExperiment {
         // URL: https://www.moresteam.com/toolbox/histogram.cfm
         SortedMap<Float, Integer> data_points = new TreeMap<>();
 
-        float min_value = quartile.getTrialMinValue();
-        float max_value = quartile.getTrialMaxValue();
+        double min_value = quartile.getTrialMinValue();
+        double max_value = quartile.getTrialMaxValue();
 
         double width = getHistogramIntervalWidth();
 
         ArrayList<Float> available_interval_start_values = new ArrayList<>(); // cache the interval start values
         // initialize data_points and record interval values
-        for (float i = min_value; i <= max_value; i += width) {
-            data_points.put(i, 0);
-            available_interval_start_values.add(i);
+        for (double i = min_value; i <= max_value; i += width) {
+            data_points.put((float) i, 0);
+            available_interval_start_values.add((float) i);
             if (width == 0) { // edge case when the experiment is empty
                 data_points.put(0.0f, 0);
                 return data_points;

@@ -94,6 +94,8 @@ public class BinomialActivity extends AppCompatActivity {
 
     public void storeTrialInFireBase(Boolean outcome) {
 
+        // save locally
+        model.toExperiment();
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;

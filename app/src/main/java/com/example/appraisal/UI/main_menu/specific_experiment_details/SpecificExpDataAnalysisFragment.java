@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,17 @@ import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -38,6 +47,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private ConstraintLayout quartileTable;
 
     private SpecificExpModel model;
+    private Experiment current_experiment;
+    private User current_experimenter;
 
     /**
      * This is the Overridden onCreateView method from the Fragment class
@@ -49,30 +60,57 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // obtain model
-        model = new SpecificExpModel();
-
         // initialize layout
         View v = inflater.inflate(R.layout.fragment_experiment_data_analysis, container, false);
 
-        // start async task
-        ExecutorService async_executor = Executors.newSingleThreadExecutor();
-        Handler handler = new Handler(Looper.getMainLooper());
+        // obtain current experiment and experimenter
+        current_experiment = null;
+        current_experimenter = null;
+        try {
+            current_experiment = MainModel.getCurrentExperiment();
+            current_experimenter = MainModel.getCurrentUser();
+        } catch (Exception e) {
+            Log.e("Error:","Current experiment not set");
+            e.printStackTrace();
+            return v;
+        }
 
-        graphViewInit(v); // initialize graph views
-        async_executor.execute(() -> {
-            // graph generation thread
-            generateTimePlot();
-            generateHistogram();
-            handler.post(() -> {
-                // UI thread
-                generateQuartileTable();
-                generateExpStats(v);
-                graphDropInit(v);
-            });
-        });
+        // initialize model
+        model = new SpecificExpModel(current_experiment);
+        viewInitThread(v);
+        trialOnChangeListener(v);
 
         return v;
+    }
+
+    private void trialOnChangeListener(View v) {
+        CollectionReference trials = null;
+        try {
+            CollectionReference experiment = MainModel.getExperimentReference();
+            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ERROR:","Unable to setup trial on change listener");
+            return;
+        }
+
+        // Since the trials are also saved locally, there is no need to query the database
+        // Instead, only need to reconstruct the model locally and refresh the layout
+        // This is big brain time
+        trials.addSnapshotListener((value, error) -> {
+            model = new SpecificExpModel(current_experiment);
+            // refresh the views
+            viewInitThread(v);
+        });
+    }
+
+    private void viewInitThread(View v) {
+        graphViewInit(v);
+        generateTimePlot();
+        generateHistogram();
+        generateQuartileTable();
+        generateExpStats(v);
+        graphDropInit(v);
     }
 
     private void generateExpStats(View v) {
@@ -128,11 +166,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         Quartile quartiles = model.getQuartileInfo();
 
         // Calculate Maximum and minimum excluding outliers
-        float minimum = (float) (quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR()));
+        double minimum = quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR());
         if (minimum < quartiles.getTrialMinValue()) {
             minimum = quartiles.getTrialMinValue();
         }
-        float maximum = (float) (quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR()));
+        double maximum = quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR());
         if (maximum > quartiles.getTrialMaxValue()) {
             maximum = quartiles.getTrialMaxValue();
         }
@@ -140,7 +178,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Calculate outlier percentage
         int outlier_count = quartiles.getOutLiers().size();
         int total = quartiles.getTotalNumTrial();
-        float percent = (outlier_count / (float) total) * 100;
+        double percent = (outlier_count / (double) total) * 100;
 
         // Set values to TextViews
         min.setText(String.valueOf(minimum));
@@ -157,8 +195,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
         barGraphSeries.setSpacing(5); // set a bit of spacing between bars for readability
-
-        histogram.addSeries(barGraphSeries);
+        histogram.removeAllSeries();            // clear any previous series
+        histogram.addSeries(barGraphSeries);    // set to new series
 
         histogram.getGridLabelRenderer().setPadding(50);
 
@@ -173,7 +211,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
         histogram.getViewport().setMinY(0);
 
-        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length);
+        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
@@ -192,7 +230,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         LineGraphSeries<DataPoint> time_plot_data = new LineGraphSeries<>(data_points);
         time_plot_data.setDrawDataPoints(true);
         time_plot_data.setDataPointsRadius(13f);
-        exp_plot_over_time.addSeries(time_plot_data); // add to graph
+        exp_plot_over_time.removeAllSeries();           // clear any previous series
+        exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises
         exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));

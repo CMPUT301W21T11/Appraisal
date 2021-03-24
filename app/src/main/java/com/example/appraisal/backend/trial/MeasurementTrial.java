@@ -28,12 +28,19 @@ public class MeasurementTrial implements Trial {
     }
 
     /**
-     * Set the measurement of the trial
-     * @param measurement
-     *      The measurement obtained
+     * {@inheritDoc}
      */
-    public void setMeasurement(double measurement) {
-        this.measurement = measurement;
+    @Override
+    public void setValue(double value) {
+        measurement = value;
+    }
+
+    /**
+     * {@@inheritDoc}
+     */
+    @Override
+    public void overrideDate(Date date) {
+        trial_date = date;
     }
 
     /**
@@ -42,14 +49,6 @@ public class MeasurementTrial implements Trial {
     @Override
     public double getValue() {
         return measurement;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getSubTrialCount() {
-        return 1;
     }
 
     /**
@@ -82,5 +81,13 @@ public class MeasurementTrial implements Trial {
     @Override
     public TrialType getType() {
         return TrialType.MEASUREMENT_TRIAL;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Trial o) {
+        return Double.compare(this.getValue(), o.getValue());
     }
 }

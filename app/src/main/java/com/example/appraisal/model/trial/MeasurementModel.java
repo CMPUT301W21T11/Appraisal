@@ -32,7 +32,7 @@ public class MeasurementModel {
         catch (Exception e) {
             Log.i("PROBLEM WITH INPUT!: ", measurement);
         }
-        data.setMeasurement(value);
+        data.setValue(value);
     }
 
     public float getMeasurement() {

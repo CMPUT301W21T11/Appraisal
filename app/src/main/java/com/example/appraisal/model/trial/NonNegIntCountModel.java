@@ -27,7 +27,7 @@ public class NonNegIntCountModel {
     public void addIntCount(String s) {
         try {
             int count = Integer.parseInt(s);
-            data.addCount(count);
+            data.setValue(count);
         } catch (Exception e) {
             Log.d("ERROR","Input not properly limited");
             e.printStackTrace();

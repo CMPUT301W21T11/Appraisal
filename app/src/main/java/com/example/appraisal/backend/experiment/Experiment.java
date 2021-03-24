@@ -221,10 +221,16 @@ public class Experiment implements Parcelable {
 
     /**
      * Add a trial to the list of Trials
-     * @return
      */
     public void addTrial(Trial trial) {
         trial_list.add(trial);
+    }
+
+    /**
+     * Clear the list of trials
+     */
+    public void clearTrial() {
+        trial_list.clear();
     }
 
 //    /**

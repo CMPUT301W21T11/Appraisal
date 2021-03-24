@@ -38,16 +38,24 @@ public class CountTrial implements Trial {
      * {@inheritDoc}
      */
     @Override
-    public double getValue() {
-        return counter;
+    public void setValue(double value) {
+        this.counter = (int) Math.round(value);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int getSubTrialCount() {
-        return 1;
+    public void overrideDate(Date date) {
+        trial_date = date;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double getValue() {
+        return counter;
     }
 
     /**
@@ -80,5 +88,13 @@ public class CountTrial implements Trial {
     @Override
     public TrialType getType() {
         return TrialType.COUNT_TRIAL;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Trial o) {
+        return Double.compare(this.getValue(), o.getValue());
     }
 }

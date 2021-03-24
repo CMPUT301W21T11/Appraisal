@@ -46,7 +46,7 @@ public class QuartileTest {
             int count = (int) (Math.random() * (100 * Math.round(Math.random() * 10)));
             control_list_int.add(count);
             NonNegIntCountTrial trial = new NonNegIntCountTrial(temp, temp_user);
-            trial.addCount(count);
+            trial.setValue(count);
             trial_list_int.add(trial);
         }
 
@@ -56,7 +56,7 @@ public class QuartileTest {
             float measurement = (float) (Math.random());
             control_list_float.add(measurement);
             MeasurementTrial trial = new MeasurementTrial(temp, temp_user);
-            trial.setMeasurement(measurement);
+            trial.setValue(measurement);
             trial_list_float.add(trial);
         }
 

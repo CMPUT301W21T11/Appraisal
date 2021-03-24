@@ -10,10 +10,9 @@ import java.util.Date;
  */
 public class NonNegIntCountTrial implements Trial {
     private int counter;
-    private int trial_count;
 
     private final Experiment parent_experiment;
-    private final Date trial_date;
+    private Date trial_date;
     private final User conductor;
 
     /**
@@ -23,7 +22,6 @@ public class NonNegIntCountTrial implements Trial {
      */
     public NonNegIntCountTrial(Experiment parent_experiment, User conductor) {
         counter = 0;
-        trial_count = 0;
 
         this.parent_experiment = parent_experiment;
         this.conductor = conductor;
@@ -31,12 +29,19 @@ public class NonNegIntCountTrial implements Trial {
     }
 
     /**
-     * This sets the counter to the supplied value
-     * @param value -- the new counter value
+     * {@inheritDoc}
      */
-    public void addCount(int value) {
-        counter += value;
-        trial_count++;
+    @Override
+    public void setValue(double value) {
+        counter = (int) Math.round(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void overrideDate(Date date) {
+        trial_date = date;
     }
 
     /**
@@ -45,14 +50,6 @@ public class NonNegIntCountTrial implements Trial {
     @Override
     public double getValue() {
         return counter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getSubTrialCount() {
-        return trial_count;
     }
 
     /**
@@ -85,5 +82,13 @@ public class NonNegIntCountTrial implements Trial {
     @Override
     public TrialType getType() {
         return TrialType.NON_NEG_INT_TRIAL;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int compareTo(Trial o) {
+        return Double.compare(this.getValue(), o.getValue());
     }
 }

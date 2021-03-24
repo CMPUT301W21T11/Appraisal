@@ -18,13 +18,7 @@ public class SpecificExpModel {
     private final Quartile quartile;
     private final double mean;
 
-    public SpecificExpModel() {
-        Experiment current_experiment = null;
-        try {
-            current_experiment = MainModel.getCurrentExperiment();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public SpecificExpModel(Experiment current_experiment) {
         specificExperiment = new SpecificExperiment(current_experiment);
         stdDev = specificExperiment.getExperimentStDev();
         quartile = specificExperiment.getQuartile();

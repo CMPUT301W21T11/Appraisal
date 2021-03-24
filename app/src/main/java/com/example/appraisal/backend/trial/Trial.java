@@ -7,10 +7,27 @@ import java.util.Date;
 
 /**
  * This is the Trial interface that all trial subclass should share
- * This mainly ensures reading data from all trial subclass are unified
- * Notice there are no setters for this interface
+ * This mainly ensures reading and writing data from all trial subclass are unified
  */
-public interface Trial {
+public interface Trial extends Comparable<Trial> {
+
+    /**
+     * This method sets the current value of the trial
+     * For Bernoulli trials (i.e. Binomials), 1 = success, 0 = failure
+     * Note: It is recommended to use the class native method if possible
+     * (e.g. for BernoulliTrial it is setToSuccess() and setToFailure())
+     *
+     * @param value -- the value that the trial sets to
+     */
+    void setValue(double value);
+
+    /**
+     * This method overrides the create date of the trial
+     * The trial's create date is default to the current date
+     *
+     * @param date -- the date which the trial date overrides to
+     */
+    void overrideDate(Date date);
 
     /**
      * This method get the value of a trial
@@ -19,16 +36,6 @@ public interface Trial {
      * @return double -- value of the trial
      */
     double getValue();
-
-    /**
-     * This method return how many sub trial is conducted
-     * For binomial trial, there is totally (success + failure) amount of sub trials
-     * For Non negative integer count trial, it will return the number of time the count is entered
-     * For others, it will return 1
-     *
-     * @return int -- the number of sub trials conducted
-     */
-    int getSubTrialCount();
 
     /**
      * This method returns which experiment the trial belongs to

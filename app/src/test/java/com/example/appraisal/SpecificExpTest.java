@@ -43,7 +43,7 @@ public class SpecificExpTest {
             int count = (int) (Math.random() * (100 * Math.round(Math.random() * 10)));
             control_list_int.add(count);
             NonNegIntCountTrial trial = new NonNegIntCountTrial(experiment_int, test_user);
-            trial.addCount(count);
+            trial.setValue(count);
             experiment_int.addTrial(trial);
         }
 
@@ -53,7 +53,7 @@ public class SpecificExpTest {
             float measurement = (float) (Math.random());
             control_list_float.add(measurement);
             MeasurementTrial trial = new MeasurementTrial(experiment_float, test_user);
-            trial.setMeasurement(measurement);
+            trial.setValue(measurement);
             experiment_float.addTrial(trial);
         }
 
