@@ -67,7 +67,7 @@ public class ViewTrialActivity extends AppCompatActivity {
 
                     // get all the fields of the experiment
                     String trial_ID = doc.getId();
-                    String outcome = doc.getData().get("Result").toString();
+                    String outcome = doc.getData().get("result").toString();
                     ViewTrial trial = new ViewTrial(trial_ID, outcome);
 
                     // add experiment to the list to display
