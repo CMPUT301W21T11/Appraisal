@@ -11,7 +11,6 @@
         </activity>
         <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity" android:label="My Subscriptions"></activity>
         <activity android:name=".UI.main_menu.forum.ForumHomeActivity" android:label="Forum">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.MainActivity" />
         </activity>
         <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity" android:label="Forum Questions">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumHomeActivity" />
@@ -41,7 +40,7 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"></activity>
-        <activity android:name=".UI.main_menu.search.SearchActivity"></activity>
+        <activity android:name=".UI.main_menu.search.SearchActivity" android:label="Search"></activity>
     </application>
 
 </manifest>

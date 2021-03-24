@@ -5,13 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/exp_search_bar"
+
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:queryHint="Search for an experiment"
+        app:iconifiedByDefault="false"
+        tools:ignore="MissingConstraints" />
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/exp_search_bar">
 
         <ListView
             android:id="@+id/search_results"

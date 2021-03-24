@@ -86,16 +86,21 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
         TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+        TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
         desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());
-        if(current_experiment.getIsEnded()){
+        owner.setText(current_experiment.getOwner().substring(0, 7));
+        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
+            status.setText("Open");
+        }
+        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
             status.setText("Ended");
         }
         else {
-            status.setText("Open");
+            status.setText("Unpublished");
         }
         if (current_experiment.getIsGeolocationRequired()){
             geo_required.setText("Yes");
