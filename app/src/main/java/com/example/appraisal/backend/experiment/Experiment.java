@@ -24,7 +24,7 @@ public class Experiment implements Parcelable {
 //    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
-    private TrialType type;
+    private String type;
     private String rules;
     private String region;
     private Integer minimum_trials;
@@ -40,13 +40,7 @@ public class Experiment implements Parcelable {
         this.trial_list = new ArrayList<>();
 
         this.description = description;
-
-        try {
-            this.type = TrialType.getInstance(type);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
+        this.type = type;
         this.is_geolocation_required = is_geolocation_required;
         this.minimum_trials = minimum_trials;
         this.rules = rules;
@@ -60,7 +54,7 @@ public class Experiment implements Parcelable {
         exp_id = in.readString();
         owner = in.readString();
         description = in.readString();
-        type = TrialType.getInstance(in.readString());
+        type = in.readString();
         rules = in.readString();
         region = in.readString();
         if (in.readByte() == 0) {
@@ -93,7 +87,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Id of the Experiment
-     * @return
+     * @return String -- id of the experiment
      */
     public String getExpId() {
         return exp_id;
@@ -101,7 +95,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Owner of the Experiment
-     * @return
+     * @return String -- owner of the experiment
      */
     public String getOwner() {
         return owner;
@@ -109,7 +103,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Description of the Experiment
-     * @return
+     * @return String -- description of the experiment
      */
     public String getDescription() {
         return description;
@@ -117,15 +111,15 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Type of the Experiment
-     * @return
+     * @return String -- type of the experiment
      */
-    public TrialType getType() {
+    public String getType() {
         return type;
     }
 
     /**
      * Get the Region of the Experiment
-     * @return
+     * @return String -- region of the experiment
      */
     public String getRegion() {
         return region;
@@ -133,7 +127,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Rules of the Experiment
-     * @return
+     * @return String -- rules of the experiment
      */
     public String getRules(){
         return rules;
@@ -141,7 +135,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Minimum Number of Trials of the Experiment
-     * @return
+     * @return int -- minimum number of Trials of the experiment
      */
     public Integer getMinimumTrials() {
         return minimum_trials;
@@ -149,7 +143,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get if the Geolocation is required for the Experiment
-     * @return
+     * @return boolean -- is geolocation required
      */
     public Boolean getIsGeolocationRequired() {
         return is_geolocation_required;
@@ -157,7 +151,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get is the Experiment is Published
-     * @return
+     * @return boolean -- is the experiment published
      */
     public Boolean getIsPublished() {
         return is_published;
@@ -165,7 +159,6 @@ public class Experiment implements Parcelable {
 
     /**
      * Change if an Experiment is Published
-     * @return
      */
     public void setIsPublished(Boolean is_published) {
         this.is_published = is_published;
@@ -173,7 +166,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get is the Experiment is Ended
-     * @return
+     * @return boolean -- is ended
      */
     public Boolean getIsEnded() {
         return is_ended;
@@ -181,7 +174,6 @@ public class Experiment implements Parcelable {
 
     /**
      * Change if an Experiment is Ended
-     * @return
      */
     public void setIsEnded(Boolean is_ended) {
         this.is_ended = is_ended;
@@ -190,7 +182,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get the Trial Count of the Experiment
-     * @return
+     * @return int -- trial count
      */
     public Integer getTrialCount() {
         return trial_count;
@@ -198,7 +190,6 @@ public class Experiment implements Parcelable {
 
     /**
      * Update the Trial Count of the Experiment
-     * @return
      */
     public void setTrialCount(Integer trial_count) {
         this.trial_count = trial_count;
@@ -220,7 +211,7 @@ public class Experiment implements Parcelable {
 
     /**
      * Get a list of Trials
-     * @return
+     * @return List -- list of trials
      */
     public ArrayList<Trial> getTrialList() {
         return trial_list;
@@ -279,7 +270,7 @@ public class Experiment implements Parcelable {
         dest.writeString(exp_id);
         dest.writeString(owner);
         dest.writeString(description);
-        dest.writeString(type.getLabel());
+        dest.writeString(type);
         dest.writeString(rules);
         dest.writeString(region);
         if (minimum_trials == null) {

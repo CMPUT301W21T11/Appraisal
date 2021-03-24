@@ -18,6 +18,7 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
@@ -68,8 +69,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             return v;
         }
 
-        // initialize model
-        model = new SpecificExpModel(current_experiment);
+        // initialize
         graphViewInit(v);
         graphDropInit(v);
 
@@ -94,7 +94,18 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             current_experiment.clearTrial();
             TrialFactory factory = new TrialFactory();
             for (QueryDocumentSnapshot doc: value) {
-                Trial trial = factory.createTrial(current_experiment.getType(), current_experiment, current_experimenter);
+                // obtain experiment type
+                TrialType exp_type = null;
+                try {
+                    exp_type = TrialType.getInstance(current_experiment.getType());
+                } catch (IllegalArgumentException e) {
+                    Log.e("Error:", "Invalid experiment type string. Resort to fallback");
+                    e.printStackTrace();
+                    // fallback to measurement trial, as it supports the widest value range
+                    exp_type = TrialType.MEASUREMENT_TRIAL;
+                }
+                // create trial from factory
+                Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
                 DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
                 try {
                     String result = doc.getData().get("result").toString();
@@ -107,8 +118,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
                     e.printStackTrace();
                     trial.setValue(0);
                 }
+                // add to current experiment
                 current_experiment.addTrial(trial);
             }
+
+            // refresh model
             model = new SpecificExpModel(current_experiment);
             // refresh the views
             plotGraphs(v);

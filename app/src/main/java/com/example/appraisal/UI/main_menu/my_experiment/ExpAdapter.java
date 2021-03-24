@@ -38,7 +38,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> {
         TextView status = view.findViewById(R.id.exp_status);
 
         description.setText(exp_current.getDescription());
-        type.setText(exp_current.getType().getLabel());
+        type.setText(exp_current.getType());
         owner.setVisibility(View.GONE);
 
         if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {

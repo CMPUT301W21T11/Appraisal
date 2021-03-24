@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,7 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
         desc.setText(current_experiment.getDescription());
-        type.setText(current_experiment.getType().getLabel());
+        type.setText(current_experiment.getType());
         if(current_experiment.getIsEnded()){
             status.setText("Ended");
         }
@@ -156,11 +157,18 @@ public class SpecificExpDetailsFragment extends Fragment {
      * Add Trial to an Experiment
      */
     private void addTrial() {
-        TrialType type = current_experiment.getType();
+        TrialType type;
         try {
+            type = TrialType.getInstance(current_experiment.getType());
             MainModel.setCurrentExperiment(current_experiment);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            Log.e("Error", "experiment type is invalid. Falling back.");
             e.printStackTrace();
+            type = TrialType.MEASUREMENT_TRIAL;
+        } catch (Exception e) {
+            Log.e("Error:", e.toString());
+            e.printStackTrace();
+            type = TrialType.MEASUREMENT_TRIAL;
         }
 
         // Initialize intent
