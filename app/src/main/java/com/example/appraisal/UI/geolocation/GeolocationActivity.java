@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,12 +15,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
-
-// Location Purposes
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
-// Google Maps
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.maps.CameraUpdateFactory;
 import com.google.android.libraries.maps.GoogleMap;
 import com.google.android.libraries.maps.GoogleMap.OnMyLocationButtonClickListener;
@@ -31,17 +30,18 @@ import com.google.android.libraries.maps.model.LatLng;
 import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
 
-// Tasks
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import org.jetbrains.annotations.NotNull;
+
+// Location Purposes
+// Google Maps Beta (Not the production version)
+// Tasks
 
 public class GeolocationActivity extends AppCompatActivity implements
         OnMyLocationButtonClickListener,
         OnMyLocationClickListener,
         OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback {
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
     private GoogleMap mMap;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -65,6 +65,9 @@ public class GeolocationActivity extends AppCompatActivity implements
     private final LatLng defaultLocation = new LatLng(53.546123, -113.493822);
     private static final int DEFAULT_ZOOM = 15;
 
+    private double markerLat;
+    private double markerLong;
+
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
     // 2. Once they upload -> they can store it on Firestore (Geocode Lat/Long)
@@ -83,11 +86,6 @@ public class GeolocationActivity extends AppCompatActivity implements
 //        }
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            getCurrentLocation();
-//        }
-
         setContentView(R.layout.activity_geolocation);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -102,6 +100,13 @@ public class GeolocationActivity extends AppCompatActivity implements
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
+
+        mMap.setOnMarkerClickListener(this);
+//        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnMarkerDragListener(this);
+//        mMap.setOnInfoWindowCloseListener(this);
+//        mMap.setOnInfoWindowLongClickListener(this);
+
     }
 
     /**
@@ -111,6 +116,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             if (mMap != null) {
+                // Turns on the blue dot (current location)
                 mMap.setMyLocationEnabled(true);
                 locationPermissionGranted = true;
                 getDeviceLocation();
@@ -125,7 +131,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -169,23 +175,9 @@ public class GeolocationActivity extends AppCompatActivity implements
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
 
-//    @SuppressLint("MissingPermission")
-//    private void getCurrentLocation() {
-//        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-//        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if (location != null) {
-//                    Log.d("Lat", String.valueOf(location.getLatitude()));
-//                    Log.d("Long", String.valueOf(location.getLongitude()));
-//                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                }
-//            }
-//        });
-//
-//        Log.d("LatLng", String.valueOf(currentLocation));
-//    }
-
+    /**
+     * Get the device's current location
+     */
     private void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
@@ -207,22 +199,14 @@ public class GeolocationActivity extends AppCompatActivity implements
                                 LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude());
 
-                                LatLng currentLocation1 = new LatLng(lastKnownLocation.getLatitude() + 0.005,
-                                        lastKnownLocation.getLongitude());
-
-                                LatLng currentLocation2 = new LatLng(lastKnownLocation.getLatitude() + 0.007,
-                                        lastKnownLocation.getLongitude());
-
-
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), 15));
-
-                                Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation1).title("Trial1").snippet("Failure"));
+                                Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
                                 currentLocationMarker.showInfoWindow();
 
-                                Marker currentLocationMarker1 = mMap.addMarker(new MarkerOptions().position(currentLocation2).title("Trial2").snippet("Success"));
-                                currentLocationMarker1.showInfoWindow();
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        currentLocation, 15));
+
+
+
                             }
                         } else {
                             mMap.moveCamera(CameraUpdateFactory
@@ -237,4 +221,42 @@ public class GeolocationActivity extends AppCompatActivity implements
         }
     }
 
+    public void saveMarkerLocation(View v){
+        finish();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    /**
+     * Gets activated as soon as the user holds the marker
+     * @param marker
+     */
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+//        Toast.makeText(this, "User starts to drag me.", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Gets activated while user is dragging the marker across the map
+     * @param marker
+     */
+    @Override
+    public void onMarkerDrag(Marker marker) {
+//        Toast.makeText(this, "I'm being dragged.", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Gets activated once the user dropped the marker somewhere else
+     * @param marker
+     */
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+        marker.showInfoWindow();
+        markerLat = marker.getPosition().latitude;
+        markerLong = marker.getPosition().longitude;
+        Toast.makeText(this, "Lat: " + String.valueOf(markerLat) + "\n" + "Long: " + String.valueOf(markerLong), Toast.LENGTH_SHORT).show();
+    }
 }
