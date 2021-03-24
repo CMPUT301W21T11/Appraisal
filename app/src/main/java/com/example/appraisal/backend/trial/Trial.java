@@ -3,6 +3,7 @@ package com.example.appraisal.backend.trial;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ public abstract class Trial implements Comparable<Trial> {
 
     protected Trial(Experiment parent_experiment, User conductor, TrialType type) {
         this.parent_experiment = parent_experiment;
-        this.trial_date = new Date();
+        this.trial_date = Calendar.getInstance().getTime(); // more reliable way of getting current date
         this.conductor = conductor;
         this.type = type;
     }
