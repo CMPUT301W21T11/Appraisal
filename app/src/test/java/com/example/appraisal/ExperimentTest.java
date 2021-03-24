@@ -43,7 +43,7 @@ public class ExperimentTest {
         assertEquals("test_id", test_obj.getExpId());
         assertEquals("test_owner", test_obj.getOwner());
         assertEquals("test_desc", test_obj.getDescription());
-        assertEquals("Count-based trials", test_obj.getType());
+        assertEquals("Count-based trials", test_obj.getType().getLabel());
         assertEquals(0, test_obj.getMinimumTrials(), 0);
         assertEquals("None", test_obj.getRules());
         assertEquals("Earth", test_obj.getRegion());

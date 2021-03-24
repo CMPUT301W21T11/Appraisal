@@ -86,7 +86,7 @@ public class MeasurementActivity extends AppCompatActivity {
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
-        trial_info.put("Result", dp3.format(model.getMeasurement()));
+        trial_info.put("result", dp3.format(model.getMeasurement()));
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

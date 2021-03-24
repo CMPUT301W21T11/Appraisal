@@ -16,17 +16,23 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialFactory;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
     private GraphView histogram;
@@ -64,7 +70,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // initialize model
         model = new SpecificExpModel(current_experiment);
-        viewInitThread(v);
+        graphViewInit(v);
+        graphDropInit(v);
+
         trialFirebaseInit(v);
 
         return v;
@@ -81,23 +89,37 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             return;
         }
 
-        // Since the trials are also saved locally, there is no need to query the database
-        // Instead, only need to reconstruct the model locally and refresh the layout
-        // This is big brain time
+        // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
+            current_experiment.clearTrial();
+            TrialFactory factory = new TrialFactory();
+            for (QueryDocumentSnapshot doc: value) {
+                Trial trial = factory.createTrial(current_experiment.getType(), current_experiment, current_experimenter);
+                DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
+                try {
+                    String result = doc.getData().get("result").toString();
+                    trial.setValue(Double.parseDouble(result));
+                    String date = doc.getData().get("date").toString();
+                    Date trial_date = format.parse(date);
+                    trial.overrideDate(trial_date);
+                } catch (Exception e) {
+                    // fallback for case if trial cannot be parsed
+                    e.printStackTrace();
+                    trial.setValue(0);
+                }
+                current_experiment.addTrial(trial);
+            }
             model = new SpecificExpModel(current_experiment);
             // refresh the views
-            viewInitThread(v);
+            plotGraphs(v);
         });
     }
 
-    private void viewInitThread(View v) {
-        graphViewInit(v);
+    private void plotGraphs(View v) {
         generateTimePlot();
         generateHistogram();
         generateQuartileTable();
         generateExpStats(v);
-        graphDropInit(v);
     }
 
     private void generateExpStats(View v) {
@@ -179,10 +201,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private void generateHistogram() {
         // obtain data points
 
+        histogram.removeAllSeries();            // clear any previous series
+
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
         barGraphSeries.setSpacing(5); // set a bit of spacing between bars for readability
-        histogram.removeAllSeries();            // clear any previous series
         histogram.addSeries(barGraphSeries);    // set to new series
 
         histogram.getGridLabelRenderer().setPadding(50);
@@ -211,13 +234,15 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // The graph date plot initialization is taken from GraphView's documentation
         // Author:
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
+
+        exp_plot_over_time.removeAllSeries();           // clear any previous series
+
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
         // set datapoints visible
         LineGraphSeries<DataPoint> time_plot_data = new LineGraphSeries<>(data_points);
         time_plot_data.setDrawDataPoints(true);
         time_plot_data.setDataPointsRadius(13f);
-        exp_plot_over_time.removeAllSeries();           // clear any previous series
         exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises

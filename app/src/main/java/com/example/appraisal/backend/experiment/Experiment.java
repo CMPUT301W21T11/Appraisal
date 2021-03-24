@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialType;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class Experiment implements Parcelable {
 //    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
-    private String type;
+    private TrialType type;
     private String rules;
     private String region;
     private Integer minimum_trials;
@@ -39,7 +40,13 @@ public class Experiment implements Parcelable {
         this.trial_list = new ArrayList<>();
 
         this.description = description;
-        this.type = type;
+
+        try {
+            this.type = TrialType.getInstance(type);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+
         this.is_geolocation_required = is_geolocation_required;
         this.minimum_trials = minimum_trials;
         this.rules = rules;
@@ -53,7 +60,7 @@ public class Experiment implements Parcelable {
         exp_id = in.readString();
         owner = in.readString();
         description = in.readString();
-        type = in.readString();
+        type = TrialType.getInstance(in.readString());
         rules = in.readString();
         region = in.readString();
         if (in.readByte() == 0) {
@@ -112,7 +119,7 @@ public class Experiment implements Parcelable {
      * Get the Type of the Experiment
      * @return
      */
-    public String getType() {
+    public TrialType getType() {
         return type;
     }
 
@@ -272,7 +279,7 @@ public class Experiment implements Parcelable {
         dest.writeString(exp_id);
         dest.writeString(owner);
         dest.writeString(description);
-        dest.writeString(type);
+        dest.writeString(type.getLabel());
         dest.writeString(rules);
         dest.writeString(region);
         if (minimum_trials == null) {

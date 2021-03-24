@@ -101,10 +101,10 @@ public class BinomialActivity extends AppCompatActivity {
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
-        if (outcome == true) {
-            trial_info.put("Result", "Success");
+        if (outcome) {
+            trial_info.put("result", "1"); // 1 indicates success
         } else {
-            trial_info.put("Result", "Failure");
+            trial_info.put("result", "0"); // 0 indicates failure
         }
 
         // create new document for experiment with values from hash map

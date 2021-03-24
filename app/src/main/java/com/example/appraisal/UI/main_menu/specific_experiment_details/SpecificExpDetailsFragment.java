@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
@@ -90,7 +91,7 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
         desc.setText(current_experiment.getDescription());
-        type.setText(current_experiment.getType());
+        type.setText(current_experiment.getType().getLabel());
         if(current_experiment.getIsEnded()){
             status.setText("Ended");
         }
@@ -155,26 +156,32 @@ public class SpecificExpDetailsFragment extends Fragment {
      * Add Trial to an Experiment
      */
     private void addTrial() {
-        String type = current_experiment.getType();
+        TrialType type = current_experiment.getType();
         try {
             MainModel.setCurrentExperiment(current_experiment);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Intent intent;
-        if (type.equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), BinomialActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.COUNT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), CounterActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.MEASUREMENT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), MeasurementActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), NonNegIntCountActivity.class);
-            startActivity(intent);
+
+        // Initialize intent
+        Intent intent = new Intent(getActivity(), AppCompatActivity.class);
+
+        // assign intent based on type
+        switch (type) {
+            case BINOMIAL_TRIAL:
+                intent = new Intent(getActivity(), BinomialActivity.class);
+                break;
+            case COUNT_TRIAL:
+                intent = new Intent(getActivity(), CounterActivity.class);
+                break;
+            case MEASUREMENT_TRIAL:
+                intent = new Intent(getActivity(), MeasurementActivity.class);
+                break;
+            case NON_NEG_INT_TRIAL:
+                intent = new Intent(getActivity(), NonNegIntCountActivity.class);
         }
+
+        startActivity(intent);
     }
 
     /**
