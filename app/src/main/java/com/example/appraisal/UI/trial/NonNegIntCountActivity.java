@@ -138,9 +138,13 @@ public class NonNegIntCountActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()){
-                        firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                    if ((document != null) && document.exists()) {
+                        try {
+                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
+                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
