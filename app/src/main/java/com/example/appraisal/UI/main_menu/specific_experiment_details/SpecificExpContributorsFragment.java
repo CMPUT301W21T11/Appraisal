@@ -45,15 +45,15 @@ public class SpecificExpContributorsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_specific_exp_contributors, container, false);
         experimenters = new ArrayList<>(); // filler code to get the adapter running
 
-        // initialize model
-        model = new SpecificExpModel();
-
         // get current experiment
         try {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // initialize model
+        model = new SpecificExpModel(current_experiment);
 
         // get document reference
         DocumentReference doc = null;

@@ -1,5 +1,4 @@
-![Master](https://github.com/CMPUT301W21T11/Appraisal/actions/workflows/android-ci.yml/badge.svg)
-
+![v1.0b ini](https://github.com/CMPUT301W21T11/Appraisal/actions/workflows/android-ci.yml/badge.svg?branch=v1.0b_ini)
 
 <h1>CMPUT301 Project 1</h1>
 ___

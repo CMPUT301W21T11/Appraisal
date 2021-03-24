@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.MeasurementModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,8 +20,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class MeasurementActivity extends AppCompatActivity {
@@ -44,7 +49,8 @@ public class MeasurementActivity extends AppCompatActivity {
         input_measurement = findViewById(R.id.inputMeasurement);
         try {
             Experiment experiment = MainModel.getCurrentExperiment();
-            model = new MeasurementModel(experiment);
+            User conductor = MainModel.getCurrentUser();
+            model = new MeasurementModel(experiment, conductor);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +90,13 @@ public class MeasurementActivity extends AppCompatActivity {
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
-        trial_info.put("Result", dp3.format(model.getMeasurement()));
+        trial_info.put("result", dp3.format(model.getMeasurement()));
+
+        // put trial date as current date
+        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        String date_string = formatter.format(Calendar.getInstance().getTime());
+        trial_info.put("date", date_string);
+
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

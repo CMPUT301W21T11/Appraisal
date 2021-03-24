@@ -1,38 +1,39 @@
 package com.example.appraisal.backend.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
+
+import java.util.Date;
 
 /**
  * This class represents a Measurement Trial
  */
 public class MeasurementTrial extends Trial {
-    float measurement;
+    private double measurement;
 
     /**
      * Create a measurement trial
      * @param parent_experiment
      *      The parent experiment which the trial belongs to
      */
-    public MeasurementTrial(Experiment parent_experiment) {
-        super(parent_experiment);
+    public MeasurementTrial(Experiment parent_experiment, User conductor) {
+        super(parent_experiment, conductor, TrialType.MEASUREMENT_TRIAL);
         measurement = 0;
     }
 
     /**
-     * Set the measurement of the trial
-     * @param measurement
-     *      The measurement obtained
+     * {@inheritDoc}
      */
-    public void setMeasurement(float measurement) {
-        this.measurement = measurement;
+    @Override
+    public void setValue(double value) {
+        measurement = value;
     }
 
     /**
-     * Get the measurement of the trial
-     * @return measurement
-     *      The measurement of the trial
+     * {@inheritDoc}
      */
-    public float getMeasurement() {
+    @Override
+    public double getValue() {
         return measurement;
     }
 }

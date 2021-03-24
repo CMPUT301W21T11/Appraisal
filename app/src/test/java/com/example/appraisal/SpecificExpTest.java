@@ -4,6 +4,7 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,12 +37,13 @@ public class SpecificExpTest {
     @Before
     public void init() {
         experiment_int = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
+        User test_user = new User("test", "test", "test", "test");
         control_list_int = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
             int count = (int) (Math.random() * (100 * Math.round(Math.random() * 10)));
             control_list_int.add(count);
-            NonNegIntCountTrial trial = new NonNegIntCountTrial(experiment_int);
-            trial.addIntCount(String.valueOf(count));
+            NonNegIntCountTrial trial = new NonNegIntCountTrial(experiment_int, test_user);
+            trial.setValue(count);
             experiment_int.addTrial(trial);
         }
 
@@ -50,8 +52,8 @@ public class SpecificExpTest {
         for (int i = 0; i < TRIAL_SIZE; i++) {
             float measurement = (float) (Math.random());
             control_list_float.add(measurement);
-            MeasurementTrial trial = new MeasurementTrial(experiment_float);
-            trial.setMeasurement(measurement);
+            MeasurementTrial trial = new MeasurementTrial(experiment_float, test_user);
+            trial.setValue(measurement);
             experiment_float.addTrial(trial);
         }
 

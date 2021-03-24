@@ -36,6 +36,8 @@ public class SpecificExpViewAdapter extends FragmentStateAdapter {
                 return new SpecificExpDataAnalysisFragment();
             case 3:
                 return new SpecificExpContributorsFragment();
+            case 4:
+                return new SpecificExpDiscussionFragment();
             default:
                 // This is a safety net so that if PAGE_NUM changed and the is not updated, the app won't crash
                 return new Fragment();
