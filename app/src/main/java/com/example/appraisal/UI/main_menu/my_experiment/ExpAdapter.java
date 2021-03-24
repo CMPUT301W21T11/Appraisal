@@ -25,7 +25,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     private Context context;
     private String activity_from;
 
-    public ExpAdapter(Context context, ArrayList<Experiment> experiments, String activity_from){
+    public ExpAdapter(Context context, ArrayList<Experiment> experiments, String activity_from) {
         super(context, 0, experiments);
         this.experiments = experiments;
         this.experimentsFiltered = experiments;
@@ -33,25 +33,37 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         this.activity_from = activity_from;
     }
 
+    /**
+     * Get the number of experiments are in the data set represented by this adapter
+     */
     @Override
     public int getCount() {
         return experimentsFiltered == null ? 0 : experimentsFiltered.size();
     }
 
+    /**
+     * Get the experiment associated with the specified position in the data set
+     */
     @Override
     public Experiment getItem(int position) {
         return experimentsFiltered.get(position);
     }
 
+    /**
+     * Get the row id associated with the specified position in the list
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent){
+    /**
+     * Get a View that displays the data at the specified position in the data set
+     */
+    public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.exp_layout, parent, false);
         }
 
@@ -68,8 +80,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         if (activity_from.equals("MyExperiment")) {
             LinearLayout owner_row = view.findViewById(R.id.owner_row);
             owner_row.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             TextView owner_name = view.findViewById(R.id.owner_name);
             owner_name.setText(exp_current.getOwner().substring(0, 7));
         }
@@ -77,11 +88,9 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         // show status of experiment
         if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
             status.setText("Open");
-        }
-        else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
+        } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
             status.setText("Ended");
-        }
-        else {
+        } else {
             status.setText("Unpublished");
         }
 
@@ -90,12 +99,9 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     }
 
 
-//    public void setExperiments(ArrayList<Experiment> experiments_list){
-//        this.experiments = experiments_list;
-//    }
-
     /**
      * This method filters the list with the text specified by the user
+     *
      * @return
      */
     @Override
@@ -105,6 +111,8 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults filterResults = new FilterResults();
+
+                // show the normal list if no search input is present
                 if (constraint == null || constraint.length() == 0) {
                     filterResults.count = experiments.size();
                     filterResults.values = experiments;
@@ -136,15 +144,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
             protected void publishResults(CharSequence constraint, FilterResults filterResults) {
 
                 experimentsFiltered = (ArrayList<Experiment>) filterResults.values;
-                Log.d("Size after filtering:", String.valueOf(experimentsFiltered.size()));
                 notifyDataSetChanged();
-//                clear();
-//                int count = experimentsFiltered == null ? 0 : experimentsFiltered.size();
-//
-//                for(int i = 0; i<count; i++){
-//                    add(experimentsFiltered.get(i));
-//                    notifyDataSetInvalidated();
-//                }
             }
         };
         return filter;
@@ -152,14 +152,14 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
 
     /**
      * This method checks the status of the experiment and returns corresponding string
+     *
      * @param exp
      * @return
      */
     private String checkStat(Experiment exp) {
-        if (exp.getIsEnded()){
+        if (exp.getIsEnded()) {
             return "Ended";
-        }
-        else {
+        } else {
             return "Open";
         }
     }

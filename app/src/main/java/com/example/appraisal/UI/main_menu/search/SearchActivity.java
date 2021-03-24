@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+
 import android.view.MenuItem;
 
 
@@ -38,7 +39,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.net.CookieHandler;
 import java.util.ArrayList;
 
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
@@ -48,8 +48,6 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
     private ExpAdapter exp_adapter;
     private SearchView exp_search;
     private Context context;
-
-    //private List<Experiment> exp_list = new ArrayList<Experiment>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,39 +71,32 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
         getDbExperiments();                                     // get all experiments from Database
 
 
+        // Listens to the search box for any updates and filters the results accordingly
         exp_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //SearchActivity.this.exp_adapter.getFilter().filter(query);
+                SearchActivity.this.exp_adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 SearchActivity.this.exp_adapter.getFilter().filter(newText);
-                return true;
+                return false;
             }
         });
 
+        // passing the experiment data into the list
         search_result_display.setAdapter(exp_adapter);
+
+        // function to select a specific experiment from the list
         search_result_display.setOnItemClickListener(selectExListener);
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-
-        if(id == R.id.exp_search_bar){
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
+    /**
+     * Click on a specific experiment to open its main page
+     */
     private AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -140,7 +131,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
                     String exp_ID = doc.getId();
                     Boolean is_published = (Boolean) doc.getData().get("isPublished");
 
-                    if (!exp_ID.equals("Exp0000") && is_published){
+                    if (!exp_ID.equals("Exp0000") && is_published) {
 
                         String description = (String) doc.getData().get("description");
                         String type = (String) doc.getData().get("type");
@@ -168,9 +159,6 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
             }
         });
     }
-
-
-
 
 
 }

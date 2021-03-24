@@ -4,36 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<!--    <LinearLayout-->
-<!--        android:id="@+id/exp_search_bar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/exp_search_field"-->
-<!--            android:drawableStart="@android:drawable/ic_menu_search"-->
-<!--            android:layout_width="286dp"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:ems="10"-->
-<!--            android:hint="Search an experiment"-->
-<!--            android:imeOptions="actionDone"-->
-<!--            android:inputType="textPersonName" />-->
-
-
-
-<!--        <Button-->
-<!--            android:id="@+id/exp_search_button"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:text="Search"-->
-<!--            android:textSize="10sp"/>-->
-
-<!--        />-->
-
-<!--    </LinearLayout>-->
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/exp_search_bar"
