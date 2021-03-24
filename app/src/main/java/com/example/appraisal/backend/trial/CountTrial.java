@@ -8,12 +8,8 @@ import java.util.Date;
 /**
  * This class represents a Count Trial
  */
-public class CountTrial implements Trial {
+public class CountTrial extends Trial {
     private int counter;
-
-    private Experiment parent_experiment;
-    private User conductor;
-    private Date trial_date;
 
     /**
      * Create a count trial object
@@ -21,10 +17,8 @@ public class CountTrial implements Trial {
      *      The parent experiment which the object belongs to
      */
     public CountTrial(Experiment parent_experiment, User conductor) {
+        super(parent_experiment, conductor, TrialType.COUNT_TRIAL);
         counter = 0;
-        this.parent_experiment = parent_experiment;
-        this.conductor = conductor;
-        this.trial_date = new Date();
     }
 
     /**
@@ -46,55 +40,7 @@ public class CountTrial implements Trial {
      * {@inheritDoc}
      */
     @Override
-    public void overrideDate(Date date) {
-        trial_date = date;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getValue() {
         return counter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Experiment getParentExperiment() {
-        return parent_experiment;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Date getTrialDate() {
-        return trial_date;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User getConductor() {
-        return conductor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TrialType getType() {
-        return TrialType.COUNT_TRIAL;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Trial o) {
-        return Double.compare(this.getValue(), o.getValue());
     }
 }

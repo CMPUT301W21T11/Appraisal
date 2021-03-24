@@ -46,6 +46,24 @@ public class TrialTest {
     }
 
     /**
+     * Test if the factory is working
+     */
+    @Test
+    public void testFactory() {
+        Trial test = factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.BINOMIAL_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.MEASUREMENT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.MEASUREMENT_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.COUNT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.COUNT_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.NON_NEG_INT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.NON_NEG_INT_TRIAL, test.getType());
+    }
+
+    /**
      * Test get parent experiment functionality
      */
     @Test

@@ -8,12 +8,8 @@ import java.util.Date;
 /**
  * This class represents a Measurement Trial
  */
-public class MeasurementTrial implements Trial {
+public class MeasurementTrial extends Trial {
     private double measurement;
-
-    private Experiment parent_experiment;
-    private User conductor;
-    private Date trial_date;
 
     /**
      * Create a measurement trial
@@ -21,10 +17,8 @@ public class MeasurementTrial implements Trial {
      *      The parent experiment which the trial belongs to
      */
     public MeasurementTrial(Experiment parent_experiment, User conductor) {
+        super(parent_experiment, conductor, TrialType.MEASUREMENT_TRIAL);
         measurement = 0;
-        this.parent_experiment = parent_experiment;
-        this.conductor = conductor;
-        this.trial_date = new Date();
     }
 
     /**
@@ -36,58 +30,10 @@ public class MeasurementTrial implements Trial {
     }
 
     /**
-     * {@@inheritDoc}
-     */
-    @Override
-    public void overrideDate(Date date) {
-        trial_date = date;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public double getValue() {
         return measurement;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Experiment getParentExperiment() {
-        return parent_experiment;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Date getTrialDate() {
-        return trial_date;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User getConductor() {
-        return conductor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TrialType getType() {
-        return TrialType.MEASUREMENT_TRIAL;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Trial o) {
-        return Double.compare(this.getValue(), o.getValue());
     }
 }

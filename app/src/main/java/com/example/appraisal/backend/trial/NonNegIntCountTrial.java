@@ -8,12 +8,8 @@ import java.util.Date;
 /**
  * This class represents a Non negative Integer count trial
  */
-public class NonNegIntCountTrial implements Trial {
+public class NonNegIntCountTrial extends Trial {
     private int counter;
-
-    private final Experiment parent_experiment;
-    private Date trial_date;
-    private final User conductor;
 
     /**
      * Creates a new Non negative Integer count trial
@@ -21,11 +17,8 @@ public class NonNegIntCountTrial implements Trial {
      *      This is the parent experiment the trial belongs to
      */
     public NonNegIntCountTrial(Experiment parent_experiment, User conductor) {
+        super(parent_experiment, conductor, TrialType.NON_NEG_INT_TRIAL);
         counter = 0;
-
-        this.parent_experiment = parent_experiment;
-        this.conductor = conductor;
-        trial_date = new Date();
     }
 
     /**
@@ -40,55 +33,7 @@ public class NonNegIntCountTrial implements Trial {
      * {@inheritDoc}
      */
     @Override
-    public void overrideDate(Date date) {
-        trial_date = date;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getValue() {
         return counter;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Experiment getParentExperiment() {
-        return parent_experiment;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Date getTrialDate() {
-        return trial_date;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public User getConductor() {
-        return conductor;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public TrialType getType() {
-        return TrialType.NON_NEG_INT_TRIAL;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int compareTo(Trial o) {
-        return Double.compare(this.getValue(), o.getValue());
     }
 }

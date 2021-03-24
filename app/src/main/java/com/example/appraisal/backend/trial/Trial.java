@@ -6,10 +6,31 @@ import com.example.appraisal.backend.user.User;
 import java.util.Date;
 
 /**
- * This is the Trial interface that all trial subclass should share
+ * This is the Trial abstract class that all trial subclass should share
  * This mainly ensures reading and writing data from all trial subclass are unified
  */
-public interface Trial extends Comparable<Trial> {
+public abstract class Trial implements Comparable<Trial> {
+    private Experiment parent_experiment;
+    private Date trial_date;
+    private User conductor;
+    private TrialType type;
+
+    protected Trial(Experiment parent_experiment, User conductor, TrialType type) {
+        this.parent_experiment = parent_experiment;
+        this.trial_date = new Date();
+        this.conductor = conductor;
+        this.type = type;
+    }
+
+    /**
+     * This method makes the Trial class comparable based on its trial value
+     *
+     * @param o -- the other trial object being compared to
+     */
+    @Override
+    public int compareTo(Trial o) {
+        return Double.compare(this.getValue(), o.getValue());
+    }
 
     /**
      * This method sets the current value of the trial
@@ -19,15 +40,7 @@ public interface Trial extends Comparable<Trial> {
      *
      * @param value -- the value that the trial sets to
      */
-    void setValue(double value);
-
-    /**
-     * This method overrides the create date of the trial
-     * The trial's create date is default to the current date
-     *
-     * @param date -- the date which the trial date overrides to
-     */
-    void overrideDate(Date date);
+    public abstract void setValue(double value);
 
     /**
      * This method get the value of a trial
@@ -35,34 +48,52 @@ public interface Trial extends Comparable<Trial> {
      *
      * @return double -- value of the trial
      */
-    double getValue();
+    public abstract double getValue();
+
+    /**
+     * This method overrides the create date of the trial
+     * The trial's create date is default to the current date
+     *
+     * @param date -- the date which the trial date overrides to
+     */
+    public void overrideDate(Date date) {
+        this.trial_date = date;
+    }
 
     /**
      * This method returns which experiment the trial belongs to
      *
      * @return Experiment -- the parent experiment
      */
-    Experiment getParentExperiment();
+    public Experiment getParentExperiment() {
+        return parent_experiment;
+    }
 
     /**
      * This method returns the date which the trial is conducted
      *
      * @return Date -- date which the trial is conducted
      */
-    Date getTrialDate();
+    public Date getTrialDate() {
+        return trial_date;
+    }
 
     /**
      * This method returns the User that conducted the trial
      *
      * @return User -- the conductor of the trial
      */
-    User getConductor();
+    public User getConductor() {
+        return conductor;
+    }
 
     /**
      * This method returns the type of the experiment. It matches the create key of TrialFactory
      *
      * @return TrialType -- the create key of this type of trial
      */
-    TrialType getType();
+    public TrialType getType() {
+        return type;
+    }
 }
 
