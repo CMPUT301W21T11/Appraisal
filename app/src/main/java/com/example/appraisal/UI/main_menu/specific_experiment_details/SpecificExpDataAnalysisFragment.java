@@ -108,9 +108,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
                 Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
                 DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
                 try {
-                    String result = doc.getData().get("result").toString();
+                    String result = doc.get("result").toString();
                     trial.setValue(Double.parseDouble(result));
-                    String date = doc.getData().get("date").toString();
+                    String date = doc.get("date").toString();
                     Date trial_date = format.parse(date);
                     trial.overrideDate(trial_date);
                 } catch (Exception e) {
