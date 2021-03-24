@@ -1,5 +1,6 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
@@ -153,5 +155,10 @@ public class BinomialActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void addGeolocation(View v){
+        Intent intent = new Intent(this, GeolocationActivity.class);
+        startActivity(intent);
     }
 }
