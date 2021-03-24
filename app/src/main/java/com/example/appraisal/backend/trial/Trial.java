@@ -1,41 +1,99 @@
 package com.example.appraisal.backend.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 
 import java.util.Date;
 
 /**
- * This is the Trial abstract class that represent trials in general
+ * This is the Trial abstract class that all trial subclass should share
+ * This mainly ensures reading and writing data from all trial subclass are unified
  */
-public abstract class Trial {
-    private final Experiment parent_experiment;
-    private final Date trial_date = new Date(); //Need to record time of the trial, in order to show the plot of trials over time
+public abstract class Trial implements Comparable<Trial> {
+    private Experiment parent_experiment;
+    private Date trial_date;
+    private User conductor;
+    private TrialType type;
 
-    /**
-     * Create the trial object
-     * @param parent_experiment
-     *      The parent experiment of this trail
-     */
-    public Trial(Experiment parent_experiment) {
+    protected Trial(Experiment parent_experiment, User conductor, TrialType type) {
         this.parent_experiment = parent_experiment;
+        this.trial_date = new Date();
+        this.conductor = conductor;
+        this.type = type;
     }
 
     /**
-     * This returns the experiment object that this trial belongs to
-     * @return parent_experiment
-     *      The parent experiment this object belongs
+     * This method makes the Trial class comparable based on its trial value
+     *
+     * @param o -- the other trial object being compared to
      */
-    public Experiment getParent_experiment() {
+    @Override
+    public int compareTo(Trial o) {
+        return Double.compare(this.getValue(), o.getValue());
+    }
+
+    /**
+     * This method sets the current value of the trial
+     * For Bernoulli trials (i.e. Binomials), 1 = success, 0 = failure
+     * Note: It is recommended to use the class native method if possible
+     * (e.g. for BernoulliTrial it is setToSuccess() and setToFailure())
+     *
+     * @param value -- the value that the trial sets to
+     */
+    public abstract void setValue(double value);
+
+    /**
+     * This method get the value of a trial
+     * For Bernoulli trials, it wil return 1 to indicate success, and 0 for failure
+     *
+     * @return double -- value of the trial
+     */
+    public abstract double getValue();
+
+    /**
+     * This method overrides the create date of the trial
+     * The trial's create date is default to the current date
+     *
+     * @param date -- the date which the trial date overrides to
+     */
+    public void overrideDate(Date date) {
+        this.trial_date = date;
+    }
+
+    /**
+     * This method returns which experiment the trial belongs to
+     *
+     * @return Experiment -- the parent experiment
+     */
+    public Experiment getParentExperiment() {
         return parent_experiment;
     }
 
     /**
-     * This returns the date which the trial was conducted
-     * @return trial_date
-     *      The Date object of the conducted date
+     * This method returns the date which the trial is conducted
+     *
+     * @return Date -- date which the trial is conducted
      */
     public Date getTrialDate() {
         return trial_date;
+    }
+
+    /**
+     * This method returns the User that conducted the trial
+     *
+     * @return User -- the conductor of the trial
+     */
+    public User getConductor() {
+        return conductor;
+    }
+
+    /**
+     * This method returns the type of the experiment. It matches the create key of TrialFactory
+     *
+     * @return TrialType -- the create key of this type of trial
+     */
+    public TrialType getType() {
+        return type;
     }
 }
 

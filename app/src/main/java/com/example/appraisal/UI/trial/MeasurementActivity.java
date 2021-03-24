@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.MeasurementModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +45,8 @@ public class MeasurementActivity extends AppCompatActivity {
         input_measurement = findViewById(R.id.inputMeasurement);
         try {
             Experiment experiment = MainModel.getCurrentExperiment();
-            model = new MeasurementModel(experiment);
+            User conductor = MainModel.getCurrentUser();
+            model = new MeasurementModel(experiment, conductor);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class SpecificExpActivity extends AppCompatActivity {
     private CheckBox subscribeCheckBox;
 
     // tab names
-    private final String[] tab_names= {"DETAILS", "QR CODE", "ANALYSIS", "Participants"};
+    private final String[] tab_names= {"DETAILS", "QR CODE", "ANALYSIS", "PARTICIPANTS", "DISCUSSION"};
 
     /**
      * When called, create an instance of the Activity. Should only be called by the android framework

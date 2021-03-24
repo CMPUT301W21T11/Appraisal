@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.MeasurementTrial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 
 /**
  * This is the model for measurement trial
@@ -11,8 +14,9 @@ import com.example.appraisal.backend.trial.MeasurementTrial;
 public class MeasurementModel {
     private MeasurementTrial data;
 
-    public MeasurementModel(Experiment experiment) {
-        data = new MeasurementTrial(experiment);
+    public MeasurementModel(Experiment experiment, User conductor) {
+        TrialFactory factory = new TrialFactory();
+        data = (MeasurementTrial) factory.createTrial(TrialType.MEASUREMENT_TRIAL, experiment, conductor);
     }
 
     /**
@@ -28,15 +32,15 @@ public class MeasurementModel {
         catch (Exception e) {
             Log.i("PROBLEM WITH INPUT!: ", measurement);
         }
-        data.setMeasurement(value);
+        data.setValue(value);
     }
 
     public float getMeasurement() {
-        return data.getMeasurement();
+        return (float) data.getValue();
     }
 
     /**
      * Save the trial to the parent experiment
      */
-    public void toExperiment() { data.getParent_experiment().addTrial(data);}
+    public void toExperiment() { data.getParentExperiment().addTrial(data);}
 }

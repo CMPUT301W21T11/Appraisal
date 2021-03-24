@@ -1,18 +1,29 @@
 package com.example.appraisal;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.BinomialTrial;
+import com.example.appraisal.backend.trial.BernoulliTrial;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
+/**
+ * This class is for testing the functionality of the Trial package
+ * Including the Trial class and Trial factory
+ */
 public class TrialTest {
     private Experiment test_parent;
+    private User test_user;
+    private TrialFactory factory;
 
     /**
      * Initialize parent experiment
@@ -27,6 +38,29 @@ public class TrialTest {
                 0,
                 "None",
                 "Earth");
+        test_user = new User("test_id",
+                "test name",
+                "Test email",
+                "8888");
+        factory = new TrialFactory();
+    }
+
+    /**
+     * Test if the factory is working
+     */
+    @Test
+    public void testFactory() {
+        Trial test = factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.BINOMIAL_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.MEASUREMENT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.MEASUREMENT_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.COUNT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.COUNT_TRIAL, test.getType());
+
+        test = factory.createTrial(TrialType.NON_NEG_INT_TRIAL, test_parent, test_user);
+        assertEquals(TrialType.NON_NEG_INT_TRIAL, test.getType());
     }
 
     /**
@@ -34,8 +68,8 @@ public class TrialTest {
      */
     @Test
     public void testParent() {
-        BinomialTrial trial = new BinomialTrial(test_parent);
-        assertEquals(test_parent.getClass(), trial.getParent_experiment().getClass());
+        BernoulliTrial trial = (BernoulliTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        assertEquals(test_parent.getClass(), trial.getParentExperiment().getClass());
     }
 
     /**
@@ -43,21 +77,14 @@ public class TrialTest {
      */
     @Test
     public void testBinomial() {
-        BinomialTrial trial = new BinomialTrial(test_parent);
-        assertEquals(0, trial.getFailureCount());
-        assertEquals(0, trial.getSuccessCount());
+        BernoulliTrial trial = (BernoulliTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        assertEquals(0, (int) trial.getValue());
 
-        trial.addSuccess();
-        trial.addFailure();
+        trial.setToSuccess();
+        assertEquals(1, (int) trial.getValue());
 
-        assertEquals(1, trial.getFailureCount());
-        assertEquals(1, trial.getSuccessCount());
-
-        trial.setFailure_counter(10);
-        trial.setSuccess_counter(12);
-
-        assertEquals(10, trial.getFailureCount());
-        assertEquals(12, trial.getSuccessCount());
+        trial.setToFailure();
+        assertEquals(0, (int) trial.getValue());
     }
 
     /**
@@ -65,11 +92,14 @@ public class TrialTest {
      */
     @Test
     public void testCountTrial() {
-        CountTrial trial = new CountTrial(test_parent);
-        assertEquals(0, trial.getCount());
+        CountTrial trial = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, test_parent, test_user);
+        assertEquals(0, (int) trial.getValue());
 
-        trial.increase();
-        assertEquals(1, trial.getCount());
+        trial.addCount();
+        assertEquals(1, (int) trial.getValue());
+
+        trial.setValue(10.0);
+        assertEquals(10, (int) trial.getValue());
     }
 
     /**
@@ -77,11 +107,11 @@ public class TrialTest {
      */
     @Test
     public void testMeasurement() {
-        MeasurementTrial trial = new MeasurementTrial(test_parent);
-        assertEquals(0.0, trial.getMeasurement(), 0.1);
+        MeasurementTrial trial = (MeasurementTrial) factory.createTrial(TrialType.MEASUREMENT_TRIAL, test_parent, test_user);
+        assertEquals(0.0, trial.getValue(), 0.1);
 
-        trial.setMeasurement(21.5f);
-        assertEquals(21.5f, trial.getMeasurement(), 0.1);
+        trial.setValue(21.5);
+        assertEquals(21.5, trial.getValue(), 0.1);
     }
 
     /**
@@ -89,13 +119,10 @@ public class TrialTest {
      */
     @Test
     public void testNonNeg() {
-        NonNegIntCountTrial trial = new NonNegIntCountTrial(test_parent);
-        assertEquals(0, trial.getCount());
+        NonNegIntCountTrial trial = (NonNegIntCountTrial) factory.createTrial(TrialType.NON_NEG_INT_TRIAL, test_parent, test_user);
+        assertEquals(0, (int) trial.getValue());
 
-        trial.addIntCount("10");
-        assertEquals(10, trial.getCount());
-
-        trial.addIntCount("10");
-        assertEquals(20, trial.getCount());
+        trial.setValue(10);
+        assertEquals(10, (int) trial.getValue());
     }
 }

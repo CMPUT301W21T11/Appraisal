@@ -216,18 +216,21 @@ public class Experiment implements Parcelable {
      * @return
      */
     public ArrayList<Trial> getTrialList() {
-        if (trial_list.size() == 0) {
-            trial_list.add(new CountTrial(this));
-        }
         return trial_list;
     }
 
     /**
      * Add a trial to the list of Trials
-     * @return
      */
     public void addTrial(Trial trial) {
         trial_list.add(trial);
+    }
+
+    /**
+     * Clear the list of trials
+     */
+    public void clearTrial() {
+        trial_list.clear();
     }
 
 //    /**
