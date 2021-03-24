@@ -82,6 +82,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         return v;
     }
 
+    // The bug where getActivity() would sometime return null and its solution is taken from this
+    // Stackoverflow thread:
+    // Author: Pawan Maheshwari (URL: https://stackoverflow.com/users/648030/pawan-maheshwari)
+    // Thread URL: https://stackoverflow.com/posts/18078475/revisions
+
     /**
      * This method is used to obtain the parent activity. Since we are querying, using getActivity()
      * Could sometimes return null pointer exception, due to the query thread not finished
@@ -120,33 +125,35 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         trials.addSnapshotListener((value, error) -> {
             current_experiment.clearTrial();
             TrialFactory factory = new TrialFactory();
-            for (QueryDocumentSnapshot doc: value) {
-                // obtain experiment type
-                TrialType exp_type = null;
-                try {
-                    exp_type = TrialType.getInstance(current_experiment.getType());
-                } catch (IllegalArgumentException e) {
-                    Log.e("Error:", "Invalid experiment type string. Resort to fallback");
-                    e.printStackTrace();
-                    // fallback to measurement trial, as it supports the widest value range
-                    exp_type = TrialType.MEASUREMENT_TRIAL;
+            if (value != null) {
+                for (QueryDocumentSnapshot doc : value) {
+                    // obtain experiment type
+                    TrialType exp_type = null;
+                    try {
+                        exp_type = TrialType.getInstance(current_experiment.getType());
+                    } catch (IllegalArgumentException e) {
+                        Log.e("Error:", "Invalid experiment type string. Resort to fallback");
+                        e.printStackTrace();
+                        // fallback to measurement trial, as it supports the widest value range
+                        exp_type = TrialType.MEASUREMENT_TRIAL;
+                    }
+                    // create trial from factory
+                    Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
+                    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
+                    try {
+                        String result = doc.get("result").toString();
+                        trial.setValue(Double.parseDouble(result));
+                        String date = doc.get("date").toString();
+                        Date trial_date = format.parse(date);
+                        trial.overrideDate(trial_date);
+                    } catch (Exception e) {
+                        // fallback for case if trial cannot be parsed
+                        e.printStackTrace();
+                        trial.setValue(0);
+                    }
+                    // add to current experiment
+                    current_experiment.addTrial(trial);
                 }
-                // create trial from factory
-                Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
-                DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
-                try {
-                    String result = doc.get("result").toString();
-                    trial.setValue(Double.parseDouble(result));
-                    String date = doc.get("date").toString();
-                    Date trial_date = format.parse(date);
-                    trial.overrideDate(trial_date);
-                } catch (Exception e) {
-                    // fallback for case if trial cannot be parsed
-                    e.printStackTrace();
-                    trial.setValue(0);
-                }
-                // add to current experiment
-                current_experiment.addTrial(trial);
             }
 
             // refresh model
@@ -170,7 +177,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         TextView stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
 
         mean.setText(model.getMean());
-        median.setText(String.format("%.2f",model.getQuartileInfo().getMedian()));
+        median.setText(String.format(Locale.ENGLISH, "%.2f",model.getQuartileInfo().getMedian()));
         stdDev.setText(model.getStdDev());
     }
 
@@ -236,7 +243,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         q1.setText(String.valueOf(quartiles.getFirstQuartile()));
         q3.setText(String.valueOf(quartiles.getThirdQuartile()));
         iqr.setText(String.valueOf(quartiles.getIQR()));
-        outlier_percent.setText(String.format("%.2f%%", percent));
+        outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 
     private void generateHistogram() {
