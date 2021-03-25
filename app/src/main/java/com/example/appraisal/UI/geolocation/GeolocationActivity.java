@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.trial.Trial;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +33,8 @@ import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 // Location Purposes
 // Google Maps Beta (Not the production version)
@@ -274,5 +277,16 @@ public class GeolocationActivity extends AppCompatActivity implements
         markerLat = marker.getPosition().latitude;
         markerLong = marker.getPosition().longitude;
         Toast.makeText(this, "Lat: " + String.valueOf(markerLat) + "\n" + "Long: " + String.valueOf(markerLong), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Draw multiple markers on the map
+     * @param trials
+     */
+
+    private void drawMultipleMarkers(ArrayList<Trial> trials){
+        for (Trial trial: trials){
+            mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Trial").snippet("I am a trial"));
+        }
     }
 }
