@@ -167,6 +167,8 @@ public class BinomialActivity extends AppCompatActivity {
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         startActivityForResult(intent, MAP_REQUEST_CODE);
+//        DialogFragment geolocationWarningDialog = new GeolocationWarningDialog();
+//        geolocationWarningDialog.show(getSupportFragmentManager(),"GeoDialog");
     }
 
     /**
