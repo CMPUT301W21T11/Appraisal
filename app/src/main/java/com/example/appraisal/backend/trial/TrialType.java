@@ -1,5 +1,7 @@
 package com.example.appraisal.backend.trial;
 
+import androidx.annotation.NonNull;
+
 /**
  * This enum represents all the possible trial types that can be created
  */
@@ -25,5 +27,20 @@ public enum TrialType {
      */
     public String getLabel() {
         return label;
+    }
+
+    /**
+     * This method returns a TrialType object given a String key
+     * It is case insensitive
+     *
+     * @return TrialType -- the TrialType object representation of the given key
+     */
+    public static TrialType getInstance(@NonNull String key) {
+        for (TrialType t: TrialType.values()) {
+            if (t.getLabel().equalsIgnoreCase(key.trim())) {
+                return t;
+            }
+        }
+        throw new IllegalArgumentException("Error: enum type for "+ key +" Does not exist");
     }
 }

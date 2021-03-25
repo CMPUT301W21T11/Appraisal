@@ -108,9 +108,9 @@ public class BinomialActivity extends AppCompatActivity {
         Map<String, Object> trial_info = new HashMap<>();
 
         if (outcome) {
-            trial_info.put("result", "1");
+            trial_info.put("result", "1"); // 1 indicates success
         } else {
-            trial_info.put("result", "0");
+            trial_info.put("result", "0"); // 0 indicates failure
         }
 
         // put trial date as current date
@@ -165,9 +165,13 @@ public class BinomialActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()) {
-                        firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                    if ((document != null) && document.exists()) {
+                        try {
+                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
+                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
