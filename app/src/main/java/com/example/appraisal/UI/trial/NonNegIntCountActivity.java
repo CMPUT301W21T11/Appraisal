@@ -34,6 +34,7 @@ public class NonNegIntCountActivity extends AppCompatActivity {
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
+    private String experimenterID;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -99,6 +100,14 @@ public class NonNegIntCountActivity extends AppCompatActivity {
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         String date_string = formatter.format(Calendar.getInstance().getTime());
         trial_info.put("date", date_string);
+
+        // put current User as the experimenter
+        try {
+            experimenterID = MainModel.getCurrentUser().getID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        trial_info.put("experimenterID", experimenterID);
 
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)

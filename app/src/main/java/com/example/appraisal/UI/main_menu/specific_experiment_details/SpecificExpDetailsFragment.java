@@ -46,7 +46,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CheckBox subscriptionBox;
     private Button add_trial;
     private CollectionReference exp_ref;
-    private Button view_trials;
 
 
     /**
@@ -66,9 +65,7 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         add_trial.setOnClickListener(v1 -> addTrial());
-        view_trials.setOnClickListener(v2 -> goToViewTrials());
 
 
         try {
@@ -119,7 +116,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user_subscriptions = (ArrayList <String>) document.get("my_subscriptions");
+                        user_subscriptions = (ArrayList <String>) document.get("mySubscriptions");
  
                         if (user_subscriptions != null) {
                             if (user_subscriptions.contains(current_experiment.getExpId())) {
@@ -139,10 +136,10 @@ public class SpecificExpDetailsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(isChecked) {
-                    user_ref.update("my_subscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
+                    user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
                 }
                 else {
-                    user_ref.update("my_subscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
+                    user_ref.update("mySubscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
                 }
             }
         });
@@ -177,11 +174,4 @@ public class SpecificExpDetailsFragment extends Fragment {
         }
     }
 
-    /**
-     * View the trials
-     */
-    private void goToViewTrials() {
-        Intent intent = new Intent(this.getActivity(),ViewTrialActivity.class);
-        startActivity(intent);
-    }
 }

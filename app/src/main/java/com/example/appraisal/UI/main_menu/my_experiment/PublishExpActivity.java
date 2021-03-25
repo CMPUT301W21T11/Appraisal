@@ -114,7 +114,7 @@ public class PublishExpActivity extends AppCompatActivity {
                 });
 
         // update count of experiments in database and local user object
-        owner.update("num_of_my_exp", number);
+        owner.update("numOfMyExp", number);
         user.setNumOfExp(number);
 
         // return to MyExperimentActivity

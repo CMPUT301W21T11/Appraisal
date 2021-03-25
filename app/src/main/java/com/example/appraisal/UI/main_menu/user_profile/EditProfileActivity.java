@@ -82,8 +82,8 @@ public class EditProfileActivity extends AppCompatActivity {
         // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
 
         user_reference
-                .update("user_name", name_edit.getText().toString(), "user_email", email_edit.getText().toString(),
-                            "phone_number", phone_edit.getText().toString())
+                .update("userName", name_edit.getText().toString(), "userEmail", email_edit.getText().toString(),
+                            "phoneNumber", phone_edit.getText().toString())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {

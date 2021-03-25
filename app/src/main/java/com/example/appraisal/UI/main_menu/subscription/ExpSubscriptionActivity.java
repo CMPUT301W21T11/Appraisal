@@ -125,7 +125,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user_subscriptions = (ArrayList<String>) document.get("my_subscriptions");
+                        user_subscriptions = (ArrayList<String>) document.get("mySubscriptions");
 
                         if (user_subscriptions != null) {
                             for (String subscription : user_subscriptions) {
