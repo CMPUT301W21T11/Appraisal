@@ -81,6 +81,7 @@ public class BinomialActivity extends AppCompatActivity {
         // adjust model
         model.addSuccess();
         storeTrialInFireBase(true);
+        addContributor();
         finish();
     }
 
