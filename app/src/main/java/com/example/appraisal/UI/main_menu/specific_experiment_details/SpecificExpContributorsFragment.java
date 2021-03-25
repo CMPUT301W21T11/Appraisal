@@ -45,6 +45,10 @@ public class SpecificExpContributorsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_specific_exp_contributors, container, false);
         experimenters = new ArrayList<>(); // filler code to get the adapter running
 
+        // initialize Shared Preferences
+        pref = this.getActivity().getSharedPreferences("prefKey", Context.MODE_PRIVATE);
+        editor = pref.edit();
+
         // get current experiment
         try {
             current_experiment = MainModel.getCurrentExperiment();
@@ -55,6 +59,26 @@ public class SpecificExpContributorsFragment extends Fragment {
         // initialize model
         model = new SpecificExpModel(current_experiment);
 
+        queryDB();
+
+
+        // initialize recyclerView
+        recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
+        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref); // initialize adapter
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Resume:", "contributors");
+        queryDB();
+    }
+
+    private void queryDB() {
         // get document reference
         DocumentReference doc = null;
         try {
@@ -63,9 +87,6 @@ public class SpecificExpContributorsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // initialize Shared Preferences
-        pref = this.getActivity().getSharedPreferences("prefKey", Context.MODE_PRIVATE);
-        editor = pref.edit();
 
         // query database
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -94,13 +115,6 @@ public class SpecificExpContributorsFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
-        // initialize recyclerView
-        recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
-        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref); // initialize adapter
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
-        return view;
     }
+
 }

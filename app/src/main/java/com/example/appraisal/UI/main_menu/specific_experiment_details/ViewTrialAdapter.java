@@ -37,10 +37,12 @@ public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
         ViewTrial viewTrial = trials.get(position);
 
         TextView trial_ID = view.findViewById(R.id.trial_ID);
-        TextView outcome = view.findViewById(R.id.trial_result);
+        TextView result = view.findViewById(R.id.trial_result);
+        TextView date = view.findViewById(R.id.view_trial_date);
 
         trial_ID.setText(viewTrial.getID());
-        outcome.setText(viewTrial.getOutcome());
+        result.setText(viewTrial.getOutcome());
+        date.setText(viewTrial.getDate());
 
         return view;
     }

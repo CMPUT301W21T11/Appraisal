@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
@@ -46,7 +48,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CheckBox subscriptionBox;
     private Button add_trial;
     private CollectionReference exp_ref;
-    private Button view_trials;
 
 
     /**
@@ -66,9 +67,7 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         add_trial.setOnClickListener(v1 -> addTrial());
-        view_trials.setOnClickListener(v2 -> goToViewTrials());
 
 
         try {
@@ -124,7 +123,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user_subscriptions = (ArrayList <String>) document.get("my_subscriptions");
+                        user_subscriptions = (ArrayList <String>) document.get("mySubscriptions");
  
                         if (user_subscriptions != null) {
                             if (user_subscriptions.contains(current_experiment.getExpId())) {
@@ -144,10 +143,10 @@ public class SpecificExpDetailsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if(isChecked) {
-                    user_ref.update("my_subscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
+                    user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
                 }
                 else {
-                    user_ref.update("my_subscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
+                    user_ref.update("mySubscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
                 }
             }
         });
@@ -160,33 +159,39 @@ public class SpecificExpDetailsFragment extends Fragment {
      * Add Trial to an Experiment
      */
     private void addTrial() {
-        String type = current_experiment.getType();
+        TrialType type;
         try {
+            type = TrialType.getInstance(current_experiment.getType());
             MainModel.setCurrentExperiment(current_experiment);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            Log.e("Error", "experiment type is invalid. Falling back.");
             e.printStackTrace();
+            type = TrialType.MEASUREMENT_TRIAL;
+        } catch (Exception e) {
+            Log.e("Error:", e.toString());
+            e.printStackTrace();
+            type = TrialType.MEASUREMENT_TRIAL;
         }
-        Intent intent;
-        if (type.equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), BinomialActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.COUNT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), CounterActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.MEASUREMENT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), MeasurementActivity.class);
-            startActivity(intent);
-        } else if (type.equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
-            intent = new Intent(getActivity(), NonNegIntCountActivity.class);
-            startActivity(intent);
-        }
-    }
 
-    /**
-     * View the trials
-     */
-    private void goToViewTrials() {
-        Intent intent = new Intent(this.getActivity(),ViewTrialActivity.class);
+        // Initialize intent
+        Intent intent = new Intent(getActivity(), AppCompatActivity.class);
+
+        // assign intent based on type
+        switch (type) {
+            case BINOMIAL_TRIAL:
+                intent = new Intent(getActivity(), BinomialActivity.class);
+                break;
+            case COUNT_TRIAL:
+                intent = new Intent(getActivity(), CounterActivity.class);
+                break;
+            case MEASUREMENT_TRIAL:
+                intent = new Intent(getActivity(), MeasurementActivity.class);
+                break;
+            case NON_NEG_INT_TRIAL:
+                intent = new Intent(getActivity(), NonNegIntCountActivity.class);
+        }
+
         startActivity(intent);
     }
+
 }

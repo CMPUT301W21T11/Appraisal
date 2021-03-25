@@ -35,6 +35,7 @@ public class BinomialActivity extends AppCompatActivity {
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
+    private String experimenterID;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -80,6 +81,7 @@ public class BinomialActivity extends AppCompatActivity {
         // adjust model
         model.addSuccess();
         storeTrialInFireBase(true);
+        addContributor();
         finish();
     }
 
@@ -107,15 +109,24 @@ public class BinomialActivity extends AppCompatActivity {
         Map<String, Object> trial_info = new HashMap<>();
 
         if (outcome) {
-            trial_info.put("result", "1");
+            trial_info.put("result", "1"); // 1 indicates success
         } else {
-            trial_info.put("result", "0");
+            trial_info.put("result", "0"); // 0 indicates failure
         }
 
         // put trial date as current date
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         String date_string = formatter.format(Calendar.getInstance().getTime());
         trial_info.put("date", date_string);
+
+        // put current User as the experimenter
+
+        try {
+            experimenterID = MainModel.getCurrentUser().getID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        trial_info.put("experimenterID", experimenterID);
 
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
@@ -144,8 +155,6 @@ public class BinomialActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -157,9 +166,13 @@ public class BinomialActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()) {
-                        firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                    if ((document != null) && document.exists()) {
+                        try {
+                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
+                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }

@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +18,24 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class SpecificExpDataAnalysisFragment extends Fragment {
     private GraphView histogram;
@@ -36,6 +45,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private SpecificExpModel model;
     private Experiment current_experiment;
     private User current_experimenter;
+
+    private Activity mActivity;
 
     /**
      * This is the Overridden onCreateView method from the Fragment class
@@ -62,13 +73,43 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             return v;
         }
 
-        // initialize model
-        model = new SpecificExpModel(current_experiment);
-        viewInitThread(v);
+        // initialize
+        graphViewInit(v);
+        graphDropInit(v);
+
         trialFirebaseInit(v);
 
         return v;
     }
+
+    // The bug where getActivity() would sometime return null and its solution is taken from this
+    // Stackoverflow thread:
+    // Author: Pawan Maheshwari (URL: https://stackoverflow.com/users/648030/pawan-maheshwari)
+    // Thread URL: https://stackoverflow.com/posts/18078475/revisions
+
+    /**
+     * This method is used to obtain the parent activity. Since we are querying, using getActivity()
+     * Could sometimes return null pointer exception, due to the query thread not finished
+     * Therefore saving the activity to a local variable at the very beginning should solve this problem.
+     *
+     * @param savedInstanceState -- Bundle from previous activity
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mActivity = getActivity();
+    }
+
+    /**
+     * This method overrides the super on detach and set mActivity and model to null, prevent memory leak.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
+        model = null;
+    }
+
 
     private void trialFirebaseInit(View v) {
         CollectionReference trials = null;
@@ -81,23 +122,53 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             return;
         }
 
-        // Since the trials are also saved locally, there is no need to query the database
-        // Instead, only need to reconstruct the model locally and refresh the layout
-        // This is big brain time
+        // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
+            current_experiment.clearTrial();
+            TrialFactory factory = new TrialFactory();
+            if (value != null) {
+                for (QueryDocumentSnapshot doc : value) {
+                    // obtain experiment type
+                    TrialType exp_type = null;
+                    try {
+                        exp_type = TrialType.getInstance(current_experiment.getType());
+                    } catch (IllegalArgumentException e) {
+                        Log.e("Error:", "Invalid experiment type string. Resort to fallback");
+                        e.printStackTrace();
+                        // fallback to measurement trial, as it supports the widest value range
+                        exp_type = TrialType.MEASUREMENT_TRIAL;
+                    }
+                    // create trial from factory
+                    Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
+                    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
+                    try {
+                        String result = doc.get("result").toString();
+                        trial.setValue(Double.parseDouble(result));
+                        String date = doc.get("date").toString();
+                        Date trial_date = format.parse(date);
+                        trial.overrideDate(trial_date);
+                    } catch (Exception e) {
+                        // fallback for case if trial cannot be parsed
+                        e.printStackTrace();
+                        trial.setValue(0);
+                    }
+                    // add to current experiment
+                    current_experiment.addTrial(trial);
+                }
+            }
+
+            // refresh model
             model = new SpecificExpModel(current_experiment);
             // refresh the views
-            viewInitThread(v);
+            plotGraphs(v);
         });
     }
 
-    private void viewInitThread(View v) {
-        graphViewInit(v);
+    private void plotGraphs(View v) {
         generateTimePlot();
         generateHistogram();
         generateQuartileTable();
         generateExpStats(v);
-        graphDropInit(v);
     }
 
     private void generateExpStats(View v) {
@@ -107,7 +178,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         TextView stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
 
         mean.setText(model.getMean());
-        median.setText(String.format("%.2f",model.getQuartileInfo().getMedian()));
+        median.setText(String.format(Locale.ENGLISH, "%.2f",model.getQuartileInfo().getMedian()));
         stdDev.setText(model.getStdDev());
     }
 
@@ -173,16 +244,18 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         q1.setText(String.valueOf(quartiles.getFirstQuartile()));
         q3.setText(String.valueOf(quartiles.getThirdQuartile()));
         iqr.setText(String.valueOf(quartiles.getIQR()));
-        outlier_percent.setText(String.format("%.2f%%", percent));
+        outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 
     private void generateHistogram() {
-        // obtain data points
+        // clear any previous series
+        histogram.removeAllSeries();
+        histogram.getGridLabelRenderer().resetStyles();
 
+        // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
         barGraphSeries.setSpacing(5); // set a bit of spacing between bars for readability
-        histogram.removeAllSeries();            // clear any previous series
         histogram.addSeries(barGraphSeries);    // set to new series
 
         histogram.getGridLabelRenderer().setPadding(50);
@@ -198,6 +271,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
         histogram.getViewport().setMinY(0);
 
+        Log.d("Datapoint length:", String.valueOf(dataPoints.length));
+        histogram.getGridLabelRenderer().setHumanRounding(false); // this line is required to get the labels working correctly
         histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
@@ -211,19 +286,23 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // The graph date plot initialization is taken from GraphView's documentation
         // Author:
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
+
+        // clear any previous data
+        exp_plot_over_time.removeAllSeries();
+        exp_plot_over_time.getGridLabelRenderer().resetStyles();
+
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
         // set datapoints visible
         LineGraphSeries<DataPoint> time_plot_data = new LineGraphSeries<>(data_points);
         time_plot_data.setDrawDataPoints(true);
         time_plot_data.setDataPointsRadius(13f);
-        exp_plot_over_time.removeAllSeries();           // clear any previous series
         exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises
-        exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
-        exp_plot_over_time.getGridLabelRenderer().setPadding(50);
+        exp_plot_over_time.getGridLabelRenderer().setPadding(90);
         exp_plot_over_time.getGridLabelRenderer().setHorizontalLabelsAngle(135);
 
         if (data_points.length > 0) {
@@ -242,8 +321,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
         int interval = 1;
-        if ((max_value <= 10)) {
+        if ((max_value <= 5)) {
             interval = 1;
+        } else if (max_value <= 10) {
+            interval = 2;
         } else if (max_value <= 50) {
             interval = 5;
         } else if (max_value <= 100) {

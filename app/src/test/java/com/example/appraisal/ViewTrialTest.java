@@ -14,6 +14,7 @@ public class ViewTrialTest {
 
     private final String id = "Test_id";
     private final String outcome = "Test_outcome";
+    private final String date = "03/24/2021";
     private ViewTrial test_obj;
 
     /**
@@ -21,7 +22,7 @@ public class ViewTrialTest {
      */
     @Before
     public void init() {
-        test_obj = new ViewTrial(id, outcome);
+        test_obj = new ViewTrial(id, outcome, date);
     }
 
     /**
@@ -39,4 +40,13 @@ public class ViewTrialTest {
     public void testOutcome() {
         assertEquals(outcome, test_obj.getOutcome());
     }
+
+    /**
+     * Test if getDate works
+     */
+    @Test
+    public void testDate() {
+        assertEquals(date, test_obj.getDate());
+    }
+
 }

@@ -14,7 +14,7 @@
             android:id="@+id/trial_ID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="5dp"
             android:text="TrialID"
             android:textSize="20sp" />
 
@@ -31,8 +31,34 @@
             android:layout_height="match_parent"
             android:gravity="right"
             android:paddingLeft="5dp"
+            android:text="Date:"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/view_trial_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:paddingLeft="5dp"
+            android:textSize="18dp"
+            android:text="date of trial" />
+    </LinearLayout>
+
+
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:paddingLeft="5dp"
             android:text="Result:"
-            android:textSize="15sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -41,6 +67,7 @@
             android:layout_height="match_parent"
             android:gravity="left"
             android:paddingLeft="5dp"
+            android:textSize="18dp"
             android:text="result of trial" />
 
     </LinearLayout>

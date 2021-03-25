@@ -29,7 +29,7 @@
 
         <activity android:name=".UI.trial.NonNegIntCountActivity"></activity>
 
-        <activity android:name=".UI.main_menu.specific_experiment_details.ViewTrialActivity"></activity>
+        <activity android:name=".UI.main_menu.specific_experiment_details.ViewTrialActivity" android:label="Trials"></activity>
 
         <activity android:name=".UI.main_menu.my_experiment.PublishExpActivity" android:label="Publish Experiment">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.my_experiment.MyExperimentActivity"/>

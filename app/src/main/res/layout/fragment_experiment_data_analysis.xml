@@ -326,7 +326,7 @@
         <com.jjoe64.graphview.GraphView
             android:id="@+id/fragment_experiment_data_analysis_plotsGraph"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="300dp" />
 
         <View
             android:layout_width="match_parent"

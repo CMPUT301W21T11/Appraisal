@@ -229,10 +229,10 @@ public class MainModel {
 
         // Create a new user with a first and last name
         Map<String, Object> user_info = new HashMap<>();
-        user_info.put("user_name", "");
-        user_info.put("user_email", "");
-        user_info.put("phone_number", "");
-        user_info.put("num_of_my_exp", 0);
+        user_info.put("userName", "");
+        user_info.put("userEmail", "");
+        user_info.put("phoneNumber", "");
+        user_info.put("numOfMyExp", 0);
 
         // Add a new document with a generated ID
         new_user.document(single_instance.user_id).set(user_info)
@@ -257,10 +257,10 @@ public class MainModel {
         single_instance.db.collection("Users").document(single_instance.user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                String user_name = value.get("user_name").toString();
-                String user_email = value.get("user_email").toString();
-                String phone_number = value.get("phone_number").toString();
-                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
+                String user_name = value.get("userName").toString();
+                String user_email = value.get("userEmail").toString();
+                String phone_number = value.get("phoneNumber").toString();
+                Integer num_of_exp = Integer.valueOf(value.get("numOfMyExp").toString());
 
                 User current_user = new User(single_instance.user_id, user_name, user_email, phone_number);
                 current_user.setNumOfExp(num_of_exp);

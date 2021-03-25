@@ -10,8 +10,10 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.ViewTrialActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
+import com.example.appraisal.model.MainModel;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -118,13 +120,29 @@ public class AddTrialTests {
         View UploadButton = solo.getView("save_btn");
         solo.clickOnView(UploadButton);
 
-        //View the trials added
-        View ViewTrialsButton = solo.getView("viewTrialBtn");
-        solo.clickOnView(ViewTrialsButton);
+        // go to contributors tab
+        solo.clickOnText("PARTICIPANTS");
+        try {
+            solo.waitForText(MainModel.getCurrentExperiment().getOwner(), 1, delay_time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        //Verify that the trial was added
-        solo.waitForText("Trial1", 1, 300);
-        solo.waitForText("Result 3", 1, 300);
+        // click on name of user
+        String userID = null;
+        try {
+            userID = "User @" + MainModel.getCurrentExperiment().getOwner().substring(0, 7);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        solo.waitForText(userID, 1, 300);
+
+        // test view trial activity was opened
+        solo.clickOnText(userID);
+        solo.assertCurrentActivity("Wrong activity", ViewTrialActivity.class);
+
+        // test is trial was added
+        solo.waitForText("Result: 3", 1, 300);
 
     }
 }

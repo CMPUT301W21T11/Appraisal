@@ -37,6 +37,7 @@ public class CounterActivity extends AppCompatActivity {
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
+    private String experimenterID;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -116,6 +117,14 @@ public class CounterActivity extends AppCompatActivity {
         String date_string = formatter.format(Calendar.getInstance().getTime());
         trial_info.put("date", date_string);
 
+        // put current User as the experimenter
+        try {
+            experimenterID = MainModel.getCurrentUser().getID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        trial_info.put("experimenterID", experimenterID);
+
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -154,11 +163,14 @@ public class CounterActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
 
-                    if (document.exists()){
-                        firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                    if ((document != null) && document.exists()) {
+                        try {
+                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
+                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-
                 }
             }
         });
