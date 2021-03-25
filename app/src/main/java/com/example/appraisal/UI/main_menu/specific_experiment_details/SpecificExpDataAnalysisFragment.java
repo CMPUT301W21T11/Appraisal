@@ -90,23 +90,24 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     /**
      * This method is used to obtain the parent activity. Since we are querying, using getActivity()
      * Could sometimes return null pointer exception, due to the query thread not finished
-     * @param context -- the parent activity context
+     * Therefore saving the activity to a local variable at the very beginning should solve this problem.
+     *
+     * @param savedInstanceState -- Bundle from previous activity
      */
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        mActivity = (Activity) context;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mActivity = getActivity();
     }
 
     /**
-     * This method overrides the super on detach and set mActivity to null, prevent memory leak.
+     * This method overrides the super on detach and set mActivity and model to null, prevent memory leak.
      */
     @Override
-    public void onDetach() {
-        super.onDetach();
-
+    public void onDestroy() {
+        super.onDestroy();
         mActivity = null;
+        model = null;
     }
 
 
@@ -247,10 +248,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void generateHistogram() {
+        // clear any previous series
+        histogram.removeAllSeries();
+        histogram.getGridLabelRenderer().resetStyles();
+
         // obtain data points
-
-        histogram.removeAllSeries();            // clear any previous series
-
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
         barGraphSeries.setSpacing(5); // set a bit of spacing between bars for readability
@@ -285,7 +287,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Author:
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
 
-        exp_plot_over_time.removeAllSeries();           // clear any previous series
+        // clear any previous data
+        exp_plot_over_time.removeAllSeries();
+        exp_plot_over_time.getGridLabelRenderer().resetStyles();
 
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
