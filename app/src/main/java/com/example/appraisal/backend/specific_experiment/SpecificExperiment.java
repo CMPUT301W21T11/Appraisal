@@ -138,7 +138,7 @@ public class SpecificExperiment {
         }
 
         // using non dynamic width
-        int INTERVAL_NUM = 10;
+        int INTERVAL_NUM = 18;
         if (list_of_trials.get(0).getType() == TrialType.BINOMIAL_TRIAL) {
             INTERVAL_NUM = 1; // For bernoulli trials there are only 2 possible values
         } else if (Math.round(Math.sqrt(list_of_trials.size())) < INTERVAL_NUM) {

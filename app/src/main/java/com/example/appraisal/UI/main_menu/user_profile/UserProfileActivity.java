@@ -120,10 +120,10 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String user_id = value.getId();
                 Log.d("value.id:" , user_id);
-                String user_name = value.get("user_name").toString();
-                String user_email = value.get("user_email").toString();
-                String phone_number = value.get("phone_number").toString();
-                Integer num_of_exp = Integer.valueOf(value.get("num_of_my_exp").toString());
+                String user_name = value.get("userName").toString();
+                String user_email = value.get("userEmail").toString();
+                String phone_number = value.get("phoneNumber").toString();
+                Integer num_of_exp = Integer.valueOf(value.get("numOfMyExp").toString());
 
                 User user = new User(user_id, user_name, user_email, phone_number);
                 user.setNumOfExp(num_of_exp);
