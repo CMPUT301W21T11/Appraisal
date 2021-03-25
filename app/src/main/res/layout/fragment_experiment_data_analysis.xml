@@ -54,7 +54,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_minimum"
-                android:layout_width="220sp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:gravity="end"
@@ -75,7 +75,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_q1"
-                android:layout_width="220dp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="end"
                 android:textSize="21sp"
@@ -94,7 +94,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_q3"
-                android:layout_width="220dp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="end"
                 android:textSize="21sp"
@@ -133,7 +133,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_maximum"
-                android:layout_width="220dp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="end"
                 android:textSize="21sp"
@@ -142,7 +142,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_iqr"
-                android:layout_width="220dp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="end"
                 android:textSize="21sp"
@@ -151,7 +151,7 @@
 
             <TextView
                 android:id="@+id/fragment_exp_data_analysis_outlier_percent"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:gravity="end"
                 android:textSize="21sp"
