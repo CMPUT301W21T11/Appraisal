@@ -195,6 +195,16 @@ public class BinomialActivity extends AppCompatActivity {
 //                Bundle current_marker_data = data.getExtras();
                 CurrentMarker marker = (CurrentMarker) data.getParcelableExtra("currentMarker");
                 currentGeoTextView.setText("Latitude: " + String.valueOf(marker.getLatitude()) + "\n" + "Longitude: " + String.valueOf(marker.getLongitude()));
+
+                // TODO: Mazen
+                // TODO: take in the latitude and longitude and store in the firebase
+                // TODO: update UI (toast)
+                // TODO: update Geolocation Warning
+                // TODO: querying the firebase of all trials (list of trials)
+
+                // TODO: together
+                // TODO: map of trials
+                // TODO: Optional: (When user clicks on a trial marker, it opens a fragment with trial information)
 //                currentGeoTextView.setText(String.valueOf(latitude) + " " +  String.valueOf(longitude));
             }
         }
