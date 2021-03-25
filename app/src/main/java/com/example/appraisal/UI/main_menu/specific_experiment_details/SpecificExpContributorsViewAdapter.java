@@ -59,7 +59,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
         holder.getExpLayout().setOnClickListener(v -> {
             Log.d("position clicked", String.valueOf(position));
-            Intent intent = new Intent(context, UserProfileActivity.class);
+            Intent intent = new Intent(context, ViewTrialActivity.class);
             intent.putExtra("flag", "Other");
             intent.putExtra("experimenter", name);
             intent.putExtra("position", position);
