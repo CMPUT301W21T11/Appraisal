@@ -27,6 +27,7 @@ import com.google.android.libraries.maps.GoogleMap.OnMyLocationButtonClickListen
 import com.google.android.libraries.maps.GoogleMap.OnMyLocationClickListener;
 import com.google.android.libraries.maps.OnMapReadyCallback;
 import com.google.android.libraries.maps.SupportMapFragment;
+import com.google.android.libraries.maps.UiSettings;
 import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
 import com.google.android.libraries.maps.model.Marker;
@@ -47,6 +48,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
     private GoogleMap mMap;
+
+
+    private UiSettings mUiSettings;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
@@ -101,6 +105,12 @@ public class GeolocationActivity extends AppCompatActivity implements
 //        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
 
         mMap = googleMap;
+
+        mUiSettings = mMap.getUiSettings();
+        mUiSettings.setCompassEnabled(true);
+        mUiSettings.setZoomControlsEnabled(true);
+        mUiSettings.setZoomGesturesEnabled(true);
+
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
@@ -213,6 +223,9 @@ public class GeolocationActivity extends AppCompatActivity implements
                                 Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
                                 currentLocationMarker.showInfoWindow();
 
+                                markerLat = lastKnownLocation.getLatitude();
+                                markerLong = lastKnownLocation.getLongitude();
+
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         currentLocation, 15));
 
@@ -276,7 +289,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         marker.showInfoWindow();
         markerLat = marker.getPosition().latitude;
         markerLong = marker.getPosition().longitude;
-        Toast.makeText(this, "Lat: " + String.valueOf(markerLat) + "\n" + "Long: " + String.valueOf(markerLong), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Lat: " + String.valueOf(markerLat) + "\n" + "Long: " + String.valueOf(markerLong), Toast.LENGTH_SHORT).show();
     }
 
     /**
