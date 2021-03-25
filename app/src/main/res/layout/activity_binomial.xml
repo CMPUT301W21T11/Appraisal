@@ -33,6 +33,18 @@
         android:onClick="addGeolocation"/>
 
     <TextView
+        android:id="@+id/current_geo_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Current Geolocation"/>
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" Record your trials below!"

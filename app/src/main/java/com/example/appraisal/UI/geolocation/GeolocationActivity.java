@@ -1,6 +1,7 @@
 package com.example.appraisal.UI.geolocation;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -228,6 +229,12 @@ public class GeolocationActivity extends AppCompatActivity implements
     }
 
     public void saveMarkerLocation(View v) {
+        Intent intent = new Intent();
+        CurrentMarker marker = new CurrentMarker(markerLat, markerLong);
+        intent.putExtra("currentMarker", marker);
+//        intent.putExtra("markerLat", markerLat);
+//        intent.putExtra("markerLong", markerLong);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

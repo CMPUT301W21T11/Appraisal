@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
@@ -32,11 +36,12 @@ public class BinomialActivity extends AppCompatActivity {
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
+    private static final int MAP_REQUEST_CODE = 0;
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     *
+     * @param savedInstanceState bundle from the previous activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +75,10 @@ public class BinomialActivity extends AppCompatActivity {
 
     /**
      * Increase the success count of the trial
+     *
      * @param v increase button
      */
-    public void incrementSuccess(View v){
+    public void incrementSuccess(View v) {
         // adjust model
         model.addSuccess();
         storeTrialInFireBase(true);
@@ -81,9 +87,10 @@ public class BinomialActivity extends AppCompatActivity {
 
     /**
      * Increase the failure count of the trial
+     *
      * @param v increase button
      */
-    public void incrementFailure(View v){
+    public void incrementFailure(View v) {
         //adjust model
         model.addFailure();
         storeTrialInFireBase(false);
@@ -157,9 +164,38 @@ public class BinomialActivity extends AppCompatActivity {
 
     }
 
-    public void addGeolocation(View v){
+    public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, MAP_REQUEST_CODE);
     }
 
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAP_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                TextView currentGeoTextView = findViewById(R.id.current_geo_textview);
+                Button add_geo_btn_ = findViewById(R.id.add_geo);
+                currentGeoTextView.setVisibility(View.VISIBLE);
+                add_geo_btn_.setVisibility(View.GONE);
+
+//                double latitude = data.getDoubleExtra("markerLat", 0.00);
+//                double longitude = data.getDoubleExtra("markerLong", 0.00);
+
+//                Bundle current_marker_data = data.getExtras();
+                CurrentMarker marker = (CurrentMarker) data.getParcelableExtra("currentMarker");
+                currentGeoTextView.setText("Latitude: " + String.valueOf(marker.getLatitude()) + "\n" + "Longitude: " + String.valueOf(marker.getLongitude()));
+//                currentGeoTextView.setText(String.valueOf(latitude) + " " +  String.valueOf(longitude));
+            }
+        }
+
+    }
 }
