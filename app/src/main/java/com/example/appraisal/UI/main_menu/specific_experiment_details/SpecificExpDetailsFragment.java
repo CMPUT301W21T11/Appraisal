@@ -7,10 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +22,6 @@ import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
@@ -88,6 +86,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+
+        add_trial.setEnabled(!current_experiment.getIsEnded());
 
         desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());

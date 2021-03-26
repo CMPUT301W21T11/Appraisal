@@ -2,28 +2,15 @@ package com.example.appraisal.UI.main_menu.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
-
-import android.view.MenuItem;
-
-
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
@@ -32,7 +19,6 @@ import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
-
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -40,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
     private CollectionReference exp_ref;
@@ -117,6 +104,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
      */
     private void getDbExperiments() {
         exp_ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 // clear old list
@@ -154,6 +142,9 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
 
                     }
                 }
+                // Filtering out unpublished exp
+                exp_list = (ArrayList<Experiment>) exp_list.stream().filter(Experiment::getIsPublished).collect(Collectors.toList());
+
                 // notify adapter that data has change and to update the UI
                 exp_adapter.notifyDataSetChanged();
             }
