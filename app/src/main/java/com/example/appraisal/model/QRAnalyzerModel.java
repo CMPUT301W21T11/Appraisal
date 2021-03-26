@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.qr_scanner;
+package com.example.appraisal.model;
 
 import android.media.Image;
 import android.util.Log;
@@ -16,9 +16,14 @@ import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
 
-public class CameraImageAnalyzer implements ImageAnalysis.Analyzer {
+public class QRAnalyzerModel implements ImageAnalysis.Analyzer {
+    // A lot of the code are referenced from this blog post:
+    // Author: Miguel Lasa (URL: https://www.linkedin.com/in/miguellasa/)
+    // URL: https://miguel-lasa.medium.com/barcode-scanner-with-camerax-and-mlkit-bde53fbc2b8f
 
     @androidx.camera.core.ExperimentalGetImage
     @Override
@@ -50,6 +55,8 @@ public class CameraImageAnalyzer implements ImageAnalysis.Analyzer {
                             imageProxy.close();
                         }
                     });
+        } else {
+            imageProxy.close();
         }
     }
 
