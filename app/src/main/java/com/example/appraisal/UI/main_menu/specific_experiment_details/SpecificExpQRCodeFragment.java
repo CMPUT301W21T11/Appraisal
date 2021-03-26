@@ -18,7 +18,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 public class SpecificExpQRCodeFragment extends Fragment {
     // This activity wouldn't be possible without Google's ML kit and its documentations
     // Author: Google
-    // URL1: https://developers.google.com/ml-kit/vision/barcode-scanning/android
+    // URL: https://developers.google.com/ml-kit/vision/barcode-scanning/android
 
     @Nullable
     @Override

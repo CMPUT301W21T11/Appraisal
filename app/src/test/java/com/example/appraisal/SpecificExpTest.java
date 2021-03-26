@@ -117,7 +117,7 @@ public class SpecificExpTest {
         for (Integer i: control_list_int) {
             stdev += Math.pow(i - mean, 2);
         }
-        stdev = (float) Math.sqrt(stdev / control_list_int.size());
+        stdev = (float) Math.sqrt(stdev / (control_list_int.size() - 1));
 
         assertEquals(stdev, test_obj_int.getExperimentStDev(), MARGIN_OF_ERROR);
     }

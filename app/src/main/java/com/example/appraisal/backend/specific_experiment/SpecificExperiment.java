@@ -112,7 +112,7 @@ public class SpecificExperiment {
      *      Standard Deviation of the experiment
      */
     public float getExperimentStDev() {
-        if (total == 0) {
+        if (total <= 1) { // when there is only 1 sample there is no variance
             return 0;
         }
 
@@ -123,7 +123,8 @@ public class SpecificExperiment {
             square_error += Math.pow(d_i - mean, 2);
         }
 
-        return (float) Math.sqrt((square_error / total));
+        return (float) Math.sqrt((square_error / (total - 1))); // for sample variance, we need to subtract 1 from total
+        // the math proof is a bit too much to write in a program comment. Google "Unbiased estimators" if you want to know more
     }
 
     /**
