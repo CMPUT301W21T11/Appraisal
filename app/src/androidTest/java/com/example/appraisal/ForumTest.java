@@ -7,8 +7,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
-import com.example.appraisal.UI.main_menu.forum.ForumHomeActivity;
-import com.example.appraisal.UI.main_menu.forum.ForumQuestionsActivity;
 import com.example.appraisal.UI.main_menu.forum.ForumRepliesActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.robotium.solo.Solo;

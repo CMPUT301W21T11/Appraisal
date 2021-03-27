@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/forum_replies_bar"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -30,58 +29,15 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/reply_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:text="+ REPLY"
-        app:layout_constraintBottom_toTopOf="@+id/forum_replies_bar"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
-    <LinearLayout
-        android:id="@+id/forum_replies_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="home" android:onClick="toHome"
-            android:textSize="11sp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="search" android:onClick="toSearch"
-            android:textSize="10sp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toForum"
-            android:text="forum"
-            android:textSize="11sp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toMyExps"
-            android:text="list"
-            android:textSize="11sp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="profile" android:onClick="toProfile"
-            android:textSize="10sp"/>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,11 +10,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity" android:label="My Subscriptions"></activity>
-        <activity android:name=".UI.main_menu.forum.ForumHomeActivity" android:label="Forum">
-        </activity>
-        <activity android:name=".UI.main_menu.forum.ForumQuestionsActivity" android:label="Forum Questions">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumHomeActivity" />
-        </activity>
         <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
         </activity>

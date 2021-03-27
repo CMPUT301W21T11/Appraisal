@@ -5,7 +5,6 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appraisal.UI.main_menu.forum.ForumHomeActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
@@ -30,13 +29,13 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toForum(View v) {
-        // When click on forum button
-        if (this.getClass() == ForumHomeActivity.class)
-            return;
-        Intent intent = new Intent(this, ForumHomeActivity.class);
-        startActivity(intent);
-    }
+//    public void toForum(View v) {
+//        // When click on forum button
+//        if (this.getClass() == ForumHomeActivity.class)
+//            return;
+//        Intent intent = new Intent(this, ForumHomeActivity.class);
+//        startActivity(intent);
+//    }
 
     public void toMyExps(View v) {
         // When click on expList button
