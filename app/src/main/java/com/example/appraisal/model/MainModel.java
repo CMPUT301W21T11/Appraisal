@@ -91,7 +91,9 @@ public class MainModel {
 
 
     public List<String> requestMyExpIndex() {
-        CollectionReference ref = db.collection("Users").document("User0000").collection("Subscriptions");
+        CollectionReference ref = db.collection("Users")
+                .document("User0000")
+                .collection("Subscriptions");
         return new ArrayList<String>();
     }
 
