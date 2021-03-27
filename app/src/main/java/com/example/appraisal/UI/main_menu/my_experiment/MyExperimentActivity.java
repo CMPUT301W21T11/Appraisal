@@ -60,7 +60,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
         exp_list = new ArrayList<>();                           // make new list to store experiments
 
-        adapter = new ExpAdapter(this, exp_list);      // connect adapter
+        adapter = new ExpAdapter(this, exp_list, "MyExperiment");      // connect adapter
 
         getDbExperiments();                                     // get all experiments from Database
 

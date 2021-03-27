@@ -44,6 +44,33 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:gravity="start|center_vertical"
+                android:text="Owner: "
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/specific_exp_details_owner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:text="user0000"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#736F6F" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="51dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:gravity="start|center_vertical"
                 android:text="Status: "
                 android:textSize="30sp" />
 

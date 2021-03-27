@@ -112,7 +112,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
 
     private void trialFirebaseInit(View v) {
-        CollectionReference trials = null;
+        CollectionReference trials;
         try {
             CollectionReference experiment = MainModel.getExperimentReference();
             trials = experiment.document(current_experiment.getExpId()).collection("Trials");
@@ -129,7 +129,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             if (value != null) {
                 for (QueryDocumentSnapshot doc : value) {
                     // obtain experiment type
-                    TrialType exp_type = null;
+                    TrialType exp_type;
                     try {
                         exp_type = TrialType.getInstance(current_experiment.getType());
                     } catch (IllegalArgumentException e) {
@@ -300,7 +300,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises
-        exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
+        if (mActivity != null) { // This shit is causing so many problem sometimes. I have no idea why. You know what, fuck it.
+            exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
+        }
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
         exp_plot_over_time.getGridLabelRenderer().setPadding(90);
         exp_plot_over_time.getGridLabelRenderer().setHorizontalLabelsAngle(135);
@@ -320,7 +322,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.getViewport().setMinY(0);
 
         int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
-        int interval = 1;
+        int interval;
         if ((max_value <= 5)) {
             interval = 1;
         } else if (max_value <= 10) {
@@ -329,9 +331,12 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             interval = 5;
         } else if (max_value <= 100) {
             interval = 100;
-        } else if (max_value >= 200){
+        } else if (max_value <= 500){
             interval = 200;
+        } else {
+            interval = 500;
         }
+
         int max_label = max_value;
         while (max_label % interval != 0) {
             max_label++;

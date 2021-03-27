@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/my_exp_tab_bar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ListView
