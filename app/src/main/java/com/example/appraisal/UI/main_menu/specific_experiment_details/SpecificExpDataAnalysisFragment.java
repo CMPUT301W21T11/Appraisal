@@ -100,17 +100,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         mActivity = getActivity();
     }
 
-    /**
-     * This method overrides the super on detach and set mActivity and model to null, prevent memory leak.
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mActivity = null;
-        model = null;
-    }
-
-
     private void trialFirebaseInit(View v) {
         CollectionReference trials;
         try {
@@ -301,7 +290,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // initialize axises
         if (mActivity != null) { // This shit is causing so many problem sometimes. I have no idea why. You know what, fuck it.
+            Log.i("Info:","mActivity is set");
             exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
+        } else {
+            Log.w("Warning:","mActivity is null");
         }
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
         exp_plot_over_time.getGridLabelRenderer().setPadding(90);
