@@ -9,9 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.appraisal.R;
+import com.example.appraisal.model.QRAnalyzerModel;
 import com.example.appraisal.model.core.MainModel;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
 
 public class CameraScanResult extends AppCompatActivity {
