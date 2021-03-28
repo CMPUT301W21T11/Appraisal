@@ -35,6 +35,7 @@ public class MainModel {
 
     private User current_user;
     private Experiment chosen_experiment;
+    private Experiment qr_target_experiment;
     private ArrayList<Experiment> my_experiments;
 
     private Result barcode_result; // This variable is used to store the barcode result
@@ -331,4 +332,48 @@ public class MainModel {
         }
         return single_instance.barcode_result;
     }
+
+    /**
+     * Setting the qr_target_experiment experiment and store in this global space
+     *
+     * @throws Exception thrown when either the MainModel is not instantiated
+     */
+    public static void setTargetQRExperiment(Experiment experiment) throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.qr_target_experiment = experiment;
+    }
+
+    /**
+     * Remove the qr_target_experiment experiment and store in this global space. THIS RENDERS CHOSEN_EXPERIMENT TO NULL!
+     *
+     * @throws Exception thrown when either the MainModel is not instantiated
+     */
+    public static void removeTargetQRExperiment() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.qr_target_experiment = null;
+    }
+
+    /**
+     * Getting the qr_target_experiment experiment stored in this global space
+     *
+     * @return chosen {@link Experiment}
+     * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
+     *                   experiment was chosen
+     */
+    public static Experiment getTargetQRExperiment() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        if (single_instance.qr_target_experiment == null) {
+            throw new Exception("No experiment was chosen (NullPointerException)");
+        }
+
+        return single_instance.qr_target_experiment;
+    }
+
 }

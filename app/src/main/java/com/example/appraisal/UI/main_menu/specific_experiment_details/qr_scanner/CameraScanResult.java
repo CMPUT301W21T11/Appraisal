@@ -1,16 +1,16 @@
-package com.example.appraisal.UI.main_menu.qr_scanner;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.appraisal.R;
-import com.example.appraisal.model.QRAnalyzerModel;
 import com.example.appraisal.model.core.MainModel;
+import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
 import com.google.zxing.Result;
 
 public class CameraScanResult extends AppCompatActivity {
@@ -42,7 +42,7 @@ public class CameraScanResult extends AppCompatActivity {
                         return;
                     }
                     // We are gonna display the detected code on the activity
-                    model.displayQRCode(result);
+                    model.readingQRCode(result);
 
                     //TODO: Once QR code decoding has finished, need to perform corresponding query
                 } catch (Exception e) {
