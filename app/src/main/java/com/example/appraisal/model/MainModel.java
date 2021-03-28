@@ -36,6 +36,8 @@ public class MainModel {
     private Experiment chosen_experiment;
     private ArrayList<Experiment> my_experiments;
 
+    private String barcode_result; // This variable is used to store the barcode result
+
     //    public static FirebaseAuthentication auth;
     public String user_id;
     public boolean is_new;
@@ -304,11 +306,27 @@ public class MainModel {
         return experiment_reference;
     }
 
-//    public static ArrayList<Experiment> getSubscribed_experiments() {
-//        return single_instance.sub_experiments;
-//    }
-//
-//    public static void setSubscribed_experiments(ArrayList<Experiment> subscribed_experiments) {
-//        sub_experiments = subscribed_experiments;
-//    }
+    /**
+     * This method stores the scanned barcode to MainModel
+     * @param result -- scanned barcode as string
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static void setBarcodeResult(String result) throws Exception{
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.barcode_result = result;
+    }
+
+    /**
+     * This method retrieves the stored barcode result in MainModel
+     * @return String -- stored barcode result as string
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static String getBarcodeResult() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        return single_instance.barcode_result;
+    }
 }

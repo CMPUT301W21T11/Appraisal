@@ -64,19 +64,14 @@ public class QRAnalyzerModel {
         code_scanner.releaseResources();
     }
 
-    public void decodeResult(@NonNull Result result) throws IllegalArgumentException, IllegalStateException{
-        String detected_code = result.getText().trim();
-        Log.d("Bar Code result:", detected_code);
-        if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
-            String identifier = result.getText().split("\\s+")[0];
-            if (identifier.equalsIgnoreCase(parent_context.getResources().getString(R.string.app_name))) {
-                Log.d("Bar code decoder:","Identified");
-            }
-            else {
-                throw new IllegalStateException();
-            }
-        } else {
-            throw new IllegalArgumentException("Error: The argument is not a QR code");
+    /**
+     * This function stores the result to main model
+     */
+    public void storeBarCode(Result result) {
+        try {
+            MainModel.setBarcodeResult(result.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

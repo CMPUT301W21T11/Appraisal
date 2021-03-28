@@ -30,7 +30,6 @@ public class CameraScanner extends AppCompatActivity {
     private CodeScannerView scanner_view;
     private QRAnalyzerModel model;
 
-    private final String FILENAME_FORMAT = "MM-dd-yyyy-HH-mm-ss-SSS";
     private final int REQUEST_CODE_PERMISSION = 10;
     private final List<String> REQUIRED_PERMISSIONS = new ArrayList<>();
 
@@ -88,26 +87,10 @@ public class CameraScanner extends AppCompatActivity {
     }
 
     private void startCamera() {
-        Activity self = this;
         model.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast toast = Toast.makeText(self, "temp", Toast.LENGTH_SHORT);
-                        try {
-                            model.decodeResult(result);
-                            toast.setText("Success");
-                        } catch (IllegalStateException e) {
-                            toast.setText("The QR code is not recognizable");
-                        } catch (IllegalArgumentException f) {
-                            toast.setText("The code format is not a QR code");
-                        }
-                        toast.show();
-
-                    }
-                });
+                runOnUiThread(() -> model.storeBarCode(result));
             }
         });
     }
