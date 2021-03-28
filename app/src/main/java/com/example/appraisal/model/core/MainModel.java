@@ -309,7 +309,8 @@ public class MainModel {
 
     /**
      * This method stores the scanned barcode to MainModel
-     * @param result -- scanned barcode result Object
+     * Refer to:https://zxing.github.io/zxing/apidocs/com/google/zxing/Result.html
+     * @param result -- scanned barcode result Object.
      * @throws Exception -- MainModel is not initiated
      */
     public static void setBarcodeResult(Result result) throws Exception{
