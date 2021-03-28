@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="home" android:onClick="toHome"
-                android:textSize="11sp"/>
+                android:textSize="15sp"/>
 
         <Button
                 android:id="@+id/search_button"
@@ -40,16 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="search" android:onClick="toSearch"
-                android:textSize="10sp"/>
-
-        <Button
-            android:id="@+id/forum_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toForum"
-            android:text="forum"
-            android:textSize="11sp"/>
+                android:textSize="15sp"/>
 
         <Button
             android:id="@+id/my_exp_button"
@@ -58,7 +49,7 @@
             android:layout_weight="1"
             android:onClick="toMyExps"
             android:text="list"
-            android:textSize="11sp"/>
+            android:textSize="15sp"/>
 
         <Button
                 android:id="@+id/profile_button"
@@ -66,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="profile" android:onClick="toProfile"
-                android:textSize="10sp"/>
+                android:textSize="15sp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

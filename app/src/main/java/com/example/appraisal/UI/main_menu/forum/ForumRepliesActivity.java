@@ -3,6 +3,7 @@ package com.example.appraisal.UI.main_menu.forum;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,6 +51,8 @@ public class ForumRepliesActivity extends  AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum_replies);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         String question = getIntent().getStringExtra("Question");
         question_name_receive = getIntent().getStringExtra("Q_id_name");
@@ -200,5 +204,21 @@ public class ForumRepliesActivity extends  AppCompatActivity {
                 });
 
         exp_ref.document(experiment_ID).collection("Questions").document(question_name_receive).update("numOfReplies", num_of_replies);
+    }
+
+    /**
+     * When the up button gets clicked, the activity is killed.
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
