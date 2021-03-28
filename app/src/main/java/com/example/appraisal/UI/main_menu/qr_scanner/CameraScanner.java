@@ -6,19 +6,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.appraisal.R;
-import com.example.appraisal.model.QRAnalyzerModel;
+import com.example.appraisal.model.CameraScannerModel;
 import com.google.zxing.Result;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class CameraScanner extends AppCompatActivity {
     // URL: https://www.youtube.com/watch?v=Iuj4CuWjYF8
 
     private CodeScannerView scanner_view;
-    private QRAnalyzerModel model;
+    private CameraScannerModel model;
 
     private final int REQUEST_CODE_PERMISSION = 10;
     private final List<String> REQUIRED_PERMISSIONS = new ArrayList<>();
@@ -40,7 +37,7 @@ public class CameraScanner extends AppCompatActivity {
 
         REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
         scanner_view = findViewById(R.id.camera_scanner_viewFinder);
-        model = new QRAnalyzerModel(this, scanner_view);
+        model = new CameraScannerModel(this, scanner_view);
 
         model.enableCodeScannerViewRefresh();
 

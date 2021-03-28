@@ -13,18 +13,18 @@ import com.example.appraisal.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
-public class QRAnalyzerModel {
+public class CameraScannerModel {
     private final CodeScanner code_scanner;
     private final CodeScannerView view;
     private final Context parent_context;
 
-    public QRAnalyzerModel(@NonNull Context context, @NonNull CodeScannerView view) {
+    public CameraScannerModel(@NonNull Context context, @NonNull CodeScannerView view) {
         code_scanner = new CodeScanner(context, view);
         parent_context = context;
         this.view = view;
     }
 
-    public QRAnalyzerModel(@NonNull Context context, @NonNull CodeScannerView view, int cameraId) {
+    public CameraScannerModel(@NonNull Context context, @NonNull CodeScannerView view, int cameraId) {
         code_scanner = new CodeScanner(context, view, cameraId);
         parent_context = context;
         this.view = view;
