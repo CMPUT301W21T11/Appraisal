@@ -87,7 +87,10 @@ public class CameraScanner extends AppCompatActivity {
         model.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                runOnUiThread(() -> model.storeBarCode(result));
+                runOnUiThread(() -> {
+                    model.storeBarCode(result);
+                    finish();
+                });
             }
         });
     }
