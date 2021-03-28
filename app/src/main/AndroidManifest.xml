@@ -53,7 +53,7 @@
         <activity android:name=".UI.trial.CounterActivity" />
         <activity android:name=".UI.trial.MeasurementActivity" />
         <activity android:name=".UI.trial.NonNegIntCountActivity" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.ViewTrialActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity" />
         <activity
             android:name=".UI.main_menu.my_experiment.PublishExpActivity"
             android:label="Publish Experiment">

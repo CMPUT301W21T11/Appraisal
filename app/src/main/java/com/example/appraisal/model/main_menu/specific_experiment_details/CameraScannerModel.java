@@ -1,7 +1,6 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.main_menu.specific_experiment_details;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -9,8 +8,7 @@ import androidx.annotation.NonNull;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
-import com.example.appraisal.R;
-import com.google.zxing.BarcodeFormat;
+import com.example.appraisal.model.core.MainModel;
 import com.google.zxing.Result;
 
 /**

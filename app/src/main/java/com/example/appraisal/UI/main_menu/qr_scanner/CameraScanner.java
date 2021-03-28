@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.appraisal.R;
-import com.example.appraisal.model.CameraScannerModel;
+import com.example.appraisal.model.main_menu.specific_experiment_details.CameraScannerModel;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
