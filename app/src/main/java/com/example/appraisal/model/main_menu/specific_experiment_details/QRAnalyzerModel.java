@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
@@ -39,11 +40,12 @@ public class QRAnalyzerModel {
     private final ImageView qr_code_image;
     int firebase_num_trials = 0;
     private String experimenterID;
-    private CollectionReference experiment_reference;
+//    private CollectionReference experiment_reference;
 
     public QRAnalyzerModel(@NonNull Activity parent_activity) {
         this.parent_activity = parent_activity;
         this.qr_code_image = parent_activity.findViewById(R.id.activity_camera_scan_result_qr_code_display);
+
     }
 
 
@@ -81,6 +83,7 @@ public class QRAnalyzerModel {
 
         String[] commands = decodeTrialQR(qr_display);
 
+
         modifyExperiment("03zscDmAc6POCAQTlDEJRChFLsh21", commands[0], commands[1]);
     }
 
@@ -115,8 +118,12 @@ public class QRAnalyzerModel {
     public void modifyExperiment(String ID, String trial_type, String value) throws Exception {
         CollectionReference ref = MainModel.getExperimentReference();
 
+
+
         Map<String, Object> trial_info = new HashMap<>();
-        String name = "Trial" + firebase_num_trials + 1;
+
+        int dummy = firebase_num_trials + 1;
+        String name = "Trial" + dummy;
 
         if (trial_type.equals("binomial")) {
             if (value.equals("1")) {
@@ -143,7 +150,7 @@ public class QRAnalyzerModel {
         trial_info.put("experimenterID", experimenterID);
 
         // create new document for experiment with values from hash map
-        experiment_reference.document(ID).collection("Trials").document(name).set(trial_info)
+        ref.document(ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -157,13 +164,13 @@ public class QRAnalyzerModel {
                     }
                 });
 
-        experiment_reference.document(ID).update("numOfTrials", String.valueOf(firebase_num_trials + 1));
+        ref.document(ID).update("numOfTrials", FieldValue.increment(1));
 
         Log.d("herere", "SCAAAAAAAAAAAAAAAAAN!");
     }
 
     private void getTrialInt(String exp_id) throws Exception {
-        experiment_reference = MainModel.getExperimentReference();
+        CollectionReference experiment_reference = MainModel.getExperimentReference();
 
         experiment_reference.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
