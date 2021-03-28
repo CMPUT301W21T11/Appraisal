@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.discussion;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

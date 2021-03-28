@@ -1,4 +1,4 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.core;
 
 
 import android.util.Log;
@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.zxing.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class MainModel {
     private User current_user;
     private Experiment chosen_experiment;
     private ArrayList<Experiment> my_experiments;
+
+    private Result barcode_result; // This variable is used to store the barcode result
 
     //    public static FirebaseAuthentication auth;
     public String user_id;
@@ -259,6 +262,11 @@ public class MainModel {
         single_instance.db.collection("Users").document(single_instance.user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Main model load user", "Firebase contains error");
+                    error.printStackTrace();
+                }
+
                 String user_name = value.get("userName").toString();
                 String user_email = value.get("userEmail").toString();
                 String phone_number = value.get("phoneNumber").toString();
@@ -266,6 +274,7 @@ public class MainModel {
 
                 User current_user = new User(single_instance.user_id, user_name, user_email, phone_number);
                 current_user.setNumOfExp(num_of_exp);
+
                 try {
                     MainModel.setCurrentUser(current_user);
                 } catch (Exception e) {
@@ -298,11 +307,27 @@ public class MainModel {
         return experiment_reference;
     }
 
-//    public static ArrayList<Experiment> getSubscribed_experiments() {
-//        return single_instance.sub_experiments;
-//    }
-//
-//    public static void setSubscribed_experiments(ArrayList<Experiment> subscribed_experiments) {
-//        sub_experiments = subscribed_experiments;
-//    }
+    /**
+     * This method stores the scanned barcode to MainModel
+     * @param result -- scanned barcode result Object
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static void setBarcodeResult(Result result) throws Exception{
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.barcode_result = result;
+    }
+
+    /**
+     * This method retrieves the stored barcode result in MainModel
+     * @return Result -- stored barcode result object
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static Result getBarcodeResult() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        return single_instance.barcode_result;
+    }
 }

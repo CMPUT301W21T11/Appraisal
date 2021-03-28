@@ -57,4 +57,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.6.1'
 
+    // Code scanner
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+
+    // QR code generator
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
+    implementation 'com.google.zxing:core:3.4.0'
 }

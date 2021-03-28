@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +23,8 @@ import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.TrialType;
-import com.example.appraisal.model.MainModel;
-import com.example.appraisal.model.SpecificExpModel;
+import com.example.appraisal.model.core.MainModel;
+import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
