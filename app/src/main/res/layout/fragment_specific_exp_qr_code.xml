@@ -33,7 +33,7 @@
         android:layout_width="235dp"
         android:layout_height="75dp"
         android:layout_marginTop="60dp"
-        android:text="Scan QR code"
+        android:text="Scan Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_generate_button" />

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
 import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanner;
 
 public class SpecificExpQRCodeFragment extends Fragment {
@@ -21,7 +22,6 @@ public class SpecificExpQRCodeFragment extends Fragment {
     // URL: https://developers.google.com/ml-kit/vision/barcode-scanning/android
 
     private Activity parent_activity;
-    private final int CAMERA_SCANNER_REQUEST_CODE = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +50,8 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startCameraScanner() {
-        Intent intent = new Intent(parent_activity, CameraScanner.class);
-        startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
+        Intent intent = new Intent(parent_activity, CameraScanResult.class);
+        startActivity(intent);
     }
 
     private void startCodeRegister() {
