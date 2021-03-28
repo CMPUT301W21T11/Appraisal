@@ -1,6 +1,6 @@
 package com.example.appraisal;
 
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 
 import org.junit.After;
 import org.junit.Before;

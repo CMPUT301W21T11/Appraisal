@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,10 +22,9 @@ import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
-import com.example.appraisal.model.MainModel;
-import com.example.appraisal.model.SpecificExpModel;
+import com.example.appraisal.model.core.MainModel;
+import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;

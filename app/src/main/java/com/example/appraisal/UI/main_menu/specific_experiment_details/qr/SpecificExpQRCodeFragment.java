@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.qr;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
-import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanner;
 
 public class SpecificExpQRCodeFragment extends Fragment {
     // This activity wouldn't be possible without Google's ML kit and its documentations

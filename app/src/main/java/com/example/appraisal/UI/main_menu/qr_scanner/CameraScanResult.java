@@ -3,21 +3,18 @@ package com.example.appraisal.UI.main_menu.qr_scanner;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.budiyev.android.codescanner.BarcodeUtils;
 import com.example.appraisal.R;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.trial.QRAnalyzerModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
-import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 

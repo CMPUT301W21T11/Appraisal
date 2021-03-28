@@ -20,7 +20,7 @@ import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;

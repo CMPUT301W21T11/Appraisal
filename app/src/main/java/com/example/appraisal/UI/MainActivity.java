@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

@@ -1,7 +1,6 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.analysis;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +21,8 @@ import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialFactory;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
-import com.example.appraisal.model.SpecificExpModel;
+import com.example.appraisal.model.core.MainModel;
+import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.jjoe64.graphview.GraphView;

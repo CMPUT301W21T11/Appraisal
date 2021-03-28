@@ -3,25 +3,12 @@ package com.example.appraisal.UI.main_menu.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 
-import android.view.MenuItem;
-
-
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -31,7 +18,7 @@ import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;

@@ -1,4 +1,4 @@
-package com.example.appraisal.model;
+package com.example.appraisal.model.core;
 
 
 import android.util.Log;
