@@ -95,6 +95,9 @@ public class QRAnalyzerModel {
      */
     public String[] decodeTrialQR(String encoded_info) {
         String[] commands = encoded_info.split(";");
+        if (!commands[0].equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name))) {
+            //TODO
+        }
         return commands;
     }
 
@@ -137,18 +140,8 @@ public class QRAnalyzerModel {
 
         Map<String, Object> trial_info = new HashMap<>();
 
-        int dummy = firebase_num_trials + 1;
-        String name = "Trial" + dummy;
-
-        if (trial_type.equals("binomial")) {
-            if (value.equals("1")) {
-                trial_info.put("result", "1"); // 1 indicates success
-            } else {
-                trial_info.put("result", "0"); // 0 indicates failure
-            }
-        }
-
-
+        int trial_count = firebase_num_trials + 1;
+        String name = "Trial" + trial_count;
 
 
         // put trial date as current date

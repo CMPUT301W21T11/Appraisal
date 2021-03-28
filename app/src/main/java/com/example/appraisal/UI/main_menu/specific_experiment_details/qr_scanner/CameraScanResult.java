@@ -44,7 +44,7 @@ public class CameraScanResult extends AppCompatActivity {
                     // We are gonna display the detected code on the activity
                     model.readingQRCode(result);
                     String[] command = model.decodeTrialQR(result.getText());
-                    model.addToExperiment("03zscDmAc6POCAQTlDEJRChFLsh21", command[0], command[1]);
+                    model.addToExperiment(command[3], command[1], command[2]);
 
                     //TODO: Once QR code decoding has finished, need to perform corresponding query
                 } catch (Exception e) {
