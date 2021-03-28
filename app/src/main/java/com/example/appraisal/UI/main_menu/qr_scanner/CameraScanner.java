@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -88,12 +89,14 @@ public class CameraScanner extends AppCompatActivity {
     }
 
     private void startCamera() {
+        model.startScanner();
         model.enableCodeScannerViewRefresh();
         model.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(() -> {
                     model.storeBarCode(result);
+                    setResult(Activity.RESULT_OK);
                     finish();
                 });
             }
