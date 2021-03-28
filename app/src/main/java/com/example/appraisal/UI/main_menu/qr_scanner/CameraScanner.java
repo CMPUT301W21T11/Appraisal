@@ -38,9 +38,6 @@ public class CameraScanner extends AppCompatActivity {
         REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
         scanner_view = findViewById(R.id.camera_scanner_viewFinder);
         model = new CameraScannerModel(this, scanner_view);
-
-        model.enableCodeScannerViewRefresh();
-
         // Check and ask for permissions
         if (allPermissionsGranted()) {
             startCamera();
@@ -61,8 +58,7 @@ public class CameraScanner extends AppCompatActivity {
             if(allPermissionsGranted()) {
                 startCamera();
             } else { // inform user that permission is denied
-                Toast toast = new Toast(this);
-                toast.setText("Error: Permission denied");
+                Toast toast = Toast.makeText(this, "Error: Permission denied", Toast.LENGTH_SHORT);
                 toast.show();
                 finish();
             }
@@ -75,9 +71,11 @@ public class CameraScanner extends AppCompatActivity {
      * This prevents lockup of camera scanner
      */
     @Override
-    protected void onResume() {
-        super.onResume();
-        model.startScanner();
+    protected void onRestart() {
+        super.onRestart();
+        if (allPermissionsGranted()) {
+            model.startScanner();
+        }
     }
 
     /**
@@ -90,6 +88,7 @@ public class CameraScanner extends AppCompatActivity {
     }
 
     private void startCamera() {
+        model.enableCodeScannerViewRefresh();
         model.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {

@@ -48,7 +48,9 @@ public class CameraScanResult extends AppCompatActivity {
             try {
                 MultiFormatWriter writer = new MultiFormatWriter();
                 Result result = MainModel.getBarcodeResult(); // get result bar code
-
+                if (result == null) {// if null return
+                    return;
+                }
                 String qr_display = result.getText(); // get the message as text
 
                 // We are gonna display the detected code on the activity
