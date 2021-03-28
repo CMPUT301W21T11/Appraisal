@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

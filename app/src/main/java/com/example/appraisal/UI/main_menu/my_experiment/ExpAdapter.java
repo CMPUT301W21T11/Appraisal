@@ -1,11 +1,9 @@
 package com.example.appraisal.UI.main_menu.my_experiment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -13,9 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.model.MainModel;
 
 import java.util.ArrayList;
 

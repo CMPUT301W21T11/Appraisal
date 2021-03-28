@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.participants;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
-import com.example.appraisal.model.SpecificExpModel;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
+import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
