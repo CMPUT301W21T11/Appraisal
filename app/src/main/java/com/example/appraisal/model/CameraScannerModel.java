@@ -69,7 +69,7 @@ public class CameraScannerModel {
      */
     public void storeBarCode(Result result) {
         try {
-            MainModel.setBarcodeResult(result.getText());
+            MainModel.setBarcodeResult(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
