@@ -57,15 +57,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.6.1'
 
-    // QR Code and Barcode scanning library
-    implementation 'com.google.mlkit:barcode-scanning:16.1.1'
+    // Code scanner
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
 
-    def camerax_version = "1.0.0-beta07"
-    // CameraX core library using camera2 implementation
-    implementation "androidx.camera:camera-camera2:$camerax_version"
-    // CameraX Lifecycle Library
-    implementation "androidx.camera:camera-lifecycle:$camerax_version"
-    // CameraX View class
-    implementation "androidx.camera:camera-view:1.0.0-alpha23"
-
+    // QR code generator
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.4'
+    implementation 'com.google.zxing:core:3.4.0'
 }

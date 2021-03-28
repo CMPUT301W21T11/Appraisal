@@ -259,6 +259,11 @@ public class MainModel {
         single_instance.db.collection("Users").document(single_instance.user_id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Main model load user", "Firebase contains error");
+                    error.printStackTrace();
+                }
+
                 String user_name = value.get("userName").toString();
                 String user_email = value.get("userEmail").toString();
                 String phone_number = value.get("phoneNumber").toString();
@@ -266,6 +271,7 @@ public class MainModel {
 
                 User current_user = new User(single_instance.user_id, user_name, user_email, phone_number);
                 current_user.setNumOfExp(num_of_exp);
+
                 try {
                     MainModel.setCurrentUser(current_user);
                 } catch (Exception e) {
