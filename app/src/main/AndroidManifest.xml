@@ -3,6 +3,7 @@
     package="com.example.appraisal">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
-        <activity android:name=".UI.main_menu.qr_scanner.CameraScanner"></activity>
+        <activity android:name=".UI.main_menu.qr_scanner.CamerScanResult"></activity>
+        <activity android:name=".UI.main_menu.qr_scanner.CameraScanner" />
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -71,12 +71,18 @@ public class CameraScanner extends AppCompatActivity {
         }
     }
 
+    /**
+     * This prevents lockup of camera scanner
+     */
     @Override
     protected void onResume() {
         super.onResume();
         model.startScanner();
     }
 
+    /**
+     * This make sure camera scanner is properly paused
+     */
     @Override
     protected void onPause() {
         model.pauseScanner();

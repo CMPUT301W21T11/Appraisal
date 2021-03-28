@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.zxing.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class MainModel {
     private Experiment chosen_experiment;
     private ArrayList<Experiment> my_experiments;
 
-    private String barcode_result; // This variable is used to store the barcode result
+    private Result barcode_result; // This variable is used to store the barcode result
 
     //    public static FirebaseAuthentication auth;
     public String user_id;
@@ -308,10 +309,10 @@ public class MainModel {
 
     /**
      * This method stores the scanned barcode to MainModel
-     * @param result -- scanned barcode as string
+     * @param result -- scanned barcode result Object
      * @throws Exception -- MainModel is not initiated
      */
-    public static void setBarcodeResult(String result) throws Exception{
+    public static void setBarcodeResult(Result result) throws Exception{
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");
         }
@@ -320,10 +321,10 @@ public class MainModel {
 
     /**
      * This method retrieves the stored barcode result in MainModel
-     * @return String -- stored barcode result as string
+     * @return Result -- stored barcode result object
      * @throws Exception -- MainModel is not initiated
      */
-    public static String getBarcodeResult() throws Exception {
+    public static Result getBarcodeResult() throws Exception {
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");
         }
