@@ -179,6 +179,5 @@ public class BinomialActivity extends AppCompatActivity {
             }
         });
 
-
     }
 }
