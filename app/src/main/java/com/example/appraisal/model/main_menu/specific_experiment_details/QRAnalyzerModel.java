@@ -80,11 +80,6 @@ public class QRAnalyzerModel {
         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
         Log.d("CameraScanResult:", "bitmap generation complete");
         qr_code_image.setImageBitmap(bitmap);
-
-        String[] commands = decodeTrialQR(qr_display);
-
-
-        modifyExperiment("03zscDmAc6POCAQTlDEJRChFLsh21", commands[0], commands[1]);
     }
 
     /**
@@ -97,11 +92,9 @@ public class QRAnalyzerModel {
      *                }
      * 2 the experiment ID.
      * @param encoded_info
-     * @return
      */
     public String[] decodeTrialQR(String encoded_info) {
         String[] commands = encoded_info.split(";");
-
         return commands;
     }
 
@@ -111,14 +104,36 @@ public class QRAnalyzerModel {
      * Make the Trial object.
      * After that, add the Trial, and upload.
      *
-     * @param ID
+     * @param exp_id
      * @param trial_type
      * @param value
      */
-    public void modifyExperiment(String ID, String trial_type, String value) throws Exception {
+    public void addToExperiment(String exp_id, String trial_type, String value) throws Exception {
+        CollectionReference experiment_reference = MainModel.getExperimentReference();
+
+        experiment_reference.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if ((document != null) && document.exists()) {
+                        try {
+                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
+                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
+                            modifyExperiment(exp_id, trial_type, value);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    private void modifyExperiment(String ID, String trial_type, String value) throws Exception {
         CollectionReference ref = MainModel.getExperimentReference();
-
-
 
         Map<String, Object> trial_info = new HashMap<>();
 
@@ -165,31 +180,6 @@ public class QRAnalyzerModel {
                 });
 
         ref.document(ID).update("numOfTrials", FieldValue.increment(1));
-
-        Log.d("herere", "SCAAAAAAAAAAAAAAAAAN!");
-    }
-
-    private void getTrialInt(String exp_id) throws Exception {
-        CollectionReference experiment_reference = MainModel.getExperimentReference();
-
-        experiment_reference.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-
-                    if ((document != null) && document.exists()) {
-                        try {
-                            firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
-                            Log.d("numtrials listener", String.valueOf(firebase_num_trials));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                }
-            }
-        });
     }
 
     public boolean isRegisteredCode(Result result) {
