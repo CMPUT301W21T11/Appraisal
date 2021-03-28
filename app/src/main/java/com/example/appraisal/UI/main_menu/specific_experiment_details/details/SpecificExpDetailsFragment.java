@@ -87,6 +87,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
+        add_trial.setEnabled(!current_experiment.getIsEnded());
+
         desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());
         owner.setText(current_experiment.getOwner().substring(0, 7));

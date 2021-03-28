@@ -2,11 +2,14 @@ package com.example.appraisal.UI.main_menu.search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 
 
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
     private CollectionReference exp_ref;
@@ -104,6 +108,7 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
      */
     private void getDbExperiments() {
         exp_ref.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 // clear old list
@@ -141,6 +146,9 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
 
                     }
                 }
+                // Filtering out unpublished exp
+                exp_list = (ArrayList<Experiment>) exp_list.stream().filter(Experiment::getIsPublished).collect(Collectors.toList());
+
                 // notify adapter that data has change and to update the UI
                 exp_adapter.notifyDataSetChanged();
             }
