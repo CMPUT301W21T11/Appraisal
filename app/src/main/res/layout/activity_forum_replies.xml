@@ -12,13 +12,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Question:"
+            android:clickable="false"
+            android:textSize="40sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"> </TextView>
+
+        <TextView
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Question"
-            android:textSize="48sp"
+            android:clickable="false"
+            android:textSize="35sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent"> </TextView>
 
         <ListView
             android:id="@+id/forum_replies"

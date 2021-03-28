@@ -15,13 +15,19 @@
         app:layout_constraintBottom_toTopOf="@+id/AddQuestionButton"
         app:layout_constraintTop_toTopOf="parent">
 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Questions Posted:"
+            android:textSize="30dp" />
+
         <ListView
             android:id="@+id/forum_questions"
+            android:textSize="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp">
-
-
         </ListView>
 
     </LinearLayout>
