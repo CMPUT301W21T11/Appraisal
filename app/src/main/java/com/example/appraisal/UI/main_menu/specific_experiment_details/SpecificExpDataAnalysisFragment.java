@@ -25,7 +25,11 @@ import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -34,6 +38,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -77,7 +82,13 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         graphViewInit(v);
         graphDropInit(v);
 
-        trialFirebaseInit(v);
+        // check if current user owns experiment
+        if (current_experiment.getOwner().equals(current_experimenter.getID())) {
+            trialFirebaseOwner(v);
+        }
+        else {
+            trialFirebaseInit(v);
+        }
 
         return v;
     }
@@ -114,35 +125,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
             current_experiment.clearTrial();
-            TrialFactory factory = new TrialFactory();
             if (value != null) {
                 for (QueryDocumentSnapshot doc : value) {
-                    // obtain experiment type
-                    TrialType exp_type;
-                    try {
-                        exp_type = TrialType.getInstance(current_experiment.getType());
-                    } catch (IllegalArgumentException e) {
-                        Log.e("Error:", "Invalid experiment type string. Resort to fallback");
-                        e.printStackTrace();
-                        // fallback to measurement trial, as it supports the widest value range
-                        exp_type = TrialType.MEASUREMENT_TRIAL;
-                    }
-                    // create trial from factory
-                    Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
-                    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
-                    try {
-                        String result = doc.get("result").toString();
-                        trial.setValue(Double.parseDouble(result));
-                        String date = doc.get("date").toString();
-                        Date trial_date = format.parse(date);
-                        trial.overrideDate(trial_date);
-                    } catch (Exception e) {
-                        // fallback for case if trial cannot be parsed
-                        e.printStackTrace();
-                        trial.setValue(0);
-                    }
-                    // add to current experiment
-                    current_experiment.addTrial(trial);
+                    addTrialToExp(doc);
                 }
             }
 
@@ -152,6 +137,80 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             plotGraphs(v);
         });
     }
+
+    private void trialFirebaseOwner(View v) {
+        CollectionReference trials;
+        CollectionReference experiment;
+        try {
+            experiment = MainModel.getExperimentReference();
+            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ERROR:","Unable to setup trial on change listener");
+            return;
+        }
+
+        experiment.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                ArrayList<String> ignored_experimenters = (ArrayList<String>) value.getData().get("ignoredExperimenters");
+                // check if ignored_experimenters list exists
+                if (ignored_experimenters != null) {
+                    trials.addSnapshotListener((value1, error1) -> {
+                        current_experiment.clearTrial();
+
+                        if (value != null) {
+                            for (QueryDocumentSnapshot doc : value1) {
+                                String experimenter = (String) doc.getData().get("experimenterID");
+
+                                // check if experiment is ignored
+                                if (!ignored_experimenters.contains(experimenter)) {
+                                    addTrialToExp(doc);
+                                }
+                            }
+                        }
+
+                        // refresh model
+                        model = new SpecificExpModel(current_experiment);
+                        // refresh the views
+                        plotGraphs(v);
+                    });
+                }
+            }
+        });
+    }
+
+    private void addTrialToExp(QueryDocumentSnapshot doc) {
+        TrialFactory factory = new TrialFactory();
+        // obtain experiment type
+        TrialType exp_type;
+        try {
+            exp_type = TrialType.getInstance(current_experiment.getType());
+        } catch (IllegalArgumentException e) {
+            Log.e("Error:", "Invalid experiment type string. Resort to fallback");
+            e.printStackTrace();
+            // fallback to measurement trial, as it supports the widest value range
+            exp_type = TrialType.MEASUREMENT_TRIAL;
+        }
+        // create trial from factory
+        Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
+        try {
+            String result = doc.get("result").toString();
+            trial.setValue(Double.parseDouble(result));
+            String date = doc.get("date").toString();
+            Date trial_date = format.parse(date);
+            trial.overrideDate(trial_date);
+        } catch (Exception e) {
+            // fallback for case if trial cannot be parsed
+            e.printStackTrace();
+            trial.setValue(0);
+        }
+        // add to current experiment
+        current_experiment.addTrial(trial);
+    }
+
+
 
     private void plotGraphs(View v) {
         generateTimePlot();
