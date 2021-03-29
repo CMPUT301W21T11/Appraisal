@@ -7,10 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.MeasurementModel;
@@ -21,18 +24,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MeasurementActivity extends AppCompatActivity {
+public class MeasurementActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
     private EditText input_measurement;
     private MeasurementModel model;
     private DecimalFormat dp3 = new DecimalFormat("#.##");
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
+    private static final int MAP_REQUEST_CODE = 0;
+    private CurrentMarker trial_location;
+    private GeoPoint trial_geopoint;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -43,6 +50,9 @@ public class MeasurementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measurement);
+
+        GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+        geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
 
         input_measurement = findViewById(R.id.inputMeasurement);
         try {
@@ -87,7 +97,10 @@ public class MeasurementActivity extends AppCompatActivity {
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
-        trial_info.put("Result", dp3.format(model.getMeasurement()));
+        trial_info.put("result", dp3.format(model.getMeasurement()));
+        trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+        trial_info.put("geolocation", trial_geopoint);
+
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -140,8 +153,27 @@ public class MeasurementActivity extends AppCompatActivity {
 
     }
 
-    public void addGeolocation(View v){
+    public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, MAP_REQUEST_CODE);
+    }
+
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAP_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+            }
+        }
     }
 }

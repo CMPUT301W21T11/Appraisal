@@ -2,6 +2,7 @@ package com.example.appraisal.UI.trial;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.trial.BinomialModel;
@@ -24,6 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +35,15 @@ import java.util.Map;
 /**
  * This is the activity for conducting binomial activity
  */
-public class BinomialActivity extends AppCompatActivity {
+public class BinomialActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener{
     private BinomialModel model;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
     private static final int MAP_REQUEST_CODE = 0;
+    private CurrentMarker trial_location;
+    private GeoPoint trial_geopoint;
+    private @ServerTimestamp String trial_timestamp = null;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -47,6 +54,9 @@ public class BinomialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binomial);
+
+        GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+        geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
 
         Experiment current_experiment;
         try {
@@ -69,9 +79,8 @@ public class BinomialActivity extends AppCompatActivity {
         }
 
         listenToNumOfTrials();
-
-
     }
+
 
     /**
      * Increase the success count of the trial
@@ -79,11 +88,12 @@ public class BinomialActivity extends AppCompatActivity {
      * @param v increase button
      */
     public void incrementSuccess(View v) {
-        // adjust model
+        //adjust model
         model.addSuccess();
         storeTrialInFireBase(true);
         finish();
     }
+
 
     /**
      * Increase the failure count of the trial
@@ -107,10 +117,12 @@ public class BinomialActivity extends AppCompatActivity {
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
         if (outcome == true) {
-            trial_info.put("Result", "Success");
+            trial_info.put("result", "Success");
         } else {
-            trial_info.put("Result", "Failure");
+            trial_info.put("result", "Failure");
         }
+        trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+        trial_info.put("geolocation", trial_geopoint);
 
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
@@ -139,8 +151,6 @@ public class BinomialActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -156,20 +166,17 @@ public class BinomialActivity extends AppCompatActivity {
                         firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
                         Log.d("numtrials listener", String.valueOf(firebase_num_trials));
                     }
-
                 }
             }
         });
-
-
     }
+
 
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         startActivityForResult(intent, MAP_REQUEST_CODE);
-//        DialogFragment geolocationWarningDialog = new GeolocationWarningDialog();
-//        geolocationWarningDialog.show(getSupportFragmentManager(),"GeoDialog");
     }
+
 
     /**
      * Dispatch incoming result to the correct fragment.
@@ -184,30 +191,8 @@ public class BinomialActivity extends AppCompatActivity {
 
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                TextView currentGeoTextView = findViewById(R.id.current_geo_textview);
-                Button add_geo_btn_ = findViewById(R.id.add_geo);
-                currentGeoTextView.setVisibility(View.VISIBLE);
-                add_geo_btn_.setVisibility(View.GONE);
-
-//                double latitude = data.getDoubleExtra("markerLat", 0.00);
-//                double longitude = data.getDoubleExtra("markerLong", 0.00);
-
-//                Bundle current_marker_data = data.getExtras();
-                CurrentMarker marker = (CurrentMarker) data.getParcelableExtra("currentMarker");
-                currentGeoTextView.setText("Latitude: " + String.valueOf(marker.getLatitude()) + "\n" + "Longitude: " + String.valueOf(marker.getLongitude()));
-
-                // TODO: Mazen
-                // TODO: take in the latitude and longitude and store in the firebase
-                // TODO: update UI (toast)
-                // TODO: update Geolocation Warning
-                // TODO: querying the firebase of all trials (list of trials)
-
-                // TODO: together
-                // TODO: map of trials
-                // TODO: Optional: (When user clicks on a trial marker, it opens a fragment with trial information)
-//                currentGeoTextView.setText(String.valueOf(latitude) + " " +  String.valueOf(longitude));
+                trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
             }
         }
-
     }
 }

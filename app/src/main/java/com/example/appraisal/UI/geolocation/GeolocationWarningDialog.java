@@ -5,14 +5,18 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
+import com.example.appraisal.backend.experiment.Experiment;
 
 public class GeolocationWarningDialog extends DialogFragment {
-    private GeolocationWarningDialogListener listener;
+    private OnFragmentInteractionListener listener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -39,9 +43,21 @@ public class GeolocationWarningDialog extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if(context instanceof GeolocationWarningDialog.OnFragmentInteractionListener){
+            listener = (GeolocationWarningDialog.OnFragmentInteractionListener) context;
+        }
+        else{
+            throw new RuntimeException(context.toString()+" must implement OnFragmentInteractionListener");
+        }
     }
 
-    public interface GeolocationWarningDialogListener{
-
+    public interface OnFragmentInteractionListener{
     }
+
+    public static GeolocationWarningDialog newInstance() {
+        GeolocationWarningDialog geolocation_warning = new GeolocationWarningDialog();
+        return geolocation_warning;
+    }
+
 }
