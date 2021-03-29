@@ -28,12 +28,13 @@ public class GeolocationWarningDialog extends DialogFragment {
         builder.setView(view)
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+                        // Allow the user to add a trial
                     }
                 })
-                .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
+                .setNeutralButton("Reject", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
+                        // Don't allow the user to add a trial if they don't want to add their trial geolocation
+                        getActivity().finish();
                     }
                 });
         // Create the AlertDialog object and return it

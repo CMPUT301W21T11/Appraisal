@@ -249,8 +249,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         Intent intent = new Intent();
         CurrentMarker marker = new CurrentMarker(markerLat, markerLong);
         intent.putExtra("currentMarker", marker);
-//        intent.putExtra("markerLat", markerLat);
-//        intent.putExtra("markerLong", markerLong);
+
         setResult(RESULT_OK, intent);
         finish();
     }

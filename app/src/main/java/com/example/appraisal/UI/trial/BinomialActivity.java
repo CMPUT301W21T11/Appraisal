@@ -1,16 +1,22 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -23,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -43,7 +50,8 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
-    private @ServerTimestamp String trial_timestamp = null;
+    private Button geolocation_button;
+
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -57,6 +65,8 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
 
         GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
         geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
+
+        geolocation_button = findViewById(R.id.add_geo);
 
         Experiment current_experiment;
         try {
@@ -87,11 +97,27 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      *
      * @param v increase button
      */
-    public void incrementSuccess(View v) {
-        //adjust model
-        model.addSuccess();
-        storeTrialInFireBase(true);
-        finish();
+    public void uploadSuccess(View v) {
+
+        if (trial_location == null) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "You must add trial geolocation first", Snackbar.LENGTH_LONG);
+            location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    location_saved_snackbar.dismiss();
+                }
+            });
+            location_saved_snackbar.show();
+        }
+
+        else {
+            //adjust model
+            model.addSuccess();
+            storeTrialInFireBase(true);
+            addContributor();
+            finish();
+        }
     }
 
 
@@ -100,12 +126,26 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      *
      * @param v increase button
      */
-    public void incrementFailure(View v) {
-        //adjust model
-        model.addFailure();
-        storeTrialInFireBase(false);
-        addContributor();
-        finish();
+    public void uploadFailure(View v) {
+        if (trial_location == null) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "You must add trial geolocation first", Snackbar.LENGTH_LONG);
+            location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    location_saved_snackbar.dismiss();
+                }
+            });
+            location_saved_snackbar.show();
+        }
+
+        else {
+            //adjust model
+            model.addFailure();
+            storeTrialInFireBase(false);
+            addContributor();
+            finish();
+        }
     }
 
 
@@ -164,7 +204,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
 
                     if (document.exists()) {
                         firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
                     }
                 }
             }
@@ -192,6 +231,18 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+
+                geolocation_button.setText("Edit Geolocation");
+
+                CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "Your trial geolocation has been saved", Snackbar.LENGTH_LONG);
+                location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        location_saved_snackbar.dismiss();
+                    }
+                });
+                location_saved_snackbar.show();
             }
         }
     }
