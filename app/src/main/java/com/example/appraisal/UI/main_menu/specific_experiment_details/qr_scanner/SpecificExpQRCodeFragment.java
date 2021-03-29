@@ -44,8 +44,6 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startQRCodeGenerator() {
-        Intent intent = new Intent(parent_activity, QRGenrator.class);
-        startActivity(intent);
     }
 
     private void startCameraScanner() {

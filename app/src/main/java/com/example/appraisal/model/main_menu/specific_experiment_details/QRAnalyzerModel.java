@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -84,21 +85,32 @@ public class QRAnalyzerModel {
 
     /**
      * Obtain the commands in the string passed in the QR
-     * 0 index is for Type (binomial, count,...)
-     * 1 index value {binomial -> "0/1" (0 for fail, 1 for success)
+     * 0 index the app signature
+     * 1 index is for Type (binomial, count,...)
+     * 2 index value {binomial -> "0/1" (0 for fail, 1 for success)
      *                count -> "int number"
      *                non-neg -> "int num"
      *                measurement -> "double"
      *                }
-     * 2 the experiment ID.
+     * 3 the experiment ID.
      * @param encoded_info
      */
     public String[] decodeTrialQR(String encoded_info) {
         String[] commands = encoded_info.split(";");
-        if (!commands[0].equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name))) {
-            //TODO
-        }
         return commands;
+    }
+
+    /**
+     * This method check if the QR signature equals to the app name
+     * @param signature  -- the signature of the QR code
+     * @return boolean -- if the signature is value or not
+     */
+    public boolean checkSignature(String signature) {
+        if (signature.equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -140,10 +152,7 @@ public class QRAnalyzerModel {
 
         Map<String, Object> trial_info = new HashMap<>();
 
-        int trial_count = firebase_num_trials + 1;
-        String name = "Trial" + trial_count;
-
-
+        trial_info.put("result", value);
         // put trial date as current date
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         String date_string = formatter.format(Calendar.getInstance().getTime());
@@ -157,18 +166,24 @@ public class QRAnalyzerModel {
         }
         trial_info.put("experimenterID", experimenterID);
 
+        int trial_count = firebase_num_trials + 1;
+        String name = "Trial" + trial_count;
         // create new document for experiment with values from hash map
         ref.document(ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("***", "DocumentSnapshot successfully written!");
+                        Toast toast = Toast.makeText(parent_activity, "Trial successfully added to experiment", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("***", "Error writing document", e);
+                        Toast toast = Toast.makeText(parent_activity, "Trial unable to be added. Please try again later.", Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 });
 
