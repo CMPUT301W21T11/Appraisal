@@ -36,6 +36,7 @@ public class SpecificExpContributorsFragment extends Fragment {
     private ArrayList<String> experimenters;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    private String user;
 
 
     @Nullable
@@ -44,7 +45,6 @@ public class SpecificExpContributorsFragment extends Fragment {
         // inflate fragment
         View view = inflater.inflate(R.layout.fragment_specific_exp_contributors, container, false);
         experimenters = new ArrayList<>(); // filler code to get the adapter running
-
         // initialize Shared Preferences
         pref = this.getActivity().getSharedPreferences("prefKey", Context.MODE_PRIVATE);
         editor = pref.edit();
@@ -56,6 +56,14 @@ public class SpecificExpContributorsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        try {
+            user = MainModel.getCurrentUser().getID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Boolean is_owner = user.equals(current_experiment.getOwner());
+
         // initialize model
         model = new SpecificExpModel(current_experiment);
 
@@ -64,7 +72,7 @@ public class SpecificExpContributorsFragment extends Fragment {
 
         // initialize recyclerView
         recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
-        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref); // initialize adapter
+        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref, is_owner); // initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now
@@ -76,6 +84,7 @@ public class SpecificExpContributorsFragment extends Fragment {
         super.onResume();
         Log.d("Resume:", "contributors");
         queryDB();
+        adapter.notifyDataSetChanged();
     }
 
     private void queryDB() {
@@ -99,7 +108,7 @@ public class SpecificExpContributorsFragment extends Fragment {
                     if (document.exists()) {
                         // get experimenter list
                         experimenters = (ArrayList<String>) document.getData().get("experimenters");
-                        Log.d("Size:", String.valueOf(experimenters.size()));
+                        Log.d("ExpSize:", String.valueOf(experimenters.size()));
 
                         // store in Shared Preferences
                         Set<String> set = new HashSet<String>();

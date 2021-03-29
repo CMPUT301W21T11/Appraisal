@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/view_trial_constraint_layout">
 
 
     <TextView
@@ -32,20 +33,54 @@
         android:id="@+id/view_profile_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Profile"
         android:layout_marginRight="12dp"
+        android:text="View Profile"
+        app:layout_constraintBottom_toBottomOf="@+id/view_trial_experimenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view_trial_experimenter"
-        app:layout_constraintBottom_toBottomOf="@+id/view_trial_experimenter"/>
+        app:layout_constraintTop_toTopOf="@+id/view_trial_experimenter" />
 
+
+    <TextView
+        android:id="@+id/text_ignore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Results Ignored?"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/ignore_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="No"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_ignore"
+        app:layout_constraintStart_toEndOf="@+id/text_ignore"
+        app:layout_constraintTop_toTopOf="@+id/text_ignore"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/ignore_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="Ignore"
+        app:layout_constraintBottom_toBottomOf="@+id/ignore_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ignore_status"
+        app:layout_constraintVertical_bias="0.523" />
 
     <View
         android:id="@+id/separator"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#736F6F"
-        app:layout_constraintTop_toBottomOf="@id/view_profile_button"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ignore_button" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
