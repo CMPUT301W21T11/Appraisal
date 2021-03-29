@@ -53,10 +53,14 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
     private Activity mActivity;
 
+    private CollectionReference trials;
+    private CollectionReference experiment;
+
     /**
      * This is the Overridden onCreateView method from the Fragment class
-     * @param inflater -- LayoutInflater object for inflating the Fragment
-     * @param container -- ViewGroup object that contains the layout
+     *
+     * @param inflater           -- LayoutInflater object for inflating the Fragment
+     * @param container          -- ViewGroup object that contains the layout
      * @param savedInstanceState -- Bundle object
      * @return v -- View of the initialized Fragment
      */
@@ -73,7 +77,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             current_experiment = MainModel.getCurrentExperiment();
             current_experimenter = MainModel.getCurrentUser();
         } catch (Exception e) {
-            Log.e("Error:","Current experiment not set");
+            Log.e("Error:", "Current experiment not set");
             e.printStackTrace();
             return v;
         }
@@ -82,11 +86,19 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         graphViewInit(v);
         graphDropInit(v);
 
-        // check if current user owns experiment
+        // get collection references to Experiment and Trials Collections
+        try {
+            experiment = MainModel.getExperimentReference();
+            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ERROR:", "Unable to setup trial on change listener");
+        }
+
+        // check if current user owns experiment, call corresponding query
         if (current_experiment.getOwner().equals(current_experimenter.getID())) {
             trialFirebaseOwner(v);
-        }
-        else {
+        } else {
             trialFirebaseInit(v);
         }
 
@@ -112,16 +124,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void trialFirebaseInit(View v) {
-        CollectionReference trials;
-        try {
-            CollectionReference experiment = MainModel.getExperimentReference();
-            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("ERROR:","Unable to setup trial on change listener");
-            return;
-        }
-
         // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
             current_experiment.clearTrial();
@@ -139,43 +141,36 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void trialFirebaseOwner(View v) {
-        CollectionReference trials;
-        CollectionReference experiment;
-        try {
-            experiment = MainModel.getExperimentReference();
-            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("ERROR:","Unable to setup trial on change listener");
-            return;
-        }
-
+        // query the database to get trials for the experiment
         experiment.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                // get list of ignored experimenters
                 ArrayList<String> ignored_experimenters = (ArrayList<String>) value.getData().get("ignoredExperimenters");
-                // check if ignored_experimenters list exists
-                if (ignored_experimenters != null) {
-                    trials.addSnapshotListener((value1, error1) -> {
-                        current_experiment.clearTrial();
+                trials.addSnapshotListener((value1, error1) -> {
+                    current_experiment.clearTrial();
 
-                        if (value != null) {
-                            for (QueryDocumentSnapshot doc : value1) {
-                                String experimenter = (String) doc.getData().get("experimenterID");
+                    if (value1 != null) {
+                        for (QueryDocumentSnapshot doc : value1) {
+                            // get experimenter of trial
+                            String experimenter = (String) doc.getData().get("experimenterID");
 
-                                // check if experiment is ignored
-                                if (!ignored_experimenters.contains(experimenter)) {
-                                    addTrialToExp(doc);
-                                }
+                            if (ignored_experimenters == null) {
+                                // if ignored list doesn't exist just add all trials
+                                addTrialToExp(doc);
+                            }
+                            else if (!ignored_experimenters.contains(experimenter)) {
+                                // ignored list exists, if current trial's experimenter is not in ignored list, add trial to list
+                                addTrialToExp(doc);
                             }
                         }
+                    }
 
-                        // refresh model
-                        model = new SpecificExpModel(current_experiment);
-                        // refresh the views
-                        plotGraphs(v);
-                    });
-                }
+                    // refresh model
+                    model = new SpecificExpModel(current_experiment);
+                    // refresh the views
+                    plotGraphs(v);
+                });
             }
         });
     }
@@ -211,7 +206,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
 
-
     private void plotGraphs(View v) {
         generateTimePlot();
         generateHistogram();
@@ -226,7 +220,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         TextView stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
 
         mean.setText(model.getMean());
-        median.setText(String.format(Locale.ENGLISH, "%.2f",model.getQuartileInfo().getMedian()));
+        median.setText(String.format(Locale.ENGLISH, "%.2f", model.getQuartileInfo().getMedian()));
         stdDev.setText(model.getStdDev());
     }
 
@@ -349,10 +343,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // initialize axises
         if (mActivity != null) { // This shit is causing so many problem sometimes. I have no idea why. You know what, fuck it.
-            Log.i("Info:","mActivity is set");
+            Log.i("Info:", "mActivity is set");
             exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
         } else {
-            Log.w("Warning:","mActivity is null");
+            Log.w("Warning:", "mActivity is null");
         }
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
         exp_plot_over_time.getGridLabelRenderer().setPadding(90);
@@ -360,7 +354,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         if (data_points.length > 0) {
             exp_plot_over_time.getViewport().setMinX(data_points[0].getX());
-            exp_plot_over_time.getViewport().setMaxX(data_points[0].getX() + 5*24*60*60*1000); // increment 5 days
+            exp_plot_over_time.getViewport().setMaxX(data_points[0].getX() + 5 * 24 * 60 * 60 * 1000); // increment 5 days
         } else {
             exp_plot_over_time.getViewport().setMinX(new Date().getTime());
         }
@@ -382,7 +376,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             interval = 5;
         } else if (max_value <= 100) {
             interval = 100;
-        } else if (max_value <= 500){
+        } else if (max_value <= 500) {
             interval = 200;
         } else {
             interval = 500;
