@@ -50,8 +50,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button add_trial;
     private CollectionReference exp_ref;
     private Button view_trials;
-    private static final int MAP_REQUEST_CODE = 0;
-
 
     /**
      * Gets called when the fragment gets created
