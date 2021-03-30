@@ -17,9 +17,9 @@ import java.util.TreeMap;
 public class SpecificExperiment {
     private final Experiment current_experiment;
     private final ArrayList<Trial> list_of_trials;
-    private List<Float> list_of_trials_as_float;
+    private final List<Float> list_of_trials_as_float;
     private final int total;
-    private Quartile quartile;
+    private final Quartile quartile;
 
     /**
      * Creates an instance of the Specific Experiment wrapper
@@ -54,16 +54,6 @@ public class SpecificExperiment {
      */
     public ArrayList<Trial> getList_of_trials() {
         return new ArrayList<>(list_of_trials);
-    }
-
-    /**
-     * Return the number of trials conducted in the experiment.
-     * Note: It is NOT always the length of list_of_trials.
-     * @return total
-     *      Total number of trials conducted by the experiment
-     */
-    public int getTotalNumberOfTrials() {
-        return total;
     }
 
     /**
@@ -183,7 +173,7 @@ public class SpecificExperiment {
         // record frequencies
         for (float measurement_i: list_of_trials_as_float) {
             // calculate which interval the value belongs to
-            int interval_index = (int) Math.floor((measurement_i - min_value) / width);
+            int interval_index = (int) Math.round((measurement_i - min_value) / width);
 
             // safety check to prevent index errors
             if (interval_index < 0) {

@@ -142,11 +142,19 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
                     }
                     // add to current experiment
                     current_experiment.addTrial(trial);
+
                 }
             }
+            // clear any previous series
+            histogram.removeAllSeries();
+            histogram.onDataChanged(false, false);
+
+            exp_plot_over_time.removeAllSeries();
+            exp_plot_over_time.onDataChanged(false, false);
 
             // refresh model
             model = new SpecificExpModel(current_experiment);
+
             // refresh the views
             plotGraphs(v);
         });
@@ -236,10 +244,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void generateHistogram() {
-        // clear any previous series
-        histogram.removeAllSeries();
-        histogram.getGridLabelRenderer().resetStyles();
-
         // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
@@ -264,6 +268,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
+        histogram.refreshDrawableState();
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
 
@@ -274,10 +279,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // The graph date plot initialization is taken from GraphView's documentation
         // Author:
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
-
-        // clear any previous data
-        exp_plot_over_time.removeAllSeries();
-        exp_plot_over_time.getGridLabelRenderer().resetStyles();
 
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
@@ -338,6 +339,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
+
+        exp_plot_over_time.refreshDrawableState();
 
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
 
