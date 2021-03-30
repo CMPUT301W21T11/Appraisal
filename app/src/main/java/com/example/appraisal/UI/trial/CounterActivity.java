@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -42,6 +45,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
+    private Button geolocation_button;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -55,6 +59,8 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
         GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
         geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
+
+        geolocation_button = findViewById(R.id.add_geo);
 
         counter_view = (TextView) findViewById(R.id.count_view);
         try {
@@ -80,6 +86,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     }
 
+
     /**
      * increase the counter
      * @param v onClick view
@@ -94,19 +101,34 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         counter_view.setText(result);
     }
 
+
     /**
      * Save the trial to the experiment
      * @param v save button
      */
     public void save(View v) {
-        model.toExperiment();
-        storeTrialInFireBase();
-        addContributor();
-        finish();
+        if (trial_location == null) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+
+        else {
+            model.toExperiment();
+            storeTrialInFireBase();
+            addContributor();
+            finish();
+        }
     }
 
-    public void storeTrialInFireBase() {
 
+    public void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
 
@@ -184,8 +206,19 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+
+                geolocation_button.setText("Edit Geolocation");
+
+                CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "Your trial geolocation has been saved", Snackbar.LENGTH_LONG);
+                location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        location_saved_snackbar.dismiss();
+                    }
+                });
+                location_saved_snackbar.show();
             }
         }
     }
-
 }

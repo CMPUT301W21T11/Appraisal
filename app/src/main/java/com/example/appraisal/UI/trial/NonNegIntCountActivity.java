@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -39,6 +42,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
+    private Button geolocation_button;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -53,6 +57,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
         geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
 
+        geolocation_button = findViewById(R.id.add_geo);
         counter_view = findViewById(R.id.nonneg_count_input);
         try {
             Experiment experiment = MainModel.getCurrentExperiment();
@@ -74,27 +79,41 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         }
 
         listenToNumOfTrials();
-
     }
+
 
     /**
      * save to experiment
      * @param v save button
      */
     public void saveAndReturn(View v) {
-        // get input
-        String user_input = counter_view.getText().toString();
 
-        // Adjust the model
-        model.addIntCount(user_input);
-        model.toExperiment();
-        storeTrialInFireBase();
-        addContributor();
-        finish();
+        if (trial_location == null) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+
+        else {
+            // get input
+            String user_input = counter_view.getText().toString();
+            // Adjust the model
+            model.addIntCount(user_input);
+            model.toExperiment();
+            storeTrialInFireBase();
+            addContributor();
+            finish();
+        }
     }
 
-    public void storeTrialInFireBase() {
 
+    public void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
@@ -123,6 +142,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         current_exp.setTrialCount(num_of_trials);
     }
 
+
     private void addContributor() {
 
         try {
@@ -130,9 +150,8 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
 
     private void listenToNumOfTrials() {
 
@@ -144,20 +163,19 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
                     if (document.exists()){
                         firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
                     }
 
                 }
             }
         });
-
-
     }
+
 
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         startActivityForResult(intent, MAP_REQUEST_CODE);
     }
+
 
     /**
      * Dispatch incoming result to the correct fragment.
@@ -172,8 +190,19 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Log.d("Returned from Map", "Successful");
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+
+                geolocation_button.setText("Edit Geolocation");
+
+                CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "Your trial geolocation has been saved", Snackbar.LENGTH_LONG);
+                location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        location_saved_snackbar.dismiss();
+                    }
+                });
+                location_saved_snackbar.show();
             }
         }
     }

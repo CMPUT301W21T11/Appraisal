@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -21,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -40,6 +43,8 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
+    private Button geolocation_button;
+
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -54,6 +59,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
         geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
 
+        geolocation_button = findViewById(R.id.add_geo);
         input_measurement = findViewById(R.id.inputMeasurement);
         try {
             Experiment experiment = MainModel.getCurrentExperiment();
@@ -77,21 +83,37 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         listenToNumOfTrials();
     }
 
+
     /**
      * Save measurement to experiment
      * @param view save button
      */
     public void addMeasurement(View view) {
-        String input = input_measurement.getText().toString();
-        model.addMeasurement(input);
-        model.toExperiment();
-        storeTrialInFireBase();
-        addContributor();
-        finish();
+
+        if (trial_location == null) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+
+        else {
+            String input = input_measurement.getText().toString();
+            model.addMeasurement(input);
+            model.toExperiment();
+            storeTrialInFireBase();
+            addContributor();
+            finish();
+        }
     }
 
-    public void storeTrialInFireBase() {
 
+    public void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
@@ -128,8 +150,6 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -143,15 +163,13 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
                     if (document.exists()){
                         firebase_num_trials = Integer.valueOf(document.get("numOfTrials").toString());
-                        Log.d("numtrials listener", String.valueOf(firebase_num_trials));
                     }
 
                 }
             }
         });
-
-
     }
+
 
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
@@ -173,6 +191,18 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+
+                geolocation_button.setText("Edit Geolocation");
+
+                CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "Your trial geolocation has been saved", Snackbar.LENGTH_LONG);
+                location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        location_saved_snackbar.dismiss();
+                    }
+                });
+                location_saved_snackbar.show();
             }
         }
     }

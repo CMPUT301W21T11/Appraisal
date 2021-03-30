@@ -2,6 +2,7 @@ package com.example.appraisal.UI.trial;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -101,14 +103,14 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
 
         if (trial_location == null) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-            Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "You must add trial geolocation first", Snackbar.LENGTH_LONG);
-            location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    location_saved_snackbar.dismiss();
+                    snackbar.dismiss();
                 }
             });
-            location_saved_snackbar.show();
+            snackbar.show();
         }
 
         else {
@@ -129,14 +131,14 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     public void uploadFailure(View v) {
         if (trial_location == null) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-            Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "You must add trial geolocation first", Snackbar.LENGTH_LONG);
-            location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    location_saved_snackbar.dismiss();
+                    snackbar.dismiss();
                 }
             });
-            location_saved_snackbar.show();
+            snackbar.show();
         }
 
         else {
@@ -150,7 +152,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
 
 
     public void storeTrialInFireBase(Boolean outcome) {
-
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
@@ -242,6 +243,10 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
                         location_saved_snackbar.dismiss();
                     }
                 });
+//                View snackbar_view = location_saved_snackbar.getView();
+//                snackbar_view.setBackgroundColor(Color.parseColor("#006400"));
+//                location_saved_snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.white));
+//                location_saved_snackbar.setTextColor(ContextCompat.getColor(this, R.color.white));
                 location_saved_snackbar.show();
             }
         }
