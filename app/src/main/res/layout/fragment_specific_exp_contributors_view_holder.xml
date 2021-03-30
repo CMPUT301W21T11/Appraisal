@@ -39,12 +39,14 @@
                 android:textSize="24sp" />
 
             <TextView
-                android:id="@+id/fragment_specific_exp_contributors_isowner"
+                android:id="@+id/fragment_specific_exp_contributors_isignored"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="bottom|end"
-                android:text="Owner" />
+                android:text="Ignored"
+                android:textSize="16dp"
+                android:layout_marginEnd="10dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
