@@ -7,18 +7,6 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/fragment_spec_exp_qr_code_register_button"
-        android:layout_width="235dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="60dp"
-        android:text="Register Bar Code"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_scan_button"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
         android:id="@+id/fragment_spec_exp_qr_code_generate_button"
         android:layout_width="235dp"
         android:layout_height="75dp"
@@ -32,9 +20,34 @@
         android:id="@+id/fragment_spec_exp_qr_code_scan_button"
         android:layout_width="235dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="172dp"
         android:text="Scan Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_generate_button" />
+
+    <Button
+        android:id="@+id/fragment_spec_exp_qr_code_register_button"
+        android:layout_width="235dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="60dp"
+        android:text="Register Bar Code"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_scan_button"
+        app:layout_constraintVertical_bias="0.004" />
+
+    <EditText
+        android:id="@+id/trial_value_qr_input"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:hint="Enter value here"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_generate_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
