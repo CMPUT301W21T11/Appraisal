@@ -211,7 +211,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         });
     }
 
-
+    // TODO: Go to Geolocation Activity with a bundle containing a flag
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         startActivityForResult(intent, MAP_REQUEST_CODE);

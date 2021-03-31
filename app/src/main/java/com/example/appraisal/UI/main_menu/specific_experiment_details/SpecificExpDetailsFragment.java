@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
+import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
@@ -50,6 +51,8 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button add_trial;
     private CollectionReference exp_ref;
     private Button view_trials;
+    private Button plot_trials;
+
 
     /**
      * Gets called when the fragment gets created
@@ -69,8 +72,10 @@ public class SpecificExpDetailsFragment extends Fragment {
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
         view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
+        plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
         view_trials.setOnClickListener(v2 -> goToViewTrials());
+        plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 
         try {
@@ -185,5 +190,11 @@ public class SpecificExpDetailsFragment extends Fragment {
     private void goToViewTrials() {
         Intent intent = new Intent(this.getActivity(),ViewTrialActivity.class);
         startActivity(intent);
+    }
+
+    // TODO: Go to Geolocation Activity with a bundle containing a flag
+    private void plotAllTrialsOnMap(){
+        Intent intent = new Intent(getActivity(), GeolocationActivity.class);
+        //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
     }
 }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -33,6 +34,7 @@ import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
 import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -76,6 +78,8 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     private double markerLat;
     private double markerLong;
+    private static final int MAP_REQUEST_CODE = 0;
+    private static final int PLOT_TRIALS_REQUEST_CODE = 1;
 
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
