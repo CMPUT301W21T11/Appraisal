@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
+import com.example.appraisal.model.main_menu.specific_experiment_details.Barcode;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,6 +31,7 @@ import java.util.Map;
  */
 public class MainModel {
     private static MainModel single_instance;
+    private static ArrayList<Barcode> assignedBarcodes = new ArrayList<>();
 
     private final FirebaseFirestore db;
 
@@ -374,6 +376,10 @@ public class MainModel {
         }
 
         return single_instance.qr_target_experiment;
+    }
+    
+    public static ArrayList<Barcode> getAssignedBarcodes() {
+        return assignedBarcodes;
     }
 
 }
