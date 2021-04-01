@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.specific_experiment.ViewTrial;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +30,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -46,6 +53,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CollectionReference exp_ref;
     private Button view_trials;
     private Button plot_trials;
+    private ArrayList<GeoPoint> geolocation_list;
 
 
     /**
@@ -148,6 +156,9 @@ public class SpecificExpDetailsFragment extends Fragment {
             }
         });
 
+        geolocation_list = new ArrayList<>();
+
+        getAllGeoLocations();
 
         return v;
     }
@@ -191,5 +202,31 @@ public class SpecificExpDetailsFragment extends Fragment {
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
         intent.putExtra("Map Request Code", "Plot Trials Map");
         startActivity(intent);
+ 
+        //intent.putExtra("geolocation list", geolocation_list);
+        //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
+ 
+    }
+
+
+    private void getAllGeoLocations() {
+        exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                // clear old list
+                geolocation_list.clear();
+
+                // check each experiment document
+                for (QueryDocumentSnapshot doc : value) {
+
+                    // get all the fields of the experiment
+                    String trial_ID = doc.getId();
+                    GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+
+                    // add experiment to the list to display
+                    geolocation_list.add(trial_geolocation);
+                }
+            }
+        });
     }
 }

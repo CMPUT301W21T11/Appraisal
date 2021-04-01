@@ -60,20 +60,18 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         geolocation_button = findViewById(R.id.add_geo);
         counter_view = findViewById(R.id.nonneg_count_input);
         try {
-            Experiment experiment = MainModel.getCurrentExperiment();
-            model = new NonNegIntCountModel(experiment);
+            current_exp = MainModel.getCurrentExperiment();
+            model = new NonNegIntCountModel(current_exp);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (!current_exp.getIsGeolocationRequired()){
+            geolocation_button.setVisibility(View.GONE);
         }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            current_exp = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
