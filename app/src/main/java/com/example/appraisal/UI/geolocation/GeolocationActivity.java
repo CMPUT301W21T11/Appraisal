@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,9 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.model.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -105,7 +108,9 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     private Button save_geolocation_btn;
 
-    private LocationRequest locationRequest;
+    private LocationRequest location_request;
+
+    private LocationCallback location_callback;
 
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
@@ -121,7 +126,14 @@ public class GeolocationActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         flag = intent.getStringExtra("Map Request Code");
 
-        locationRequest = LocationRequest.create().setInterval(60*1000).setFastestInterval(15*1000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        location_callback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+            }
+        };
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
@@ -134,7 +146,6 @@ public class GeolocationActivity extends AppCompatActivity implements
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         // Retrieve location and camera position from saved instance state.
@@ -169,6 +180,8 @@ public class GeolocationActivity extends AppCompatActivity implements
     public void onMapReady(GoogleMap googleMap) {
 
 //        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
+
+        startLocationUpdates();
 
         mMap = googleMap;
 
@@ -401,8 +414,8 @@ public class GeolocationActivity extends AppCompatActivity implements
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private double average(double[] nums){
-        double avg = 1.0d* DoubleStream.of(nums).sum() / nums.length;
+    private double average(double[] nums) {
+        double avg = 1.0d * DoubleStream.of(nums).sum() / nums.length;
         return avg;
     }
 
@@ -446,8 +459,7 @@ public class GeolocationActivity extends AppCompatActivity implements
                     String trial_ID = doc.getId();
                     GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
 
-                    if (trial_geolocation != null)
-                    {
+                    if (trial_geolocation != null) {
                         builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC"));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
@@ -461,7 +473,7 @@ public class GeolocationActivity extends AppCompatActivity implements
                 avg_longitudes = sum_longitudes / count;
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avg_latitudes, avg_longitudes), 5));
 
-               // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
+                // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
 
                 LatLngBounds bounds = builder.build();
                 int width = getResources().getDisplayMetrics().widthPixels;
@@ -483,12 +495,51 @@ public class GeolocationActivity extends AppCompatActivity implements
      */
     @Override
     public void onLocationChanged(@NonNull Location location) {
-//        currentLocationMarker.remove();
-//        double latitude = location.getLatitude();
-//        double longitude = location.getLongitude();
-//        LatLng currentLocation = new LatLng(latitude, longitude);
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng currentLocation = new LatLng(latitude, longitude);
 //        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
-//        currentLocationMarker.showInfoWindow();
-        getDeviceLocation();
+        currentLocationMarker.setPosition(currentLocation);
+        currentLocationMarker.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+//        getDeviceLocation();
+        Log.d("OLC", "Oops");
+    }
+
+
+    private void startLocationUpdates() {
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        fusedLocationProviderClient.requestLocationUpdates(location_request,
+//                location_callback,
+//                Looper.getMainLooper());
+
+        location_request = LocationRequest.create().setInterval(60 * 1000).setFastestInterval(5 * 1000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.requestLocationUpdates(location_request, new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull @NotNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                onLocationChanged(locationResult.getLastLocation());
+            }
+        }, Looper.myLooper());
+
     }
 }
