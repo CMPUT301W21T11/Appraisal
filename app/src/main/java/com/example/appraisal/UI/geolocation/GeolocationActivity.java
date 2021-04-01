@@ -181,7 +181,6 @@ public class GeolocationActivity extends AppCompatActivity implements
 
 //        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
 
-        startLocationUpdates();
 
         mMap = googleMap;
 
@@ -194,6 +193,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
         if (flag.equals("User Location")) {
             enableMyLocation();
+            startLocationUpdates();
         } else if (flag.equals("Plot Trials Map")) {
             // Fetch firebase
             // Plot the markers
