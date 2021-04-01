@@ -6,21 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
-import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -30,7 +25,6 @@ import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -195,6 +189,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     // TODO: Go to Geolocation Activity with a bundle containing a flag
     private void plotAllTrialsOnMap(){
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
-        //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
+        intent.putExtra("Map Request Code", "Plot Trials Map");
+        startActivity(intent);
     }
 }

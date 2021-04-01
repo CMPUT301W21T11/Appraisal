@@ -1,24 +1,15 @@
 package com.example.appraisal.UI.trial;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.CurrentMarker;
@@ -36,7 +27,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -214,6 +204,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     // TODO: Go to Geolocation Activity with a bundle containing a flag
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
+        intent.putExtra("Map Request Code", "User Location");
         startActivityForResult(intent, MAP_REQUEST_CODE);
     }
 
@@ -243,10 +234,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
                         location_saved_snackbar.dismiss();
                     }
                 });
-//                View snackbar_view = location_saved_snackbar.getView();
-//                snackbar_view.setBackgroundColor(Color.parseColor("#006400"));
-//                location_saved_snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.white));
-//                location_saved_snackbar.setTextColor(ContextCompat.getColor(this, R.color.white));
                 location_saved_snackbar.show();
             }
         }
