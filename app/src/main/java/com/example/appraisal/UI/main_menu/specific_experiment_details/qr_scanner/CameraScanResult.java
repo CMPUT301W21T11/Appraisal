@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
 import com.example.appraisal.backend.specific_experiment.QRValues;
@@ -83,7 +82,7 @@ public class CameraScanResult extends AppCompatActivity {
 
     private void displayResult(Result result) throws Exception {
         // We are gonna display the detected code on the activity
-        model.displayQRCode(result);
+        model.displayBarCode(result);
         QRValues values = model.decodeTrialQR(result.getText());
         TextView trialType = findViewById(R.id.camera_scan_result_trial_type_display);
         TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);

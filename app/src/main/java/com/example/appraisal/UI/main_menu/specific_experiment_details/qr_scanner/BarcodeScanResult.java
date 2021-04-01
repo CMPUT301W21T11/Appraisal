@@ -13,17 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
-import com.example.appraisal.model.main_menu.specific_experiment_details.Barcode;
+import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.main_menu.specific_experiment_details.BarcodeAnalyzerModel;
 import com.google.zxing.Result;
 
 public class BarcodeScanResult extends AppCompatActivity {
 
-    private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
+    private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000002;
     private BarcodeAnalyzerModel model;
-    private String currentExperimentType = null;
+    private TrialType currentExperimentType;
+    private User current_user;
+    private Experiment current_experiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,26 @@ public class BarcodeScanResult extends AppCompatActivity {
 
         // Get current experiment type to display barcode page accordingly
         try {
-            currentExperimentType = MainModel.getCurrentExperiment().getType();
+            currentExperimentType = TrialType.getInstance(MainModel.getCurrentExperiment().getType());
+            current_user = MainModel.getCurrentUser();
+            current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (currentExperimentType.equals("Count-based trials")) { // need to fix MainModel for inconsistency
-            setContentView(R.layout.activity_barcode_scan_result_count);
-        } else if (currentExperimentType.equals("Binomial Trials")) {
-            setContentView(R.layout.activity_barcode_scan_result_binomial);
-        } else if (currentExperimentType.equals("Non-negative Integer Trials")) {
-            setContentView(R.layout.activity_barcode_scan_result_integer);
-        } else if (currentExperimentType.equals("Measurement Trials")) {
-            setContentView(R.layout.activity_barcode_scan_result_measurement);
+        switch (currentExperimentType) {
+            case COUNT_TRIAL:
+                setContentView(R.layout.activity_barcode_scan_result_count);
+                break;
+            case BINOMIAL_TRIAL:
+                setContentView(R.layout.activity_barcode_scan_result_binomial);
+                break;
+            case NON_NEG_INT_TRIAL:
+                setContentView(R.layout.activity_barcode_scan_result_integer);
+                break;
+            case MEASUREMENT_TRIAL:
+                setContentView(R.layout.activity_barcode_scan_result_measurement);
+                break;
         }
 
 
@@ -63,88 +73,38 @@ public class BarcodeScanResult extends AppCompatActivity {
                     return;
                 }
 
-                model.readingQRCode(result);
-                String[] commands = model.decodeTrialQR(result.getText());
-
-                // test code
-                for (int i = 0; i < commands.length; i++){
-                    Log.d("length", String.valueOf(commands.length));
-                    Log.d("Commands", commands[i]);
-                }
+                model.displayBarCode(result);
 
                 TextView trialType = findViewById(R.id.barcode_scan_result_trial_type_display);
                 TextView trialValue = findViewById(R.id.barcode_scan_result_trial_value_display);
                 Button finish_button = findViewById(R.id.barcode_scan_result_finish_button);
-//                if (commands != null && (commands.length > 4) && model.checkSignature(commands[0])) {
-//                    trialType.setText(commands[1]);
-//                    trialValue.setText(commands[2]);
-//                    finish_button.setText("ADD TO EXPERIMENT");
-//                    finish_button.setOnClickListener(v -> {
-//                        try {
-//                            model.addToExperiment(commands[3], commands[1], commands[2]);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        finish();
-//                    });
-//                } else {
-//                    trialType.setText("Not recognized");
-//                    trialValue.setText("Not recognized");
-//                    finish_button.setOnClickListener(v -> finish());
-//                }
 
                 // Once the barcode is read
-                trialType.setText(currentExperimentType);
+                trialType.setText(currentExperimentType.getLabel());
                 trialValue.setText("placeholder value"); // possibly deleting value space later
                 finish_button.setOnClickListener(v -> finish());
 
                 // set onClickListener based on experiment type
-                if (currentExperimentType.equals("Count-based trials")) { // need to fix MainModel for inconsistency
-                    Button increment_button = findViewById(R.id.barcode_scan_result_count_increment);
-                    increment_button.setOnClickListener(v -> {
-                        try {
-                            createBarcode(result.getText(), MainModel.getCurrentUser(), MainModel.getCurrentExperiment(), null);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                } else if (currentExperimentType.equals("Binomial Trials")) {
-                    Button success_button = findViewById(R.id.barcode_scan_result_binomial_sucess);
-                    Button failure_button = findViewById(R.id.barcode_scan_result_binomial_failure);
-                    success_button.setOnClickListener(v -> {
-                        try {
-                            createBarcode(result.getText(), MainModel.getCurrentUser(), MainModel.getCurrentExperiment(), "1");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    failure_button.setOnClickListener(v -> {
-                        try {
-                            createBarcode(result.getText(), MainModel.getCurrentUser(), MainModel.getCurrentExperiment(), "0");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                } else if (currentExperimentType.equals("Non-negative Integer Trials")) {
-                    Button integer_assign = findViewById(R.id.barcode_scan_result_integer_assign);
-                    EditText integer_field = findViewById(R.id.barcode_scan_result_integer_input);
-                    integer_assign.setOnClickListener(v -> {
-                        try {
-                            createBarcode(result.getText(), MainModel.getCurrentUser(), MainModel.getCurrentExperiment(), integer_field.getText().toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                } else if (currentExperimentType.equals("Measurement Trials")) {
-                    Button measurement_assign = findViewById(R.id.barcode_scan_result_measurement_assign);
-                    EditText textField = findViewById(R.id.barcode_scan_result_measurement_input);
-                    measurement_assign.setOnClickListener(v -> {
-                        try {
-                            createBarcode(result.getText(), MainModel.getCurrentUser(), MainModel.getCurrentExperiment(), textField.getText().toString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
+                switch (currentExperimentType) {
+                    case COUNT_TRIAL:
+                        Button increment_button = findViewById(R.id.barcode_scan_result_count_increment);
+                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "1"));
+                        break;
+                    case BINOMIAL_TRIAL:
+                        Button success_button = findViewById(R.id.barcode_scan_result_binomial_sucess);
+                        Button failure_button = findViewById(R.id.barcode_scan_result_binomial_failure);
+                        success_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "1"));
+                        failure_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "0"));
+                        break;
+                    case NON_NEG_INT_TRIAL:
+                        Button integer_assign = findViewById(R.id.barcode_scan_result_integer_assign);
+                        EditText integer_field = findViewById(R.id.barcode_scan_result_integer_input);
+                        integer_assign.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, integer_field.getText().toString()));
+                        break;
+                    case MEASUREMENT_TRIAL:
+                        Button measurement_assign = findViewById(R.id.barcode_scan_result_measurement_assign);
+                        EditText textField = findViewById(R.id.barcode_scan_result_measurement_input);
+                        measurement_assign.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, textField.getText().toString()));
                 }
             } catch (Exception e) {
                 Log.e("CameraScanResult: ", "Error when processing barcode: " + e.getMessage());

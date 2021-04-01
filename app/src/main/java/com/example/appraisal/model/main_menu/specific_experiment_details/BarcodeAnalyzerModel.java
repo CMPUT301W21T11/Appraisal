@@ -5,10 +5,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.core.MainModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 

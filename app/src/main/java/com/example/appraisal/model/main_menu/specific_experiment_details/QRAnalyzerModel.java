@@ -57,7 +57,7 @@ public class QRAnalyzerModel {
      * @param result -- the detection result
      * @throws WriterException -- when MultiFormatWriter refuse to write
      */
-    public void displayQRCode(@NonNull Result result) throws Exception {
+    public void displayBarCode(@NonNull Result result) throws Exception {
         String qr_display = result.getText();
 
         // Display the raw value of the code to activity
