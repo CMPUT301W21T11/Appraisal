@@ -74,6 +74,7 @@
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
         <activity android:name=".UI.main_menu.search.SearchActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRGeneratorActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult"/>
     </application>
 
 </manifest>
