@@ -2,7 +2,6 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.geolocation.Geopoints;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
 import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.specific_experiment.ViewTrial;
 import com.example.appraisal.model.MainModel;
 import com.example.appraisal.model.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,12 +29,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -55,6 +50,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button plot_trials;
     private ArrayList<GeoPoint> geolocation_list;
 
+    private ArrayList<Geopoints> geopoints_list;
 
     /**
      * Gets called when the fragment gets created
@@ -158,7 +154,7 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         geolocation_list = new ArrayList<>();
 
-        getAllGeoLocations();
+//        getAllGeoLocations();
 
         return v;
     }
@@ -209,24 +205,24 @@ public class SpecificExpDetailsFragment extends Fragment {
     }
 
 
-    private void getAllGeoLocations() {
-        exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                // clear old list
-                geolocation_list.clear();
-
-                // check each experiment document
-                for (QueryDocumentSnapshot doc : value) {
-
-                    // get all the fields of the experiment
-                    String trial_ID = doc.getId();
-                    GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
-
-                    // add experiment to the list to display
-                    geolocation_list.add(trial_geolocation);
-                }
-            }
-        });
-    }
+//    private void getAllGeoLocations() {
+//        exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                // clear old list
+//                geolocation_list.clear();
+//
+//                // check each experiment document
+//                for (QueryDocumentSnapshot doc : value) {
+//
+//                    // get all the fields of the experiment
+//                    String trial_ID = doc.getId();
+//                    GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+//
+//                    // add experiment to the list to display
+//                    geolocation_list.add(trial_geolocation);
+//                }
+//            }
+//        });
+//    }
 }

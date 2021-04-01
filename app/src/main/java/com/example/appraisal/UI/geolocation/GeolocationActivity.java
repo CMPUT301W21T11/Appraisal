@@ -19,7 +19,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.model.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,6 +37,12 @@ import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
 import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +63,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
     private GoogleMap mMap;
 
+    private CollectionReference exp_ref;
+
+    private Experiment current_experiment;
 
     private UiSettings mUiSettings;
 
@@ -103,6 +114,20 @@ public class GeolocationActivity extends AppCompatActivity implements
         flag = intent.getStringExtra("Map Request Code");
 
 
+        try {
+            current_experiment = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            exp_ref = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -148,7 +173,10 @@ public class GeolocationActivity extends AppCompatActivity implements
         if (flag.equals("User Location")) {
             enableMyLocation();
         } else if (flag.equals("Plot Trials Map")) {
-            mockPlotTrialMarkers();
+            // Fetch firebase
+            // Plot the markers
+//            mockPlotTrialMarkers();
+            getAllGeoLocations();
         }
 
 
@@ -380,4 +408,46 @@ public class GeolocationActivity extends AppCompatActivity implements
         }
         super.onSaveInstanceState(outState);
     }
+
+
+    private void getAllGeoLocations() {
+
+        exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                // clear old list
+//                geolocation_list.clear();
+
+                // check each experiment document
+                double sum_latitudes = 0;
+                double sum_longitudes = 0;
+
+                double count = 0.0;
+                double avg_latitudes;
+                double avg_longitudes;
+
+                for (QueryDocumentSnapshot doc : value) {
+
+                    // get all the fields of the experiment
+                    String trial_ID = doc.getId();
+                    GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+
+                    if (trial_geolocation != null)
+                    {
+                        drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC");
+                        sum_latitudes += trial_geolocation.getLatitude();
+                        sum_longitudes += trial_geolocation.getLongitude();
+                        count = count + 1.0;
+                    }
+                    // add experiment to the list to display
+//                    geolocation_list.add(trial_geolocation);
+                }
+
+                avg_latitudes = sum_latitudes / count;
+                avg_longitudes = sum_longitudes / count;
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avg_latitudes, avg_longitudes), 5));
+            }
+        });
+    }
+
 }
