@@ -53,6 +53,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
+    private Experiment current_experiment;
 
 
     /**
@@ -70,12 +71,15 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
 
         geolocation_button = findViewById(R.id.add_geo);
 
-        Experiment current_experiment;
         try {
             current_experiment = MainModel.getCurrentExperiment();
             model = new BinomialModel(current_experiment);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (!current_experiment.getIsGeolocationRequired()){
+            geolocation_button.setVisibility(View.GONE);
         }
 
         try {
