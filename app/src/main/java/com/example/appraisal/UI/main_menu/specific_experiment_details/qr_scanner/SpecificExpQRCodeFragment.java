@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,10 +49,9 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startQRCodeGenerator() {
-        if (trial_value_qr_input.getText().toString().equals("")) {
-            return;
-        }
-        else {
+        if (trial_value_qr_input.getText().toString().trim().equals("")) {
+            Toast.makeText(parent_activity, "No input detected!", Toast.LENGTH_SHORT).show();
+        } else {
             Intent intent = new Intent(parent_activity, QRGeneratorActivity.class);
 
             String value = trial_value_qr_input.getText().toString();

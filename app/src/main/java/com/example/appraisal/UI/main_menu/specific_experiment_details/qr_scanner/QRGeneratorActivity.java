@@ -31,21 +31,23 @@ public class QRGeneratorActivity extends AppCompatActivity {
 
         MultiFormatWriter writer = new MultiFormatWriter();
 
-        Experiment current_exp = null;
+        Experiment current_exp;
         try {
             current_exp = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
 
         String value = getIntent().getStringExtra("val");
-        String message = "Appraisal;" + value + ";" + current_exp.getType().toString() + ";" + current_exp.getExpId();
+        String message = getResources().getString(R.string.app_name) + ";" + value + ";" + current_exp.getType() + ";" + current_exp.getExpId();
 
-        BitMatrix bit_matrix = null;
+        BitMatrix bit_matrix;
         try {
             bit_matrix = writer.encode(message, BarcodeFormat.QR_CODE, 300, 300);
         } catch (WriterException e) {
             e.printStackTrace();
+            return;
         }
         BarcodeEncoder encoder = new BarcodeEncoder();
         Bitmap bitmap = encoder.createBitmap(bit_matrix);
