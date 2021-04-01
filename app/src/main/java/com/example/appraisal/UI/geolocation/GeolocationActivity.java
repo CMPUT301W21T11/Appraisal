@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,9 +24,11 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.model.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.maps.CameraUpdate;
 import com.google.android.libraries.maps.CameraUpdateFactory;
 import com.google.android.libraries.maps.GoogleMap;
 import com.google.android.libraries.maps.GoogleMap.OnMyLocationButtonClickListener;
@@ -35,6 +38,7 @@ import com.google.android.libraries.maps.SupportMapFragment;
 import com.google.android.libraries.maps.UiSettings;
 import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
+import com.google.android.libraries.maps.model.LatLngBounds;
 import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -60,7 +64,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         OnMyLocationClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener {
+        GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, LocationListener {
     private GoogleMap mMap;
 
     private CollectionReference exp_ref;
@@ -95,9 +99,13 @@ public class GeolocationActivity extends AppCompatActivity implements
 //    private static final int MAP_REQUEST_CODE = 0;
 //    private static final int PLOT_TRIALS_REQUEST_CODE = 1;
 
+    Marker currentLocationMarker;
+
     private String flag;
 
     private Button save_geolocation_btn;
+
+    private LocationRequest locationRequest;
 
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
@@ -113,6 +121,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         flag = intent.getStringExtra("Map Request Code");
 
+        locationRequest = LocationRequest.create().setInterval(60*1000).setFastestInterval(15*1000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
@@ -287,7 +296,7 @@ public class GeolocationActivity extends AppCompatActivity implements
                                 LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude());
 
-                                Marker currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
+                                currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
                                 currentLocationMarker.showInfoWindow();
 
                                 markerLat = lastKnownLocation.getLatitude();
@@ -370,8 +379,10 @@ public class GeolocationActivity extends AppCompatActivity implements
         }
     }
 
-    private void drawMarker(double latitude, double longitude, String title, String snippet) {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(title).snippet(snippet));
+    private LatLng drawMarker(double latitude, double longitude, String title, String snippet) {
+        LatLng markerLocation = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(markerLocation).title(title).snippet(snippet));
+        return markerLocation;
     }
 
 
@@ -411,6 +422,9 @@ public class GeolocationActivity extends AppCompatActivity implements
 
 
     private void getAllGeoLocations() {
+// https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -434,7 +448,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
                     if (trial_geolocation != null)
                     {
-                        drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC");
+                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC"));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
                         count = count + 1.0;
@@ -445,9 +459,36 @@ public class GeolocationActivity extends AppCompatActivity implements
 
                 avg_latitudes = sum_latitudes / count;
                 avg_longitudes = sum_longitudes / count;
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avg_latitudes, avg_longitudes), 5));
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avg_latitudes, avg_longitudes), 5));
+
+               // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
+
+                LatLngBounds bounds = builder.build();
+                int width = getResources().getDisplayMetrics().widthPixels;
+                int height = getResources().getDisplayMetrics().heightPixels;
+                int padding = (int) (width * 0.30); // offset from edges of the map 15% of screen
+
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+                mMap.animateCamera(cu);
+//                mMap.animateCamera(CameraUpdateFactory.zoomTo(5), 2000, null);
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 15));
             }
         });
     }
 
+    /**
+     * Called when the location has changed.
+     *
+     * @param location the updated location
+     */
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+//        currentLocationMarker.remove();
+//        double latitude = location.getLatitude();
+//        double longitude = location.getLongitude();
+//        LatLng currentLocation = new LatLng(latitude, longitude);
+//        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
+//        currentLocationMarker.showInfoWindow();
+        getDeviceLocation();
+    }
 }
