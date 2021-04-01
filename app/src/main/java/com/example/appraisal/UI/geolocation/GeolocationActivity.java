@@ -4,15 +4,17 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -20,7 +22,6 @@ import com.example.appraisal.R;
 import com.example.appraisal.backend.trial.Trial;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-//import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.maps.CameraUpdateFactory;
@@ -34,11 +35,13 @@ import com.google.android.libraries.maps.model.CameraPosition;
 import com.google.android.libraries.maps.model.LatLng;
 import com.google.android.libraries.maps.model.Marker;
 import com.google.android.libraries.maps.model.MarkerOptions;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.stream.DoubleStream;
+
+//import com.google.android.gms.maps.SupportMapFragment;
 
 // Location Purposes
 // Google Maps Beta (Not the production version)
@@ -78,8 +81,12 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     private double markerLat;
     private double markerLong;
-    private static final int MAP_REQUEST_CODE = 0;
-    private static final int PLOT_TRIALS_REQUEST_CODE = 1;
+//    private static final int MAP_REQUEST_CODE = 0;
+//    private static final int PLOT_TRIALS_REQUEST_CODE = 1;
+
+    private String flag;
+
+    private Button save_geolocation_btn;
 
     // TODO:
     // 1. Add geolocation -> current location -> but marker can be draggable
@@ -92,18 +99,38 @@ public class GeolocationActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        flag = intent.getStringExtra("Map Request Code");
+
+
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
 
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
         setContentView(R.layout.activity_geolocation);
+
+        save_geolocation_btn = findViewById(R.id.save_geo_btn);
+
+        if (flag.equals("User Location")) {
+//            Log.d("Loc", "User Location");
+        } else if (flag.equals("Plot Trials Map")) {
+//            Log.d("Loc", "Plot Trials");
+            save_geolocation_btn.setVisibility(View.GONE);
+        }
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync( this);
+        mapFragment.getMapAsync(this);
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -115,10 +142,15 @@ public class GeolocationActivity extends AppCompatActivity implements
         mUiSettings.setCompassEnabled(true);
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setZoomGesturesEnabled(true);
-
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-        enableMyLocation();
+
+        if (flag.equals("User Location")) {
+            enableMyLocation();
+        } else if (flag.equals("Plot Trials Map")) {
+            mockPlotTrialMarkers();
+        }
+
 
         mMap.setOnMarkerClickListener(this);
 //        mMap.setOnInfoWindowClickListener(this);
@@ -150,6 +182,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Gets called when the user clicks the crosshair icon
+     *
      * @return
      */
     @Override
@@ -160,6 +193,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Gets called when user clicks the blue dot on the map
+     *
      * @param location
      */
     @Override
@@ -253,7 +287,6 @@ public class GeolocationActivity extends AppCompatActivity implements
         Intent intent = new Intent();
         CurrentMarker marker = new CurrentMarker(markerLat, markerLong);
         intent.putExtra("currentMarker", marker);
-
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -281,6 +314,7 @@ public class GeolocationActivity extends AppCompatActivity implements
     @Override
     public void onMarkerDrag(Marker marker) {
 //        Toast.makeText(this, "I'm being dragged.", Toast.LENGTH_SHORT).show();
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude)));
     }
 
     /**
@@ -298,17 +332,44 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Draw multiple markers on the map
+     *
      * @param trials
      */
 
-    private void drawMultipleMarkers(ArrayList<Trial> trials){
-        for (Trial trial: trials){
+    private void drawMultipleMarkers(ArrayList<Trial> trials) {
+        for (Trial trial : trials) {
             mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Trial").snippet("I am a trial"));
         }
     }
 
+    private void drawMarker(double latitude, double longitude, String title, String snippet) {
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(title).snippet(snippet));
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void mockPlotTrialMarkers() {
+        // Edmonton Landmarks Latitudes/Longitudes
+        double[] latitudes = {53.546123, 53.5627, 53.5225, 53.5232, 53.5442};
+        double[] longitudes = {-113.493822, -113.5055, -113.6242, -113.5263, -113.4925};
+        String[] names = {"City Centre", "Kingsway Mall", "West Edmonton Mall", "University of Alberta", "Government of Alberta"};
+        String[] snippets = {"Mall", "Mall", "Mall", "University", "Government"};
+        for (int i = 0; i < 5; i++) {
+            drawMarker(latitudes[i], longitudes[i], names[i], snippets[i]);
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(average(latitudes), average(longitudes)), 10));
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private double average(double[] nums){
+        double avg = 1.0d* DoubleStream.of(nums).sum() / nums.length;
+        return avg;
+    }
+
     /**
      * Saved the instance of a map when an activity is paused or the user rotates their devices.
+     *
      * @param outState
      */
     @Override
