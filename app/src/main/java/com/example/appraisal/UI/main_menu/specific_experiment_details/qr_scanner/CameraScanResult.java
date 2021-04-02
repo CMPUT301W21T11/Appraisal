@@ -88,6 +88,7 @@ public class CameraScanResult extends AppCompatActivity {
         TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);
         Button finish_button = findViewById(R.id.camera_scan_result_finish_button);
         if (values != null) {
+            //TODO
             String qr_type = values.getType().toString();
             if (!qr_type.trim().equalsIgnoreCase(target_experiment.getType())) {
                 Log.d("CameraScanResult", "Error: QR type incompatible");

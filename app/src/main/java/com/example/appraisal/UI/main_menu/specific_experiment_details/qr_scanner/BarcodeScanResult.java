@@ -118,13 +118,10 @@ public class BarcodeScanResult extends AppCompatActivity {
 
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
-        boolean barcodeSuccess = model.assignBarcode(barcode);
-        if (barcodeSuccess) {
-            finish();
-            Toast.makeText(this, "Successfully registered barcode", Toast.LENGTH_SHORT).show();
-            model.showBarcodes();
-        } else {
-            Toast.makeText(this, "Barcode already registered", Toast.LENGTH_SHORT).show();
-        }
+        model.checkBarcode(barcode);
+    }
+
+    public boolean askIfOverride(Barcode barcode, String old_action) {
+        return false;
     }
 }

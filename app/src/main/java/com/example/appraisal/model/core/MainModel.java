@@ -31,7 +31,6 @@ import java.util.Map;
  */
 public class MainModel {
     private static MainModel single_instance;
-    private static ArrayList<Barcode> assignedBarcodes = new ArrayList<>();
 
     private final FirebaseFirestore db;
 
@@ -377,9 +376,4 @@ public class MainModel {
 
         return single_instance.qr_target_experiment;
     }
-    
-    public static ArrayList<Barcode> getAssignedBarcodes() {
-        return assignedBarcodes;
-    }
-
 }
