@@ -302,8 +302,6 @@ public class GeolocationActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Set the map's camera position to the current location of the device.
                             lastKnownLocation = task.getResult();
-                            Log.d("Latitude", String.valueOf(lastKnownLocation.getLatitude()));
-                            Log.d("Longitude", String.valueOf(lastKnownLocation.getLongitude()));
                             if (lastKnownLocation != null) {
 
                                 LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(),

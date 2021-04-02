@@ -60,9 +60,6 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nonneg_count_layout);
 
-        GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
-        geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
-
         geolocation_button = findViewById(R.id.add_geo);
         counter_view = findViewById(R.id.nonneg_count_input);
         try {
@@ -71,6 +68,11 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
             model = new NonNegIntCountModel(current_exp, conductor);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (current_exp.getIsGeolocationRequired()) {
+            GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+            geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
 
         try {
@@ -89,7 +91,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
      */
     public void saveAndReturn(View v) {
 
-        if (trial_location == null) {
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
             snackbar.setAction("DISMISS", new View.OnClickListener() {
@@ -134,8 +136,11 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
             e.printStackTrace();
         }
         trial_info.put("experimenterID", experimenterID);
-        trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
-        trial_info.put("geolocation", trial_geopoint);
+
+        if (trial_location != null) {
+            trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+            trial_info.put("geolocation", trial_geopoint);
+        }
 
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)

@@ -49,7 +49,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
-    private Experiment current_experiment;
 
 
     /**
@@ -62,27 +61,23 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binomial);
 
-        GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
-        geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
-
         geolocation_button = findViewById(R.id.add_geo);
 
         try {
-            current_experiment = MainModel.getCurrentExperiment();
+            current_exp = MainModel.getCurrentExperiment();
             User conductor = MainModel.getCurrentUser();
-            model = new BinomialModel(current_experiment, conductor);
+            model = new BinomialModel(current_exp, conductor);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (current_exp.getIsGeolocationRequired()){
+           GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+           geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            current_exp = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,7 +99,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     //     finish();
     public void uploadSuccess(View v) {
 
-        if (trial_location == null) {
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
             snackbar.setAction("DISMISS", new View.OnClickListener() {
@@ -132,7 +127,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      * @param v increase button
      */
     public void uploadFailure(View v) {
-        if (trial_location == null) {
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
             snackbar.setAction("DISMISS", new View.OnClickListener() {
@@ -169,8 +164,10 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         } else {
             trial_info.put("result", "0"); // 0 indicates failure
         }
-        trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
-        trial_info.put("geolocation", trial_geopoint);
+        if (trial_location != null) {
+            trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+            trial_info.put("geolocation", trial_geopoint);
+        }
 
         // put trial date as current date
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);

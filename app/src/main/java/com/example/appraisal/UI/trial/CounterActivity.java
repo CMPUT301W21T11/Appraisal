@@ -63,28 +63,24 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_layout);
 
-        GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
-        geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
-
         geolocation_button = findViewById(R.id.add_geo);
 
         counter_view = (TextView) findViewById(R.id.count_view);
         try {
-            Experiment experiment = MainModel.getCurrentExperiment();
+            current_exp = MainModel.getCurrentExperiment();
             User conductor = MainModel.getCurrentUser();
-            model = new CounterModel(experiment, conductor);
+            model = new CounterModel(current_exp, conductor);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (current_exp.getIsGeolocationRequired()) {
+            GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+            geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            current_exp = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +110,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
      * @param v save button
      */
     public void save(View v) {
-        if (trial_location == null) {
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
             CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
             Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
             snackbar.setAction("DISMISS", new View.OnClickListener() {
@@ -156,8 +152,11 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             e.printStackTrace();
         }
         trial_info.put("experimenterID", experimenterID);
-        trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
-        trial_info.put("geolocation", trial_geopoint);
+
+        if (trial_location != null) {
+            trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+            trial_info.put("geolocation", trial_geopoint);
+        }
 
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
