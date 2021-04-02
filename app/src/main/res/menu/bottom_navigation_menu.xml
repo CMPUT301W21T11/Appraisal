@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/subscription_bottom_nav"
+        android:enabled="true"
+        android:icon="@drawable/home_icon"
+        android:title="Home"/>
+    <item
+        android:id="@+id/search_bottom_nav"
+        android:enabled="true"
+        android:icon="@drawable/search_icon"
+        android:title="Search"/>
+
+    <item
+        android:id="@+id/experiment_bottom_nav"
+        android:enabled="true"
+        android:icon="@drawable/my_experiments_icon"
+        android:title="Experiments"/>
+
+    <item
+        android:id="@+id/profile_bottom_nav"
+        android:enabled="true"
+        android:icon="@drawable/profile_icon"
+        android:title="Profile"/>
+
+</menu>

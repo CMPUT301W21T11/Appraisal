@@ -4,16 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
-
-
-import androidx.annotation.Nullable;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
@@ -22,7 +21,7 @@ import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -49,6 +48,10 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.search_bottom_nav);
 
         context = this;
 
@@ -102,6 +105,77 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
             startActivity(intent);
         }
     };
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.subscription_bottom_nav:
+                            toHome();
+                            break;
+                        case R.id.search_bottom_nav:
+                            toSearch();
+                            break;
+                        case R.id.experiment_bottom_nav:
+                            toMyExps();
+                            break;
+                        case R.id.profile_bottom_nav:
+                            toProfile();
+                            break;
+                    }
+                    return true;
+                }
+            };
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_search);
+        try {
+            exp_ref = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.search_bottom_nav);
+
+        context = this;
+
+        search_result_display = findViewById(R.id.search_results);
+        exp_search = findViewById(R.id.exp_search_bar);
+
+        exp_list = new ArrayList<>();                           // make new list to store experiments
+
+        exp_adapter = new ExpAdapter(this, exp_list, "Search");      // connect adapter
+
+        getDbExperiments();                                     // get all experiments from Database
+
+
+        // Listens to the search box for any updates and filters the results accordingly
+        exp_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchActivity.this.exp_adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SearchActivity.this.exp_adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        // passing the experiment data into the list
+        search_result_display.setAdapter(exp_adapter);
+
+        // function to select a specific experiment from the list
+        search_result_display.setOnItemClickListener(selectExListener);
+    }
+
 
     /**
      * Get all experiments from Database that are published
