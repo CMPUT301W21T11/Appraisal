@@ -172,6 +172,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+  
 
     }
 
@@ -482,7 +483,9 @@ public class GeolocationActivity extends AppCompatActivity implements
                     mMap.animateCamera(cu);
                 }
                 // TODO: Add a message if there's no trials
-//                else{}
+                else{
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
+                }
 //                    });
 //                    location_saved_snackbar.show();
 //                }
