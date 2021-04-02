@@ -14,7 +14,7 @@
         android:id="@+id/experiment_bottom_nav"
         android:enabled="true"
         android:icon="@drawable/my_experiments_icon"
-        android:title="Experiment"/>
+        android:title="Experiments"/>
 
     <item
         android:id="@+id/profile_bottom_nav"

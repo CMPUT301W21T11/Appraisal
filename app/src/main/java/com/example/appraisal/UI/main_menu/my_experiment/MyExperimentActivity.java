@@ -76,13 +76,40 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         my_experiment_display.setAdapter(adapter);
     }
 
+
     @Override
     protected void onRestart() {
         super.onRestart();
         setContentView(R.layout.activity_my_exp);
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         bottomNav.setSelectedItemId(R.id.experiment_bottom_nav);
+
+        // get reference to Experiment Collection
+        try {
+            reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // get Current User's anonymous id
+        try {
+            User user = MainModel.getCurrentUser();
+            userID = user.getID();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        my_experiment_display = findViewById(R.id.my_experiments);
+
+        exp_list = new ArrayList<>();                           // make new list to store experiments
+
+        adapter = new ExpAdapter(this, exp_list, "MyExperiment");      // connect adapter
+
+        getDbExperiments();                                     // get all experiments from Database
+
+        my_experiment_display.setOnItemClickListener(selectExListener);
+        my_experiment_display.setAdapter(adapter);
     }
 
     /**

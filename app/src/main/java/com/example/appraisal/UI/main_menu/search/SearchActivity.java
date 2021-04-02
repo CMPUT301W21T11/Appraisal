@@ -132,9 +132,48 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
     protected void onRestart() {
         super.onRestart();
         setContentView(R.layout.activity_search);
+        try {
+            exp_ref = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         bottomNav.setSelectedItemId(R.id.search_bottom_nav);
+
+        context = this;
+
+        search_result_display = findViewById(R.id.search_results);
+        exp_search = findViewById(R.id.exp_search_bar);
+
+        exp_list = new ArrayList<>();                           // make new list to store experiments
+
+        exp_adapter = new ExpAdapter(this, exp_list, "Search");      // connect adapter
+
+        getDbExperiments();                                     // get all experiments from Database
+
+
+        // Listens to the search box for any updates and filters the results accordingly
+        exp_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                SearchActivity.this.exp_adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                SearchActivity.this.exp_adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        // passing the experiment data into the list
+        search_result_display.setAdapter(exp_adapter);
+
+        // function to select a specific experiment from the list
+        search_result_display.setOnItemClickListener(selectExListener);
     }
 
 
