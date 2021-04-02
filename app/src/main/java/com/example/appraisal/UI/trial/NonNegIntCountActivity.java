@@ -66,10 +66,6 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
             e.printStackTrace();
         }
 
-        if (!current_exp.getIsGeolocationRequired()){
-            geolocation_button.setVisibility(View.GONE);
-        }
-
         try {
             experiment_reference = MainModel.getExperimentReference();
         } catch (Exception e) {

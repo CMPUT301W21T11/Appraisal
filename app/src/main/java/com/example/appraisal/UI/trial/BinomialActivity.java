@@ -68,10 +68,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
             e.printStackTrace();
         }
 
-        if (!current_experiment.getIsGeolocationRequired()){
-            geolocation_button.setVisibility(View.GONE);
-        }
-
         try {
             experiment_reference = MainModel.getExperimentReference();
         } catch (Exception e) {
