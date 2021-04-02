@@ -76,6 +76,15 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         my_experiment_display.setAdapter(adapter);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_my_exp);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.experiment_bottom_nav);
+    }
+
     /**
      * This method is called when the user clicks on the Floating Action Button.
      * It opens the PublishExpActivity

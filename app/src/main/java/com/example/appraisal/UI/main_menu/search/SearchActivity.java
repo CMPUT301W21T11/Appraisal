@@ -128,6 +128,16 @@ public class SearchActivity extends MainMenuCommonActivity implements ExpStatusF
                 }
             };
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setContentView(R.layout.activity_search);
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.search_bottom_nav);
+    }
+
+
     /**
      * Get all experiments from Database that are published
      */

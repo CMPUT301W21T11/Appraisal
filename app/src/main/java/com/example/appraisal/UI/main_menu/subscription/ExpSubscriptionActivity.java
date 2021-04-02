@@ -77,6 +77,11 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         super.onRestart();
         setContentView(R.layout.activity_subscription);
 
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.subscription_bottom_nav);
+
+
         subscribed_list = findViewById(R.id.subscribedList);
         subscribed_experiments = new ArrayList<>();
         adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
