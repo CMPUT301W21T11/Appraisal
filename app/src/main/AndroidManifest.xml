@@ -5,6 +5,9 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +18,11 @@
         android:theme="@style/Theme.Appraisal">
         <activity android:name=".UI.main_menu.qr_scanner.CameraScanResult"></activity>
         <activity android:name=".UI.main_menu.qr_scanner.CameraScanner" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD4UH--Vik76Id6If-pomOq18k1F7TjV-o" />
+
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +48,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.my_experiment.MyExperimentActivity" />
         </activity>
+
         <activity
             android:name=".UI.main_menu.user_profile.EditProfileActivity"
-            android:label="Edit Profile" />
+            android:label="Edit Profile"></activity>
         <activity
             android:name=".UI.main_menu.user_profile.UserProfileActivity"
             android:label="Profile">
@@ -50,8 +59,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
-        <activity android:name=".UI.main_menu.search.SearchActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"></activity>
+        <activity android:name=".UI.main_menu.search.SearchActivity"></activity>
+        <activity android:name=".UI.geolocation.GeolocationActivity" android:label="Binomial Trial #2"></activity>
     </application>
 
 </manifest>
