@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -73,10 +72,8 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
-        view_trials.setOnClickListener(v2 -> goToViewTrials());
         plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 
@@ -219,14 +216,6 @@ public class SpecificExpDetailsFragment extends Fragment {
         //intent.putExtra("geolocation list", geolocation_list);
         //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
  
-    }
-
-    /**
-     * View the trials
-     */
-    private void goToViewTrials() {
-        Intent intent = new Intent(this.getActivity(), ViewTrialActivity.class);
-        startActivity(intent);
     }
 
 
