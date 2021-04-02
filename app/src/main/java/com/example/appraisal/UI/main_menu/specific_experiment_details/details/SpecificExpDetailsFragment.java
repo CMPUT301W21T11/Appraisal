@@ -213,6 +213,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     private void plotAllTrialsOnMap(){
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
         intent.putExtra("Map Request Code", "Plot Trials Map");
+        intent.putExtra("Experiment Description", current_experiment.getDescription());
         startActivity(intent);
  
         //intent.putExtra("geolocation list", geolocation_list);

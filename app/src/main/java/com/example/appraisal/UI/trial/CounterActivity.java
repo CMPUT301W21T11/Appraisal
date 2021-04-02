@@ -85,6 +85,8 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             e.printStackTrace();
         }
 
+        getSupportActionBar().setTitle(current_exp.getDescription());
+
         listenToNumOfTrials();
 
     }
@@ -213,6 +215,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
+        intent.putExtra("Experiment Description", current_exp.getDescription());
         startActivityForResult(intent, MAP_REQUEST_CODE);
     }
 

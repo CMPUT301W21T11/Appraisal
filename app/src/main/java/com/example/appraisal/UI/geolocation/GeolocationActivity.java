@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -126,6 +128,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         flag = intent.getStringExtra("Map Request Code");
 
+
         location_callback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -158,6 +161,11 @@ public class GeolocationActivity extends AppCompatActivity implements
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         setContentView(R.layout.activity_geolocation);
+
+        getSupportActionBar().setTitle(intent.getStringExtra("Experiment Description"));
+
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         save_geolocation_btn = findViewById(R.id.save_geo_btn);
 
@@ -549,4 +557,16 @@ public class GeolocationActivity extends AppCompatActivity implements
         }, Looper.myLooper());
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
