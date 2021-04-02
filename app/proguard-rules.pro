@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+-keep,includecode class com.google.android.libraries.maps.** { *; }
+-keep,includecode class com.google.android.apps.gmm.** { *; }
+-keep,includecode class com.google.common.logging.** { *; }

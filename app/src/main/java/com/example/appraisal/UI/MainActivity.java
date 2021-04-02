@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "USER SIGNED IN SUCCESSFULLY");
+                    try {
+                        MainModel.checkUserStatus();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     loading_panel.setVisibility(View.GONE);
                     begin_btn.startAnimation(begin_btn_animation);
                     begin_btn.setVisibility(View.VISIBLE);

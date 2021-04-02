@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
 }
 
 apply plugin: 'com.android.application'
@@ -48,9 +49,24 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-auth:20.0.3'
     implementation 'androidx.core:core:1.3.0'
+    implementation 'org.jetbrains:annotations:15.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.jjoe64:graphview:4.2.2'
+
+    // Google Maps Implementation
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
+    implementation 'com.google.auto.value:auto-value-annotations:1.6.2'
+
+    // Firebase/Firestore Implementation
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
+
+    // Exif Implementation (Otherwise, there'll be an error)
+
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
