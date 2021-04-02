@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat;
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -475,13 +475,19 @@ public class GeolocationActivity extends AppCompatActivity implements
 
                 // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
 
-                LatLngBounds bounds = builder.build();
-                int width = getResources().getDisplayMetrics().widthPixels;
-                int height = getResources().getDisplayMetrics().heightPixels;
-                int padding = (int) (width * 0.30); // offset from edges of the map 15% of screen
-
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-                mMap.animateCamera(cu);
+                if (count != 0.0){
+                    LatLngBounds bounds = builder.build();
+                    int width = getResources().getDisplayMetrics().widthPixels;
+                    int height = getResources().getDisplayMetrics().heightPixels;
+                    int padding = (int) (width * 0.30); // offset from edges of the map 15% of screen
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+                    mMap.animateCamera(cu);
+                }
+                // TODO: Add a message if there's no trials
+//                else{}
+//                    });
+//                    location_saved_snackbar.show();
+//                }
 //                mMap.animateCamera(CameraUpdateFactory.zoomTo(5), 2000, null);
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 15));
             }
@@ -503,7 +509,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         currentLocationMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
 //        getDeviceLocation();
-        Log.d("OLC", "Oops");
+//        Log.d("OLC", "Oops");
     }
 
 

@@ -192,6 +192,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
+        intent.putExtra("Map Request Code", "User Location");
         startActivityForResult(intent, MAP_REQUEST_CODE);
     }
 

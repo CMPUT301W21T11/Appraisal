@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -217,6 +218,14 @@ public class SpecificExpDetailsFragment extends Fragment {
         //intent.putExtra("geolocation list", geolocation_list);
         //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
  
+    }
+
+    /**
+     * View the trials
+     */
+    private void goToViewTrials() {
+        Intent intent = new Intent(this.getActivity(), ViewTrialActivity.class);
+        startActivity(intent);
     }
 
 
