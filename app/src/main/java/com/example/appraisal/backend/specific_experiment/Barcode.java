@@ -1,10 +1,11 @@
 package com.example.appraisal.backend.specific_experiment;
 
-import androidx.annotation.Nullable;
-
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 
+/**
+ * This class represents a scanned barcode
+ */
 public class Barcode {
     private final String rawValue;
     private final User currentUser;
@@ -18,14 +19,26 @@ public class Barcode {
         this.data = data;
     }
 
+    /**
+     * This method returns the raw value of the barcode
+     * @return String -- raw value of the barcode
+     */
     public String getRawValue() {
         return rawValue;
     }
 
+    /**
+     * This method gets the user of the barcode
+     * @return {@link User} -- user of the barcode
+     */
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * This method gets the experiment of the barcode
+     * @return {@link Experiment} -- experiment of the barcode
+     */
     public Experiment getCurrentExperiment() {
         return currentExperiment;
     }
