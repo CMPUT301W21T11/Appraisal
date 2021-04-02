@@ -26,38 +26,46 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-                android:id="@+id/home_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="home" android:onClick="toHome"
-                android:textSize="15sp"/>
 
-        <Button
-                android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="search" android:onClick="toSearch"
-                android:textSize="15sp"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:labelVisibilityMode="labeled"
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_navigation_menu" />
 
-        <Button
-            android:id="@+id/my_exp_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="toMyExps"
-            android:text="list"
-            android:textSize="15sp"/>
+<!--        <Button-->
+<!--                android:id="@+id/home_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="home" android:onClick="toHome"-->
+<!--                android:textSize="15sp"/>-->
 
-        <Button
-                android:id="@+id/profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="profile" android:onClick="toProfile"
-                android:textSize="15sp"/>
+<!--        <Button-->
+<!--                android:id="@+id/search_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="search" android:onClick="toSearch"-->
+<!--                android:textSize="15sp"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/my_exp_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:onClick="toMyExps"-->
+<!--            android:text="list"-->
+<!--            android:textSize="15sp"/>-->
+
+<!--        <Button-->
+<!--                android:id="@+id/profile_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="profile" android:onClick="toProfile"-->
+<!--                android:textSize="15sp"/>-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

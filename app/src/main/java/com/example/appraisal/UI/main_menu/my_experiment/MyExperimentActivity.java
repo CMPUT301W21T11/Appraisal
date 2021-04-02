@@ -2,18 +2,21 @@ package com.example.appraisal.UI.main_menu.my_experiment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.R;
+import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -41,6 +44,11 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_exp);
+
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.experiment_bottom_nav);
 
         // get reference to Experiment Collection
         try {
@@ -95,6 +103,29 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
         }
     };
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.subscription_bottom_nav:
+                            toHome();
+                            break;
+                        case R.id.search_bottom_nav:
+                            toSearch();
+                            break;
+                        case R.id.experiment_bottom_nav:
+                            toMyExps();
+                            break;
+                        case R.id.profile_bottom_nav:
+                            toProfile();
+                            break;
+                    }
+                    return true;
+                }
+            };
+
 
     /**
      * This method queries the database and gets all experiments the user has created.

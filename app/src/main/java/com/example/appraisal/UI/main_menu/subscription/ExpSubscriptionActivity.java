@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,13 +17,14 @@ import androidx.annotation.RequiresApi;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
-import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpAdapter;
+import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,7 +52,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription);
 
-
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        bottomNav.setSelectedItemId(R.id.subscription_bottom_nav);
 
         context = this;
 
@@ -102,6 +106,29 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
         }
     };
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.subscription_bottom_nav:
+                            toHome();
+                            break;
+                        case R.id.search_bottom_nav:
+                            toSearch();
+                            break;
+                        case R.id.experiment_bottom_nav:
+                            toMyExps();
+                            break;
+                        case R.id.profile_bottom_nav:
+                            toProfile();
+                            break;
+                    }
+                    return true;
+                }
+            };
+
 
     /**
      * Get the experiments that the user subscribed to from the Firestore
