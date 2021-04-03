@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,6 +74,12 @@ public class BarcodeScanResult extends AppCompatActivity {
                 }
 
                 model.displayBarCode(result);
+
+                // Disallow registering QR codes
+                if (result.getBarcodeFormat().toString().equals("QR_CODE")) {
+                    Toast.makeText(this, "Cannot register QR code", Toast.LENGTH_LONG).show();
+                    finish();
+                }
 
                 TextView trialType = findViewById(R.id.barcode_scan_result_trial_type_display);
                 TextView trialValue = findViewById(R.id.barcode_scan_result_trial_value_display);
