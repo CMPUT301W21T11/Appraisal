@@ -84,7 +84,8 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 
     private void addToDatabase(@NonNull CollectionReference barcode_list, @NonNull Barcode barcode) {
         Map<String, String> barcode_data = new HashMap<>();
-        barcode_data.put("action", barcode.getData());
+        barcode_data.put("rawValue", barcode.getRawValue()); // set primary key
+        barcode_data.put("action", barcode.getData()); // set field value
         barcode_list.add(barcode_data);
         Toast.makeText(parent_activity, "Successfully set barcode action!", Toast.LENGTH_SHORT).show();
     }

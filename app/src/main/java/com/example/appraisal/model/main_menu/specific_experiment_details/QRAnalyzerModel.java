@@ -200,9 +200,4 @@ public class QRAnalyzerModel {
 
         ref.document(ID).update("numOfTrials", FieldValue.increment(1));
     }
-
-    public boolean isRegisteredCode(Result result) {
-        // TODO: check if the barcode is registered, and perform corresponding action
-        return true;
-    }
 }
