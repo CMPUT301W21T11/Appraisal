@@ -1,10 +1,13 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.GeoPoint;
@@ -49,6 +53,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
+    private DocumentReference user_ref;
 
 
     /**
@@ -75,9 +80,18 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
            GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
            geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
+        else {
+            geolocation_button.setVisibility(View.GONE);
+        }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            user_ref = MainModel.getUserReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,6 +132,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
             model.addSuccess();
             storeTrialInFireBase(true);
             addContributor();
+            user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_exp.getExpId()));
             finish();
         }
     }
@@ -146,6 +161,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
             model.addFailure();
             storeTrialInFireBase(false);
             addContributor();
+            user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_exp.getExpId()));
             finish();
         }
     }
@@ -236,7 +252,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         });
     }
 
-    // TODO: Go to Geolocation Activity with a bundle containing a flag
+
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
