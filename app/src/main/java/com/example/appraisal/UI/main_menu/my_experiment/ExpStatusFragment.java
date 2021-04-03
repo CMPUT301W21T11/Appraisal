@@ -301,6 +301,9 @@ public class ExpStatusFragment extends DialogFragment {
         reference.document(exp_ID).update("isEnded", is_ended);
     }
 
+    /**
+     * Check if Current Num of Trials is less than Minimum Num of Trial Required
+     */
     private void checkMin() {
         try {
             ref = MainModel.getExperimentReference();

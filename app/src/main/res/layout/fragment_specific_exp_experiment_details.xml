@@ -127,8 +127,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start|center_vertical"
                 android:text="Region: "
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textSize="25sp"/>
 
             <TextView
                 android:id="@+id/specific_exp_details_region"
