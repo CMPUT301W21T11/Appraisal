@@ -131,8 +131,14 @@ public class BarcodeScanResult extends AppCompatActivity {
         finish();
     }
 
-    public boolean askIfOverride(Barcode barcode, String old_action) {
-
+    /**
+     * This method asks if user want to override the existing barcode entry to a new value
+     * If so, it will call model.addToDatabase method
+     * @param barcode -- the new barcode value
+     * @param old_action -- the old action's description string
+     */
+    public void askIfOverride(Barcode barcode, String old_action) {
+        //TODO
         final boolean[] override = {false};
         // Build prompt dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -177,6 +183,5 @@ public class BarcodeScanResult extends AppCompatActivity {
         }
 
         AlertDialog dialog = builder.create();
-        return false;
     }
 }

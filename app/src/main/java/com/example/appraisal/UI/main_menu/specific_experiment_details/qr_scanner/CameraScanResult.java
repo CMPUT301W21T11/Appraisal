@@ -20,6 +20,7 @@ import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnaly
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,7 +35,6 @@ public class CameraScanResult extends AppCompatActivity {
     private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
 
     private QRAnalyzerModel model;
-    private Experiment target_experiment;
     private Activity self;
 
     @Override
@@ -56,7 +56,6 @@ public class CameraScanResult extends AppCompatActivity {
         });
 
         try {
-            target_experiment = MainModel.getCurrentExperiment();
             // Check if result is already obtained
             Result test = MainModel.getBarcodeResult();
             if (test == null) {
@@ -103,26 +102,6 @@ public class CameraScanResult extends AppCompatActivity {
         if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE) { // If the scanned code is QR code
             QRValues values = model.decodeTrialQR(result.getText());
 
-            // first, check if type is compatible
-            if (values != null) {
-                String qr_type = values.getType().toString();
-                if (!qr_type.trim().equalsIgnoreCase(target_experiment.getType())) { // if type mismatch
-                    Log.d("CameraScanResult", "Error: QR type incompatible");
-                    trialType.setText("INCOMPATIBLE");
-                    trialValue.setText("INCOMPATIBLE");
-                    finish_button.setOnClickListener(v -> {
-                        // clear barcode result
-                        try {
-                            MainModel.setBarcodeResult(null);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        finish();
-                    });
-                    return;
-                }
-            }
-
             if (values != null && values.checkSignature()) {
                 trialType.setText(values.getType().getLabel());
                 trialValue.setText(String.valueOf(values.getValue()));
@@ -157,19 +136,17 @@ public class CameraScanResult extends AppCompatActivity {
             // try to find the barcode inside the registered barcodes
             try {
                 DocumentReference user = MainModel.getUserReference();
-                String exp_id = target_experiment.getExpId();
+                String barcode_value = result.getText();
+
                 // locate registered barcode list
-                CollectionReference barcode_list = user
-                        .collection("Experiments")
-                        .document(exp_id)
-                        .collection("Barcodes");
+                CollectionReference barcode_list = user.collection("Barcodes");
 
                 // query the barcode list
-                barcode_list.addSnapshotListener((value, error) -> {
-                    // If no values are found, return
-                    if (value == null) {
-                        if (error != null) { // print all possible errors
-                            error.printStackTrace();
+                barcode_list.document(barcode_value).get().addOnCompleteListener(task -> {
+                    // If task is not successful, return
+                    if (!task.isSuccessful()) {
+                        if (task.getException() != null) { // print all possible errors
+                            task.getException().printStackTrace();
                         }
                         // set the finish button to end the activity
                         finish_button.setOnClickListener(v -> {
@@ -181,36 +158,58 @@ public class CameraScanResult extends AppCompatActivity {
                             }
                             finish();
                         });
-                        return;
-                    }
-
-                    // loop for all registered barcodes
-                    for (QueryDocumentSnapshot document: value) {
+                    } else {
+                        DocumentSnapshot document = task.getResult();
                         String registered_barcode = document.getId();
-                        Object attempt = document.get("action");
-                        assert attempt != null;
 
-                        final String data = attempt.toString();
-                        trialType.setText(target_experiment.getType());
+                        // attempt to get trial type
+                        Object attempt = document.get("trialType");
+                        String trial_type;
+                        if (attempt == null) {
+                            trial_type = "NOT RECOGNIZED";
+                        } else {
+                            trial_type = attempt.toString();
+                        }
+
+                        // attempt to get barcode action
+                        attempt = document.get("action");
+                        String data;
+                        if (attempt == null) {
+                            data = "NOT RECOGNIZED";
+                        } else {
+                            data = attempt.toString();
+                        }
+
+                        // attempt to get target experiment id
+                        attempt = document.get("targetExperimentId");
+                        String exp_id;
+                        if (attempt == null) {
+                            Toast.makeText(self, "Error: Unable to get target experiment ID", Toast.LENGTH_SHORT).show();
+                            Log.e("Camera Scan result:", "Unable to get target experiment ID");
+                            exp_id = "NOT RECOGNIZED";
+                        } else {
+                            exp_id = attempt.toString();
+                        }
+                        trialType.setText(trial_type);
                         trialValue.setText(data);
                         if (registered_barcode.equalsIgnoreCase(result.getText())) {
                             // Set the finish button to add to firebase when clicked and end the scanner
                             finish_button.setOnClickListener(v -> {
-                                String signature = getResources().getString(R.string.app_name);
-                                TrialType type = TrialType.getInstance(target_experiment.getType());
-                                double trial_value = Double.parseDouble(data);
-                                QRValues values = new QRValues(self, signature, type, trial_value, target_experiment.getExpId());
                                 try {
+                                    String signature = getResources().getString(R.string.app_name);
+                                    TrialType type = TrialType.getInstance(trial_type);
+                                    double trial_value = Double.parseDouble(data);
+
+                                    QRValues values = new QRValues(self, signature, type, trial_value, exp_id);
                                     MainModel.setBarcodeResult(null); // clear the result in main model
                                     model.addToExperiment(values); // add to firebase
                                     Toast.makeText(self, "Successfully added barcode trial to experiment", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Toast.makeText(self, "Failed to add to experiment", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(self, "Failed to add to experiment: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                                 finish();
                             });
-                            break; // finish the search
                         }
                     }
                 });
