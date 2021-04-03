@@ -117,6 +117,110 @@
             android:layout_height="1dp"
             android:background="#736F6F" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="start|center_vertical"
+                android:text="Region: "
+                android:textSize="25sp"/>
+
+            <TextView
+                android:id="@+id/specific_exp_details_region"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="start|center_vertical"
+                android:text="Not Specified"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#736F6F" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Rules/Constraints:"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/specific_exp_details_rules_constraints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Not Specified"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#736F6F" />
+
+        <LinearLayout
+            android:id="@+id/min_trials_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Minimum Number of Trials:"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/specific_exp_details_min_trials"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Min #"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#736F6F" />
+
+        <LinearLayout
+            android:id="@+id/current_trial_count_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Current Trial Count:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/specific_exp_details_current_trial_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Count"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#736F6F" />
+
         <Button
             android:id="@+id/specific_exp_details_geolocation_map_button"
             android:layout_width="289dp"

@@ -16,6 +16,27 @@
         android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/end_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Ended Status:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/current_ended_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -36,7 +57,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/end_row"
+        android:id="@+id/min_trials_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -45,14 +66,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Ended Status:"
+            android:text="Minimum Number of Trials:"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/current_ended_status"
+            android:id="@+id/min_trials_num_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status"
+            android:text="Min #"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/current_trial_count_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Current Trial Count:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/current_trial_count_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Count"
             android:textStyle="bold" />
     </LinearLayout>
 

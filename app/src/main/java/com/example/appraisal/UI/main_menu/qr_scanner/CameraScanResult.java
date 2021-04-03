@@ -1,13 +1,13 @@
 package com.example.appraisal.UI.main_menu.qr_scanner;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.model.core.MainModel;
@@ -30,6 +30,9 @@ public class CameraScanResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_scan_result);
 
+//        ActionBar ab = getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(true);
+
         qr_code_image = findViewById(R.id.activity_camera_scan_result_qr_code_display);
         model = new QRAnalyzerModel();
 
@@ -37,6 +40,17 @@ public class CameraScanResult extends AppCompatActivity {
         Intent intent = new Intent(this, CameraScanner.class);
         startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
     }
+
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
