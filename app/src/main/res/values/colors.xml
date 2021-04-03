@@ -13,5 +13,8 @@
 
     <color name="light_blue">#00AEEF</color>
     <color name="navy_blue">#2E3192</color>
+    <color name="rich_navy_blue">#242747</color>
+    <color name="rich_light_blue">#1B1F5E</color>
+
 </resources>
 

@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         setContentView(R.layout.activity_main);
 

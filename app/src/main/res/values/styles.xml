@@ -4,4 +4,13 @@
     <style name="MyTabLayout" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">11sp</item>
     </style>
+
+    <style name="LoadingScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="MainMenuTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>
