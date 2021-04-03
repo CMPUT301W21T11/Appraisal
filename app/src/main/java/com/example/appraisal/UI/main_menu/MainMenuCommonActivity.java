@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
+import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
 import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
@@ -35,6 +36,11 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
 //        Intent intent = new Intent(this, ForumHomeActivity.class);
 //        startActivity(intent);
 //    }
+
+    public void toCamera() {
+        Intent intent = new Intent(this, CameraScanResult.class);
+        startActivity(intent);
+    }
 
     public void toMyExps() {
         // When click on expList button

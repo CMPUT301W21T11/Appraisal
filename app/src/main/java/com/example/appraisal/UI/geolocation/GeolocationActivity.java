@@ -343,6 +343,8 @@ public class GeolocationActivity extends AppCompatActivity implements
     public void saveMarkerLocation(View v) {
         Intent intent = new Intent();
         CurrentMarker marker = new CurrentMarker(markerLat, markerLong);
+        Log.d("Latitude", String.valueOf(markerLat));
+        Log.d("Longitude", String.valueOf(markerLong));
         intent.putExtra("currentMarker", marker);
         setResult(RESULT_OK, intent);
         finish();
@@ -514,9 +516,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         double longitude = location.getLongitude();
         LatLng currentLocation = new LatLng(latitude, longitude);
 //        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
-        currentLocationMarker.setPosition(currentLocation);
+//        currentLocationMarker.setPosition(currentLocation);
         currentLocationMarker.showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
 //        getDeviceLocation();
 //        Log.d("OLC", "Oops");
     }

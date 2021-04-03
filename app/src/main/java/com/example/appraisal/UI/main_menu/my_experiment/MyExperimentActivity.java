@@ -157,6 +157,9 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
                         case R.id.profile_bottom_nav:
                             toProfile();
                             break;
+                        case R.id.qr_scan_bottom_nav:
+                            toCamera();
+                            break;
                     }
                     return true;
                 }

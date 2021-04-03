@@ -11,7 +11,7 @@
         android:title="Search"/>
 
     <item
-        android:id="@+id/qr_bottom_nav"
+        android:id="@+id/qr_scan_bottom_nav"
         android:enabled="true"
         android:icon="@drawable/camera_icon"
         android:title="Camera"/>
