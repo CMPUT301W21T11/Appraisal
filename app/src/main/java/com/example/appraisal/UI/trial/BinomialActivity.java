@@ -1,13 +1,20 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.CurrentMarker;
+import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
@@ -16,9 +23,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,30 +39,41 @@ import java.util.Map;
 /**
  * This is the activity for conducting binomial activity
  */
-public class BinomialActivity extends AppCompatActivity {
+public class BinomialActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener{
     private BinomialModel model;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
     private String experimenterID;
+    private static final int MAP_REQUEST_CODE = 0;
+    private CurrentMarker trial_location;
+    private GeoPoint trial_geopoint;
+    private Button geolocation_button;
+
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     *
+     * @param savedInstanceState bundle from the previous activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binomial);
 
-        Experiment current_experiment;
+        geolocation_button = findViewById(R.id.add_geo);
+
         try {
-            current_experiment = MainModel.getCurrentExperiment();
+            current_exp = MainModel.getCurrentExperiment();
             User conductor = MainModel.getCurrentUser();
-            model = new BinomialModel(current_experiment, conductor);
+            model = new BinomialModel(current_exp, conductor);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (current_exp.getIsGeolocationRequired()){
+           GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+           geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
 
         try {
@@ -62,39 +82,72 @@ public class BinomialActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        try {
-            current_exp = MainModel.getCurrentExperiment();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getSupportActionBar().setTitle(current_exp.getDescription());
 
         listenToNumOfTrials();
-
-
     }
+
 
     /**
      * Increase the success count of the trial
+     *
      * @param v increase button
      */
-    public void incrementSuccess(View v){
-        // adjust model
-        model.addSuccess();
-        storeTrialInFireBase(true);
-        addContributor();
-        finish();
+    // public void incrementSuccess(View v){
+    //     // adjust model
+    //     model.addSuccess();
+    //     storeTrialInFireBase(true);
+    //     addContributor();
+    //     finish();
+    public void uploadSuccess(View v) {
+
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+
+        else {
+            //adjust model
+            model.addSuccess();
+            storeTrialInFireBase(true);
+            addContributor();
+            finish();
+        }
     }
+
 
     /**
      * Increase the failure count of the trial
+     *
      * @param v increase button
      */
-    public void incrementFailure(View v){
-        //adjust model
-        model.addFailure();
-        storeTrialInFireBase(false);
-        addContributor();
-        finish();
+    public void uploadFailure(View v) {
+        if (trial_location == null && current_exp.getIsGeolocationRequired()) {
+            CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+            Snackbar snackbar = Snackbar.make(snackbar_layout, "You must add your trial geolocation", Snackbar.LENGTH_LONG);
+            snackbar.setAction("DISMISS", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            snackbar.show();
+        }
+
+        else {
+            //adjust model
+            model.addFailure();
+            storeTrialInFireBase(false);
+            addContributor();
+            finish();
+        }
     }
 
 
@@ -112,6 +165,10 @@ public class BinomialActivity extends AppCompatActivity {
             trial_info.put("result", "1"); // 1 indicates success
         } else {
             trial_info.put("result", "0"); // 0 indicates failure
+        }
+        if (trial_location != null) {
+            trial_geopoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+            trial_info.put("geolocation", trial_geopoint);
         }
 
         // put trial date as current date
@@ -174,10 +231,47 @@ public class BinomialActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
                 }
             }
         });
+    }
 
+    // TODO: Go to Geolocation Activity with a bundle containing a flag
+    public void addGeolocation(View v) {
+        Intent intent = new Intent(this, GeolocationActivity.class);
+        intent.putExtra("Map Request Code", "User Location");
+        intent.putExtra("Experiment Description", current_exp.getDescription());
+        startActivityForResult(intent, MAP_REQUEST_CODE);
+    }
+
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAP_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+
+                geolocation_button.setText("Edit Geolocation");
+
+                CoordinatorLayout snackbar_layout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                Snackbar location_saved_snackbar = Snackbar.make(snackbar_layout, "Your trial geolocation has been saved", Snackbar.LENGTH_LONG);
+                location_saved_snackbar.setAction("DISMISS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        location_saved_snackbar.dismiss();
+                    }
+                });
+                location_saved_snackbar.show();
+            }
+        }
     }
 }

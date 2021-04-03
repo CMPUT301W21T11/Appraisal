@@ -24,7 +24,11 @@ import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -33,6 +37,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -47,10 +52,14 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
     private Activity mActivity;
 
+    private CollectionReference trials;
+    private CollectionReference experiment;
+
     /**
      * This is the Overridden onCreateView method from the Fragment class
-     * @param inflater -- LayoutInflater object for inflating the Fragment
-     * @param container -- ViewGroup object that contains the layout
+     *
+     * @param inflater           -- LayoutInflater object for inflating the Fragment
+     * @param container          -- ViewGroup object that contains the layout
      * @param savedInstanceState -- Bundle object
      * @return v -- View of the initialized Fragment
      */
@@ -67,7 +76,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             current_experiment = MainModel.getCurrentExperiment();
             current_experimenter = MainModel.getCurrentUser();
         } catch (Exception e) {
-            Log.e("Error:","Current experiment not set");
+            Log.e("Error:", "Current experiment not set");
             e.printStackTrace();
             return v;
         }
@@ -76,7 +85,21 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         graphViewInit(v);
         graphDropInit(v);
 
-        trialFirebaseInit(v);
+        // get collection references to Experiment and Trials Collections
+        try {
+            experiment = MainModel.getExperimentReference();
+            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ERROR:", "Unable to setup trial on change listener");
+        }
+
+        // check if current user owns experiment, call corresponding query
+        if (current_experiment.getOwner().equals(current_experimenter.getID())) {
+            trialFirebaseOwner(v);
+        } else {
+            trialFirebaseInit(v);
+        }
 
         return v;
     }
@@ -100,50 +123,23 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void trialFirebaseInit(View v) {
-        CollectionReference trials;
-        try {
-            CollectionReference experiment = MainModel.getExperimentReference();
-            trials = experiment.document(current_experiment.getExpId()).collection("Trials");
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("ERROR:","Unable to setup trial on change listener");
-            return;
-        }
-
         // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
             current_experiment.clearTrial();
-            TrialFactory factory = new TrialFactory();
             if (value != null) {
                 for (QueryDocumentSnapshot doc : value) {
-                    // obtain experiment type
-                    TrialType exp_type;
-                    try {
-                        exp_type = TrialType.getInstance(current_experiment.getType());
-                    } catch (IllegalArgumentException e) {
-                        Log.e("Error:", "Invalid experiment type string. Resort to fallback");
-                        e.printStackTrace();
-                        // fallback to measurement trial, as it supports the widest value range
-                        exp_type = TrialType.MEASUREMENT_TRIAL;
-                    }
-                    // create trial from factory
-                    Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
-                    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
-                    try {
-                        String result = doc.get("result").toString();
-                        trial.setValue(Double.parseDouble(result));
-                        String date = doc.get("date").toString();
-                        Date trial_date = format.parse(date);
-                        trial.overrideDate(trial_date);
-                    } catch (Exception e) {
-                        // fallback for case if trial cannot be parsed
-                        e.printStackTrace();
-                        trial.setValue(0);
-                    }
-                    // add to current experiment
-                    current_experiment.addTrial(trial);
+                    addTrialToExp(doc);
                 }
             }
+            // clear any previous series
+            histogram.removeAllSeries();
+            histogram.onDataChanged(false, false);
+
+            exp_plot_over_time.removeAllSeries();
+            exp_plot_over_time.onDataChanged(false, false);
+
+            // refresh model
+            model = new SpecificExpModel(current_experiment);
 
             // refresh model
             model = new SpecificExpModel(current_experiment);
@@ -151,6 +147,72 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             plotGraphs(v);
         });
     }
+
+    private void trialFirebaseOwner(View v) {
+        // query the database to get trials for the experiment
+        experiment.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                // get list of ignored experimenters
+                ArrayList<String> ignored_experimenters = (ArrayList<String>) value.getData().get("ignoredExperimenters");
+                trials.addSnapshotListener((value1, error1) -> {
+                    current_experiment.clearTrial();
+
+                    if (value1 != null) {
+                        for (QueryDocumentSnapshot doc : value1) {
+                            // get experimenter of trial
+                            String experimenter = (String) doc.getData().get("experimenterID");
+
+                            if (ignored_experimenters == null) {
+                                // if ignored list doesn't exist just add all trials
+                                addTrialToExp(doc);
+                            }
+                            else if (!ignored_experimenters.contains(experimenter)) {
+                                // ignored list exists, if current trial's experimenter is not in ignored list, add trial to list
+                                addTrialToExp(doc);
+                            }
+                        }
+                    }
+
+                    // refresh model
+                    model = new SpecificExpModel(current_experiment);
+                    // refresh the views
+                    plotGraphs(v);
+                });
+            }
+        });
+    }
+
+    private void addTrialToExp(QueryDocumentSnapshot doc) {
+        TrialFactory factory = new TrialFactory();
+        // obtain experiment type
+        TrialType exp_type;
+        try {
+            exp_type = TrialType.getInstance(current_experiment.getType());
+        } catch (IllegalArgumentException e) {
+            Log.e("Error:", "Invalid experiment type string. Resort to fallback");
+            e.printStackTrace();
+            // fallback to measurement trial, as it supports the widest value range
+            exp_type = TrialType.MEASUREMENT_TRIAL;
+        }
+        // create trial from factory
+        Trial trial = factory.createTrial(exp_type, current_experiment, current_experimenter);
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH); // specify that we are parsing english date
+        try {
+            String result = doc.get("result").toString();
+            trial.setValue(Double.parseDouble(result));
+            String date = doc.get("date").toString();
+            Date trial_date = format.parse(date);
+            trial.overrideDate(trial_date);
+        } catch (Exception e) {
+            // fallback for case if trial cannot be parsed
+            e.printStackTrace();
+            trial.setValue(0);
+        }
+        // add to current experiment
+        current_experiment.addTrial(trial);
+    }
+
 
     private void plotGraphs(View v) {
         generateTimePlot();
@@ -166,7 +228,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         TextView stdDev = v.findViewById(R.id.fragment_experiment_data_analysis_experimentStdevText);
 
         mean.setText(model.getMean());
-        median.setText(String.format(Locale.ENGLISH, "%.2f",model.getQuartileInfo().getMedian()));
+        median.setText(String.format(Locale.ENGLISH, "%.2f", model.getQuartileInfo().getMedian()));
         stdDev.setText(model.getStdDev());
     }
 
@@ -236,10 +298,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
     private void generateHistogram() {
-        // clear any previous series
-        histogram.removeAllSeries();
-        histogram.getGridLabelRenderer().resetStyles();
-
         // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
         BarGraphSeries<DataPoint> barGraphSeries = new BarGraphSeries<>(dataPoints);
@@ -264,6 +322,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
+        histogram.refreshDrawableState();
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
 
@@ -275,10 +334,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Author:
         // URL: https://github.com/jjoe64/GraphView/wiki/Dates-as-labels
 
-        // clear any previous data
-        exp_plot_over_time.removeAllSeries();
-        exp_plot_over_time.getGridLabelRenderer().resetStyles();
-
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
         // set datapoints visible
@@ -289,10 +344,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // initialize axises
         if (mActivity != null) { // This shit is causing so many problem sometimes. I have no idea why. You know what, fuck it.
-            Log.i("Info:","mActivity is set");
+            Log.i("Info:", "mActivity is set");
             exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
         } else {
-            Log.w("Warning:","mActivity is null");
+            Log.w("Warning:", "mActivity is null");
         }
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(data_points.length);
         exp_plot_over_time.getGridLabelRenderer().setPadding(90);
@@ -300,7 +355,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         if (data_points.length > 0) {
             exp_plot_over_time.getViewport().setMinX(data_points[0].getX());
-            exp_plot_over_time.getViewport().setMaxX(data_points[0].getX() + 5*24*60*60*1000); // increment 5 days
+            exp_plot_over_time.getViewport().setMaxX(data_points[0].getX() + 5 * 24 * 60 * 60 * 1000); // increment 5 days
         } else {
             exp_plot_over_time.getViewport().setMinX(new Date().getTime());
         }
@@ -322,7 +377,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
             interval = 5;
         } else if (max_value <= 100) {
             interval = 100;
-        } else if (max_value <= 500){
+        } else if (max_value <= 500) {
             interval = 200;
         } else {
             interval = 500;
@@ -338,6 +393,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
+
+        exp_plot_over_time.refreshDrawableState();
 
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
 

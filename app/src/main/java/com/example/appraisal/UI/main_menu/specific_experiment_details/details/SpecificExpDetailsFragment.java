@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.geolocation.Geopoints;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -31,6 +33,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -46,7 +49,11 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CheckBox subscriptionBox;
     private Button add_trial;
     private CollectionReference exp_ref;
+    private Button view_trials;
+    private Button plot_trials;
+    private ArrayList<GeoPoint> geolocation_list;
 
+    private ArrayList<Geopoints> geopoints_list;
 
     /**
      * Gets called when the fragment gets created
@@ -65,7 +72,9 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
+        plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
+        plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 
         try {
@@ -151,6 +160,9 @@ public class SpecificExpDetailsFragment extends Fragment {
             }
         });
 
+        geolocation_list = new ArrayList<>();
+
+//        getAllGeoLocations();
 
         return v;
     }
@@ -193,5 +205,18 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         startActivity(intent);
     }
+
+    // TODO: Go to Geolocation Activity with a bundle containing a flag
+    private void plotAllTrialsOnMap(){
+        Intent intent = new Intent(getActivity(), GeolocationActivity.class);
+        intent.putExtra("Map Request Code", "Plot Trials Map");
+        intent.putExtra("Experiment Description", current_experiment.getDescription());
+        startActivity(intent);
+ 
+        //intent.putExtra("geolocation list", geolocation_list);
+        //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
+ 
+    }
+
 
 }

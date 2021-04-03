@@ -1,5 +1,7 @@
 package com.example.appraisal.backend.specific_experiment;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.trial.Trial;
 
 import java.util.ArrayList;
@@ -11,36 +13,15 @@ import java.util.List;
  */
 public class Quartile {
     private final List<Trial> sorted_list_of_trials;
-    private final int total;
-    private final double q1;
-    private final double q3;
 
     /**
      * Constructor of the Quartile class
      * @param list_of_trials {@link Trial}
      *      The list of trials that need to generate its quartiles
      */
-    public Quartile(List<Trial> list_of_trials) {
+    public Quartile(@NonNull List<Trial> list_of_trials) {
         this.sorted_list_of_trials = list_of_trials;
         Collections.sort(sorted_list_of_trials);
-        total = list_of_trials.size();
-        if (!list_of_trials.isEmpty()) {
-            q1 = initQ1();
-            q3 = initQ3();
-        } else { // in case of an empty list of trials
-            q1 = 0.0;
-            q3 = 0.0;
-        }
-    }
-
-    private double initQ1() {
-        int q1_index = sorted_list_of_trials.size() / 4;
-        return sorted_list_of_trials.get(q1_index).getValue();
-    }
-
-    private double initQ3() {
-        int q3_index = (sorted_list_of_trials.size() * 3) / 4;
-        return sorted_list_of_trials.get(q3_index).getValue();
     }
 
     /**
@@ -50,7 +31,7 @@ public class Quartile {
      *      Total number of trials conducted by the experiment
      */
     public int getTotalNumTrial() {
-        return total;
+        return sorted_list_of_trials.size();
     }
 
     public List<Trial> getSortedListOfTrials() {
@@ -99,7 +80,11 @@ public class Quartile {
      *      Q1 of the Trials
      */
     public double getFirstQuartile() {
-        return q1;
+        if (sorted_list_of_trials.isEmpty()) {
+            return 0;
+        }
+        int q1_index = sorted_list_of_trials.size() / 4;
+        return sorted_list_of_trials.get(q1_index).getValue();
     }
 
     /**
@@ -108,7 +93,11 @@ public class Quartile {
      *      Q3 of the Trials
      */
     public double getThirdQuartile() {
-        return q3;
+        if (sorted_list_of_trials.isEmpty()) {
+            return 0;
+        }
+        int q3_index = (sorted_list_of_trials.size() * 3) / 4;
+        return sorted_list_of_trials.get(q3_index).getValue();
     }
 
     /**
@@ -128,8 +117,8 @@ public class Quartile {
      */
     public List<Float> getOutLiers() {
         List<Float> outLiers = new ArrayList<>();
-        double upper = q3 + (1.5 * getIQR());
-        double lower = q1 - (1.5 * getIQR());
+        double upper = getFirstQuartile() + (1.5 * getIQR());
+        double lower = getThirdQuartile() - (1.5 * getIQR());
 
         for (Trial t: sorted_list_of_trials) {
             float value = (float) t.getValue();

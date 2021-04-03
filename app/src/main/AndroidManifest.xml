@@ -5,6 +5,9 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +16,13 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult"></activity>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD4UH--Vik76Id6If-pomOq18k1F7TjV-o" />
+
         <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,26 +33,7 @@
         <activity
             android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"
             android:label="My Subscriptions" />
-        <activity
-            android:name=".UI.main_menu.forum.ForumHomeActivity"
-            android:label="Forum">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MainActivity" />
-        </activity>
-        <activity
-            android:name=".UI.main_menu.forum.ForumQuestionsActivity"
-            android:label="Forum Questions">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.main_menu.forum.ForumHomeActivity" />
-        </activity>
-        <activity
-            android:name=".UI.main_menu.forum.ForumRepliesActivity"
-            android:label="Forum Replies">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.main_menu.forum.ForumQuestionsActivity" />
+        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
         </activity>
         <activity
             android:name=".UI.main_menu.my_experiment.MyExperimentActivity"
@@ -61,6 +50,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.my_experiment.MyExperimentActivity" />
         </activity>
+
         <activity
             android:name=".UI.main_menu.user_profile.EditProfileActivity"
             android:label="Edit Profile" />
@@ -73,8 +63,11 @@
         </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
         <activity android:name=".UI.main_menu.search.SearchActivity" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
+        <activity
+            android:name=".UI.geolocation.GeolocationActivity"
+            android:label="Binomial Trial #2" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
     </application>
 

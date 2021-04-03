@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,6 +66,13 @@ public class PublishExpActivity extends AppCompatActivity {
         // get values from input fields
         String description = description_field.getText().toString();
         String type = type_field.getSelectedItem().toString();
+
+        if (description.trim().equals("")) {
+            // TODO switch to snack bar
+            Toast.makeText(this, "Experiment description cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         boolean is_geolocation_required = geo_yes.isChecked();
         String rules = rules_field.getText().toString();
         String region = region_field.getText().toString();

@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.appraisal.R;
+import com.example.appraisal.backend.specific_experiment.QRValues;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,7 +57,7 @@ public class QRAnalyzerModel {
      * @param result -- the detection result
      * @throws WriterException -- when MultiFormatWriter refuse to write
      */
-    public void readingQRCode(@NonNull Result result) throws Exception {
+    public void displayBarCode(@NonNull Result result) throws Exception {
         String qr_display = result.getText();
 
         // Display the raw value of the code to activity
@@ -85,19 +87,30 @@ public class QRAnalyzerModel {
 
     /**
      * Obtain the commands in the string passed in the QR
-     * 0 index the app signature
-     * 1 index is for Type (binomial, count,...)
-     * 2 index value {binomial -> "0/1" (0 for fail, 1 for success)
-     *                count -> "int number"
-     *                non-neg -> "int num"
-     *                measurement -> "double"
-     *                }
-     * 3 the experiment ID.
-     * @param encoded_info
+     * @param encoded_info -- the String of the QR code value
+     * @return QRValues -- the object that represents the value of the QR
      */
-    public String[] decodeTrialQR(String encoded_info) {
-        String[] commands = encoded_info.split(";");
-        return commands;
+    public QRValues decodeTrialQR(@NonNull String encoded_info) {
+        String[] contents = encoded_info.split(";");
+        /*
+        Note: For contents, if the QR code is compatible:
+        0 index is the app signature
+        1 index is for Type (binomial, count,...)
+        2 index value {binomial -> "0/1" (0 for fail, 1 for success)
+                       count -> "int number"
+                       non-neg -> "int num"
+                       measurement -> "double"
+                       }
+        3 index is the experiment ID.
+         */
+        try {
+            TrialType trialType = TrialType.getInstance(contents[1]);
+            double value = Double.parseDouble(contents[2]);
+            return new QRValues(parent_activity, contents[0], trialType, value, contents[3]);
+        } catch (Exception f) {
+            Log.e("QR Analyzer Model:", "QR Code is incompatible");
+            return null;
+        }
     }
 
     /**
@@ -106,11 +119,7 @@ public class QRAnalyzerModel {
      * @return boolean -- if the signature is value or not
      */
     public boolean checkSignature(String signature) {
-        if (signature.equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name))) {
-            return true;
-        } else {
-            return false;
-        }
+        return signature.equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name));
     }
 
     /**
@@ -119,12 +128,11 @@ public class QRAnalyzerModel {
      * Make the Trial object.
      * After that, add the Trial, and upload.
      *
-     * @param exp_id
-     * @param trial_type
-     * @param value
+     * @param qr_values -- QRValues object
      */
-    public void addToExperiment(String exp_id, String trial_type, String value) throws Exception {
+    public void addToExperiment(@NonNull QRValues qr_values) throws Exception {
         CollectionReference experiment_reference = MainModel.getExperimentReference();
+        String exp_id = qr_values.getExpId();
 
         experiment_reference.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -136,7 +144,7 @@ public class QRAnalyzerModel {
                         try {
                             firebase_num_trials = Integer.parseInt(document.get("numOfTrials").toString());
                             Log.d("numtrials listener", String.valueOf(firebase_num_trials));
-                            modifyExperiment(exp_id, trial_type, value);
+                            modifyExperiment(qr_values);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -147,7 +155,10 @@ public class QRAnalyzerModel {
         });
     }
 
-    private void modifyExperiment(String ID, String trial_type, String value) throws Exception {
+    private void modifyExperiment(@NonNull QRValues qr_values) throws Exception {
+        double value = qr_values.getValue();
+        String ID = qr_values.getExpId();
+
         CollectionReference ref = MainModel.getExperimentReference();
 
         Map<String, Object> trial_info = new HashMap<>();
@@ -188,10 +199,5 @@ public class QRAnalyzerModel {
                 });
 
         ref.document(ID).update("numOfTrials", FieldValue.increment(1));
-    }
-
-    public boolean isRegisteredCode(Result result) {
-        // TODO: check if the barcode is registered, and perform corresponding action
-        return true;
     }
 }
