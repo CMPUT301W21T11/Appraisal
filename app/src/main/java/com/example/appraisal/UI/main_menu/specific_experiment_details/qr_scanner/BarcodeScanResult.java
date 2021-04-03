@@ -1,5 +1,7 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -126,10 +128,55 @@ public class BarcodeScanResult extends AppCompatActivity {
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
         model.checkBarcode(barcode);
+        finish();
     }
 
     public boolean askIfOverride(Barcode barcode, String old_action) {
-        //TODO create a dialog to as user
+
+        final boolean[] override = {false};
+        // Build prompt dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Override barcode registry");
+        //builder.setMessage("You have already registered this barcode to another value or experiment, would you like to override it?");
+        builder.setPositiveButton("Override", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                override[0] = true;
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                override[0] = false;
+            }
+        });
+
+        // view based on experiment type
+        switch (currentExperimentType) {
+            case COUNT_TRIAL:
+                builder.setView(R.layout.dialog_override_barcode_count);
+            case BINOMIAL_TRIAL:
+                // Change buttons for binomial trial
+                builder.setPositiveButton("Success", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        override[0] = true;
+                    }
+                });
+                builder.setNeutralButton("Failure", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        override[0] = true;
+                    }
+                });
+                builder.setView(R.layout.dialog_override_barcode_binomial);
+            case NON_NEG_INT_TRIAL:
+                builder.setView(R.layout.dialog_override_barcode_integer);
+            case MEASUREMENT_TRIAL:
+                builder.setView(R.layout.dialog_override_barcode_measurement);
+        }
+
+        AlertDialog dialog = builder.create();
         return false;
     }
 }
