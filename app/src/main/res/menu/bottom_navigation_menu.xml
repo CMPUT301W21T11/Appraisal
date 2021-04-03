@@ -7,8 +7,14 @@
     <item
         android:id="@+id/search_bottom_nav"
         android:enabled="true"
-        android:icon="@drawable/search_icon"
+        android:icon="@drawable/search_solid"
         android:title="Search"/>
+
+    <item
+        android:id="@+id/qr_bottom_nav"
+        android:enabled="true"
+        android:icon="@drawable/camera_icon"
+        android:title="Camera"/>
 
     <item
         android:id="@+id/experiment_bottom_nav"
@@ -19,7 +25,9 @@
     <item
         android:id="@+id/profile_bottom_nav"
         android:enabled="true"
-        android:icon="@drawable/profile_icon"
+        android:icon="@drawable/profile_solid"
         android:title="Profile"/>
+
+
 
 </menu>

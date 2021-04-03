@@ -70,7 +70,6 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         holder.getUserName().setText("User @" + name.substring(0, 7));
         holder.getUserIcon().setImageResource(R.drawable.ic_launcher_foreground);
 
-        Log.d("is_owner?", String.valueOf(is_owner));
         if (ignored_list != null && ignored_list.contains(name) && is_owner){
             holder.setIsIgnored();
         }
