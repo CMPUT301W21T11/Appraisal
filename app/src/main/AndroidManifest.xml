@@ -16,8 +16,8 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
-        <activity android:name=".UI.main_menu.qr_scanner.CameraScanResult"></activity>
-        <activity android:name=".UI.main_menu.qr_scanner.CameraScanner" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -30,7 +30,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.main_menu.subscription.ExpSubscriptionActivity" android:label="My Subscriptions"></activity>
+        <activity
+            android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"
+            android:label="My Subscriptions" />
         <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
         </activity>
         <activity
@@ -51,7 +53,7 @@
 
         <activity
             android:name=".UI.main_menu.user_profile.EditProfileActivity"
-            android:label="Edit Profile"></activity>
+            android:label="Edit Profile" />
         <activity
             android:name=".UI.main_menu.user_profile.UserProfileActivity"
             android:label="Profile">
@@ -59,11 +61,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"></activity>
-        <activity android:name=".UI.main_menu.search.SearchActivity"></activity>
-        <activity android:name=".UI.geolocation.GeolocationActivity" android:label="Binomial Trial #2"></activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
         <activity android:name=".UI.main_menu.search.SearchActivity" />
+        <activity
+            android:name=".UI.geolocation.GeolocationActivity"
+            android:label="Binomial Trial #2" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRGeneratorActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult"/>
     </application>
