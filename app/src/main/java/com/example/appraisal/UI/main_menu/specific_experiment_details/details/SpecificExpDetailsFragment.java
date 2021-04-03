@@ -97,6 +97,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+        TextView region = v.findViewById(R.id.specific_exp_details_region);
+        TextView rules_constraints = v.findViewById(R.id.specific_exp_details_rules_constraints);
         min_trials = v.findViewById(R.id.specific_exp_details_min_trials);
         current_count = v.findViewById(R.id.specific_exp_details_current_trial_count);
 
@@ -105,21 +107,32 @@ public class SpecificExpDetailsFragment extends Fragment {
         desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());
         owner.setText(current_experiment.getOwner().substring(0, 7));
-        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
+
+//        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
+//            status.setText("Open");
+//        }
+//        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
+//            status.setText("Ended");
+//        }
+//        else {
+//            status.setText("Unpublished");
+//        }
+
+        if (!current_experiment.getIsEnded()) {
             status.setText("Open");
         }
-        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
+        else {
             status.setText("Ended");
         }
-        else {
-            status.setText("Unpublished");
-        }
+
         if (current_experiment.getIsGeolocationRequired()){
             geo_required.setText("Yes");
         }
         else {
             geo_required.setText("No");
         }
+        region.setText(current_experiment.getRegion());
+        rules_constraints.setText((current_experiment.getRules()));
         min_trials.setText(current_experiment.getMinimumTrials().toString());
         current_count.setText(current_experiment.getTrialCount().toString());
 

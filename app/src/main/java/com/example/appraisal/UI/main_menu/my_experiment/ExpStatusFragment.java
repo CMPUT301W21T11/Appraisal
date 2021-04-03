@@ -160,24 +160,41 @@ public class ExpStatusFragment extends DialogFragment {
         min_count.setText(experiment.getMinimumTrials().toString());
         current_count.setText(experiment.getTrialCount().toString());
 
-        if (is_published && !is_ended) {                // if published and open
-            published_status.setText("Published");
-            ended_status.setText("Open");
-            publish_switch.setText("Unpublish");
-            end_switch.setText("End");
-        }
-        else if (is_published && is_ended) {            // if published and ended
-            published_status.setText("Published");
+//        if (is_published && !is_ended) {                // if published and open
+//            published_status.setText("Published");
+//            ended_status.setText("Open");
+//            publish_switch.setText("Unpublish");
+//            end_switch.setText("End");
+//        }
+//        else if (is_published && is_ended) {            // if published and ended
+//            published_status.setText("Published");
+//            ended_status.setText("Ended");
+//            publish_switch.setText("Unpublish");
+//            end_switch.setText("Open");
+//        }
+//        else {                                          // if unpublished
+//            published_status.setText("Unpublished");
+//            ended_status.setText("");
+//            publish_switch.setText("Publish");
+//            end_row.setVisibility(View.INVISIBLE);
+//            end_switch.setVisibility(View.INVISIBLE);
+//        }
+        if (is_ended) {
             ended_status.setText("Ended");
-            publish_switch.setText("Unpublish");
             end_switch.setText("Open");
         }
-        else {                                          // if unpublished
+        else {
+            ended_status.setText("Open");
+            end_switch.setText("End");
+        }
+
+        if (is_published){
+            published_status.setText("Published");
+            publish_switch.setText("Unpublish");
+        }
+        else {
             published_status.setText("Unpublished");
-            ended_status.setText("");
             publish_switch.setText("Publish");
-            end_row.setVisibility(View.INVISIBLE);
-            end_switch.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -234,31 +251,32 @@ public class ExpStatusFragment extends DialogFragment {
     public void changeIfPublished(){
         if (is_published){                              // if it's published, switch to Unpublished
             published_status.setText("Unpublished");
-            ended_status.setText("");
+//            ended_status.setText("");
             publish_switch.setText("Publish");
-            end_switch.setVisibility(View.INVISIBLE);
-            end_row.setVisibility(View.INVISIBLE);
+//            end_switch.setVisibility(View.INVISIBLE);
+//            end_row.setVisibility(View.INVISIBLE);
             is_published = false;
-            is_ended = true;
+//            is_ended = true;
         }
         else {                                          // else it's unpublished, switch to Published and Open
             published_status.setText("Published");
-            ended_status.setText("Open");
+//            ended_status.setText("Open");
             publish_switch.setText("Unpublish");
-            end_switch.setVisibility(View.VISIBLE);
-            end_row.setVisibility(View.VISIBLE);
+//            end_switch.setVisibility(View.VISIBLE);
+//            end_row.setVisibility(View.VISIBLE);
 
-            end_switch.setText("End");
+//            end_switch.setText("End");
             is_published = true;
-            is_ended = false;
+//            is_ended = false;
         }
+//        end_switch.setEnabled(is_published);
     }
 
     /**
      * This method changed ended status
      */
     public void changeIfEnded(){
-        if (is_published){
+//        if (is_published){
             if (is_ended){                              // if published and ended, switch to published and open
                 ended_status.setText("Open");
                 end_switch.setText("End");
@@ -269,7 +287,7 @@ public class ExpStatusFragment extends DialogFragment {
                 end_switch.setText("Open");
                 is_ended = true;
             }
-        }
+//        }
 
     }
 
@@ -295,12 +313,12 @@ public class ExpStatusFragment extends DialogFragment {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 int minNum = Integer.parseInt(value.getData().get("minTrials").toString());
                 int currentNum = Integer.parseInt(value.getData().get("numOfTrials").toString());
+                end_switch.setEnabled(currentNum >= minNum);
+//                if (currentNum < minNum) {
+////                    checkMin = false;
+//                    end_switch.setVisibility(View.INVISIBLE);
 
-                if (currentNum < minNum) {
-//                    checkMin = false;
-                    end_switch.setVisibility(View.INVISIBLE);
-
-                }
+//                }
 //                else{
 //                    checkMin = true;
 //                }

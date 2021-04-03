@@ -16,26 +16,6 @@
         android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Publish Status:"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/current_published_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Status"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/end_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,6 +30,26 @@
 
         <TextView
             android:id="@+id/current_ended_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Publish Status:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/current_published_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Status"
