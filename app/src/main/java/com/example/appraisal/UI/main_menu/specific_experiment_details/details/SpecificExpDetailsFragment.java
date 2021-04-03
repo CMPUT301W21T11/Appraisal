@@ -32,7 +32,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
@@ -134,8 +136,7 @@ public class SpecificExpDetailsFragment extends Fragment {
         region.setText(current_experiment.getRegion());
         rules_constraints.setText((current_experiment.getRules()));
         min_trials.setText(current_experiment.getMinimumTrials().toString());
-        current_count.setText(current_experiment.getTrialCount().toString());
-
+        updateCount();
 
         try {
             user_ref = MainModel.getUserReference();
@@ -186,15 +187,26 @@ public class SpecificExpDetailsFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            current_experiment = MainModel.getCurrentExperiment();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        current_count.setText(current_experiment.getTrialCount().toString());
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        try {
+//            current_experiment = MainModel.getCurrentExperiment();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        current_count.setText(current_experiment.getTrialCount().toString());
+//        Log.d("Current Count Resume", current_experiment.getTrialCount().toString());
+//    }
+
+    private void updateCount(){
+        exp_ref.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                current_count.setText(value.getData().get("numOfTrials").toString());
+            }
+        });
+
     }
 
     /**
