@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
+import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,6 +36,7 @@ public class MainModel {
 
     private User current_user;
     private Experiment chosen_experiment;
+    private Experiment qr_target_experiment;
     private ArrayList<Experiment> my_experiments;
 
     private Result barcode_result; // This variable is used to store the barcode result
@@ -309,7 +311,8 @@ public class MainModel {
 
     /**
      * This method stores the scanned barcode to MainModel
-     * @param result -- scanned barcode result Object
+     * Refer to:https://zxing.github.io/zxing/apidocs/com/google/zxing/Result.html
+     * @param result -- scanned barcode result Object.
      * @throws Exception -- MainModel is not initiated
      */
     public static void setBarcodeResult(Result result) throws Exception{
@@ -329,5 +332,48 @@ public class MainModel {
             throw new Exception("single_instance is not initiated");
         }
         return single_instance.barcode_result;
+    }
+
+    /**
+     * Setting the qr_target_experiment experiment and store in this global space
+     *
+     * @throws Exception thrown when either the MainModel is not instantiated
+     */
+    public static void setTargetQRExperiment(Experiment experiment) throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.qr_target_experiment = experiment;
+    }
+
+    /**
+     * Remove the qr_target_experiment experiment and store in this global space. THIS RENDERS CHOSEN_EXPERIMENT TO NULL!
+     *
+     * @throws Exception thrown when either the MainModel is not instantiated
+     */
+    public static void removeTargetQRExperiment() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+        single_instance.qr_target_experiment = null;
+    }
+
+    /**
+     * Getting the qr_target_experiment experiment stored in this global space
+     *
+     * @return chosen {@link Experiment}
+     * @throws Exception {@link NullPointerException} thrown when either the MainModel is not instantiated or no
+     *                   experiment was chosen
+     */
+    public static Experiment getTargetQRExperiment() throws Exception {
+        if (single_instance == null) {
+            throw new Exception("single_instance is not initiated");
+        }
+
+        if (single_instance.qr_target_experiment == null) {
+            throw new Exception("No experiment was chosen (NullPointerException)");
+        }
+
+        return single_instance.qr_target_experiment;
     }
 }

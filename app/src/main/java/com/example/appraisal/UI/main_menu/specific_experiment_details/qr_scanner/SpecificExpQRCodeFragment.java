@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details.qr;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
 
 public class SpecificExpQRCodeFragment extends Fragment {
     // This activity wouldn't be possible without Google's ML kit and its documentations
@@ -21,6 +22,7 @@ public class SpecificExpQRCodeFragment extends Fragment {
     // URL: https://developers.google.com/ml-kit/vision/barcode-scanning/android
 
     private Activity parent_activity;
+    private TextView trial_value_qr_input;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,11 +43,22 @@ public class SpecificExpQRCodeFragment extends Fragment {
         scan_button.setOnClickListener(v2 -> startCameraScanner());
         register_button.setOnClickListener(v3 -> startCodeRegister());
 
+        trial_value_qr_input = v.findViewById(R.id.trial_value_qr_input);
+
         return v;
     }
 
     private void startQRCodeGenerator() {
+        if (trial_value_qr_input.getText().toString().trim().equals("")) {
+            Toast.makeText(parent_activity, "No input detected!", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(parent_activity, QRGeneratorActivity.class);
 
+            String value = trial_value_qr_input.getText().toString();
+            intent.putExtra("val", value);
+
+            startActivity(intent);
+        }
     }
 
     private void startCameraScanner() {
@@ -54,6 +67,7 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startCodeRegister() {
-
+        Intent intent = new Intent(parent_activity, BarcodeScanResult.class);
+        startActivity(intent);
     }
 }
