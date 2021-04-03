@@ -3,12 +3,14 @@ package com.example.appraisal.UI.trial;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -62,6 +64,8 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_layout);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         geolocation_button = findViewById(R.id.add_geo);
 
@@ -248,5 +252,21 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
                 location_saved_snackbar.show();
             }
         }
+    }
+
+    /**
+     * If the back button is pressed, close this activity and go back to previous one
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
