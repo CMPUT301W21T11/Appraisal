@@ -1,11 +1,11 @@
 package com.example.appraisal.UI.main_menu;
 
 import android.content.Intent;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
 import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
@@ -15,14 +15,14 @@ import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
  * the MenuBar to avoid code duplication.
  */
 public abstract class MainMenuCommonActivity extends AppCompatActivity {
-    public void toHome() {
+    public void toHome(View v) {
         if (this.getClass() == ExpSubscriptionActivity.class)
             return;
         Intent intent = new Intent(this, ExpSubscriptionActivity.class);
         startActivity(intent);
     }
 
-    public void toSearch() {
+    public void toSearch(View v) {
         if (this.getClass() == SearchActivity.class)
             return;
         Intent intent = new Intent(this, SearchActivity.class);
@@ -37,12 +37,7 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 
-    public void toCamera() {
-        Intent intent = new Intent(this, CameraScanResult.class);
-        startActivity(intent);
-    }
-
-    public void toMyExps() {
+    public void toMyExps(View v) {
         // When click on expList button
         if (this.getClass() == MyExperimentActivity.class)
             return;
@@ -50,7 +45,7 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toProfile() {
+    public void toProfile(View v) {
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");
         startActivity(intent);

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -23,9 +22,6 @@ import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
  * This is the class that controls the DialogFragment for the user to modify an experiment's status.
@@ -34,8 +30,6 @@ public class ExpStatusFragment extends DialogFragment {
     private TextView description;
     private TextView published_status;
     private TextView ended_status;
-    private TextView min_count;
-    private TextView current_count;
     private Button publish_switch;
     private Button view_results;
     private Button end_switch;
@@ -45,7 +39,7 @@ public class ExpStatusFragment extends DialogFragment {
     private Boolean is_ended;
     private Experiment experiment;
     private String exp_ID;
-    private CollectionReference ref;
+    private User current_user;
 
     public interface OnFragmentInteractionListener{
     }
@@ -80,8 +74,6 @@ public class ExpStatusFragment extends DialogFragment {
         description = view.findViewById(R.id.description);
         published_status = view.findViewById(R.id.current_published_status);
         ended_status = view.findViewById(R.id.current_ended_status);
-        min_count = view.findViewById(R.id.min_trials_num_status);
-        current_count = view.findViewById(R.id.current_trial_count_status);
         view_results = view.findViewById(R.id.view_results_button);
         publish_switch = view.findViewById(R.id.publish_button);
         end_switch = view.findViewById(R.id.end_button);
@@ -90,7 +82,6 @@ public class ExpStatusFragment extends DialogFragment {
         // get experiment object
         Bundle args = getArguments();
         experiment = (Experiment) args.getParcelable("experiment");
-
         try {
             MainModel.setCurrentExperiment(experiment);
         } catch (Exception e) {
@@ -100,9 +91,6 @@ public class ExpStatusFragment extends DialogFragment {
         is_published = experiment.getIsPublished();
         is_ended = experiment.getIsEnded();
 
-
-
-        checkMin();
 //        checkOwnership();
 
         // set textView fields
@@ -144,57 +132,30 @@ public class ExpStatusFragment extends DialogFragment {
         return fragment;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        dismiss();
-    }
-
     /**
      * This method sets the TextView Fields in the UI
      */
     private void setFields(){
         description.setText(experiment.getDescription());   // set description
-        Log.d("minTrials", experiment.getMinimumTrials().toString());
-        Log.d("currentCount", experiment.getTrialCount().toString());
-        min_count.setText(experiment.getMinimumTrials().toString());
-        current_count.setText(experiment.getTrialCount().toString());
 
-//        if (is_published && !is_ended) {                // if published and open
-//            published_status.setText("Published");
-//            ended_status.setText("Open");
-//            publish_switch.setText("Unpublish");
-//            end_switch.setText("End");
-//        }
-//        else if (is_published && is_ended) {            // if published and ended
-//            published_status.setText("Published");
-//            ended_status.setText("Ended");
-//            publish_switch.setText("Unpublish");
-//            end_switch.setText("Open");
-//        }
-//        else {                                          // if unpublished
-//            published_status.setText("Unpublished");
-//            ended_status.setText("");
-//            publish_switch.setText("Publish");
-//            end_row.setVisibility(View.INVISIBLE);
-//            end_switch.setVisibility(View.INVISIBLE);
-//        }
-        if (is_ended) {
-            ended_status.setText("Ended");
-            end_switch.setText("Open");
-        }
-        else {
+        if (is_published && !is_ended) {                // if published and open
+            published_status.setText("Published");
             ended_status.setText("Open");
+            publish_switch.setText("Unpublish");
             end_switch.setText("End");
         }
-
-        if (is_published){
+        else if (is_published && is_ended) {            // if published and ended
             published_status.setText("Published");
+            ended_status.setText("Ended");
             publish_switch.setText("Unpublish");
+            end_switch.setText("Open");
         }
-        else {
+        else {                                          // if unpublished
             published_status.setText("Unpublished");
+            ended_status.setText("");
             publish_switch.setText("Publish");
+            end_row.setVisibility(View.INVISIBLE);
+            end_switch.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -251,32 +212,31 @@ public class ExpStatusFragment extends DialogFragment {
     public void changeIfPublished(){
         if (is_published){                              // if it's published, switch to Unpublished
             published_status.setText("Unpublished");
-//            ended_status.setText("");
+            ended_status.setText("");
             publish_switch.setText("Publish");
-//            end_switch.setVisibility(View.INVISIBLE);
-//            end_row.setVisibility(View.INVISIBLE);
+            end_switch.setVisibility(View.INVISIBLE);
+            end_row.setVisibility(View.INVISIBLE);
             is_published = false;
-//            is_ended = true;
+            is_ended = true;
         }
         else {                                          // else it's unpublished, switch to Published and Open
             published_status.setText("Published");
-//            ended_status.setText("Open");
+            ended_status.setText("Open");
             publish_switch.setText("Unpublish");
-//            end_switch.setVisibility(View.VISIBLE);
-//            end_row.setVisibility(View.VISIBLE);
+            end_switch.setVisibility(View.VISIBLE);
+            end_row.setVisibility(View.VISIBLE);
 
-//            end_switch.setText("End");
+            end_switch.setText("End");
             is_published = true;
-//            is_ended = false;
+            is_ended = false;
         }
-//        end_switch.setEnabled(is_published);
     }
 
     /**
      * This method changed ended status
      */
     public void changeIfEnded(){
-//        if (is_published){
+        if (is_published){
             if (is_ended){                              // if published and ended, switch to published and open
                 ended_status.setText("Open");
                 end_switch.setText("End");
@@ -287,7 +247,7 @@ public class ExpStatusFragment extends DialogFragment {
                 end_switch.setText("Open");
                 is_ended = true;
             }
-//        }
+        }
 
     }
 
@@ -301,39 +261,7 @@ public class ExpStatusFragment extends DialogFragment {
         reference.document(exp_ID).update("isEnded", is_ended);
     }
 
-    /**
-     * Check if Current Num of Trials is less than Minimum Num of Trial Required
-     */
-    private void checkMin() {
-        try {
-            ref = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        ref.document(exp_ID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                int minNum = Integer.parseInt(value.getData().get("minTrials").toString());
-                int currentNum = Integer.parseInt(value.getData().get("numOfTrials").toString());
-                end_switch.setEnabled(currentNum >= minNum);
-//                if (currentNum < minNum) {
-////                    checkMin = false;
-//                    end_switch.setVisibility(View.INVISIBLE);
-
-//                }
-//                else{
-//                    checkMin = true;
-//                }
-//
-//                if (!checkMin){
-//                    end_switch.setVisibility(View.INVISIBLE);
-//                }
-            }
-        });
-
-
-    }
 
 //    private void checkOwnership(){
 //

@@ -72,37 +72,23 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         description.setText(exp_current.getDescription());
         type.setText(exp_current.getType());
 
-        // hide owner & show publish status from MyExperiment Activity
+        // show owner if not from MyExperiment Activity
         if (activity_from.equals("MyExperiment")) {
             LinearLayout owner_row = view.findViewById(R.id.owner_row);
             owner_row.setVisibility(View.GONE);
-            if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
-                status.setText("Open & Published");
-            } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
-                status.setText("Ended & Published");
-            } else if (!exp_current.getIsPublished() && !exp_current.getIsEnded()){
-                status.setText("Open & Unpublished");
-            } else {
-                status.setText("Ended & Unpublished");
-            }
         } else {
             TextView owner_name = view.findViewById(R.id.owner_name);
             owner_name.setText(exp_current.getOwner().substring(0, 7));
-            if (!exp_current.getIsEnded()) {
-                status.setText("Open");
-            } else {
-                status.setText("Ended");
-            }
         }
 
         // show status of experiment
-//        if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
-//            status.setText("Open");
-//        } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
-//            status.setText("Ended");
-//        } else {
-//            status.setText("Unpublished");
-//        }
+        if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
+            status.setText("Open");
+        } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
+            status.setText("Ended");
+        } else {
+            status.setText("Unpublished");
+        }
 
 
         return view;
