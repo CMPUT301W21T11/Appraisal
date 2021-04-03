@@ -191,6 +191,12 @@ public class MainModel {
         return single_instance.current_user;
     }
 
+    /**
+     * This method returns the Document reference of the current user in the user collection
+     * @return {@link DocumentReference} -- document reference of the current user
+     * @throws Exception -- MainModel is not initialed
+     */
+    @NonNull
     public static DocumentReference getUserReference() throws Exception {
 
         if (single_instance == null) {
@@ -204,6 +210,10 @@ public class MainModel {
     }
 
 
+    /**
+     * This method check if the user is registered. If not, set up the new user. Else, log in the user
+     * @throws Exception -- MainModel is not initiated
+     */
     public static void checkUserStatus() throws Exception {
 
         if (single_instance == null) {
@@ -222,10 +232,17 @@ public class MainModel {
 
     }
 
+    /**
+     * This method returns the user ID of the signed in user
+     * @return String -- user ID
+     */
     public static String signInUser() {
        return single_instance.mAuth.getUserID();
     }
 
+    /**
+     * This method creates a new user
+     */
     public static void setUpNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
 
@@ -257,6 +274,9 @@ public class MainModel {
                 });
     }
 
+    /**
+     * This method logs in an existing user
+     */
     public static void loadCurrentUser() {
         // get data from firebase
         // update local user object
@@ -286,7 +306,13 @@ public class MainModel {
         });
     }
 
-    // Method to be called to retrieve a document reference of a specific user on the database
+    /**
+     * This is the method to be called to retrieve a document reference of a specific user on the database
+     * @param other_user_id -- the user id
+     * @return {@link DocumentReference} -- document reference of the given user id
+     * @throws Exception -- MainModel is not initiated
+     */
+    @NonNull
     public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
 
         if (single_instance == null) {
@@ -300,6 +326,12 @@ public class MainModel {
     }
 
 
+    /**
+     * This method returns the collection reference of the experiment collection
+     * @return {@link CollectionReference} the collection reference of the experiment collection
+     * @throws Exception -- MainModel is not initiated
+     */
+    @NonNull
     public static CollectionReference getExperimentReference() throws Exception {
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");

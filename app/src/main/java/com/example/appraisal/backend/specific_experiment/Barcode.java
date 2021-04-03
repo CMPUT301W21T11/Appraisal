@@ -43,6 +43,10 @@ public class Barcode {
         return currentExperiment;
     }
 
+    /**
+     * This method get the represented action for the barcode
+     * @return String -- represented action for the barcode
+     */
     public String getData() {
         return data;
     }

@@ -35,6 +35,7 @@ public enum TrialType {
      *
      * @return TrialType -- the TrialType object representation of the given key
      */
+    @NonNull
     public static TrialType getInstance(@NonNull String key) {
         for (TrialType t: TrialType.values()) {
             if (t.getLabel().equalsIgnoreCase(key.trim())) {

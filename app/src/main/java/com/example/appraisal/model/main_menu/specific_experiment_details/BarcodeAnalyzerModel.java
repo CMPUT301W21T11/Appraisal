@@ -71,7 +71,7 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
                             if (doOverride) {
                                 barcode_list.document(raw_value).set(barcode.getData()); // override data
                             } else {
-                                Toast.makeText(parent_activity, "Barcode value is NOT overriden", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(parent_activity, "Barcode value is NOT overridden", Toast.LENGTH_SHORT).show();
                             }
                             return;
                         }

@@ -62,6 +62,6 @@ public class QRValues {
      */
     public boolean checkSignature() {
         String target_signature = parent.getResources().getString(R.string.app_name);
-        return signature.equalsIgnoreCase(target_signature);
+        return getSignature().equalsIgnoreCase(target_signature);
     }
 }

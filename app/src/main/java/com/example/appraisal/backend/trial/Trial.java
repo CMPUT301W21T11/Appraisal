@@ -11,10 +11,10 @@ import java.util.Date;
  * This mainly ensures reading and writing data from all trial subclass are unified
  */
 public abstract class Trial implements Comparable<Trial> {
-    private Experiment parent_experiment;
+    private final Experiment parent_experiment;
     private Date trial_date;
-    private User conductor;
-    private TrialType type;
+    private final User conductor;
+    private final TrialType type;
 
     protected Trial(Experiment parent_experiment, User conductor, TrialType type) {
         this.parent_experiment = parent_experiment;
