@@ -42,7 +42,6 @@ public class SpecificExpContributorsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         // inflate fragment
         View view = inflater.inflate(R.layout.fragment_specific_exp_contributors, container, false);
         experimenters = new ArrayList<>(); // filler code to get the adapter running
@@ -97,6 +96,7 @@ public class SpecificExpContributorsFragment extends Fragment {
             e.printStackTrace();
         }
 
+
         // query database
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -109,6 +109,7 @@ public class SpecificExpContributorsFragment extends Fragment {
                         // get experimenter list
                         experimenters = (ArrayList<String>) document.getData().get("experimenters");
                         Log.d("ExpSize:", String.valueOf(experimenters.size()));
+
                         // store in Shared Preferences
                         Set<String> set = new HashSet<String>();
                         set.addAll(experimenters);

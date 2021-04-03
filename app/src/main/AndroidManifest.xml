@@ -60,7 +60,7 @@
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"></activity>
-        <activity android:name=".UI.main_menu.search.SearchActivity" android:label="Search"></activity>
+        <activity android:name=".UI.main_menu.search.SearchActivity"></activity>
         <activity android:name=".UI.geolocation.GeolocationActivity" android:label="Binomial Trial #2"></activity>
     </application>
 

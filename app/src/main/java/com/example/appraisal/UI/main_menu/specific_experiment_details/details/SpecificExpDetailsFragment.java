@@ -33,9 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
@@ -55,8 +53,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button view_trials;
     private Button plot_trials;
     private ArrayList<GeoPoint> geolocation_list;
-    private TextView min_trials;
-    private TextView current_count;
 
     private ArrayList<Geopoints> geopoints_list;
 
@@ -75,6 +71,13 @@ public class SpecificExpDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
 
 
+        subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
+        add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
+        plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
+        add_trial.setOnClickListener(v1 -> addTrial());
+        plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
+
+
         try {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
@@ -90,12 +93,6 @@ public class SpecificExpDetailsFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
-        add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-        plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
-        add_trial.setOnClickListener(v1 -> addTrial());
-        plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 
         TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
@@ -158,88 +155,6 @@ public class SpecificExpDetailsFragment extends Fragment {
         checkIfUserSubscribed();
     }
 
-
-    /**
-     * Set the fields
-     * @param v
-     */
-    private void setFields(View v) {
-
-        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
-        TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
-        TextView owner = v.findViewById(R.id.specific_exp_details_owner);
-        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
-        TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
-        TextView region = v.findViewById(R.id.specific_exp_details_region);
-        TextView rules_constraints = v.findViewById(R.id.specific_exp_details_rules_constraints);
-        min_trials = v.findViewById(R.id.specific_exp_details_min_trials);
-        current_count = v.findViewById(R.id.specific_exp_details_current_trial_count);
-
-        add_trial.setEnabled(!current_experiment.getIsEnded());
-
-        desc.setText(current_experiment.getDescription());
-        type.setText(current_experiment.getType());
-        owner.setText(current_experiment.getOwner().substring(0, 7));
-        min_trials.setText(current_experiment.getMinimumTrials().toString());
-        updateCount();
-
-//        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
-//            status.setText("Open");
-//        }
-//        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
-//            status.setText("Ended");
-//        }
-//        else {
-//            status.setText("Unpublished");
-//        }
-
-        if (!current_experiment.getIsEnded()) {
-            status.setText("Open");
-        }
-        else {
-            status.setText("Ended");
-        }
-
-        if (current_experiment.getIsGeolocationRequired()){
-            geo_required.setText("Yes");
-        }
-        else {
-            geo_required.setText("No");
-        }
-
-        if (!current_experiment.getRegion().equals("")){
-            region.setText(current_experiment.getRegion());
-        }
-
-        if (!current_experiment.getRules().equals("")) {
-            rules_constraints.setText((current_experiment.getRules()));
-        }
-    }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        try {
-//            current_experiment = MainModel.getCurrentExperiment();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        current_count.setText(current_experiment.getTrialCount().toString());
-//        Log.d("Current Count Resume", current_experiment.getTrialCount().toString());
-//    }
-
-    /**
-     * Update the current number of Trials from firebase
-     */
-    private void updateCount(){
-        exp_ref.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                current_count.setText(value.getData().get("numOfTrials").toString());
-            }
-        });
-
-    }
 
     /**
      * Add Trial to an Experiment
