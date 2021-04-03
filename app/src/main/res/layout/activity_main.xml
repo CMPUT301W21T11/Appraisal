@@ -33,13 +33,14 @@
         android:layout_marginBottom="220dp"
         android:onClick="signIn"
         android:text="BEGIN"
+        android:fontFamily="@font/lato_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         android:textAllCaps="false"
         android:textSize="20sp"
-        android:width="150dp"/>
+        android:width="150dp" />
 
     <ProgressBar
         android:id="@+id/loadingPanel"
