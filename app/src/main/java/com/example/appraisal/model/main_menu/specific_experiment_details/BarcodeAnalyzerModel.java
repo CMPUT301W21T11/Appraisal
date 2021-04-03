@@ -60,7 +60,7 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
                     addToDatabase(barcode_list, barcode); // Add the barcode to firebase
                 } else {
                     // check if barcode is already in the collection
-                    for (QueryDocumentSnapshot document : value) {
+                    for (QueryDocumentSnapshot document: value) {
                         String document_value = document.getId();
                         String old_value = document.get("action").toString();
                         if (document_value.equalsIgnoreCase(raw_value)) { // if the barcode is found

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +21,7 @@ import com.google.zxing.Result;
 
 public class BarcodeScanResult extends AppCompatActivity {
 
-    private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000002;
+    private final int BARCODE_REGISTER_REQUEST_CODE = 0x00000002;
     private BarcodeAnalyzerModel model;
     private TrialType currentExperimentType;
     private User current_user;
@@ -60,13 +59,13 @@ public class BarcodeScanResult extends AppCompatActivity {
         model = new BarcodeAnalyzerModel(this);
 
         Intent intent = new Intent(this, CameraScanner.class);
-        startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
+        startActivityForResult(intent, BARCODE_REGISTER_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_SCANNER_REQUEST_CODE) {
+        if (requestCode == BARCODE_REGISTER_REQUEST_CODE) {
             try {
                 Result result = MainModel.getBarcodeResult();
                 if (result == null) {
@@ -122,6 +121,7 @@ public class BarcodeScanResult extends AppCompatActivity {
     }
 
     public boolean askIfOverride(Barcode barcode, String old_action) {
+        //TODO create a dialog to as user
         return false;
     }
 }
