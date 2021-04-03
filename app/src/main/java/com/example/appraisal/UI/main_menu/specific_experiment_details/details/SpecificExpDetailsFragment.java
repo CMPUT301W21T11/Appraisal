@@ -52,6 +52,8 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button view_trials;
     private Button plot_trials;
     private ArrayList<GeoPoint> geolocation_list;
+    private TextView min_trials;
+    private TextView current_count;
 
     private ArrayList<Geopoints> geopoints_list;
 
@@ -95,6 +97,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+        min_trials = v.findViewById(R.id.specific_exp_details_min_trials);
+        current_count = v.findViewById(R.id.specific_exp_details_current_trial_count);
 
         add_trial.setEnabled(!current_experiment.getIsEnded());
 
@@ -116,6 +120,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         else {
             geo_required.setText("No");
         }
+        min_trials.setText(current_experiment.getMinimumTrials().toString());
+        current_count.setText(current_experiment.getTrialCount().toString());
 
 
         try {
@@ -165,6 +171,17 @@ public class SpecificExpDetailsFragment extends Fragment {
 //        getAllGeoLocations();
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            current_experiment = MainModel.getCurrentExperiment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        current_count.setText(current_experiment.getTrialCount().toString());
     }
 
     /**
