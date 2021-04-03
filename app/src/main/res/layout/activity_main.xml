@@ -10,30 +10,36 @@
     android:background="@drawable/loading_screen"
     android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="332dp"
-        android:text="Appraisal"
-        android:textColor="@color/white"
-        android:fontFamily="@android:"
-        android:textSize="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/title_display"
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/title" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/begin_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="220dp"
         android:onClick="signIn"
-        android:text="Begin"
+        android:text="BEGIN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:width="150dp"/>
 
     <ProgressBar
         android:id="@+id/loadingPanel"

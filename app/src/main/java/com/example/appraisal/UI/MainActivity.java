@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -28,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private Button begin_btn;
     private View loading_panel;
     private Animation begin_btn_animation;
+    private ImageView title_display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         View decorView = getWindow().getDecorView();
 
@@ -45,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
         begin_btn.setVisibility(View.INVISIBLE);
         loading_panel = (View) findViewById(R.id.loadingPanel);
         begin_btn_animation = AnimationUtils.loadAnimation(this, R.anim.begin_btn_fade_in_animation);
+
+        title_display = findViewById(R.id.title_display);
+        title_display.setVisibility(View.INVISIBLE);
+        title_display.startAnimation(begin_btn_animation);
+        title_display.setVisibility(View.VISIBLE);
 
         mAuth = FirebaseAuth.getInstance();
 
