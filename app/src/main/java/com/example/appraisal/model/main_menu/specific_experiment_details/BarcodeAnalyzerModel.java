@@ -11,6 +11,8 @@ import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner
 import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -51,13 +53,13 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
                     .collection("Barcodes");
 
             barcode_list.addSnapshotListener((value, error) -> {
+                // Add the barcode to firebase
                 if (value == null) {
                     // if either the collection is empty or not yet created
                     if (error != null) {
                         Log.d("Barcode Analyzer Model", "Error returned from firebase");
                         error.printStackTrace();
                     }
-                    addToDatabase(barcode_list, barcode); // Add the barcode to firebase
                 } else {
                     // check if barcode is already in the collection
                     for (QueryDocumentSnapshot document: value) {
@@ -74,8 +76,8 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
                             return;
                         }
                     }
-                    addToDatabase(barcode_list, barcode); // Add the barcode to firebase
                 }
+                addToDatabase(barcode_list, barcode); // Add the barcode to firebase
             });
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,9 +86,12 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 
     private void addToDatabase(@NonNull CollectionReference barcode_list, @NonNull Barcode barcode) {
         Map<String, String> barcode_data = new HashMap<>();
-        barcode_data.put("rawValue", barcode.getRawValue()); // set primary key
         barcode_data.put("action", barcode.getData()); // set field value
-        barcode_list.add(barcode_data);
-        Toast.makeText(parent_activity, "Successfully set barcode action!", Toast.LENGTH_SHORT).show();
+        barcode_list.document(barcode.getRawValue()).set(barcode_data)
+                .addOnSuccessListener(aVoid -> Toast.makeText(parent_activity, "Successfully set barcode action!", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(parent_activity, "Failed to set barcode: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
 }
