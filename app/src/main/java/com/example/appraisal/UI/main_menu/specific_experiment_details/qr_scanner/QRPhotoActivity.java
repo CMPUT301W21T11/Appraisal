@@ -16,7 +16,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-public class QRGeneratorActivity extends AppCompatActivity {
+public class QRPhotoActivity extends AppCompatActivity {
 
     private ImageView qr_code;
     private EditText trial_value_qr_input;
