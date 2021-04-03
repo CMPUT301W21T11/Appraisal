@@ -18,6 +18,7 @@ import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.main_menu.specific_experiment_details.BarcodeAnalyzerModel;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 public class BarcodeScanResult extends AppCompatActivity {
@@ -76,7 +77,7 @@ public class BarcodeScanResult extends AppCompatActivity {
                 model.displayBarCode(result);
 
                 // Disallow registering QR codes
-                if (result.getBarcodeFormat().toString().equals("QR_CODE")) {
+                if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
                     Toast.makeText(this, "Cannot register QR code", Toast.LENGTH_LONG).show();
                     finish();
                 }
