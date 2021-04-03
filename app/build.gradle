@@ -79,4 +79,7 @@ dependencies {
     // QR code generator
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0@aar'
     implementation 'com.google.zxing:core:3.4.0'
+
+    // Glow button
+    implementation 'com.github.SanojPunchihewa:GlowButton:1.0.1'
 }

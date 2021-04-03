@@ -75,7 +75,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.573" />
+        app:layout_constraintVertical_bias="0.573"
+        android:background="@drawable/navy_blue_button"/>
 
     <Button
         android:id="@+id/failure_button"

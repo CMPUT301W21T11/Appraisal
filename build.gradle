@@ -22,6 +22,10 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+
+        // Glow button
+        // https://android-arsenal.com/details/1/7866
+        maven { url "https://jitpack.io" }
     }
 }
 
