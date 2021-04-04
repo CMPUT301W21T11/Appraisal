@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_specific_exp_contributors_recyclerView"

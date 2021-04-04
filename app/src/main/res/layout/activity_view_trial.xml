@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/view_trial_constraint_layout">
+    android:id="@+id/view_trial_constraint_layout"
+    android:background="@drawable/main_menu_bg">
 
 
     <TextView
