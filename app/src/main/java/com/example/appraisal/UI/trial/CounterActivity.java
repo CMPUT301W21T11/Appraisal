@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.GeoPoint;
@@ -54,6 +55,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
+    private DocumentReference user_ref;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -82,9 +84,18 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
             geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
+        else {
+            geolocation_button.setVisibility(View.GONE);
+        }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            user_ref = MainModel.getUserReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,6 +143,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             model.toExperiment();
             storeTrialInFireBase();
             addContributor();
+            user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_exp.getExpId()));
             finish();
         }
     }
