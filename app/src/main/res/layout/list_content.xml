@@ -5,6 +5,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
 
-        android:text="something">
+        android:text="something"
+        >
 
 </android.widget.TextView>

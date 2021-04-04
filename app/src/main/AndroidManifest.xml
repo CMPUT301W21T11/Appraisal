@@ -35,8 +35,9 @@
         <activity
             android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"
             android:label="My Subscriptions" />
-        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
-        </activity>
+        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies"
+            android:theme="@style/EditProfileTheme"
+            />
         <activity
             android:name=".UI.main_menu.my_experiment.MyExperimentActivity"
             android:label="My Experiments" />
