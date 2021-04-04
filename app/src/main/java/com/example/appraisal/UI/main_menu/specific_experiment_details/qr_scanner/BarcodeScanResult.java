@@ -157,7 +157,7 @@ public class BarcodeScanResult extends AppCompatActivity {
             }
         });
 
-        builder.setView(R.layout.dialog_override_barcode);
+        //builder.setView(R.layout.dialog_override_barcode);
 
         AlertDialog dialog = builder.create();
         dialog.show();
