@@ -143,8 +143,8 @@ public class CameraScanResult extends AppCompatActivity {
 
                 // query the barcode list
                 barcode_list.document(barcode_value).get().addOnCompleteListener(task -> {
-                    // If task is not successful, return
-                    if (!task.isSuccessful()) {
+                    // If task is not successful or document does not exist, return
+                    if (!task.isSuccessful() || !task.getResult().exists()) {
                         if (task.getException() != null) { // print all possible errors
                             task.getException().printStackTrace();
                         }
