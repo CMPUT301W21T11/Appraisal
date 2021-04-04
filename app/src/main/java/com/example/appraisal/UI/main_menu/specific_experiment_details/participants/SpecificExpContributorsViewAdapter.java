@@ -67,7 +67,13 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
         String name = experimenters.get(position);
-        holder.getUserName().setText("User @" + name.substring(0, 7));
+
+        if (name.length() < 7){
+            holder.getUserName().setText("User @" + name.substring(0, name.length()-1));
+        } else{
+            holder.getUserName().setText("User @" + name.substring(0, 7));
+        }
+
         holder.getUserIcon().setImageResource(R.drawable.ic_launcher_foreground);
 
         if (ignored_list != null && ignored_list.contains(name) && is_owner){
