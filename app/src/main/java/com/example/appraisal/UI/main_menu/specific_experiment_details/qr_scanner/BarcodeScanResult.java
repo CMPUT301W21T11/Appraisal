@@ -138,7 +138,7 @@ public class BarcodeScanResult extends AppCompatActivity {
      * @param old_action -- the old action's description string
      */
     public void askIfOverride(Barcode barcode, String old_action) {
-        //TODO
+        Log.d("override", "prompt reached");
         final boolean[] override = {false};
         // Build prompt dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -157,31 +157,9 @@ public class BarcodeScanResult extends AppCompatActivity {
             }
         });
 
-        // view based on experiment type
-        switch (currentExperimentType) {
-            case COUNT_TRIAL:
-                builder.setView(R.layout.dialog_override_barcode_count);
-            case BINOMIAL_TRIAL:
-                // Change buttons for binomial trial
-                builder.setPositiveButton("Success", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        override[0] = true;
-                    }
-                });
-                builder.setNeutralButton("Failure", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        override[0] = true;
-                    }
-                });
-                builder.setView(R.layout.dialog_override_barcode_binomial);
-            case NON_NEG_INT_TRIAL:
-                builder.setView(R.layout.dialog_override_barcode_integer);
-            case MEASUREMENT_TRIAL:
-                builder.setView(R.layout.dialog_override_barcode_measurement);
-        }
+        builder.setView(R.layout.dialog_override_barcode);
 
         AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

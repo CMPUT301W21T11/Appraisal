@@ -50,4 +50,5 @@ public class Barcode {
     public String getData() {
         return data;
     }
+
 }
