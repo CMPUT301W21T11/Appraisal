@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details.qr;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
 
 public class SpecificExpQRCodeFragment extends Fragment {
     // This activity wouldn't be possible without Google's ML kit and its documentations
@@ -41,11 +40,13 @@ public class SpecificExpQRCodeFragment extends Fragment {
         scan_button.setOnClickListener(v2 -> startCameraScanner());
         register_button.setOnClickListener(v3 -> startCodeRegister());
 
+
         return v;
     }
 
     private void startQRCodeGenerator() {
-
+        Intent intent = new Intent(parent_activity, QRPromptActivity.class);
+        startActivity(intent);
     }
 
     private void startCameraScanner() {
@@ -54,6 +55,7 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startCodeRegister() {
-
+        Intent intent = new Intent(parent_activity, RegisterBarcodeResult.class);
+        startActivity(intent);
     }
 }

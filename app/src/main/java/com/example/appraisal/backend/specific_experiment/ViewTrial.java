@@ -3,7 +3,6 @@ package com.example.appraisal.backend.specific_experiment;
 /**
  * Object to assist Trial display
  */
-// TODO ABOUT TO BE REMOVED
 public class ViewTrial {
     private String ID;
     private String outcome;
@@ -17,7 +16,7 @@ public class ViewTrial {
 
     /**
      * Gets the Id of the Trial
-     * @return
+     * @return String -- ID of the trial
      */
     public String getID() {
         return ID;
@@ -25,11 +24,15 @@ public class ViewTrial {
 
     /**
      * Gets the outcome fo the Trial
-     * @return
+     * @return String -- outcome of the trial
      */
     public String getOutcome() {
         return outcome;
     }
 
+    /**
+     * Gets the date of the trial
+     * @return  String -- date of the trial as string
+     */
     public String getDate() {return date;}
 }
