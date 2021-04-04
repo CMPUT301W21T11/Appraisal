@@ -3,7 +3,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="UserID"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="30sp"/>
 
 
@@ -42,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:text="Name: "
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="24sp" />
 
             <EditText
@@ -52,7 +53,7 @@
                 android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
                 android:maxLength="10"
                 android:imeOptions="actionDone"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:tooltipText="No more than 10 characters" />
 
@@ -73,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:text="Email: "
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <EditText
@@ -85,7 +86,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLength="60"
                 android:text="user@ualberta.ca"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:tooltipText="john_doe@example.com" />
 
@@ -106,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:text="Phone: "
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <EditText
@@ -118,7 +119,7 @@
                 android:inputType="phone"
                 android:maxLength="15"
                 android:text="+1 780 999 9999"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 android:tooltipText="17809993333" />
         </LinearLayout>

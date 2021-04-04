@@ -50,6 +50,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_subscription);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
