@@ -114,15 +114,6 @@ public class QRAnalyzerModel {
     }
 
     /**
-     * This method check if the QR signature equals to the app name
-     * @param signature  -- the signature of the QR code
-     * @return boolean -- if the signature is value or not
-     */
-    public boolean checkSignature(String signature) {
-        return signature.equalsIgnoreCase(parent_activity.getResources().getString(R.string.app_name));
-    }
-
-    /**
      * From here, acquire everything related to the experiment via Listener query.
      * Create an dummy experiment and load it into MainModel's target_qr_experiment
      * Make the Trial object.
