@@ -68,7 +68,7 @@
         <activity
             android:name=".UI.geolocation.GeolocationActivity"
             android:label="Binomial Trial #2" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
 

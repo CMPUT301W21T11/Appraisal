@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+
+import org.w3c.dom.Text;
 
 public class CameraScanResult extends AppCompatActivity {
 
@@ -98,6 +101,8 @@ public class CameraScanResult extends AppCompatActivity {
         model.displayBarCode(result);
 
         final TextView activity_title = findViewById(R.id.camera_scan_result_title);
+        final TextView experiment_id_display = findViewById(R.id.camera_scan_result_exp_id_display);
+        final TextView experiment_desc_display = findViewById(R.id.camera_scan_result_exp_desc_display);
         final TextView trialType = findViewById(R.id.camera_scan_result_trial_type_display);
         final TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);
         final Button finish_button = findViewById(R.id.camera_scan_result_finish_button);
@@ -109,6 +114,8 @@ public class CameraScanResult extends AppCompatActivity {
             if (values != null && values.checkSignature()) {
                 trialType.setText(values.getType().getLabel());
                 trialValue.setText(String.valueOf(values.getValue()));
+                experiment_id_display.setText(values.getExpId());
+                experiment_desc_display.setVisibility(View.GONE);
                 finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
                 finish_button.setOnClickListener(v -> {
                     try {
@@ -197,6 +204,19 @@ public class CameraScanResult extends AppCompatActivity {
                             exp_id = attempt.toString();
                         }
 
+                        // attempt to get target experiment description
+                        attempt = document.get("targetExperimentDesc");
+                        String exp_desc;
+                        if (attempt == null) {
+                            Toast.makeText(self, "Error: Unable to get target experiment description", Toast.LENGTH_SHORT).show();
+                            Log.e("Camera Scan result:", "Unable to get target experiment description");
+                            exp_desc = "NOT RECOGNIZED";
+                        } else {
+                            exp_desc = attempt.toString();
+                        }
+
+                        experiment_id_display.setText(exp_id);
+                        experiment_desc_display.setText(exp_desc);
                         trialType.setText(trial_type);
                         trialValue.setText(data);
                         if (registered_barcode.equalsIgnoreCase(result.getText())) {

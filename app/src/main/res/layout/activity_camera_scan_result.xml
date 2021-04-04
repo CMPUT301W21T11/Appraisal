@@ -67,6 +67,44 @@
             </TableRow>
 
             <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target \nExperiment ID: "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/camera_scan_result_exp_id_display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:text="Placeholder"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Target \nExperiment \nDescription: "
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/camera_scan_result_exp_desc_display"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:text="Placeholder"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 

@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult;
 import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.core.MainModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 
-    private final BarcodeScanResult parent_activity;
+    private final RegisterBarcodeResult parent_activity;
     private final String TARGET_EXP_ID_FIELD = "targetExperimentId";
     private final String TARGET_EXP_DESC_FIELD = "targetExperimentDesc";
     private final String TRIAL_TYPE_FIELD = "trialType";
@@ -28,7 +28,7 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 
     private CollectionReference barcode_list;
 
-    public BarcodeAnalyzerModel(@NonNull BarcodeScanResult parent_activity) {
+    public BarcodeAnalyzerModel(@NonNull RegisterBarcodeResult parent_activity) {
         super(parent_activity);
         this.parent_activity = parent_activity;
     }

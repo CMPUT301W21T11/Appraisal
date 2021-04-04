@@ -55,7 +55,7 @@ public class SpecificExpQRCodeFragment extends Fragment {
     }
 
     private void startCodeRegister() {
-        Intent intent = new Intent(parent_activity, BarcodeScanResult.class);
+        Intent intent = new Intent(parent_activity, RegisterBarcodeResult.class);
         startActivity(intent);
     }
 }

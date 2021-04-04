@@ -23,7 +23,7 @@ import com.example.appraisal.model.main_menu.specific_experiment_details.Barcode
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
-public class BarcodeScanResult extends AppCompatActivity {
+public class RegisterBarcodeResult extends AppCompatActivity {
 
     private final int BARCODE_REGISTER_REQUEST_CODE = 0x00000002;
     private BarcodeAnalyzerModel model;
