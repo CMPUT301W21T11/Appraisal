@@ -50,11 +50,11 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
                     if (barcode_document.exists()) {
                         String old_action = "Add " +
                                 barcode_document.get(TRIAL_TYPE_FIELD).toString() +
-                                ":" +
+                                ": " +
                                 barcode_document.get(ACTION_FIELD).toString() +
-                                "to " +
+                                " to " +
                                 barcode_document.get(TARGET_EXP_DESC_FIELD).toString() +
-                                "Experiment";
+                                " Experiment";
 
                         parent_activity.askIfOverride(barcode, old_action);
                     } else {

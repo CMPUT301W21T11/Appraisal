@@ -86,19 +86,18 @@ public class BarcodeScanResult extends AppCompatActivity {
                 }
 
                 TextView trialType = findViewById(R.id.barcode_scan_result_trial_type_display);
-                TextView trialValue = findViewById(R.id.barcode_scan_result_trial_value_display);
                 Button finish_button = findViewById(R.id.barcode_scan_result_finish_button);
 
                 // Once the barcode is read
                 trialType.setText(currentExperimentType.getLabel());
-                trialValue.setText("placeholder value"); // possibly deleting value space later
                 finish_button.setOnClickListener(v -> finish());
 
                 // set onClickListener based on experiment type
                 switch (currentExperimentType) {
                     case COUNT_TRIAL:
                         Button increment_button = findViewById(R.id.barcode_scan_result_count_increment);
-                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "1"));
+                        EditText count_field = findViewById(R.id.barcode_scan_result_count_input);
+                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, count_field.getText().toString()));
                         break;
                     case BINOMIAL_TRIAL:
                         Button success_button = findViewById(R.id.barcode_scan_result_binomial_sucess);
@@ -158,7 +157,7 @@ public class BarcodeScanResult extends AppCompatActivity {
             }
         });
 
-        builder.setView(R.layout.dialog_override_barcode);
+        //builder.setView(R.layout.dialog_override_barcode);
 
         AlertDialog dialog = builder.create();
         dialog.show();
