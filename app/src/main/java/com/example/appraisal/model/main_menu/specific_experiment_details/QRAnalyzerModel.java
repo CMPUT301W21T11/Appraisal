@@ -43,7 +43,6 @@ public class QRAnalyzerModel {
     private final ImageView qr_code_image;
     int firebase_num_trials = 0;
     private String experimenterID;
-//    private CollectionReference experiment_reference;
 
     public QRAnalyzerModel(@NonNull Activity parent_activity) {
         this.parent_activity = parent_activity;

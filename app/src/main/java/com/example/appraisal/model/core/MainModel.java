@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
-import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;

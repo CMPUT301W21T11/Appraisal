@@ -37,6 +37,10 @@ public class CameraScanResult extends AppCompatActivity {
     private QRAnalyzerModel model;
     private Activity self;
 
+    /**
+     * This method creates the CameraScanResultActivity
+     * @param savedInstanceState -- Bundle from saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,12 @@ public class CameraScanResult extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method overrides the parent method and obtain the scanned result code
+     * @param requestCode -- check which activity has finished
+     * @param resultCode -- check if activity is properly terminated
+     * @param data -- any intent data from the previous activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

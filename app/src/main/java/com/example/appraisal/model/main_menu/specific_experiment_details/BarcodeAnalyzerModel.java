@@ -1,35 +1,23 @@
 package com.example.appraisal.model.main_menu.specific_experiment_details;
 
-import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult;
 import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.core.MainModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Document;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
+/**
+ * This class is the model for Barcode Scan Result
+ */
 public class BarcodeAnalyzerModel extends QRAnalyzerModel{
 
     private final BarcodeScanResult parent_activity;

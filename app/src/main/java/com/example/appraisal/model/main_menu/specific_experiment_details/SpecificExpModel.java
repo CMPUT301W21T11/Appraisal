@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * This is the model class for specific experiment
+ */
 public class SpecificExpModel {
     private final SpecificExperiment specificExperiment;
     private final double stdDev;
@@ -44,6 +47,10 @@ public class SpecificExpModel {
         return data_list.toArray(new DataPoint[0]);
     }
 
+    /**
+     * This function generates the data point for the histogram
+     * @return DataPoint[] -- array of data points
+     */
     public DataPoint[] getHistogramDataPoints() {
         SortedMap<Float, Integer> data_points = specificExperiment.getHistogramIntervalFrequency();
         List<DataPoint> data_list = new ArrayList<>();
