@@ -73,10 +73,10 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
+//        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
-        view_trials.setOnClickListener(v2 -> goToViewTrials());
+//        view_trials.setOnClickListener(v2 -> goToViewTrials());
         plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 

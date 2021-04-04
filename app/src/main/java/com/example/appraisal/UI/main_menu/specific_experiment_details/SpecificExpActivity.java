@@ -1,21 +1,15 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -34,6 +28,7 @@ public class SpecificExpActivity extends AppCompatActivity {
 
     // tab names
     private final String[] tab_names= {"DETAILS", "QR CODE", "ANALYSIS", "PARTICIPANTS", "DISCUSSION"};
+    private final int[] drawable_icons = {R.drawable.details, R.drawable.qr_code, R.drawable.analysis, R.drawable.participants, R.drawable.discussions};
 
     /**
      * When called, create an instance of the Activity. Should only be called by the android framework
@@ -54,7 +49,8 @@ public class SpecificExpActivity extends AppCompatActivity {
 
         // initialize tabs and attach to this activity
         TabLayout tabLayout = findViewById(R.id.specific_exp_tab_layout);
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setText(tab_names[position]));
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setIcon(drawable_icons[position]));
+//        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setText(tab_names[position]));
         tabLayoutMediator.attach();
     }
 

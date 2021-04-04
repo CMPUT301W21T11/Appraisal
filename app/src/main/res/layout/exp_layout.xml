@@ -14,7 +14,11 @@
             android:id="@+id/exp_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/lato_regular"
             android:text="Description"
             android:textSize="20sp" />
 
@@ -32,6 +36,7 @@
             android:gravity="right"
             android:paddingLeft="5dp"
             android:text="Owner:"
+            android:fontFamily="@font/lato_regular"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -40,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:fontFamily="@font/lato_regular"
             android:paddingLeft="5dp"
             android:text="name"/>
     </LinearLayout>
@@ -54,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
+            android:fontFamily="@font/lato_regular"
             android:paddingLeft="5dp"
             android:text="Type:"
             android:textSize="15sp"
@@ -64,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:fontFamily="@font/lato_regular"
             android:padding="5dp"
             android:text="type"
             android:textSize="15sp" />
@@ -81,6 +89,7 @@
             android:gravity="right"
             android:paddingLeft="5dp"
             android:text="Status:"
+            android:fontFamily="@font/lato_regular"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -89,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:fontFamily="@font/lato_regular"
             android:padding="5dp"
             android:text="Current Status"
             android:textSize="15sp" />

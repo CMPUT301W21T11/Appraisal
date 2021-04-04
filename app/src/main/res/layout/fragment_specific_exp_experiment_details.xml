@@ -2,180 +2,256 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/specific_exp_details_experiment_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="Title/Description"
-            android:textSize="40sp" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
-
-        <TextView
-            android:id="@+id/specific_exp_details_experiment_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start|center_vertical"
-            android:text="Type"
-            android:textSize="35sp" />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="51dp">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:gravity="start|center_vertical"
-                android:text="Owner: "
-                android:textSize="30sp" />
+                android:id="@+id/specific_exp_details_experiment_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:gravity="center_horizontal"
+                android:text="Title/Description"
+                android:textSize="40sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/user_profile_image"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.5"
+                app:srcCompat="@drawable/type_exp" />
+
+            <TextView
+                android:id="@+id/specific_exp_details_experiment_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/lato_regular"
+                android:text="Type"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="horizontal">
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="0"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="Owner: "-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:textSize="30sp" />-->
+
+            <ImageView
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/user_icon" />
 
             <TextView
                 android:id="@+id/specific_exp_details_owner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
                 android:text="user0000"
-                android:textSize="30sp" />
+                android:textStyle="bold"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="30dp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="51dp">
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
-                android:gravity="start|center_vertical"
-                android:text="Status: "
-                android:textSize="30sp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="0"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="Status: "-->
+<!--                android:textSize="30sp" />-->
+
+            <ImageView
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/status_icon" />
+
 
             <TextView
                 android:id="@+id/specific_exp_details_experiment_status"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
                 android:text="Active"
-                android:textSize="30sp" />
+                android:textStyle="bold"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="30dp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
 
         <LinearLayout
+            android:padding="20dp"
             android:layout_width="match_parent"
-            android:layout_height="51dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="start|center_vertical"
-                android:text="Geo-location required: "
-                android:textSize="25sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:gravity="start|center_vertical"-->
+<!--                android:text="Geo-location required: "-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:textSize="25sp"/>-->
+
+            <ImageView
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/geo_req" />
+
 
             <TextView
                 android:id="@+id/specific_exp_details_geolocation_required"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="start|center_vertical"
+                android:fontFamily="@font/lato_regular"
+                android:layout_gravity="center_vertical"
                 android:text="Yes"
-                android:textSize="20sp" />
+                android:textSize="30dp"
+                android:textStyle="bold" />
         </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
-
-        <Button
-            android:id="@+id/specific_exp_details_geolocation_map_button"
-            android:layout_width="289dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="200dp"
-            android:text="GEO-LOCATION MAP"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:layout_marginTop="50dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+
+            <Button
+                android:id="@+id/specific_exp_details_geolocation_map_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/map"
+                android:textAlignment="center"
+                android:text="Geo Map"/>
+
+
+            <Button
+                android:id="@+id/specific_exp_details_add_trial_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="@font/lato_regular"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/add"
+                android:text="Trial" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
                 android:text="Subscribe"
-                android:textSize="20sp" />
+                android:textAllCaps="true"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/specific_exp_details_subscribe_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="80dp" />
+                android:layout_marginLeft="20dp" />
 
-
-            <Button
-                android:id="@+id/specific_exp_details_add_trial_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:drawableLeft="@drawable/add"
-                android:text="Trial" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:background="#736F6F" />
+        <!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal"
-            android:gravity="center">
 
-            <Button
-                android:id="@+id/viewTrialBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View trials" />
-    </LinearLayout>
+<!--        </LinearLayout>-->
+
+
+
+<!--        <View-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="#736F6F" />-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="43dp"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="center">-->
+
+<!--&lt;!&ndash;            <Button&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/viewTrialBtn"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:text="View trials" />&ndash;&gt;-->
+<!--    </LinearLayout>-->
     </LinearLayout>
 </ScrollView>

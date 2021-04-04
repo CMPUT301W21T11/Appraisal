@@ -82,4 +82,7 @@ dependencies {
 
     // Glow button
     implementation 'com.github.SanojPunchihewa:GlowButton:1.0.1'
+
+    implementation "androidx.cardview:cardview:1.0.0"
+
 }

@@ -2,57 +2,68 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/main_menu_bg">
 
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
-                android:id="@+id/user_profile_image"
-                android:layout_width="167dp"
-                android:layout_height="166dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                app:srcCompat="@drawable/user_icon" />
+            android:id="@+id/user_profile_image"
+            android:layout_width="167dp"
+            android:layout_height="166dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            app:srcCompat="@drawable/user_icon" />
 
         <TextView
-                android:id="@+id/id_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="UserID"
-                android:textColor="@color/white"
-                android:textSize="30sp"/>
+            android:id="@+id/id_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounder_corner"
+            android:elevation="100dp"
+            android:fontFamily="@font/lato_regular"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:text="UserID"
+            android:textColor="@color/pink"
+            android:textSize="30sp" />
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="horizontal">
 
 
             <TextView
-                    android:layout_width="119dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:text="Name: "
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
+                android:layout_width="119dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:fontFamily="@font/lato_regular"
+                android:text="Name: "
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/name_edittext"
                 android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
-                android:maxLength="10"
+                android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
+                android:maxLength="10"
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:tooltipText="No more than 10 characters" />
@@ -61,18 +72,20 @@
 
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/lato_regular"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="119dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
+                android:fontFamily="@font/lato_regular"
                 android:text="Email: "
                 android:textColor="@color/white"
                 android:textSize="24sp" />
@@ -82,6 +95,7 @@
                 android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:digits="_.abcdefghijklmnopqrstuvwxyzAB@CDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
+                android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:maxLength="60"
@@ -106,6 +120,7 @@
                 android:layout_width="119dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
+                android:fontFamily="@font/lato_regular"
                 android:text="Phone: "
                 android:textColor="@color/white"
                 android:textSize="24sp" />
@@ -115,6 +130,7 @@
                 android:layout_width="196dp"
                 android:layout_height="wrap_content"
                 android:digits="+-0123456789"
+                android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:maxLength="15"
@@ -125,34 +141,41 @@
         </LinearLayout>
 
         <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+
+            <Button
+                android:id="@+id/apply_changes_btn"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal"
-                android:padding="20dp"
-                android:layout_gravity="center_horizontal">
-
-
-            <Button
-                    android:id="@+id/apply_changes_btn"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Save"
-                    android:textAllCaps="true"
-                    android:backgroundTint="@color/blue"
-                    android:onClick="applyChangesToProfile"/>
+                android:layout_weight="1"
+                android:background="@drawable/rounder_corner"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/lato_regular"
+                android:onClick="applyChangesToProfile"
+                android:text="Save"
+                android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textStyle="bold" />
 
             <Button
-                    android:id="@+id/cancel_changes_btn"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:textAllCaps="true"
-                    android:layout_marginLeft="30dp"
-                    android:backgroundTint="@color/blue"
-                    android:onClick="cancelChangesToProfile"/>
+                android:id="@+id/cancel_changes_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/lato_regular"
+                android:onClick="cancelChangesToProfile"
+                android:text="Cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/pink"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
