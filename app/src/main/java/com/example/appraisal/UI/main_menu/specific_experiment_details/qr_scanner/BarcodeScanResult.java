@@ -31,6 +31,7 @@ public class BarcodeScanResult extends AppCompatActivity {
     private TrialType currentExperimentType;
     private User current_user;
     private Experiment current_experiment;
+    private Activity self = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,10 @@ public class BarcodeScanResult extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BARCODE_REGISTER_REQUEST_CODE) {
+
+        // we are only processing Barcode register request.
+        // also need to check if the activity is properly finished
+        if ((requestCode == BARCODE_REGISTER_REQUEST_CODE) && (resultCode == Activity.RESULT_OK)) {
             try {
                 Result result = MainModel.getBarcodeResult();
                 if (result == null) {
@@ -81,16 +85,21 @@ public class BarcodeScanResult extends AppCompatActivity {
 
                 // Disallow registering QR codes
                 if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE) {
-                    Toast.makeText(this, "Cannot register QR code", Toast.LENGTH_LONG).show();
+                    Toast.makeText(self, "Cannot register QR code", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 
                 TextView trialType = findViewById(R.id.barcode_scan_result_trial_type_display);
-                Button finish_button = findViewById(R.id.barcode_scan_result_finish_button);
+                Button exit_button = findViewById(R.id.barcode_scan_result_finish_button);
 
                 // Once the barcode is read
                 trialType.setText(currentExperimentType.getLabel());
-                finish_button.setOnClickListener(v -> finish());
+
+                exit_button.setOnClickListener(v -> {
+                    // If user click the exit button, discard all change
+                    Toast.makeText(self, "No actions are made", Toast.LENGTH_SHORT).show();
+                    finish();
+                });
 
                 // set onClickListener based on experiment type
                 switch (currentExperimentType) {
@@ -121,7 +130,6 @@ public class BarcodeScanResult extends AppCompatActivity {
             }
         } else {
             finish();
-
         }
     }
 
@@ -138,26 +146,13 @@ public class BarcodeScanResult extends AppCompatActivity {
      */
     public void askIfOverride(Barcode barcode, String old_action) {
         Log.d("override", "prompt reached");
-        Activity self = this;
         // Build prompt dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(self);
         builder.setTitle("Override barcode registry?");
         builder.setMessage("Previous action: \n" + old_action);
-        //builder.setMessage("You have already registered this barcode to another value or experiment, would you like to override it?");
-        builder.setPositiveButton("Override", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                model.addToDatabase(barcode);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(self, "Old action is preserved", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        //builder.setView(R.layout.dialog_override_barcode);
+        builder.setPositiveButton("Override", (dialog, which) -> model.addToDatabase(barcode));
+        builder.setNegativeButton("Cancel", (dialog, which) -> Toast.makeText(self, "Old action is preserved", Toast.LENGTH_SHORT).show());
 
         AlertDialog dialog = builder.create();
         dialog.show();

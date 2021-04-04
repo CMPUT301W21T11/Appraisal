@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.BarcodeScanResult;
 import com.example.appraisal.backend.specific_experiment.Barcode;
 import com.example.appraisal.model.core.MainModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -82,11 +84,16 @@ public class BarcodeAnalyzerModel extends QRAnalyzerModel{
         barcode_data.put(TARGET_EXP_DESC_FIELD, barcode.getCurrentExperiment().getDescription()); // set experiment description
         barcode_data.put(TRIAL_TYPE_FIELD, barcode.getCurrentExperiment().getType()); // set trial type
         barcode_data.put(ACTION_FIELD, barcode.getData()); // set field value
-        barcode_list.document(barcode.getRawValue()).set(barcode_data)
+        barcode_list.document(barcode.getRawValue())
+                .set(barcode_data)
                 .addOnSuccessListener(aVoid -> Toast.makeText(parent_activity, "Successfully set barcode action!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> {
                     Toast.makeText(parent_activity, "Failed to set barcode: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                })
+                .addOnCompleteListener(task -> {
+                    // finish parent when the firebase is finished
+                    parent_activity.finish();
                 });
     }
 }

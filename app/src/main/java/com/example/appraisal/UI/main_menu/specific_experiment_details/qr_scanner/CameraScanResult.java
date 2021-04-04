@@ -105,17 +105,19 @@ public class CameraScanResult extends AppCompatActivity {
         // We are gonna display the detected code on the activity
         model.displayBarCode(result);
 
+        final TextView activity_title = findViewById(R.id.camera_scan_result_title);
         final TextView trialType = findViewById(R.id.camera_scan_result_trial_type_display);
         final TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);
         final Button finish_button = findViewById(R.id.camera_scan_result_finish_button);
 
         if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE) { // If the scanned code is QR code
+            activity_title.setText("Detected QR Code");
             QRValues values = model.decodeTrialQR(result.getText());
 
             if (values != null && values.checkSignature()) {
                 trialType.setText(values.getType().getLabel());
                 trialValue.setText(String.valueOf(values.getValue()));
-                finish_button.setText("ADD TO EXPERIMENT");
+                finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
                 finish_button.setOnClickListener(v -> {
                     try {
                         model.addToExperiment(values);
@@ -142,6 +144,7 @@ public class CameraScanResult extends AppCompatActivity {
         } else { // else if it is barcode
             trialType.setText("Not registered");
             trialValue.setText("Not registered");
+            activity_title.setText("Detected Bar Code");
 
             // try to find the barcode inside the registered barcodes
             try {
@@ -154,7 +157,7 @@ public class CameraScanResult extends AppCompatActivity {
                 // query the barcode list
                 barcode_list.document(barcode_value).get().addOnCompleteListener(task -> {
                     // If task is not successful or document does not exist, return
-                    if (!task.isSuccessful() || !task.getResult().exists()) {
+                    if (task == null || !task.isSuccessful() || !task.getResult().exists()) {
                         if (task.getException() != null) { // print all possible errors
                             task.getException().printStackTrace();
                         }
@@ -171,6 +174,7 @@ public class CameraScanResult extends AppCompatActivity {
                     } else {
                         DocumentSnapshot document = task.getResult();
                         String registered_barcode = document.getId();
+                        finish_button.setText("ADD BARCODE TRIAL TO EXPERIMENT");
 
                         // attempt to get trial type
                         Object attempt = document.get("trialType");
