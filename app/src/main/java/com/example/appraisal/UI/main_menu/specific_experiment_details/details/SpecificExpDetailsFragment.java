@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
@@ -94,7 +93,7 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
+        // ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
 
 //        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
 

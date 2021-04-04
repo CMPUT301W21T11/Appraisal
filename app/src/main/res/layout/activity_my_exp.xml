@@ -6,7 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_menu_bg">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="368dp"
+        android:layout_height="88dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/my_exp" />
+
     <LinearLayout
+        android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -18,7 +28,7 @@
             android:id="@+id/my_experiments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"/>
+            android:padding="20dp" />
 
     </LinearLayout>
 

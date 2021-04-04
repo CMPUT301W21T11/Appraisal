@@ -5,19 +5,30 @@
                                                    android:layout_height="match_parent"
     android:background="@drawable/main_menu_bg">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="368dp"
+        android:layout_height="88dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/my_subs" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/my_sub_tab_bar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
         <ListView
             android:id="@+id/subscribedList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"/>
+            android:padding="20dp">
+
+        </ListView>
     </LinearLayout>
 
     <LinearLayout
