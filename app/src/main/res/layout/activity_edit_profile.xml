@@ -41,9 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
 
@@ -75,9 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:fontFamily="@font/lato_regular"
             android:orientation="horizontal">
 
@@ -110,11 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
-
 
             <TextView
                 android:layout_width="119dp"

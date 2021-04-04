@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
@@ -71,6 +72,7 @@ public class SpecificExpDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
 
 
+
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
 //        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
@@ -92,8 +94,10 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
 
-        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+//        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+
         TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
@@ -101,7 +105,7 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         add_trial.setEnabled(!current_experiment.getIsEnded());
 
-        desc.setText(current_experiment.getDescription());
+//        desc.setText(current_experiment.getDescription());
         type.setText(current_experiment.getType());
         owner.setText(current_experiment.getOwner().substring(0, 7));
         if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
