@@ -9,16 +9,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
@@ -93,19 +96,42 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
+        ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
 
-//        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+       TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
 
-        TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+        // TODO Refactor to logo
+        // TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
+        ImageView icon = v.findViewById(R.id.type_icon);
+        if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.toString())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_count));
+        }
+        else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.toString())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_coin));
+        }
+        else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.toString())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_num));
+        }
+        else {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_thermometer_three_quarters_solid));
+        }
+
         add_trial.setEnabled(!current_experiment.getIsEnded());
 
-//        desc.setText(current_experiment.getDescription());
-        type.setText(current_experiment.getType());
+        ImageView ended_icon = v.findViewById(R.id.is_ended_icon);
+        if (current_experiment.getIsEnded()) {
+            ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.cross));
+        }
+        else {
+            ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_check_circle_solid));
+        }
+
+        desc.setText(current_experiment.getDescription());
+        // type.setText(current_experiment.getType());
         owner.setText(current_experiment.getOwner().substring(0, 7));
         if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
             status.setText("Open");
@@ -116,11 +142,15 @@ public class SpecificExpDetailsFragment extends Fragment {
         else {
             status.setText("Unpublished");
         }
+
+        ImageView geo_icon = v.findViewById(R.id.geo_icon);
         if (current_experiment.getIsGeolocationRequired()){
             geo_required.setText("Yes");
+            geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_alt_solid));
         }
         else {
             geo_required.setText("No");
+            geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
         }
 
 

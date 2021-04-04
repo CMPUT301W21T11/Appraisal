@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -39,8 +40,8 @@ public class SpecificExpActivity extends AppCompatActivity {
 
 
 
-        // ActionBar ab = getSupportActionBar();
-        // ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         // inflate content and initialize adapter
         setContentView(R.layout.activity_specific_exp);

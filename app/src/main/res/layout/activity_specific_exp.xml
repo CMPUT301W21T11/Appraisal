@@ -6,18 +6,20 @@
     android:orientation="vertical"
     android:background="@drawable/main_menu_bg">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/specific_exp_tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIconTint="@drawable/tab_selector"
-        android:background="@color/rich_navy_blue"
-        app:tabTextAppearance="@style/MyTabLayout"/>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/specific_exp_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/specific_exp_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/rich_navy_blue"
+        app:tabIconTint="@drawable/tab_selector"
+        app:tabTextAppearance="@style/MyTabLayout" />
 
 </LinearLayout>

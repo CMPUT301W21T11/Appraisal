@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -162,10 +161,10 @@ public class GeolocationActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_geolocation);
 
-        getSupportActionBar().setTitle(intent.getStringExtra("Experiment Description"));
+        // getSupportActionBar().setTitle(intent.getStringExtra("Experiment Description"));
 
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        // ActionBar ab = getSupportActionBar();
+        // ab.setDisplayHomeAsUpEnabled(true);
 
         save_geolocation_btn = findViewById(R.id.save_geo_btn);
 
