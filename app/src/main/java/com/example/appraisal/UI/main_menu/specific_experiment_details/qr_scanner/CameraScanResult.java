@@ -190,6 +190,7 @@ public class CameraScanResult extends AppCompatActivity {
                         } else {
                             exp_id = attempt.toString();
                         }
+
                         trialType.setText(trial_type);
                         trialValue.setText(data);
                         if (registered_barcode.equalsIgnoreCase(result.getText())) {
@@ -203,7 +204,6 @@ public class CameraScanResult extends AppCompatActivity {
                                     QRValues values = new QRValues(self, signature, type, trial_value, exp_id);
                                     MainModel.setBarcodeResult(null); // clear the result in main model
                                     model.addToExperiment(values); // add to firebase
-                                    Toast.makeText(self, "Successfully added barcode trial to experiment", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     Toast.makeText(self, "Failed to add to experiment: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
