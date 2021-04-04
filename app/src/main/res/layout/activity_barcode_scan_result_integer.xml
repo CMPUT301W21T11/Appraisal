@@ -7,8 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/activity_camera_scan_result_qr_code_display"
@@ -27,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Placeholder Title"
+            android:text="Detected Bar Code"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,13 +34,11 @@
 
         <TableLayout
             android:id="@+id/tableLayout"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:stretchColumns="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,12 +51,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Raw Value: "
+                    android:text="Raw Barcode Value: "
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/camera_scan_result_raw_value_display"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="Placeholder"
@@ -77,28 +74,8 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/camera_scan_result_trial_type_display"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="Not Recognized"
-                    android:textSize="18sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trial Value: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/camera_scan_result_trial_value_display"
-                    android:layout_width="0dp"
+                    android:id="@+id/barcode_scan_result_trial_type_display"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="Not Recognized"
@@ -108,27 +85,45 @@
 
         </TableLayout>
 
-        <Button
-            android:id="@+id/camera_scan_result_finish_button"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/barcode_scan_result_integer_input"
+            android:layout_width="178dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Exit"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:hint="0"
+            android:inputType="number"
+            android:textSize="60sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
         <Button
-            android:id="@+id/camera_scan_result_cancel"
+            android:id="@+id/barcode_scan_result_integer_assign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Cancel"
+            android:text="Assign barcode to add trial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.482"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barcode_scan_result_integer_input" />
+
+        <Button
+            android:id="@+id/barcode_scan_result_finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="28dp"
+            android:text="Exit"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/camera_scan_result_finish_button" />
+            app:layout_constraintTop_toBottomOf="@+id/barcode_scan_result_integer_assign"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
