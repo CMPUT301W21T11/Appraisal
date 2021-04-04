@@ -1,5 +1,6 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -128,7 +129,6 @@ public class BarcodeScanResult extends AppCompatActivity {
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
         model.checkBarcode(barcode);
-        finish();
     }
 
     /**
@@ -139,21 +139,22 @@ public class BarcodeScanResult extends AppCompatActivity {
      */
     public void askIfOverride(Barcode barcode, String old_action) {
         Log.d("override", "prompt reached");
-        final boolean[] override = {false};
+        Activity self = this;
         // Build prompt dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Override barcode registry");
+        AlertDialog.Builder builder = new AlertDialog.Builder(self);
+        builder.setTitle("Override barcode registry?");
+        builder.setMessage("Previous action: \n" + old_action);
         //builder.setMessage("You have already registered this barcode to another value or experiment, would you like to override it?");
         builder.setPositiveButton("Override", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                override[0] = true;
+                model.addToDatabase(barcode);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                override[0] = false;
+                Toast.makeText(self, "Old action is preserved", Toast.LENGTH_SHORT).show();
             }
         });
 
