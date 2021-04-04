@@ -10,8 +10,8 @@
         android:id="@+id/specific_exp_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIconTint="@color/white"
-        android:background="@drawable/main_menu_bg"
+        app:tabIconTint="@drawable/tab_selector"
+        android:background="@color/rich_navy_blue"
         app:tabTextAppearance="@style/MyTabLayout"/>
 
     <androidx.viewpager2.widget.ViewPager2

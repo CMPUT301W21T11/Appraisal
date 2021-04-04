@@ -10,6 +10,8 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:textColorTertiary">@color/textColorTertiary</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
 
         <item name="bottomNavigationStyle">@color/light_blue</item>
         <item name="bottomAppBarStyle">@color/light_blue</item>
