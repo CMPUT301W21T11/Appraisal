@@ -32,6 +32,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ExpSubscriptionActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
 
@@ -196,6 +197,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                                 subscribed_experiments.add(experiment);
 
                                                 Log.d("Subscribed Experiments:", subscribed_experiments.toString());
+
+                                                subscribed_experiments = (ArrayList<Experiment>) subscribed_experiments.stream().distinct().collect(Collectors.toList());
 
                                                 adapter.notifyDataSetChanged();
 
