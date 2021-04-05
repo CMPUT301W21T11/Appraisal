@@ -1,13 +1,12 @@
-package com.example.appraisal.UI.main_menu.qr_scanner;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,9 +35,6 @@ public class CameraScanner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_barcode_qr_scanner);
-
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
 
         REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
         scanner_view = findViewById(R.id.camera_scanner_viewFinder);
@@ -72,15 +68,6 @@ public class CameraScanner extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     /**
      * This prevents lockup of camera scanner
      */
@@ -102,12 +89,14 @@ public class CameraScanner extends AppCompatActivity {
     }
 
     private void startCamera() {
+        model.startScanner();
         model.enableCodeScannerViewRefresh();
         model.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(() -> {
                     model.storeBarCode(result);
+                    setResult(Activity.RESULT_OK);
                     finish();
                 });
             }

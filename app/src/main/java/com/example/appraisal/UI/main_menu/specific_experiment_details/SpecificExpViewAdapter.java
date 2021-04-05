@@ -11,7 +11,7 @@ import com.example.appraisal.UI.main_menu.specific_experiment_details.analysis.S
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.SpecificExpDetailsFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.discussion.SpecificExpDiscussionFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.participants.SpecificExpContributorsFragment;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.qr.SpecificExpQRCodeFragment;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.SpecificExpQRCodeFragment;
 
 public class SpecificExpViewAdapter extends FragmentStateAdapter {
     // This tab view and view pager UI interface is taken from android developers documentation
