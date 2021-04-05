@@ -36,6 +36,8 @@ public abstract class Trial implements Comparable<Trial> {
     /**
      * This method sets the current value of the trial
      * For Bernoulli trials (i.e. Binomials), 1 = success, 0 = failure
+     * For Count trial, setting the value to be 0 makes the trial invalid
+     *
      * Note: It is recommended to use the class native method if possible
      * (e.g. for BernoulliTrial it is setToSuccess() and setToFailure())
      *
@@ -46,6 +48,7 @@ public abstract class Trial implements Comparable<Trial> {
     /**
      * This method get the value of a trial
      * For Bernoulli trials, it wil return 1 to indicate success, and 0 for failure
+     * For count trial, it will return 1 if the trial is valid
      *
      * @return double -- value of the trial
      */

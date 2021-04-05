@@ -1,11 +1,14 @@
 package com.example.appraisal.backend.specific_experiment;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
@@ -16,6 +19,7 @@ import java.util.TreeMap;
  */
 public class SpecificExperiment {
     private final Experiment current_experiment;
+    private final TrialType experiment_type;
     private final ArrayList<Trial> list_of_trials;
     private final List<Float> list_of_trials_as_float;
     private final int total;
@@ -26,11 +30,12 @@ public class SpecificExperiment {
      * @param current_experiment
      *      This is the experiment that needs to generate statistics
      */
-    public SpecificExperiment(Experiment current_experiment) {
+    public SpecificExperiment(@NonNull Experiment current_experiment) {
         this.current_experiment = current_experiment;
         list_of_trials = current_experiment.getTrialList();
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
+        experiment_type = TrialType.getInstance(current_experiment.getType());
         List<Trial> sorted_trials = quartile.getSortedListOfTrials();
         list_of_trials_as_float = new ArrayList<>();
         for (Trial t: sorted_trials) {
@@ -52,29 +57,24 @@ public class SpecificExperiment {
      * @return list_of_trials
      *      Copy of the list_of_trials in the experiment
      */
-    public ArrayList<Trial> getList_of_trials() {
+    public ArrayList<Trial> getListOfTrials() {
         return new ArrayList<>(list_of_trials);
     }
 
     /**
-     * Return the number of trials conducted per Date of the experiment
+     * Return the results of trial over time
      * @return data_points
-     *      SortedMap of Date and number of trials
+     *      SortedMap of Date and result of trial
      */
     public SortedMap<Date, Integer> getTrialsPerDate() {
         // hashmap to store all the trial count for a given date
-        // sort by date
         SortedMap<Date, Integer> data_points = new TreeMap<>();
-        for (Trial trial:list_of_trials) {
-            Date key = trial.getTrialDate();
-            if (data_points.containsKey(key)) { // i.e. date entry already exist
-                // increase trial count
-                data_points.put(key, data_points.get(key) + 1);
-            } else {
-                // create new entry
-                data_points.put(key, 1);
-            }
-        }
+
+        // Obtain the list of trials sorted by date
+        List<Trial> sorted_trial_list_by_date = getListOfTrials();
+        sorted_trial_list_by_date.sort(new SortTrialByDate());
+
+
         return data_points;
     }
 
@@ -130,7 +130,7 @@ public class SpecificExperiment {
 
         // using non dynamic width
         int INTERVAL_NUM = 18;
-        if (list_of_trials.get(0).getType() == TrialType.BINOMIAL_TRIAL) {
+        if (experiment_type == TrialType.BINOMIAL_TRIAL) {
             INTERVAL_NUM = 1; // For bernoulli trials there are only 2 possible values
         } else if (Math.round(Math.sqrt(list_of_trials.size())) < INTERVAL_NUM) {
             INTERVAL_NUM = (int) Math.ceil(Math.sqrt(list_of_trials.size()));
@@ -153,6 +153,12 @@ public class SpecificExperiment {
         // Author: MoreStream
         // URL: https://www.moresteam.com/toolbox/histogram.cfm
         SortedMap<Float, Integer> data_points = new TreeMap<>();
+
+        // For Count trials, its histogram would only be the total number of counts
+        if (experiment_type == TrialType.COUNT_TRIAL) {
+            data_points.put(1.0f, list_of_trials.size());
+            return data_points;
+        }
 
         double min_value = quartile.getTrialMinValue();
         double max_value = quartile.getTrialMaxValue();
