@@ -198,8 +198,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
                                                 Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
-                                                subscribed_experiments = (ArrayList<Experiment>) subscribed_experiments.stream().distinct().collect(Collectors.toList());
-
                                                 adapter.notifyDataSetChanged();
 
                                                 subscribed_list.setAdapter(adapter);
