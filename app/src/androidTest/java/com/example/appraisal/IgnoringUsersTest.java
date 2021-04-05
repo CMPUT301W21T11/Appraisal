@@ -12,7 +12,7 @@ import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
-import com.example.appraisal.model.MainModel;
+import com.example.appraisal.model.core.MainModel;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
