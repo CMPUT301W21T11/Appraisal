@@ -74,9 +74,9 @@ public class SpecificExperiment {
         sorted_trial_list_by_date.sort(new SortTrialByDate());
 
         // Get the results over time
-        TrialResultsOverTimeFactory resultsOverTime = new TrialResultsOverTimeFactory(sorted_trial_list_by_date);
+        TrialResultsOverTime resultsOverTime = new TrialResultsOverTime(sorted_trial_list_by_date);
 
-        return resultsOverTime.createTrialsPerDate(experiment_type);
+        return resultsOverTime.createTrialResultsOverTime(experiment_type);
     }
 
     /**

@@ -93,13 +93,13 @@ public class TrialTest {
     @Test
     public void testCountTrial() {
         CountTrial trial = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, test_parent, test_user);
-        assertEquals(0, (int) trial.getValue());
-
-        trial.addCount();
         assertEquals(1, (int) trial.getValue());
 
-        trial.setValue(10.0);
-        assertEquals(10, (int) trial.getValue());
+        trial.setValue(5);
+        assertEquals(1, (int) trial.getValue());
+
+        trial.setValue(0);
+        assertEquals(0, (int) trial.getValue());
     }
 
     /**

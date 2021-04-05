@@ -13,24 +13,32 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class TrialResultsOverTimeFactory {
+/**
+ * This class is for generating the plot of trial results over time
+ */
+public class TrialResultsOverTime {
 
-    private final List<Trial> trial_list_by_date;
+    private final List<Trial> sorted_trial_list_by_date;
     private final Date trial_start_date;
 
-    public TrialResultsOverTimeFactory(@NonNull List<Trial> sorted_date_trial_list) {
-        this.trial_list_by_date = sorted_date_trial_list;
-        if (trial_list_by_date.size() > 0) {
-            trial_start_date = roundToDay(trial_list_by_date.get(0).getTrialDate());
+    public TrialResultsOverTime(@NonNull List<Trial> sorted_trial_list_by_date) {
+        this.sorted_trial_list_by_date = sorted_trial_list_by_date;
+        if (sorted_trial_list_by_date.size() > 0) {
+            trial_start_date = roundToDay(sorted_trial_list_by_date.get(0).getTrialDate());
         } else {
             trial_start_date = new Date();
         }
     }
 
+    /**
+     * This method creates the result over time represented by a Sorted Map
+     * @param trialType -- the type of the trials as a {@link TrialType} enum
+     * @return SortedMap -- result against date
+     */
     @NonNull
-    public SortedMap<Date, Double> createTrialsPerDate(@NonNull TrialType trialType) {
+    public SortedMap<Date, Double> createTrialResultsOverTime(@NonNull TrialType trialType) {
         // check for empty list of trials
-        if (trial_list_by_date.isEmpty()) {
+        if (sorted_trial_list_by_date.isEmpty()) {
             return new TreeMap<>();
         } else if (trialType == TrialType.COUNT_TRIAL) {
             // count trials per day
@@ -49,36 +57,30 @@ public class TrialResultsOverTimeFactory {
         Map<Date, Double> result_per_day_interval = new HashMap<>();
 
         Date date_interval = trial_start_date;
+        int prev_count = 0;
+        double prev_result = 0;
 
         // get the trials per day and success per day
-        for (Trial trial: trial_list_by_date) {
+        for (Trial trial: sorted_trial_list_by_date) {
             Date trial_date = roundToDay(trial.getTrialDate());
 
-            if (trial_date.equals(date_interval)) {
-                // get previous total count and success count
-                int prev_count = ifNullInt(counts_per_day_interval.get(trial_date));
-                double prev_result = ifNullDouble(result_per_day_interval.get(trial_date));
-
-                // increment total count and result value per day
-                prev_count++;
-                prev_result += trial.getValue();
-
-                // store to map
-                counts_per_day_interval.put(trial_date, prev_count);
-                result_per_day_interval.put(trial_date, prev_result);
-            } else {
-                // create entry if not exist
-                if (!counts_per_day_interval.containsKey(trial_date)) {
-                    counts_per_day_interval.put(trial_date, 0);
-                    result_per_day_interval.put(trial_date, 0.0);
-                }
+            while (date_interval.before(trial_date)) {
+                counts_per_day_interval.put(date_interval, prev_count);
+                result_per_day_interval.put(date_interval, prev_result);
+                date_interval = incrementDayByOne(date_interval);
             }
 
-            date_interval = incrementDayByOne(date_interval);
+            // increment count and value
+            prev_count++;
+            prev_result += trial.getValue();
+
+            // store to map
+            counts_per_day_interval.put(date_interval, prev_count);
+            result_per_day_interval.put(date_interval, prev_result);
         }
 
         // calculate success rate and assign to data points
-        for(Map.Entry<Date, Integer> entry: counts_per_day_interval.entrySet()) {
+        for (Map.Entry<Date, Integer> entry: counts_per_day_interval.entrySet()) {
             Date trial_date = entry.getKey();
             int total_count = entry.getValue();
             double result = ifNullDouble(result_per_day_interval.get(trial_date));
@@ -99,20 +101,18 @@ public class TrialResultsOverTimeFactory {
     private SortedMap<Date, Double> countTrialsPerDate() {
         SortedMap<Date, Double> data_points = new TreeMap<>();
 
-        Date date_interval = trial_start_date; // get trial start date
+        Date date_interval = roundToDay(trial_start_date); // get trial start date
         int current_count = 0; // initialize current count
 
-        for (Trial trial: trial_list_by_date) {
-            Date trial_date = roundToDay(trial.getTrialDate()); // get the conduct date
-            if (trial_date.equals(date_interval)) {
-                // increment current count
-                long count_trial = Math.round(trial.getValue());
-                current_count += count_trial;
-                data_points.put(trial_date, (double) current_count);
-            } else {
+        for (Trial trial: sorted_trial_list_by_date) {
+            Date trial_date = roundToDay(trial.getTrialDate());
+            // If the date interval is before the trial date, increase it until they are matched.
+            while (date_interval.before(trial_date)) {
                 data_points.put(date_interval, (double) current_count);
+                date_interval = incrementDayByOne(date_interval);
             }
-            date_interval = incrementDayByOne(date_interval);
+            current_count += trial.getValue();
+            data_points.put(date_interval, (double) current_count);
         }
 
         return data_points;
@@ -136,14 +136,6 @@ public class TrialResultsOverTimeFactory {
         cal.setTime(date);
         cal.add(Calendar.DATE, 1);
         return cal.getTime();
-    }
-
-    private int ifNullInt(Integer value) {
-        if (value == null) {
-            return 0;
-        } else {
-            return value;
-        }
     }
 
     private double ifNullDouble(Double value) {

@@ -1,17 +1,22 @@
 package com.example.appraisal;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
+import com.example.appraisal.backend.specific_experiment.TrialResultsOverTime;
+import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
+import com.example.appraisal.backend.trial.Trial;
+import com.example.appraisal.backend.trial.TrialFactory;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -36,7 +41,7 @@ public class SpecificExpTest {
      */
     @Before
     public void init() {
-        experiment_int = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
+        experiment_int = new Experiment("temp","temp", "temp", TrialType.NON_NEG_INT_TRIAL.getLabel(), false, 0, "temp", "temp");
         User test_user = new User("test", "test", "test", "test");
         control_list_int = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
@@ -47,7 +52,7 @@ public class SpecificExpTest {
             experiment_int.addTrial(trial);
         }
 
-        experiment_float = new Experiment("temp","temp", "temp", "temp", false, 0, "temp", "temp");
+        experiment_float = new Experiment("temp","temp", "temp", TrialType.MEASUREMENT_TRIAL.getLabel(), false, 0, "temp", "temp");
         control_list_float = new ArrayList<>();
         for (int i = 0; i < TRIAL_SIZE; i++) {
             float measurement = (float) (Math.random());
@@ -139,7 +144,61 @@ public class SpecificExpTest {
      */
     @Test
     public void testTrialOverTime() {
-        SortedMap<Date, Double> control_result = new TreeMap<>();
+        TrialFactory factory = new TrialFactory();
+        Experiment test_count_exp = new Experiment(null, null, null, TrialType.COUNT_TRIAL.getLabel(), null, null, null, null);
 
+        final Date test_start_date = roundToDay(new Date());
+        SortedMap<Date, Double> trial_generator_list = new TreeMap<>();
+
+        Date time_interval = test_start_date;
+        for (int i = 1; i <= 10; i++) {
+            trial_generator_list.put(time_interval, (double) i);
+            time_interval = incrementDayByOne(time_interval);
+        }
+
+        List<Trial> test_count_list = new ArrayList<>();
+        for (Map.Entry<Date, Double> entry: trial_generator_list.entrySet()) {
+            Date create_date = entry.getKey();
+            double value = entry.getValue();
+            int target = (int) value;
+
+            for (int i = 0; i < target; i++) {
+                CountTrial trial = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, test_count_exp, null);
+                trial.overrideDate(create_date);
+                test_count_list.add(trial);
+            }
+        }
+
+        SortedMap<Date, Double> control_result = new TreeMap<>();
+        time_interval = test_start_date;
+        int prev = 0;
+        for (int i = 1; i <= 10; i++) {
+            control_result.put(time_interval, (double) i + prev);
+            prev += i;
+            time_interval = incrementDayByOne(time_interval);
+        }
+
+        TrialResultsOverTime resultsOverTime = new TrialResultsOverTime(test_count_list);
+        assertEquals(control_result, resultsOverTime.createTrialResultsOverTime(TrialType.COUNT_TRIAL));
+
+    }
+
+    @NonNull
+    private Date roundToDay(@NonNull Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    @NonNull
+    private Date incrementDayByOne(@NonNull Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1);
+        return cal.getTime();
     }
 }
