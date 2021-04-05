@@ -59,15 +59,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
+        android:backgroundTint="@color/ice_blue"
+        app:tint="@color/white"
         android:layout_marginBottom="20dp"
 
-        android:backgroundTint="@color/purple_500"
+
         android:clickable="true"
         android:onClick="publishNewExperiment"
         app:layout_constraintBottom_toTopOf="@+id/my_exp_tab_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/add_icon"
-        app:tint="@color/white" />
- 
+        app:srcCompat="@drawable/add_icon" />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
