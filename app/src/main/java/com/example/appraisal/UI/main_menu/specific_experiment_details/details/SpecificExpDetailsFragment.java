@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,18 +108,19 @@ public class SpecificExpDetailsFragment extends Fragment {
         TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
         ImageView icon = v.findViewById(R.id.type_icon);
-        if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.toString())) {
+        if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_count));
         }
-        else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.toString())) {
+        else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_coin));
         }
-        else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.toString())) {
+        else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_num));
         }
         else {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_thermometer_three_quarters_solid));
         }
+        icon.setOnClickListener((listener) -> madeToast());
 
         add_trial.setEnabled(!current_experiment.getIsEnded());
 
@@ -262,5 +264,16 @@ public class SpecificExpDetailsFragment extends Fragment {
         startActivity(intent);
     }
 
+    /**
+     * Create toast when user click exp type icon
+     */
+    private void madeToast() {
+        String type = current_experiment.getType().toString();
 
+        Toast toast = Toast.makeText(getContext(),
+                "This is a " + type,
+                Toast.LENGTH_SHORT);
+
+        toast.show();
+    }
 }
