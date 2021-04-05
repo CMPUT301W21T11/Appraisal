@@ -40,29 +40,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingBottom="20sp"
+            android:paddingRight="50sp"
             android:orientation="horizontal">
 
 
-            <TextView
-                android:layout_width="119dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:fontFamily="@font/lato_regular"
-                android:text="Name: "
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+<!--            <TextView-->
+<!--                android:layout_width="119dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="60dp"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:text="Name: "-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="24sp" />-->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/person_outline"
+                android:layout_gravity="center_vertical"/>
+
 
             <EditText
+                android:layout_weight="1"
                 android:id="@+id/name_edittext"
-                android:layout_width="196dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:digits="_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
                 android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
+                android:layout_gravity="center_vertical"
                 android:maxLength="10"
+                android:text="John Doe"
                 android:textColor="@color/white"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 android:tooltipText="No more than 10 characters" />
 
         </LinearLayout>
@@ -71,23 +87,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/lato_regular"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingBottom="20sp"
+            android:paddingRight="50sp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="119dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:fontFamily="@font/lato_regular"
-                android:text="Email: "
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+<!--            <TextView-->
+<!--                android:layout_width="119dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="60dp"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:text="Email: "-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="24sp" />-->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/email"
+                android:layout_gravity="center_vertical"/>
+
 
             <EditText
                 android:id="@+id/email_address_edittext"
-                android:layout_width="196dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:digits="_.abcdefghijklmnopqrstuvwxyzAB@CDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
                 android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
@@ -96,6 +125,7 @@
                 android:text="user@ualberta.ca"
                 android:textColor="@color/white"
                 android:textSize="24sp"
+                android:textStyle="bold"
                 android:tooltipText="john_doe@example.com" />
 
         </LinearLayout>
@@ -103,27 +133,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingBottom="20sp"
+            android:paddingRight="50sp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="119dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
-                android:fontFamily="@font/lato_regular"
-                android:text="Phone: "
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+<!--            <TextView-->
+<!--                android:layout_width="119dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="60dp"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:text="Phone: "-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="24sp" />-->
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/phone"
+                android:layout_gravity="center_vertical"/>
 
             <EditText
                 android:id="@+id/phone_number_edittext"
-                android:layout_width="196dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"
                 android:digits="+-0123456789"
                 android:fontFamily="@font/lato_regular"
                 android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:maxLength="15"
+                android:layout_gravity="center_vertical"
                 android:text="+1 780 999 9999"
                 android:textColor="@color/white"
                 android:textSize="24sp"
@@ -134,38 +178,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:padding="20dp">
+            android:paddingLeft="40sp"
+            android:paddingRight="40sp">
 
 
-            <Button
-                android:id="@+id/apply_changes_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/rounder_corner"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/lato_regular"
-                android:onClick="applyChangesToProfile"
-                android:text="Save"
-                android:textAllCaps="true"
-                android:textColor="@color/pink"
-                android:textStyle="bold" />
+<!--            <Button-->
+<!--                android:id="@+id/apply_changes_btn"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/rounder_corner"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:onClick="applyChangesToProfile"-->
+<!--                android:text="Save"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@color/pink"-->
+<!--                android:textStyle="bold" />-->
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_changes_btn"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/white"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:fontFamily="@font/lato_regular"
-                android:onClick="cancelChangesToProfile"
                 android:text="Cancel"
-                android:textAllCaps="true"
-                android:textColor="@color/pink"
-                android:textStyle="bold" />
+                android:layout_marginRight="20sp"
+                android:textAlignment="center"
+                android:onClick="cancelChangesToProfile"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:background="@drawable/ice_blue_button"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/apply_changes_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lato_regular"
+                android:text="Save"
+                android:textAlignment="center"
+                android:paddingLeft="20dp"
+                android:onClick="applyChangesToProfile"
+                android:paddingRight="20dp"
+                android:background="@drawable/ice_blue_button"/>
+
+<!--            <Button-->
+<!--                android:id="@+id/cancel_changes_btn"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="30dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:backgroundTint="@color/white"-->
+<!--                android:fontFamily="@font/lato_regular"-->
+<!--                android:onClick="cancelChangesToProfile"-->
+<!--                android:text="Cancel"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@color/pink"-->
+<!--                android:textStyle="bold" />-->
+
+
+
+
 
         </LinearLayout>
 

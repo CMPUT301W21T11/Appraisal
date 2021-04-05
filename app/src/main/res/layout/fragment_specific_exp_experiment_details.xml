@@ -162,21 +162,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/lato_regular"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="20dp"
 
+                    android:layout_weight="1"
+
+
+                    android:background="@drawable/ice_blue_button"
                     android:drawableLeft="@drawable/map"
 
-
-                    android:text="Map"
-                    android:textAlignment="center"
-
+                    android:fontFamily="@font/lato_regular"
                     android:padding="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="40dp"
+                    android:text="Map"
 
-                    android:background="@drawable/ice_blue_button"/>
-
+                    android:textAlignment="center" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/specific_exp_details_add_trial_button"
