@@ -2,6 +2,7 @@ package com.example.appraisal.model.main_menu.specific_experiment_details;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -46,6 +47,7 @@ public class CameraScannerModel {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(parent_context, "Refreshed", Toast.LENGTH_SHORT).show();
                 code_scanner.startPreview();
             }
         });

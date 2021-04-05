@@ -8,7 +8,6 @@ import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedMap;
@@ -66,16 +65,18 @@ public class SpecificExperiment {
      * @return data_points
      *      SortedMap of Date and result of trial
      */
-    public SortedMap<Date, Integer> getTrialsPerDate() {
+    @NonNull
+    public SortedMap<Date, Double> getTrialsPerDate() {
         // hashmap to store all the trial count for a given date
-        SortedMap<Date, Integer> data_points = new TreeMap<>();
 
         // Obtain the list of trials sorted by date
         List<Trial> sorted_trial_list_by_date = getListOfTrials();
         sorted_trial_list_by_date.sort(new SortTrialByDate());
 
+        // Get the results over time
+        TrialResultsOverTimeFactory resultsOverTime = new TrialResultsOverTimeFactory(sorted_trial_list_by_date);
 
-        return data_points;
+        return resultsOverTime.createTrialsPerDate(experiment_type);
     }
 
     /**

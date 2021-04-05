@@ -31,13 +31,13 @@ public class SpecificExpModel {
      * Return DataPoint objects for plotting. Used by GraphView
      */
     public DataPoint[] getTimePlotDataPoints() {
-        SortedMap<Date, Integer> data_points = specificExperiment.getTrialsPerDate();
+        SortedMap<Date, Double> data_points = specificExperiment.getTrialsPerDate();
 
         // Convert HashMap to DataPoint
         List<DataPoint> data_list = new ArrayList<>();
-        for (Map.Entry<Date, Integer> entry : data_points.entrySet()) {
+        for (Map.Entry<Date, Double> entry : data_points.entrySet()) {
             Date key = entry.getKey();
-            int value = entry.getValue();
+            double value = entry.getValue();
             data_list.add(new DataPoint(key, value));
         }
 

@@ -17,12 +17,6 @@ public class SortTrialByDate implements Comparator<Trial> {
         Date t1_date = o1.getTrialDate();
         Date t2_date = o2.getTrialDate();
 
-        if (t1_date.after(t2_date)) {
-            return 1;
-        } else if (t1_date.before(t2_date)) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return t1_date.compareTo(t2_date);
     }
 }

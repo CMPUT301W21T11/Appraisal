@@ -133,4 +133,13 @@ public class SpecificExpTest {
         double float_width = (Collections.max(control_list_float) - Collections.min(control_list_float)) / (double) 18;
         assertEquals(float_width, test_obj_float.getHistogramIntervalWidth(), MARGIN_OF_ERROR);
     }
+
+    /**
+     * Test trials over time generation
+     */
+    @Test
+    public void testTrialOverTime() {
+        SortedMap<Date, Double> control_result = new TreeMap<>();
+
+    }
 }

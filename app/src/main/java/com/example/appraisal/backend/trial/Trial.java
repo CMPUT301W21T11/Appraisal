@@ -1,5 +1,7 @@
 package com.example.appraisal.backend.trial;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.user.User;
 
@@ -9,12 +11,15 @@ import java.util.Date;
 /**
  * This is the Trial abstract class that all trial subclass should share
  * This mainly ensures reading and writing data from all trial subclass are unified
+ *
+ * The trial objects can be sorted by its trial value.
+ * If other sorts are desired, please implement custom Comparator
  */
 public abstract class Trial implements Comparable<Trial> {
-    private Experiment parent_experiment;
+    private final Experiment parent_experiment;
     private Date trial_date;
-    private User conductor;
-    private TrialType type;
+    private final User conductor;
+    private final TrialType type;
 
     protected Trial(Experiment parent_experiment, User conductor, TrialType type) {
         this.parent_experiment = parent_experiment;
@@ -29,7 +34,7 @@ public abstract class Trial implements Comparable<Trial> {
      * @param o -- the other trial object being compared to
      */
     @Override
-    public int compareTo(Trial o) {
+    public int compareTo(@NonNull Trial o) {
         return Double.compare(this.getValue(), o.getValue());
     }
 
