@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -20,7 +21,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +50,16 @@ public class PublishExpActivity extends AppCompatActivity {
         min_trials_field = (EditText) findViewById(R.id.expMinTrials);
         rules_field = findViewById(R.id.expRules);
         region_field = findViewById(R.id.expRegion);
+
+
+        List<String> expTypes = Arrays.asList("Count-based trials",
+        "Binomial Trials",
+        "Non-negative Integer Trials",
+        "Measurement Trials");
+
+        // use custom spinner layout to change text color
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.experiment_spinner, expTypes);
+        type_field.setAdapter(spinnerAdapter);
 
         // get reference of Experiments Collection
         try {
