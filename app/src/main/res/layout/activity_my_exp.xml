@@ -47,7 +47,7 @@
             app:menu="@menu/bottom_navigation_menu"
 
             app:itemIconTint="@color/bottom_navigation_menu_pallete"
-            android:background="@color/rich_light_blue"
+            android:background="@color/black"
             />
 
 
