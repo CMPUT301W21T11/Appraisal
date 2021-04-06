@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
         <activity android:name=".UI.main_menu.qr_scanner.CameraScanResult"></activity>
-        <activity android:name=".UI.main_menu.qr_scanner.CameraScanner" />
+        <activity android:name=".UI.main_menu.qr_scanner.CameraScanner"
+            android:theme="@style/EditProfileTheme"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
