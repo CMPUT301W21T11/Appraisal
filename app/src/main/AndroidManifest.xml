@@ -71,10 +71,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"
-            android:theme="@style/EditProfileTheme"/>
-        <activity android:name=".UI.main_menu.search.SearchActivity" android:label="Search"></activity>
-        <activity android:name=".UI.geolocation.GeolocationActivity" android:label="Binomial Trial #2"></activity>
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
+        <activity
+            android:name=".UI.main_menu.search.SearchActivity"
+            android:label="Search" />
+        <activity
+            android:name=".UI.geolocation.GeolocationActivity"
+            android:label="Binomial Trial #2" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
+
     </application>
 
 </manifest>

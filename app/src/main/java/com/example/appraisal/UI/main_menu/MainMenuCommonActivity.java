@@ -5,7 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.qr_scanner.CameraScanResult;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult;
 import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
