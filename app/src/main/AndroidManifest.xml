@@ -50,7 +50,8 @@
             android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.trial.NonNegIntCountActivity"
             android:theme="@style/EditProfileTheme"/>
-        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity"
+            android:theme="@style/EditProfileTheme"/>
         <activity
             android:name=".UI.main_menu.my_experiment.PublishExpActivity"
             android:label="Publish Experiment">
