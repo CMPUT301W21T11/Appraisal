@@ -10,7 +10,7 @@ import com.example.appraisal.backend.user.User;
  * This is the model class for a counter trial
  */
 public class CounterModel {
-    private CountTrial data;
+    private CountTrial trial;
 
     /**
      * Initialize the model for count trial
@@ -19,27 +19,18 @@ public class CounterModel {
      */
     public CounterModel(Experiment parent_experiment, User conductor) {
         TrialFactory factory = new TrialFactory();
-        data = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, parent_experiment, conductor);
+        trial = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, parent_experiment, conductor);
     }
 
     /**
-     * increase the count of the trial
+     * This method returns the representation of a count trial as int
+     * @return int -- count trial representation
      */
-    public void increase() {
-        data.addCount();
+    public int getCountTrial() {
+        return (int) trial.getValue();
     }
-
-    /**
-     * Return the count of the trial
-     * @return count
-     *      the count of the trial
-     */
-    public int getCount() {
-        return (int) data.getValue();
-    }
-
     /**
      * Save the trial to the parent experiment
      */
-    public void toExperiment() { data.getParentExperiment().addTrial(data);}
+    public void toExperiment() { trial.getParentExperiment().addTrial(trial);}
 }

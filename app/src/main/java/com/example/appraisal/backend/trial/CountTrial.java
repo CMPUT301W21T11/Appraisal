@@ -9,7 +9,7 @@ import java.util.Date;
  * This class represents a Count Trial
  */
 public class CountTrial extends Trial {
-    private int counter;
+    private int count;
 
     /**
      * Create a count trial object
@@ -18,14 +18,7 @@ public class CountTrial extends Trial {
      */
     public CountTrial(Experiment parent_experiment, User conductor) {
         super(parent_experiment, conductor, TrialType.COUNT_TRIAL);
-        counter = 0;
-    }
-
-    /**
-     * Increment the counter of the trial
-     */
-    public void addCount() {
-        counter++;
+        count = 1;
     }
 
     /**
@@ -33,7 +26,11 @@ public class CountTrial extends Trial {
      */
     @Override
     public void setValue(double value) {
-        this.counter = (int) Math.round(value);
+        if (Math.round(value) == 0) {
+            count = 0;
+        } else {
+            count = 1;
+        }
     }
 
     /**
@@ -41,6 +38,6 @@ public class CountTrial extends Trial {
      */
     @Override
     public double getValue() {
-        return counter;
+        return count;
     }
 }

@@ -42,7 +42,6 @@ import java.util.ArrayList;
  */
 public class SpecificExpDetailsFragment extends Fragment {
 
-    private SpecificExpModel model;
     private Experiment current_experiment;
     private DocumentReference user_ref;
     private ArrayList<String> user_subscriptions;

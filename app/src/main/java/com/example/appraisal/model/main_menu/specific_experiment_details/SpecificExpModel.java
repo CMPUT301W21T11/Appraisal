@@ -31,19 +31,25 @@ public class SpecificExpModel {
      * Return DataPoint objects for plotting. Used by GraphView
      */
     public DataPoint[] getTimePlotDataPoints() {
-        SortedMap<Date, Integer> data_points = specificExperiment.getTrialsPerDate();
+        SortedMap<Date, Double> data_points = specificExperiment.getTrialsPerDate();
 
         // Convert HashMap to DataPoint
         List<DataPoint> data_list = new ArrayList<>();
-        for (Map.Entry<Date, Integer> entry : data_points.entrySet()) {
+        for (Map.Entry<Date, Double> entry : data_points.entrySet()) {
             Date key = entry.getKey();
-            int value = entry.getValue();
+            double value = entry.getValue();
             data_list.add(new DataPoint(key, value));
         }
 
         return data_list.toArray(new DataPoint[0]);
     }
 
+    /**
+     * This function returns an array of DataPoint objects for plotting the histogram
+     *
+     * @return DataPoint[]
+     * Return DataPoint objects for plotting. Used by GraphView
+     */
     public DataPoint[] getHistogramDataPoints() {
         SortedMap<Float, Integer> data_points = specificExperiment.getHistogramIntervalFrequency();
         List<DataPoint> data_list = new ArrayList<>();
@@ -63,7 +69,7 @@ public class SpecificExpModel {
      * This is the length of list_of_trials (Note: NOT necessary the no. of trials conducted
      */
     public String getListOfTrialLength() {
-        return String.valueOf(specificExperiment.getList_of_trials().size());
+        return String.valueOf(specificExperiment.getListOfTrials().size());
     }
 
     /**
