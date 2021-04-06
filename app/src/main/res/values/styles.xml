@@ -39,4 +39,26 @@
         <!-- Customize your theme here. -->
 
     </style>
+
+    <!-- Alert Dialog -->
+    <style name="ThemeOverlay.MaterialComponents.MaterialAlertDialog_Background" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@color/rich_navy_blue</item>
+        <!-- Text Color for title and message -->
+        <item name="colorOnSurface">@color/white</item>
+        <!-- Style for positive button -->
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+        <!-- Style for negative button -->
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <!-- text color for the button -->
+        <item name="android:textColor">@color/white</item>
+        <!-- Background tint for the button -->
+        <item name="backgroundTint">@color/rich_navy_blue</item>
+    </style>
+
+
+
 </resources>

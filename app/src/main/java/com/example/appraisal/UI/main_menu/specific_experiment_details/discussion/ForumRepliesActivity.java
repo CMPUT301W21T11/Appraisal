@@ -1,6 +1,7 @@
-package com.example.appraisal.UI.main_menu.forum;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.discussion;
 
 import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -86,11 +87,10 @@ public class ForumRepliesActivity extends  AppCompatActivity {
         publishNewReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this);
+                AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
                 builder.setTitle("Post a reply!");
-                
+
                 reply_input = new EditText(ForumRepliesActivity.this);
-                reply_input.setTextColor(getColor(R.color.navy_blue));
                 builder.setView(reply_input);
 
                 try {
@@ -115,6 +115,8 @@ public class ForumRepliesActivity extends  AppCompatActivity {
                         reply_adapter.notifyDataSetChanged();
                     }
                 });
+
+
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

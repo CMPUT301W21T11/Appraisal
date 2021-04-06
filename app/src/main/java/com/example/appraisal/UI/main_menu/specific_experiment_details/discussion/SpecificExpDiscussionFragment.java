@@ -18,7 +18,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.forum.ForumRepliesActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -96,7 +95,7 @@ public class SpecificExpDiscussionFragment extends Fragment {
         publishNewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
                 builder.setTitle("Post a question!");
 
                 question_input = new EditText(getContext());
