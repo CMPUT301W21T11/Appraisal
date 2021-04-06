@@ -83,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/rich_navy_blue"
         android:onClick="saveAndReturn"
         android:text="Upload"
         android:textAllCaps="true"
