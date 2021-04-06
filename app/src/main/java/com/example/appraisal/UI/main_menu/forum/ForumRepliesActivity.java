@@ -88,8 +88,9 @@ public class ForumRepliesActivity extends  AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this);
                 builder.setTitle("Post a reply!");
-
+                
                 reply_input = new EditText(ForumRepliesActivity.this);
+                reply_input.setTextColor(getColor(R.color.navy_blue));
                 builder.setView(reply_input);
 
                 try {
