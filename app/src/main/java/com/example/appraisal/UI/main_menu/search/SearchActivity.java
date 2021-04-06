@@ -31,6 +31,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents the activity for the search functionality
+ */
 public class SearchActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
     private CollectionReference exp_ref;
     private ListView search_result_display;

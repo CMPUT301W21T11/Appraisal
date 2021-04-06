@@ -40,6 +40,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * This activity adds a Non negative integer trial
+ */
 public class NonNegIntCountActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
 
     private NonNegIntCountModel model;
@@ -56,8 +59,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     * @param savedInstanceState -- bundle of saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +106,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
     /**
      * save to experiment
-     * @param v save button
+     * @param v -- save button
      */
     public void saveAndReturn(View v) {
 
@@ -134,6 +136,9 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     }
 
 
+    /**
+     * This method stores the trial to the firebase
+     */
     public void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
@@ -213,6 +218,10 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     }
 
 
+    /**
+     * This method adds a geolocation to the trial
+     * @param v -- add geolocation button
+     */
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
@@ -224,9 +233,9 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the activity which started for result
+     * @param resultCode -- the result of the activity
+     * @param data -- any Intent date from the activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
@@ -253,15 +262,15 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
     /**
      * If the back button is pressed, close this activity and go back to previous one
-     * @param item
-     * @return
+     *
+     * @param item -- MenuItem
+     * @return boolean -- if the button is pressed
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

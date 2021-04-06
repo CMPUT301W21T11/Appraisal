@@ -1,13 +1,10 @@
 package com.example.appraisal.UI.trial;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,12 +104,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      *
      * @param v increase button
      */
-    // public void incrementSuccess(View v){
-    //     // adjust model
-    //     model.addSuccess();
-    //     storeTrialInFireBase(true);
-    //     addContributor();
-    //     finish();
     public void uploadSuccess(View v) {
 
         if (trial_location == null && current_exp.getIsGeolocationRequired()) {

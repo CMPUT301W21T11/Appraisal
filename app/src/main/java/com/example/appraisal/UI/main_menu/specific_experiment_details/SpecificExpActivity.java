@@ -60,15 +60,15 @@ public class SpecificExpActivity extends AppCompatActivity {
 
     /**
      * When the up button gets clicked, the activity is killed.
-     * @param item
-     * @return
+     *
+     * @param item -- MenuItem object
+     * @return boolean -- if the MenuItem is selected
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

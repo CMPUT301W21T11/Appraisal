@@ -26,6 +26,14 @@ public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
         this.context = context;
     }
 
+    /**
+     * This method returns the view for viewing the trial details
+     *
+     * @param position -- the position of the view card
+     * @param convertView -- the view to be modified
+     * @param parent -- parent ViewGroup
+     * @return View -- the view to be displayed
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 

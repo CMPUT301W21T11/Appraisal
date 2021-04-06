@@ -147,6 +147,9 @@ public class SpecificExpDetailsFragment extends Fragment {
     }
 
 
+    /**
+     * This method checks if the user is subscribed when on resume is called
+     */
     @Override
     public void onResume() {
         super.onResume();

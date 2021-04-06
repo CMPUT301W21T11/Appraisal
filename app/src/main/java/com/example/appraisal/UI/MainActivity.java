@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * This is the loading screen of the app
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         MainModel.createInstance();
     }
 
+    /**
+     * This method signs in the user
+     * @param v -- begin button
+     */
     public void signIn(View v){
         Intent intent = new Intent(this, ExpSubscriptionActivity.class);
         startActivity(intent);

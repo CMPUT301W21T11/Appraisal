@@ -7,6 +7,9 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a Geo point on the map
+ */
 public class Geopoints implements Parcelable {
     private double latitude;
     private double longitude;
@@ -28,18 +31,34 @@ public class Geopoints implements Parcelable {
         }
     };
 
+    /**
+     * get latitude of the marker
+     * @return double -- latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * set latitiude of the marker
+     * @param latitude -- new latitude to set
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * get longitude of the marker
+     * @return double -- longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Set the longitude of the marker
+     * @param longitude -- new longitude to set
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }

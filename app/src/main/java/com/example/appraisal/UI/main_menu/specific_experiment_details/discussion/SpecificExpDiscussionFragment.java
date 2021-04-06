@@ -49,6 +49,14 @@ public class SpecificExpDiscussionFragment extends Fragment {
     private String ques_text;
     private String question_name_pass;
 
+    /**
+     * This method creates the discussion fragment and return the View
+     *
+     * @param inflater -- LayoutInflater to inflate the view
+     * @param container -- The parent ViewGroup
+     * @param savedInstanceState -- previous saved instance state
+     * @return View -- the inflated view for this fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

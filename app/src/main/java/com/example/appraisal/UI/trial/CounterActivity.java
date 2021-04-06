@@ -61,8 +61,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     * @param savedInstanceState -- bundle from the previous activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +108,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * Save the trial to the experiment
-     * @param v save button
+     * @param v -- save button
      */
     public void save(View v) {
         if (trial_location == null && current_exp.getIsGeolocationRequired()) {
@@ -229,12 +228,12 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the request code of the activity
+     * @param resultCode -- the result code indicating how the activity finished
+     * @param data -- any Intent data from previous activity
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MAP_REQUEST_CODE) {
@@ -258,15 +257,14 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * If the back button is pressed, close this activity and go back to previous one
-     * @param item
-     * @return
+     * @param item -- the MenuItem
+     * @return boolean -- if the back button is pressed
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

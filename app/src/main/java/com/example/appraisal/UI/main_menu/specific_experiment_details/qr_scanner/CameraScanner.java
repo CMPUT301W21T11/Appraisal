@@ -20,6 +20,9 @@ import com.google.zxing.Result;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is for configuring the camera scanner for QR and Barcode
+ */
 public class CameraScanner extends AppCompatActivity {
     // This activity is heavily based the following video tutorial
     // Author: SmallAcademy (https://www.youtube.com/channel/UCR1t5eSmLxLUdBnK2XwZOuw)
@@ -39,12 +42,8 @@ public class CameraScanner extends AppCompatActivity {
         REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
         scanner_view = findViewById(R.id.camera_scanner_viewFinder);
         model = new CameraScannerModel(this, scanner_view);
-        // Check and ask for permissions
-        if (allPermissionsGranted()) {
-            startCamera();
-        } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS.toArray(new String[0]), REQUEST_CODE_PERMISSION);
-        }
+        // ask for permissions
+        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS.toArray(new String[0]), REQUEST_CODE_PERMISSION);
     }
 
     /**

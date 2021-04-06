@@ -12,6 +12,9 @@ import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
 
+/**
+ * This method prompt for QR value input
+ */
 public class QRPromptActivity extends AppCompatActivity {
 
     private EditText trial_value_qr_input;
@@ -35,6 +38,10 @@ public class QRPromptActivity extends AppCompatActivity {
         prompt.setText("This is a ... experiment, set the value for this trial:");
     }
 
+    /**
+     * This method starts the activity for generating the QR
+     * @param view -- the view being clicked on
+     */
     public void generateQR(View view) {
         if (trial_value_qr_input.getText().toString().trim().equals("")) {
             return;

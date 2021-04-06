@@ -1,11 +1,15 @@
 package com.example.appraisal.backend.specific_experiment;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
+import com.google.common.collect.Comparators;
+import com.google.common.collect.Ordering;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +28,11 @@ public class TrialResultsOverTime {
     public TrialResultsOverTime(@NonNull List<Trial> sorted_trial_list_by_date) {
         this.sorted_trial_list_by_date = sorted_trial_list_by_date;
         if (sorted_trial_list_by_date.size() > 0) {
+            // check if the input list is sorted
+            Comparator<Trial> sort_by_date = new SortTrialByDate();
+            if (!Ordering.from(sort_by_date).isOrdered(sorted_trial_list_by_date)) {
+                sorted_trial_list_by_date.sort(sort_by_date);
+            }
             trial_start_date = roundToDay(sorted_trial_list_by_date.get(0).getTrialDate());
         } else {
             trial_start_date = new Date();
@@ -138,7 +147,7 @@ public class TrialResultsOverTime {
         return cal.getTime();
     }
 
-    private double ifNullDouble(Double value) {
+    private double ifNullDouble(@Nullable Double value) {
         if (value == null) {
             return 0;
         } else {
