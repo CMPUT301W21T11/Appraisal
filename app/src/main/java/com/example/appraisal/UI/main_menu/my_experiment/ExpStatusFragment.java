@@ -20,7 +20,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -103,7 +102,6 @@ public class ExpStatusFragment extends DialogFragment {
         is_published = experiment.getIsPublished();
         is_ended = experiment.getIsEnded();
 
-        checkMin();
 
         // set textView fields
         setFields();
@@ -290,7 +288,5 @@ public class ExpStatusFragment extends DialogFragment {
                 end_switch.setEnabled(currentNum >= minNum);
             }
         });
-
-
     }
 }

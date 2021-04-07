@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -156,10 +157,10 @@ public class GeolocationActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_geolocation);
 
-        // getSupportActionBar().setTitle(intent.getStringExtra("Experiment Description"));
+        getSupportActionBar().setTitle(intent.getStringExtra("Experiment Description"));
 
-        // ActionBar ab = getSupportActionBar();
-        // ab.setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         save_geolocation_btn = findViewById(R.id.save_geo_btn);
 
@@ -460,9 +461,14 @@ public class GeolocationActivity extends AppCompatActivity implements
                     // get all the fields of the experiment
                     String trial_ID = doc.getId();
                     GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+                    String trial_date = doc.getData().get("date").toString();
+                    String experimenter_id = doc.getData().get("experimenterID").toString();
+                    String trial_result = doc.getData().get("result").toString();
+                    String trial_info = "Result: " + trial_result;
+
 
                     if (trial_geolocation != null) {
-                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC"));
+                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), trial_ID, trial_info));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
                         count = count + 1.0;

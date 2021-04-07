@@ -50,7 +50,8 @@
             android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.trial.NonNegIntCountActivity"
             android:theme="@style/EditProfileTheme"/>
-        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity"
+            android:theme="@style/EditProfileTheme"/>
         <activity
             android:name=".UI.main_menu.my_experiment.PublishExpActivity"
             android:label="Publish Experiment">
@@ -78,7 +79,7 @@
             android:label="Search" />
         <activity
             android:name=".UI.geolocation.GeolocationActivity"
-            android:label="Binomial Trial #2" />
+            android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
