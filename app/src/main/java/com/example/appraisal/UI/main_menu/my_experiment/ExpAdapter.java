@@ -7,13 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.TrialType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -101,6 +104,26 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
                 status.setText("Ended");
             }
         }
+
+        ImageView icon = view.findViewById(R.id.list_card_logo);
+        if (exp_current.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_count));
+            // exp_current.setText("Count-Trial");
+        }
+        else if (exp_current.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_coin));
+            // exp_current.setText("Binomial");
+        }
+        else if (exp_current.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_num));
+            // exp_current.setText("Non-Neg-Trial");
+        }
+        else {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thermometer_three_quarters_solid));
+            // exp_current.setText("Measurement");
+        }
+
+
 
         return view;
     }
