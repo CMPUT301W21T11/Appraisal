@@ -78,7 +78,7 @@
             android:label="Search" />
         <activity
             android:name=".UI.geolocation.GeolocationActivity"
-            android:label="Binomial Trial #2" />
+            android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
