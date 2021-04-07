@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,12 +18,15 @@ import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Text;
 
 /**
@@ -118,7 +122,9 @@ public class CameraScanResult extends AppCompatActivity {
                 trialType.setText(values.getType().getLabel());
                 trialValue.setText(String.valueOf(values.getValue()));
                 experiment_id_display.setText(values.getExpId());
-                experiment_desc_display.setVisibility(View.GONE);
+
+                findExperimentDesc(experiment_desc_display, values.getExpId());
+
                 finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
                 finish_button.setOnClickListener(v -> {
                     try {
@@ -178,45 +184,10 @@ public class CameraScanResult extends AppCompatActivity {
                         String registered_barcode = document.getId();
                         finish_button.setText("ADD BARCODE TRIAL TO EXPERIMENT");
 
-                        // attempt to get trial type
-                        Object attempt = document.get("trialType");
-                        String trial_type;
-                        if (attempt == null) {
-                            trial_type = "NOT RECOGNIZED";
-                        } else {
-                            trial_type = attempt.toString();
-                        }
-
-                        // attempt to get barcode action
-                        attempt = document.get("action");
-                        String data;
-                        if (attempt == null) {
-                            data = "NOT RECOGNIZED";
-                        } else {
-                            data = attempt.toString();
-                        }
-
-                        // attempt to get target experiment id
-                        attempt = document.get("targetExperimentId");
-                        String exp_id;
-                        if (attempt == null) {
-                            Toast.makeText(self, "Error: Unable to get target experiment ID", Toast.LENGTH_SHORT).show();
-                            Log.e("Camera Scan result:", "Unable to get target experiment ID");
-                            exp_id = "NOT RECOGNIZED";
-                        } else {
-                            exp_id = attempt.toString();
-                        }
-
-                        // attempt to get target experiment description
-                        attempt = document.get("targetExperimentDesc");
-                        String exp_desc;
-                        if (attempt == null) {
-                            Toast.makeText(self, "Error: Unable to get target experiment description", Toast.LENGTH_SHORT).show();
-                            Log.e("Camera Scan result:", "Unable to get target experiment description");
-                            exp_desc = "NOT RECOGNIZED";
-                        } else {
-                            exp_desc = attempt.toString();
-                        }
+                        String trial_type = getField(document, "trialType");
+                        String data = getField(document, "action");
+                        String exp_id = getField(document, "targetExperimentId");
+                        String exp_desc = getField(document, "targetExperimentDesc");
 
                         experiment_id_display.setText(exp_id);
                         experiment_desc_display.setText(exp_desc);
@@ -256,5 +227,40 @@ public class CameraScanResult extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    @NonNull
+    private String getField(@NonNull DocumentSnapshot doc, @NonNull String field_name) {
+        Object attempt = doc.get(field_name);
+        String result;
+        if (attempt == null) {
+            Toast.makeText(self, "Error: Unable to get " + field_name, Toast.LENGTH_SHORT).show();
+            Log.e("Camera Scan result:", "Unable to get " + field_name);
+            result = "NOT RECOGNIZED";
+        } else {
+            result = attempt.toString();
+        }
+        return result;
+    }
+
+    private void findExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
+        try {
+            CollectionReference experiments = MainModel.getExperimentReference();
+            experiments.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        String text = getField(task.getResult(), "description");
+                        exp_desc.setText(text);
+                    } else {
+                        exp_desc.setText("NOT RECOGNIZED");
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            exp_desc.setText("NOT RECOGNIZED");
+        }
+
     }
 }
