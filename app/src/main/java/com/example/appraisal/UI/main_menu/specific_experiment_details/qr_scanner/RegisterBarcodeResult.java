@@ -23,6 +23,9 @@ import com.example.appraisal.model.main_menu.specific_experiment_details.Barcode
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
+/**
+ * This class represents the Activity that registers a barcode
+ */
 public class RegisterBarcodeResult extends AppCompatActivity {
 
     private final int BARCODE_REGISTER_REQUEST_CODE = 0x00000002;
@@ -132,6 +135,13 @@ public class RegisterBarcodeResult extends AppCompatActivity {
         }
     }
 
+    /**
+     * Thie method create an entry for the scanned barcode
+     * @param rawValue -- value of the barcode as string
+     * @param user -- the {@link User} who is registering the barcode
+     * @param experiment -- the {@link Experiment} which the barcode is assigned to
+     * @param data -- the action of the barcode
+     */
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
         model.checkBarcode(barcode);

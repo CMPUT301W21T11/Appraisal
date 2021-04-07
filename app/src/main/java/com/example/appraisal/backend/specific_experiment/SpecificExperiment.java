@@ -1,5 +1,7 @@
 package com.example.appraisal.backend.specific_experiment;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
@@ -16,6 +18,7 @@ import java.util.TreeMap;
  */
 public class SpecificExperiment {
     private final Experiment current_experiment;
+    private final TrialType experiment_type;
     private final ArrayList<Trial> list_of_trials;
     private final List<Float> list_of_trials_as_float;
     private final int total;
@@ -23,14 +26,15 @@ public class SpecificExperiment {
 
     /**
      * Creates an instance of the Specific Experiment wrapper
-     * @param current_experiment
-     *      This is the experiment that needs to generate statistics
+     *
+     * @param current_experiment -- This is the experiment that needs to generate statistics
      */
-    public SpecificExperiment(Experiment current_experiment) {
+    public SpecificExperiment(@NonNull Experiment current_experiment) {
         this.current_experiment = current_experiment;
         list_of_trials = current_experiment.getTrialList();
         quartile = new Quartile(list_of_trials);
         total = quartile.getTotalNumTrial();
+        experiment_type = TrialType.getInstance(current_experiment.getType());
         List<Trial> sorted_trials = quartile.getSortedListOfTrials();
         list_of_trials_as_float = new ArrayList<>();
         for (Trial t: sorted_trials) {
@@ -40,8 +44,8 @@ public class SpecificExperiment {
 
     /**
      * Return the owner of the provided experiment
-     * @return {@link User}
-     *      This is the owner of the experiment
+     *
+     * @return {@link User} -- This is the owner of the experiment
      */
     public String getOwner() {
         return current_experiment.getOwner();
@@ -49,39 +53,36 @@ public class SpecificExperiment {
 
     /**
      * Return the list of trials of the experiment
-     * @return list_of_trials
-     *      Copy of the list_of_trials in the experiment
+     *
+     * @return list_of_trials -- Copy of the list_of_trials in the experiment
      */
-    public ArrayList<Trial> getList_of_trials() {
+    public ArrayList<Trial> getListOfTrials() {
         return new ArrayList<>(list_of_trials);
     }
 
     /**
-     * Return the number of trials conducted per Date of the experiment
-     * @return data_points
-     *      SortedMap of Date and number of trials
+     * Return the results of trial over time
+     *
+     * @return data_points -- SortedMap of Date and result of trial
      */
-    public SortedMap<Date, Integer> getTrialsPerDate() {
+    @NonNull
+    public SortedMap<Date, Double> getTrialsPerDate() {
         // hashmap to store all the trial count for a given date
-        // sort by date
-        SortedMap<Date, Integer> data_points = new TreeMap<>();
-        for (Trial trial:list_of_trials) {
-            Date key = trial.getTrialDate();
-            if (data_points.containsKey(key)) { // i.e. date entry already exist
-                // increase trial count
-                data_points.put(key, data_points.get(key) + 1);
-            } else {
-                // create new entry
-                data_points.put(key, 1);
-            }
-        }
-        return data_points;
+
+        // Obtain the list of trials sorted by date
+        List<Trial> sorted_trial_list_by_date = getListOfTrials();
+        sorted_trial_list_by_date.sort(new SortTrialByDate());
+
+        // Get the results over time
+        TrialResultsOverTime resultsOverTime = new TrialResultsOverTime(sorted_trial_list_by_date);
+
+        return resultsOverTime.createTrialResultsOverTime(experiment_type);
     }
 
     /**
      * Return the mean (average) of the supplied experiment
-     * @return mean
-     *      Mean of the experiment as float
+     *
+     * @return mean -- Mean of the experiment as float
      */
     public float getExperimentMean() {
         if (total == 0) {
@@ -98,8 +99,8 @@ public class SpecificExperiment {
 
     /**
      * Return the standard deviation of the supplied experiment
-     * @return stdDev
-     *      Standard Deviation of the experiment
+     *
+     * @return stdDev -- Standard Deviation of the experiment
      */
     public float getExperimentStDev() {
         if (total <= 1) { // when there is only 1 sample there is no variance
@@ -119,8 +120,7 @@ public class SpecificExperiment {
 
     /**
      * Return the width of the interval of the generated histogram
-     * @return width
-     *      Width of the interval
+     * @return width -- Width of the interval
      */
     public double getHistogramIntervalWidth() {
         // safety check
@@ -130,7 +130,7 @@ public class SpecificExperiment {
 
         // using non dynamic width
         int INTERVAL_NUM = 18;
-        if (list_of_trials.get(0).getType() == TrialType.BINOMIAL_TRIAL) {
+        if (experiment_type == TrialType.BINOMIAL_TRIAL) {
             INTERVAL_NUM = 1; // For bernoulli trials there are only 2 possible values
         } else if (Math.round(Math.sqrt(list_of_trials.size())) < INTERVAL_NUM) {
             INTERVAL_NUM = (int) Math.ceil(Math.sqrt(list_of_trials.size()));
@@ -145,14 +145,20 @@ public class SpecificExperiment {
 
     /**
      * Return the Frequency of each trial measurements for a predefined interval
-     * @return data_points
-     *     This is the hash table of no. of trials for each interval
+     *
+     * @return data_points -- This is the hash table of no. of trials for each interval
      */
     public SortedMap<Float, Integer> getHistogramIntervalFrequency() {
         // How to calculate measurement frequency and intervals are taken from MoreStream
         // Author: MoreStream
         // URL: https://www.moresteam.com/toolbox/histogram.cfm
         SortedMap<Float, Integer> data_points = new TreeMap<>();
+
+        // For Count trials, its histogram would only be the total number of counts
+        if (experiment_type == TrialType.COUNT_TRIAL) {
+            data_points.put(1.0f, list_of_trials.size());
+            return data_points;
+        }
 
         double min_value = quartile.getTrialMinValue();
         double max_value = quartile.getTrialMaxValue();
@@ -193,8 +199,9 @@ public class SpecificExperiment {
     }
 
     /**
-     * Return the Quartile object that contains all the quartile informations of the given experiment
-     * @return
+     * Return the Quartile object that contains all the quartile information of the given experiment
+     *
+     * @return Quartile -- {@link Quartile} object that stores all the quartile info
      */
     public Quartile getQuartile() {
         return quartile;

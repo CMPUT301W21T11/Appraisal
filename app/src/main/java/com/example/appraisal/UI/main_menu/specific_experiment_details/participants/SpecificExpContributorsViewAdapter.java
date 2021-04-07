@@ -55,6 +55,13 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         getIgnoredList();
     }
 
+    /**
+     * This method creates a View Holder for the list of contributors
+     *
+     * @param parent -- parent {@link ViewGroup}
+     * @param viewType -- the type of the view
+     * @return {@link SpecificExpContributorsViewHolder} -- view holder for the list of contributors
+     */
     @NonNull
     @Override
     public SpecificExpContributorsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,6 +71,11 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         return new SpecificExpContributorsViewHolder(view);
     }
 
+    /**
+     * This method sets the content and onclick actions for each element in the list of contributors
+     * @param holder -- the ViewHolder to be modified
+     * @param position -- the position of the ViewHolder
+     */
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
         String name = experimenters.get(position);
@@ -93,6 +105,10 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         });
     }
 
+    /**
+     * This method gets the number of view holders to be displayed
+     * @return int -- number of view holders
+     */
     @Override
     public int getItemCount() {
         // get experimenters list from Shared Preferences
@@ -126,6 +142,9 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         });
     }
 
+    /**
+     * This class represents each of the "Cards" inside this list of contributors
+     */
     public static class SpecificExpContributorsViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView user_icon;
@@ -143,22 +162,40 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
         }
 
+        /**
+         * This method sets the contributor is ignored
+         */
         public void setIsIgnored() {
             is_ignored.setVisibility(View.VISIBLE);
         }
 
+        /**
+         * This method makes the contributor to be not ignored
+         */
         public void  setUnignored() {
             is_ignored.setVisibility(View.GONE);
         }
 
+        /**
+         * This method returns the ImageView for displaying the user icon
+         * @return ImageView -- imageview for displaying user icon
+         */
         public ImageView getUserIcon() {
             return user_icon;
         }
 
+        /**
+         * This method returns the TextView for displaying user name
+         * @return TextView -- user name display
+         */
         public TextView getUserName() {
             return user_name;
         }
 
+        /**
+         * Thie method returns the layout of the card
+         * @return ConstraintLayout -- the layout of the card, which is a {@link ConstraintLayout}
+         */
         public ConstraintLayout getExpLayout() {
             return expLayout;
         }

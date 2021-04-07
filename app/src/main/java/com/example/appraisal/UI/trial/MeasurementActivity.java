@@ -41,10 +41,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * This activity is for adding a measurement trial
+ */
 public class MeasurementActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
     private EditText input_measurement;
     private MeasurementModel model;
-    private DecimalFormat dp3 = new DecimalFormat("#.##");
+    private final DecimalFormat dp3 = new DecimalFormat("#.##");
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
@@ -57,8 +60,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     * @param savedInstanceState -- bundle of the saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +135,9 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     }
 
 
+    /**
+     * This method stores the trial to firebase
+     */
     public void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
@@ -212,6 +217,10 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     }
 
 
+    /**
+     * This method adds a geolocation for the trial
+     * @param v -- the add geolocation button
+     */
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
@@ -223,12 +232,12 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the activity which started for result
+     * @param resultCode -- the result of the activity
+     * @param data -- any Intent date from the activity
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MAP_REQUEST_CODE) {
@@ -252,15 +261,15 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
     /**
      * If the back button is pressed, close this activity and go back to previous one
-     * @param item
-     * @return
+     *
+     * @param item -- MenuItem
+     * @return boolean -- if the button is pressed
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

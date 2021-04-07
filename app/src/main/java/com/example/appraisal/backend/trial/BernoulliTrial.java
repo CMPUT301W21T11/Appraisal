@@ -40,7 +40,6 @@ public class BernoulliTrial extends Trial {
      */
     @Override
     public void setValue(double value) {
-        // Yes I know it could be simpler but for readability's sake I'll keep this
         if (Math.round(value) == 0) {
             result = false;
         } else {

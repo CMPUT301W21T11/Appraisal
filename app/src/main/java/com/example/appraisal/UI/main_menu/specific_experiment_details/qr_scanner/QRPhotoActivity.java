@@ -16,6 +16,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+/**
+ * This class generates the QR code to be displayed
+ */
 public class QRPhotoActivity extends AppCompatActivity {
 
     private ImageView qr_code;

@@ -21,6 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * This activity is for displaying user profiles
+ */
 public class UserProfileActivity extends AppCompatActivity {
     private TextView name_view;
     private TextView email_view;
@@ -32,7 +37,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * onCreate Activity
-     * @param savedInstanceState
+     * @param savedInstanceState -- prevous saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +51,6 @@ public class UserProfileActivity extends AppCompatActivity {
         email_view = findViewById(R.id.email_address_textview);
         phone_view = findViewById(R.id.phone_number_textview);
         edit_button = findViewById(R.id.edit_profile_btn);
-
-//        // get current user
-//        String current_user = null;
-//        try {
-//            current_user = MainModel.getCurrentUser().getUsername();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         // Get intent, and flag to know which activity it came from
         String name;
@@ -76,7 +73,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Show the details of the user that has been clicked on
-     * @param name
+     * @param name -- name of the user
      */
     private void showOtherUser(String name) {
         try {
@@ -109,12 +106,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Queries the database depending on which user profile needs to be displayed
-     * @param user_reference
-     * @param isMain
+     * @param user_reference -- Document reference of the user table
+     * @param isMain -- if it is main
      */
     // Author: Google
     // Reference: https://firebase.google.com/docs/firestore/query-data/listen
-    private void getUserInfo(DocumentReference user_reference, Boolean isMain) {
+    private void getUserInfo(@NotNull DocumentReference user_reference, Boolean isMain) {
         user_reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -144,9 +141,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Set the TextFields with the user's info
-     * @param u User object
+     * @param u -- User object
      */
-    private void setUserDisplay(User u) {
+    private void setUserDisplay(@NotNull User u) {
         id_view.setText("@" + u.getID().substring(0, 7));
         name_view.setText(u.getUsername());
         email_view.setText(u.getEmail());
@@ -155,8 +152,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Called when Edit Button is clicked, go to EditUserProfile Activity
-     * @param v View
-     * @throws Exception
+     * @param v -- View
+     * @throws Exception -- MainModel is not initiated
      */
     public void editUserProfile(View v) throws Exception {
 
@@ -171,15 +168,15 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * If the back button is pressed, close this activity and go back to previous one
-     * @param item
-     * @return
+     *
+     * @param item -- MenuItem
+     * @return boolean -- if the MenuItem is pressed
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
