@@ -68,12 +68,12 @@ public class QRPromptActivity extends AppCompatActivity {
 
     private void setInputNonNeg(@NotNull EditText trial_value_qr_input) {
         trial_value_qr_input.setHint("Enter Integer value");
-        trial_value_qr_input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER);
+        trial_value_qr_input.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
     private void setInputMeasurement(@NotNull EditText trial_value_qr_input) {
         trial_value_qr_input.setHint("Enter Measurement");
-        trial_value_qr_input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        trial_value_qr_input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 
     private void generateQRTrialValue(TrialType exp_type) {
