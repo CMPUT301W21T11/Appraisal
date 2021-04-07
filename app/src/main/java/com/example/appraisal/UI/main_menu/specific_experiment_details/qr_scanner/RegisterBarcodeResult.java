@@ -104,8 +104,7 @@ public class RegisterBarcodeResult extends AppCompatActivity {
                 switch (currentExperimentType) {
                     case COUNT_TRIAL:
                         Button increment_button = findViewById(R.id.barcode_scan_result_count_increment);
-                        EditText count_field = findViewById(R.id.barcode_scan_result_count_input);
-                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, count_field.getText().toString()));
+                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "1"));
                         break;
                     case BINOMIAL_TRIAL:
                         Button success_button = findViewById(R.id.barcode_scan_result_binomial_sucess);
