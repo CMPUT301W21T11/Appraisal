@@ -246,15 +246,12 @@ public class CameraScanResult extends AppCompatActivity {
     private void findExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
         try {
             CollectionReference experiments = MainModel.getExperimentReference();
-            experiments.document(exp_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        String text = getField(task.getResult(), "description");
-                        exp_desc.setText(text);
-                    } else {
-                        exp_desc.setText("NOT RECOGNIZED");
-                    }
+            experiments.document(exp_id).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String text = getField(task.getResult(), "description");
+                    exp_desc.setText(text);
+                } else {
+                    exp_desc.setText("NOT RECOGNIZED");
                 }
             });
         } catch (Exception e) {
