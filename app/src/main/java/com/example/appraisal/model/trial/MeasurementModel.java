@@ -12,7 +12,7 @@ import com.example.appraisal.backend.user.User;
  * This is the model for measurement trial
  */
 public class MeasurementModel {
-    private MeasurementTrial data;
+    private final MeasurementTrial data;
 
     public MeasurementModel(Experiment experiment, User conductor) {
         TrialFactory factory = new TrialFactory();
@@ -35,6 +35,10 @@ public class MeasurementModel {
         data.setValue(value);
     }
 
+    /**
+     * This method returns the measurement of the given trial
+     * @return float -- measurement of the trial
+     */
     public float getMeasurement() {
         return (float) data.getValue();
     }

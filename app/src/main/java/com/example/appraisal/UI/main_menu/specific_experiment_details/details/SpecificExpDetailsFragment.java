@@ -48,7 +48,6 @@ import java.util.ArrayList;
  */
 public class SpecificExpDetailsFragment extends Fragment {
 
-    private SpecificExpModel model;
     private Experiment current_experiment;
     private DocumentReference user_ref;
     private ArrayList<String> user_subscriptions;
@@ -224,6 +223,9 @@ public class SpecificExpDetailsFragment extends Fragment {
     }
 
 
+    /**
+     * This method checks if the user is subscribed when on resume is called
+     */
     @Override
     public void onResume() {
         super.onResume();

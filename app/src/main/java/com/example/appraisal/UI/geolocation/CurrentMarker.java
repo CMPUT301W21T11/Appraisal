@@ -3,6 +3,9 @@ package com.example.appraisal.UI.geolocation;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * This class represents a current marker on the map
+ */
 public class CurrentMarker implements Parcelable {
     private double latitude;
     private double longitude;
@@ -12,18 +15,34 @@ public class CurrentMarker implements Parcelable {
         this.longitude = longitude;
     }
 
+    /**
+     * get latitude of the marker
+     * @return double -- latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * set latitiude of the marker
+     * @param latitude -- new latitude to set
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * get longitude of the marker
+     * @return double -- longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Set the longitude of the marker
+     * @param longitude -- new longitude to set
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
@@ -32,7 +51,7 @@ public class CurrentMarker implements Parcelable {
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
     }
-
+    
     public static final Creator<CurrentMarker> CREATOR = new Creator<CurrentMarker>() {
         @Override
         public CurrentMarker createFromParcel(Parcel in) {

@@ -25,6 +25,9 @@ import com.google.zxing.Result;
 
 import org.w3c.dom.Text;
 
+/**
+ * This class handles the result from the {@link CameraScanner}
+ */
 public class CameraScanResult extends AppCompatActivity {
 
     private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;

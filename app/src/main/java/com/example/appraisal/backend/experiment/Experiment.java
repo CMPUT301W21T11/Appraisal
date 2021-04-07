@@ -20,8 +20,6 @@ public class Experiment implements Parcelable {
     private String owner;
     private String description;
 
-//    private ArrayList<Experimenter> experimenters;
-//    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
     private String type;
@@ -195,20 +193,6 @@ public class Experiment implements Parcelable {
         this.trial_count = trial_count;
     }
 
-//    /**
-//     * Get a list of the ID's of all the trials
-//     * @return
-//     */
-//    public ArrayList<String> getTrials() {
-//
-//        for(Experimenter experimenter: experimenters){
-//            ArrayList<String> trials = experimenter.getTrialList();
-//            trial_id_list.addAll(trials);
-//        }
-//        return trial_id_list;
-//    }
-
-
     /**
      * Get a list of Trials
      * @return List -- list of trials
@@ -230,18 +214,6 @@ public class Experiment implements Parcelable {
     public void clearTrial() {
         trial_list.clear();
     }
-
-//    /**
-//     * Get a list of experimenters
-//     * @return
-//     */
-//    public ArrayList<Experimenter> getExperimenters() {
-//        return experimenters;
-//    }
-//
-//    public void addExperimenters(Experimenter experimenter) {
-//        this.experimenters.add(experimenter);
-//    }
 
     /**
      * Describe the kinds of special objects contained in this Parcelable

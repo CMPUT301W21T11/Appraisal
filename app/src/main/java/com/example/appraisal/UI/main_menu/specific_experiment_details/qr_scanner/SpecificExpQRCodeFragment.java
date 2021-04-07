@@ -21,12 +21,24 @@ public class SpecificExpQRCodeFragment extends Fragment {
 
     private Activity parent_activity;
 
+    /**
+     * This method sets the parent activity for this fragment
+     * @param savedInstanceState -- prevoius saved instance state
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parent_activity = getActivity();
     }
 
+    /**
+     * This method creates the view for the QR code fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

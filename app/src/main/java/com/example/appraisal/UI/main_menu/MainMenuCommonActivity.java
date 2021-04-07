@@ -15,6 +15,10 @@ import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
  * the MenuBar to avoid code duplication.
  */
 public abstract class MainMenuCommonActivity extends AppCompatActivity {
+
+    /**
+     * This method starts the home activity: {@link ExpSubscriptionActivity}
+     */
     public void toHome() {
         if (this.getClass() == ExpSubscriptionActivity.class)
             return;
@@ -22,6 +26,9 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * This method starts the search activity: {@link SearchActivity}
+     */
     public void toSearch() {
         if (this.getClass() == SearchActivity.class)
             return;
@@ -29,19 +36,17 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    public void toForum(View v) {
-//        // When click on forum button
-//        if (this.getClass() == ForumHomeActivity.class)
-//            return;
-//        Intent intent = new Intent(this, ForumHomeActivity.class);
-//        startActivity(intent);
-//    }
-
+    /**
+     * This method starts the QR scanner: {@link com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner}, {@link CameraScanResult}
+     */
     public void toCamera() {
         Intent intent = new Intent(this, CameraScanResult.class);
         startActivity(intent);
     }
 
+    /**
+     * This method starts the my experiments activity: {@link MyExperimentActivity}
+     */
     public void toMyExps() {
         // When click on expList button
         if (this.getClass() == MyExperimentActivity.class)
@@ -50,6 +55,9 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * This method starts the user profile activity: {@link UserProfileActivity}
+     */
     public void toProfile() {
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("flag", "Main");

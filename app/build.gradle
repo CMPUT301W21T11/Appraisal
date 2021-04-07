@@ -12,7 +12,7 @@ android {
     defaultConfig {
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         applicationId "com.example.appraisal"
-        minSdkVersion 27
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"

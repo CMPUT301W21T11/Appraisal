@@ -12,7 +12,7 @@ import com.example.appraisal.backend.user.User;
  * This is the model class for Non Negative Integer count trial
  */
 public class NonNegIntCountModel {
-    private NonNegIntCountTrial data;
+    private final NonNegIntCountTrial data;
 
     public NonNegIntCountModel(Experiment parent_experiment, User conductor) {
         TrialFactory factory = new TrialFactory();

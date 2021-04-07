@@ -46,12 +46,15 @@ public class ExpStatusFragment extends DialogFragment {
     private String exp_ID;
     private CollectionReference ref;
 
+    /**
+     * This interface ensures that the context is an fragment interaction listener
+     */
     public interface OnFragmentInteractionListener{
     }
 
     /**
      * This method is called when th DialogFragment is attached to the MyExperimentActivity
-     * @param context
+     * @param context -- the context
      */
     @Override
     public void onAttach(@NonNull Context context) {
@@ -66,7 +69,7 @@ public class ExpStatusFragment extends DialogFragment {
 
     /**
      * This method creates the Dialog for the user to view results, end, and unpublish their experiments
-     * @param savedInstanceState
+     * @param savedInstanceState -- prevous saved instance state
      * @return the created dialog
      */
     @NonNull
@@ -100,10 +103,6 @@ public class ExpStatusFragment extends DialogFragment {
         is_ended = experiment.getIsEnded();
 
 
-
-        // checkMin();
-//        checkOwnership();
-
         // set textView fields
         setFields();
         // create the dialog
@@ -132,9 +131,10 @@ public class ExpStatusFragment extends DialogFragment {
 
     /**
      * This method creates a newInstance of the fragment
-     * @param experiment
+     * @param experiment -- an {@link Experiment}
      * @return the created instance
      */
+    @NonNull
     public static ExpStatusFragment newInstance(Experiment experiment) {
         Bundle args = new Bundle();
         args.putParcelable("experiment", experiment);
@@ -143,6 +143,9 @@ public class ExpStatusFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * This method dismiss the dialog when on pause
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -156,28 +159,9 @@ public class ExpStatusFragment extends DialogFragment {
         description.setText(experiment.getDescription());   // set description
         Log.d("minTrials", experiment.getMinimumTrials().toString());
         Log.d("currentCount", experiment.getTrialCount().toString());
-        min_count.setText(experiment.getMinimumTrials().toString());
-        current_count.setText(experiment.getTrialCount().toString());
+        min_count.setText(String.valueOf(experiment.getMinimumTrials()));
+        current_count.setText(String.valueOf(experiment.getTrialCount()));
 
-//        if (is_published && !is_ended) {                // if published and open
-//            published_status.setText("Published");
-//            ended_status.setText("Open");
-//            publish_switch.setText("Unpublish");
-//            end_switch.setText("End");
-//        }
-//        else if (is_published && is_ended) {            // if published and ended
-//            published_status.setText("Published");
-//            ended_status.setText("Ended");
-//            publish_switch.setText("Unpublish");
-//            end_switch.setText("Open");
-//        }
-//        else {                                          // if unpublished
-//            published_status.setText("Unpublished");
-//            ended_status.setText("");
-//            publish_switch.setText("Publish");
-//            end_row.setVisibility(View.INVISIBLE);
-//            end_switch.setVisibility(View.INVISIBLE);
-//        }
         if (is_ended) {
             ended_status.setText("Ended");
             end_switch.setText("Open");
@@ -232,8 +216,6 @@ public class ExpStatusFragment extends DialogFragment {
      * This method goes to the specific activity to display the contents of the experiment selected
      */
     public void goViewResults(){
-        // TODO: when VIEW RESULTS Button on dialog is clicked
-
         Intent intent = new Intent(getActivity(), SpecificExpActivity.class);
         try {
             MainModel.setCurrentExperiment(experiment);
@@ -250,43 +232,31 @@ public class ExpStatusFragment extends DialogFragment {
     public void changeIfPublished(){
         if (is_published){                              // if it's published, switch to Unpublished
             published_status.setText("Unpublished");
-//            ended_status.setText("");
             publish_switch.setText("Publish");
-//            end_switch.setVisibility(View.INVISIBLE);
-//            end_row.setVisibility(View.INVISIBLE);
             is_published = false;
-//            is_ended = true;
         }
         else {                                          // else it's unpublished, switch to Published and Open
             published_status.setText("Published");
-//            ended_status.setText("Open");
             publish_switch.setText("Unpublish");
-//            end_switch.setVisibility(View.VISIBLE);
-//            end_row.setVisibility(View.VISIBLE);
 
-//            end_switch.setText("End");
             is_published = true;
-//            is_ended = false;
         }
-//        end_switch.setEnabled(is_published);
     }
 
     /**
      * This method changed ended status
      */
     public void changeIfEnded(){
-//        if (is_published){
-            if (is_ended){                              // if published and ended, switch to published and open
-                ended_status.setText("Open");
-                end_switch.setText("End");
-                is_ended = false;
-            }
-            else {                                      // else switch to published and ended
-                ended_status.setText("Ended");
-                end_switch.setText("Open");
-                is_ended = true;
-            }
-//        }
+        if (is_ended){                              // if published and ended, switch to published and open
+            ended_status.setText("Open");
+            end_switch.setText("End");
+            is_ended = false;
+        }
+        else {                                      // else switch to published and ended
+            ended_status.setText("Ended");
+            end_switch.setText("Open");
+            is_ended = true;
+        }
 
     }
 
@@ -316,41 +286,7 @@ public class ExpStatusFragment extends DialogFragment {
                 int minNum = Integer.parseInt(value.getData().get("minTrials").toString());
                 int currentNum = Integer.parseInt(value.getData().get("numOfTrials").toString());
                 end_switch.setEnabled(currentNum >= minNum);
-//                if (currentNum < minNum) {
-////                    checkMin = false;
-//                    end_switch.setVisibility(View.INVISIBLE);
-
-//                }
-//                else{
-//                    checkMin = true;
-//                }
-//
-//                if (!checkMin){
-//                    end_switch.setVisibility(View.INVISIBLE);
-//                }
             }
         });
     }
-
-//    private void checkOwnership(){
-//
-//        try {
-//            current_user = MainModel.getCurrentUser();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        String owner = experiment.getOwner();
-//
-//        if(!owner.equals(current_user.getID())){
-//            publish_switch.setVisibility(View.INVISIBLE);
-//            end_switch.setVisibility(View.INVISIBLE);
-//        }
-//        else {
-//            publish_switch.setVisibility(View.VISIBLE);
-//            end_switch.setVisibility(View.VISIBLE);
-//        }
-//
-//    }
-
 }
