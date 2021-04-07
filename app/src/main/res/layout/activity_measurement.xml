@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="0.00"
-        android:inputType="numberDecimal"
+        android:inputType="numberDecimal|numberSigned"
         android:textSize="60dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
