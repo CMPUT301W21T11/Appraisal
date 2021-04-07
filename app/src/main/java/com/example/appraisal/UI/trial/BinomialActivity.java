@@ -1,10 +1,12 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -192,18 +194,21 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         }
         trial_info.put("experimenterID", experimenterID);
 
+        Context self = this;
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("***", "DocumentSnapshot successfully written!");
+                        Toast.makeText(self, "Trial Addition successful!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("***", "Error writing document", e);
+                        Toast.makeText(self, "Trail Addition failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
