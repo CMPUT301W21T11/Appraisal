@@ -52,11 +52,8 @@ public class QRPromptActivity extends AppCompatActivity {
                 generate_button.setOnClickListener(v -> generateQRTrialValue(exp_type));
                 break;
             case COUNT_TRIAL:
-                Intent intent = new Intent(this, QRPhotoActivity.class);
-                intent.putExtra("val","1");
-                intent.putExtra("exp_type", exp_type.getLabel());
-                finish(); // finish this generator prompt and start the QR generator
-                startActivity(intent);
+                setContentView(R.layout.activity_qr_prompt_value_input);
+                generateCountTrial();
                 break;
             default:
                 setContentView(R.layout.activity_qr_prompt_bin_trial);
@@ -112,5 +109,13 @@ public class QRPromptActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         });
+    }
+
+    private void generateCountTrial() {
+        Intent intent = new Intent(this, QRPhotoActivity.class);
+        intent.putExtra("val","1");
+        intent.putExtra("exp_type", TrialType.COUNT_TRIAL.getLabel());
+        finish(); // finish this generator prompt and start the QR generator
+        startActivity(intent);
     }
 }
