@@ -266,15 +266,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // obtain quartile info from model
         Quartile quartiles = model.getQuartileInfo();
 
-        // Calculate Maximum and minimum excluding outliers
-        double minimum = quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR());
-        if (minimum < quartiles.getTrialMinValue()) {
-            minimum = quartiles.getTrialMinValue();
-        }
-        double maximum = quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR());
-        if (maximum > quartiles.getTrialMaxValue()) {
-            maximum = quartiles.getTrialMaxValue();
-        }
+        // get min and max
+        double minimum = quartiles.getTrialMinValue();
+        double maximum = quartiles.getTrialMaxValue();
 
         // Calculate outlier percentage
         int outlier_count = quartiles.getOutLiers().size();
@@ -282,11 +276,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         double percent = (outlier_count / (double) total) * 100;
 
         // Set values to TextViews
-        min.setText(String.valueOf(minimum));
-        max.setText(String.valueOf(maximum));
-        q1.setText(String.valueOf(quartiles.getFirstQuartile()));
-        q3.setText(String.valueOf(quartiles.getThirdQuartile()));
-        iqr.setText(String.valueOf(quartiles.getIQR()));
+        min.setText(String.format(Locale.ENGLISH, "%.2f",minimum));
+        max.setText(String.format(Locale.ENGLISH, "%.2f",maximum));
+        q1.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getFirstQuartile()));
+        q3.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getThirdQuartile()));
+        iqr.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getIQR()));
         outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 
