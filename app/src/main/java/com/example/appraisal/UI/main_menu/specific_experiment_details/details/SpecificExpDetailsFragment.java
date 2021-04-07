@@ -23,7 +23,6 @@ import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -60,6 +59,10 @@ public class SpecificExpDetailsFragment extends Fragment {
 
     private ArrayList<Geopoints> geopoints_list;
 
+    private TextView is_open_logo_text;
+    private TextView type_logo_text;
+    private TextView geo_logo_text;
+
     /**
      * Gets called when the fragment gets created
      * @param inflater
@@ -81,6 +84,10 @@ public class SpecificExpDetailsFragment extends Fragment {
         plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
         plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
+
+        is_open_logo_text = v.findViewById(R.id.is_open_logo_text);
+        type_logo_text = v.findViewById(R.id.type_logo_text);
+        geo_logo_text = v.findViewById(R.id.geo_logo_text);
 
 
         try {
@@ -112,15 +119,19 @@ public class SpecificExpDetailsFragment extends Fragment {
         ImageView icon = v.findViewById(R.id.type_icon);
         if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_count));
+            type_logo_text.setText("Count-Trial");
         }
         else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_coin));
+            type_logo_text.setText("Binomial");
         }
         else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_num));
+            type_logo_text.setText("Non-Neg-Trial");
         }
         else {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_thermometer_three_quarters_solid));
+            type_logo_text.setText("Measurement");
         }
         icon.setOnClickListener((listener) -> madeToast());
 
@@ -129,9 +140,11 @@ public class SpecificExpDetailsFragment extends Fragment {
         ImageView ended_icon = v.findViewById(R.id.is_ended_icon);
         if (current_experiment.getIsEnded()) {
             ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.cross));
+            is_open_logo_text.setText("Ended");
         }
         else {
             ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_check_circle_solid));
+            is_open_logo_text.setText("Open");
         }
 
         desc.setText(current_experiment.getDescription());
@@ -151,10 +164,12 @@ public class SpecificExpDetailsFragment extends Fragment {
         if (current_experiment.getIsGeolocationRequired()){
             geo_required.setText("Yes");
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_alt_solid));
+            geo_logo_text.setText("Geo-Required");
         }
         else {
             geo_required.setText("No");
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
+            geo_logo_text.setText("Non-Geo");
         }
 
         try {

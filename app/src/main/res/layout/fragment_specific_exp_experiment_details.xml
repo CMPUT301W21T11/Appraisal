@@ -37,33 +37,89 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="45dp">
 
-                <ImageView
-                    android:id="@+id/type_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_weight="0.5"
-                    app:srcCompat="@drawable/ic_count" />
-
-                <ImageView
-                    android:id="@+id/geo_icon"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:src="@drawable/geo_req" />
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/is_ended_icon"
+                    <ImageView
+                        android:id="@+id/is_ended_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/ic_check_circle_solid" />
+
+                    <TextView
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/comic_regular"
+                        android:id="@+id/is_open_logo_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.45"
+                        android:text="TextView"
+                        android:textSize="15sp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:src="@drawable/ic_check_circle_solid" />
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/type_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_weight="0.5"
+                        android:layout_marginBottom="3dp"
+                        app:srcCompat="@drawable/ic_count" />
+
+                    <TextView
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/comic_regular"
+                        android:id="@+id/type_logo_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.45"
+                        android:text="TextView"
+                        android:textSize="15sp"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/geo_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:src="@drawable/geo_req" />
+
+                    <TextView
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/comic_regular"
+                        android:id="@+id/geo_logo_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.45"
+                        android:text="TextView"
+                        android:textSize="15sp"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
