@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +35,8 @@ public class QRPhotoActivity extends AppCompatActivity {
         qr_code = findViewById(R.id.qr_code);
         TextView exp_title = findViewById(R.id.activity_generator_qr_exp_title);
         TextView trial_type = findViewById(R.id.activity_generator_qr_trial_value);
+        Button finish_button = findViewById(R.id.generator_qr_finish);
+        finish_button.setOnClickListener(v -> finish());
 
         MultiFormatWriter writer = new MultiFormatWriter();
 
@@ -60,8 +63,10 @@ public class QRPhotoActivity extends AppCompatActivity {
                 break;
             case MEASUREMENT_TRIAL:
                 trial_type.setText("Measurement Trial: " + value);
+                break;
             case NON_NEG_INT_TRIAL:
                 trial_type.setText("Non Negative Integer Trial: " + value);
+                break;
             default:
                 trial_type.setText("Count Trial + 1");
         }
