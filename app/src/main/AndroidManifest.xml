@@ -81,7 +81,12 @@
             android:name=".UI.geolocation.GeolocationActivity"
             android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity"
+            android:theme="@style/EditProfileTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
+        </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
 
     </application>
