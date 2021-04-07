@@ -93,6 +93,7 @@ public class CameraScanResult extends AppCompatActivity {
                         return;
                     }
                     displayResult(result);
+                    addGeolocation();
                 } catch (Exception e) {
                     Log.e("CameraScanResult:", "Error when processing QR codes: " + e.getMessage());
                     e.printStackTrace();
@@ -101,6 +102,10 @@ public class CameraScanResult extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    private void addGeolocation() {
+
     }
 
     private void displayResult(Result result) throws Exception {
@@ -240,7 +245,7 @@ public class CameraScanResult extends AppCompatActivity {
         } else {
             result = attempt.toString();
         }
-        return result;
+        return result.trim();
     }
 
     private void findExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
