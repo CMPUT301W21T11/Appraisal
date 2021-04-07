@@ -36,7 +36,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
@@ -62,6 +64,8 @@ public class SpecificExpDetailsFragment extends Fragment {
     private TextView is_open_logo_text;
     private TextView type_logo_text;
     private TextView geo_logo_text;
+
+    private TextView current_count;
 
     /**
      * Gets called when the fragment gets created
@@ -89,6 +93,8 @@ public class SpecificExpDetailsFragment extends Fragment {
         type_logo_text = v.findViewById(R.id.type_logo_text);
         geo_logo_text = v.findViewById(R.id.geo_logo_text);
 
+        current_count = v.findViewById(R.id.specific_exp_details_current_trial_count);
+
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
@@ -113,8 +119,9 @@ public class SpecificExpDetailsFragment extends Fragment {
         // TODO Refactor to logo
         // TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
-        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
-        TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+        TextView rules_constraints = v.findViewById(R.id.specific_exp_details_rules_constraints);
+        // TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+        // TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
 
         ImageView icon = v.findViewById(R.id.type_icon);
         if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
@@ -149,25 +156,41 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         desc.setText(current_experiment.getDescription());
         // type.setText(current_experiment.getType());
+        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+
         owner.setText(current_experiment.getOwner().substring(0, 7));
-        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
-            status.setText("Open");
-        }
-        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
-            status.setText("Ended");
+        if (current_experiment.getIsPublished()) {
+            status.setText("Published");
         }
         else {
             status.setText("Unpublished");
         }
 
+        TextView region = v.findViewById(R.id.specific_exp_details_region);
+        if (!current_experiment.getRegion().equals("")){
+            region.setText(current_experiment.getRegion());
+        }
+        else {
+            region.setVisibility(View.GONE);
+        }
+
+        if (!current_experiment.getRules().equals("")) {
+            rules_constraints.setText((current_experiment.getRules()));
+        }
+        else {
+            rules_constraints.setVisibility(View.GONE);
+        }
+
+        TextView min_trials = v.findViewById(R.id.specific_exp_details_min_trials);
+        min_trials.setText(current_experiment.getMinimumTrials().toString());
+        updateCount();
+
         ImageView geo_icon = v.findViewById(R.id.geo_icon);
         if (current_experiment.getIsGeolocationRequired()){
-            geo_required.setText("Yes");
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_alt_solid));
             geo_logo_text.setText("Geo-Required");
         }
         else {
-            geo_required.setText("No");
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
             geo_logo_text.setText("Non-Geo");
         }
@@ -245,6 +268,15 @@ public class SpecificExpDetailsFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void updateCount(){
+        exp_ref.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                current_count.setText(value.getData().get("numOfTrials").toString());
+            }
+        });
+
+    }
 
     private void plotAllTrialsOnMap(){
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);

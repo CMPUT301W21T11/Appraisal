@@ -128,15 +128,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
                 >
 
 
-                <ImageView
+                <TextView
+                    android:id="@+id/textView4"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    app:srcCompat="@drawable/user_icon" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Owner:"
+                    android:paddingLeft="35dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/lato_regular"/>
 
                 <TextView
                     android:id="@+id/specific_exp_details_owner"
@@ -155,24 +159,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    app:srcCompat="@drawable/status_icon" />
+                android:layout_marginBottom="10dp"
+                >
 
 
                 <TextView
-                    android:id="@+id/specific_exp_details_experiment_status"
+                    android:id="@+id/textView5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Region:"
+                    android:paddingLeft="35dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/lato_regular"/>
+
+                <TextView
+                    android:id="@+id/specific_exp_details_region"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
-                    android:text="Active"
+                    android:text="user0000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -182,28 +190,122 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="invisible">
-
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.5"
-                    app:srcCompat="@drawable/geo_req" />
+                android:layout_marginBottom="10dp"
+                >
 
 
                 <TextView
-                    android:id="@+id/specific_exp_details_geolocation_required"
+                    android:id="@+id/textView6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rules:"
+                    android:paddingLeft="35dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/lato_regular"/>
+
+                <TextView
+                    android:id="@+id/specific_exp_details_rules_constraints"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
-                    android:text="Yes"
+                    android:text="user0000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                >
+
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Status:"
+                    android:paddingLeft="35dp"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/lato_regular"/>
+
+                <TextView
+                    android:id="@+id/specific_exp_details_experiment_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="user0000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                >
+
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingLeft="35dp"
+                    android:text="Min. trial count:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/specific_exp_details_min_trials"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="user0000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+
+                <TextView
+                    android:id="@+id/textView100"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingLeft="35dp"
+                    android:text="Current trial count:"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/specific_exp_details_current_trial_count"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="user0000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
