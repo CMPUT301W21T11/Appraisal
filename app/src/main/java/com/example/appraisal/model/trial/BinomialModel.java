@@ -10,7 +10,7 @@ import com.example.appraisal.backend.user.User;
  * This is the model class for binomial trial
  */
 public class BinomialModel {
-    private BernoulliTrial bin_trial;
+    private final BernoulliTrial bin_trial;
 
     public BinomialModel(Experiment parent_experiment, User conductor){
         TrialFactory factory = new TrialFactory();

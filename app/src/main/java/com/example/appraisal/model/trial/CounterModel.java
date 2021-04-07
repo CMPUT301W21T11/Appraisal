@@ -10,7 +10,7 @@ import com.example.appraisal.backend.user.User;
  * This is the model class for a counter trial
  */
 public class CounterModel {
-    private CountTrial trial;
+    private final CountTrial trial;
 
     /**
      * Initialize the model for count trial
@@ -29,6 +29,7 @@ public class CounterModel {
     public int getCountTrial() {
         return (int) trial.getValue();
     }
+
     /**
      * Save the trial to the parent experiment
      */

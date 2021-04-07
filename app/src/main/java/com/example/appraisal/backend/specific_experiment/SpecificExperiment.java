@@ -26,8 +26,8 @@ public class SpecificExperiment {
 
     /**
      * Creates an instance of the Specific Experiment wrapper
-     * @param current_experiment
-     *      This is the experiment that needs to generate statistics
+     *
+     * @param current_experiment -- This is the experiment that needs to generate statistics
      */
     public SpecificExperiment(@NonNull Experiment current_experiment) {
         this.current_experiment = current_experiment;
@@ -44,8 +44,8 @@ public class SpecificExperiment {
 
     /**
      * Return the owner of the provided experiment
-     * @return {@link User}
-     *      This is the owner of the experiment
+     *
+     * @return {@link User} -- This is the owner of the experiment
      */
     public String getOwner() {
         return current_experiment.getOwner();
@@ -53,8 +53,8 @@ public class SpecificExperiment {
 
     /**
      * Return the list of trials of the experiment
-     * @return list_of_trials
-     *      Copy of the list_of_trials in the experiment
+     *
+     * @return list_of_trials -- Copy of the list_of_trials in the experiment
      */
     public ArrayList<Trial> getListOfTrials() {
         return new ArrayList<>(list_of_trials);
@@ -62,8 +62,8 @@ public class SpecificExperiment {
 
     /**
      * Return the results of trial over time
-     * @return data_points
-     *      SortedMap of Date and result of trial
+     *
+     * @return data_points -- SortedMap of Date and result of trial
      */
     @NonNull
     public SortedMap<Date, Double> getTrialsPerDate() {
@@ -81,8 +81,8 @@ public class SpecificExperiment {
 
     /**
      * Return the mean (average) of the supplied experiment
-     * @return mean
-     *      Mean of the experiment as float
+     *
+     * @return mean -- Mean of the experiment as float
      */
     public float getExperimentMean() {
         if (total == 0) {
@@ -99,8 +99,8 @@ public class SpecificExperiment {
 
     /**
      * Return the standard deviation of the supplied experiment
-     * @return stdDev
-     *      Standard Deviation of the experiment
+     *
+     * @return stdDev -- Standard Deviation of the experiment
      */
     public float getExperimentStDev() {
         if (total <= 1) { // when there is only 1 sample there is no variance
@@ -120,8 +120,7 @@ public class SpecificExperiment {
 
     /**
      * Return the width of the interval of the generated histogram
-     * @return width
-     *      Width of the interval
+     * @return width -- Width of the interval
      */
     public double getHistogramIntervalWidth() {
         // safety check
@@ -146,8 +145,8 @@ public class SpecificExperiment {
 
     /**
      * Return the Frequency of each trial measurements for a predefined interval
-     * @return data_points
-     *     This is the hash table of no. of trials for each interval
+     *
+     * @return data_points -- This is the hash table of no. of trials for each interval
      */
     public SortedMap<Float, Integer> getHistogramIntervalFrequency() {
         // How to calculate measurement frequency and intervals are taken from MoreStream
@@ -200,8 +199,9 @@ public class SpecificExperiment {
     }
 
     /**
-     * Return the Quartile object that contains all the quartile informations of the given experiment
-     * @return
+     * Return the Quartile object that contains all the quartile information of the given experiment
+     *
+     * @return Quartile -- {@link Quartile} object that stores all the quartile info
      */
     public Quartile getQuartile() {
         return quartile;

@@ -20,8 +20,6 @@ public class Experiment implements Parcelable {
     private String owner;
     private String description;
 
-//    private ArrayList<Experimenter> experimenters;
-//    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
 
     private String type;

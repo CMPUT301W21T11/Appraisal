@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * This model is for communicating with {@link SpecificExperiment} class
+ * for obtaining graphing data points and other experiment stats
+ */
 public class SpecificExpModel {
     private final SpecificExperiment specificExperiment;
     private final double stdDev;
