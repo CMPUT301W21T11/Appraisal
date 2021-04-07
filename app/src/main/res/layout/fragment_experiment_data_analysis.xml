@@ -344,7 +344,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:text="Results Over Time"
+                android:text="Trials Over Time"
                 android:textSize="30sp"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
