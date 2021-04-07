@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounder_corner_profile"
             android:elevation="100dp"
             android:fontFamily="@font/lato_regular"
             android:paddingLeft="20dp"
@@ -183,20 +182,6 @@
             android:paddingLeft="40sp"
             android:paddingRight="40sp">
 
-
-<!--            <Button-->
-<!--                android:id="@+id/apply_changes_btn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/rounder_corner"-->
-<!--                android:backgroundTint="@color/white"-->
-<!--                android:fontFamily="@font/lato_regular"-->
-<!--                android:onClick="applyChangesToProfile"-->
-<!--                android:text="Save"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:textColor="@color/pink"-->
-<!--                android:textStyle="bold" />-->
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_changes_btn"

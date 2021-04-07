@@ -25,14 +25,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="@drawable/rounder_corner_profile"
             android:fontFamily="@font/lato_regular"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
             android:text="UserID"
-            android:textColor="@color/pink"
+            android:textColor="@color/gold"
             android:textSize="30sp" />
 
 
@@ -42,8 +41,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:orientation="horizontal">
+            android:paddingLeft="20dp"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="8dp">
 
 
 <!--            <TextView-->
@@ -66,7 +67,6 @@
                 android:layout_weight="1"
                 android:id="@+id/name_textview"
                 android:layout_width="0dp"
-                android:textStyle="bold"
                 android:fontFamily="@font/lato_regular"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -83,8 +83,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:padding="20dp"
-            android:orientation="horizontal">
+            android:paddingLeft="20dp"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp">
 
 
 <!--            <TextView-->
@@ -105,7 +106,6 @@
 
             <TextView
                 android:layout_weight="1"
-                android:textStyle="bold"
                 android:id="@+id/email_address_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -121,9 +121,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:paddingLeft="20dp"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="70dp"
+            >
 
 
 <!--            <TextView-->
@@ -145,7 +147,6 @@
 
             <TextView
                 android:layout_weight="1"
-                android:textStyle="bold"
                 android:id="@+id/phone_number_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -175,9 +176,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/lato_regular"
+            android:fontFamily="@font/lato_bold"
             android:drawableLeft="@drawable/edit_icon"
-            android:text="Edit Profile"
+            android:text="Edit"
             android:drawablePadding="20dp"
             android:textAlignment="center"
             android:paddingLeft="20dp"

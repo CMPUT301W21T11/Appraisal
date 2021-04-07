@@ -7,36 +7,36 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_menu_bg">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fragment_spec_exp_qr_code_register_button"
         android:layout_width="235dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/ice_blue_button_stroke"
         android:text="Register Bar Code"
-        android:backgroundTint="@color/ice_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_spec_exp_qr_code_scan_button"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fragment_spec_exp_qr_code_generate_button"
         android:layout_width="235dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="164dp"
+        android:background="@drawable/ice_blue_button_stroke"
         android:text="Generate QR Code"
-        android:backgroundTint="@color/ice_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/fragment_spec_exp_qr_code_scan_button"
         android:layout_width="235dp"
         android:layout_height="75dp"
-        android:layout_marginTop="60dp"
-        android:backgroundTint="@color/ice_blue"
+        android:layout_marginTop="88dp"
+        android:background="@drawable/ice_blue_button_stroke"
         android:text="Scan Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

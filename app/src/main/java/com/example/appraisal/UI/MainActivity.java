@@ -40,13 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         View decorView = getWindow().getDecorView();
 
-//        getWindow().setDecorFitsSystemWindows(false);
-//        WindowInsetsController controller = getWindow().getInsetsController();
-//        if (controller != null) {
-//            controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-//            controller.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-//        }
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();

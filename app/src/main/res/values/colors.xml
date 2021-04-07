@@ -27,6 +27,7 @@
     <color name="textColorPrimary">@color/white</color>
     <color name="textColorSecondary">@color/white</color>
     <color name="textColorTertiary">@color/white</color>
+    <color name="gold">#DAA520</color>
 
 </resources>
 

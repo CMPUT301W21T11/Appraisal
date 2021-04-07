@@ -85,21 +85,6 @@
 
         </TableLayout>
 
-        <EditText
-            android:id="@+id/barcode_scan_result_count_input"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:hint="0"
-            android:inputType="number"
-            android:textSize="60sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
 
         <Button
             android:id="@+id/barcode_scan_result_finish_button"
@@ -118,11 +103,12 @@
             android:id="@+id/barcode_scan_result_count_increment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Assign barcode to add trial"
+            android:layout_marginTop="28dp"
+            android:text="Assign barcode to add +1 trial"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barcode_scan_result_count_input" />
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
