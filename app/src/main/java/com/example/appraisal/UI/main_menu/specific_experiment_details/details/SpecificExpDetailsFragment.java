@@ -171,14 +171,16 @@ public class SpecificExpDetailsFragment extends Fragment {
             region.setText(current_experiment.getRegion());
         }
         else {
-            region.setVisibility(View.GONE);
+            // region.setVisibility(View.GONE);
+            region.setText("N/A");
         }
 
         if (!current_experiment.getRules().equals("")) {
             rules_constraints.setText((current_experiment.getRules()));
         }
         else {
-            rules_constraints.setVisibility(View.GONE);
+            // rules_constraints.setVisibility(View.GONE);
+            rules_constraints.setText("N/A");
         }
 
         TextView min_trials = v.findViewById(R.id.specific_exp_details_min_trials);

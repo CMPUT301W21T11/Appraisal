@@ -9,10 +9,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
 
         <LinearLayout
@@ -24,23 +24,22 @@
                 android:id="@+id/specific_exp_details_experiment_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato_regular"
                 android:gravity="center_horizontal"
-                android:text="Title/Description"
-                android:textSize="35sp"
-                android:paddingTop="15dp"
-                android:layout_marginTop="10dp"
-
                 android:paddingLeft="20dp"
+                android:paddingTop="15dp"
                 android:paddingRight="20dp"
-                />
+
+                android:text="Title/Description"
+                android:textSize="35sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:orientation="horizontal"
                 android:layout_marginTop="35dp"
-                android:layout_marginBottom="45dp">
+                android:layout_marginBottom="45dp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,15 +55,15 @@
                         android:src="@drawable/ic_check_circle_solid" />
 
                     <TextView
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/comic_regular"
                         android:id="@+id/is_open_logo_text"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
                         android:layout_weight="0.45"
+                        android:fontFamily="@font/comic_regular"
+                        android:gravity="center"
                         android:text="TextView"
-                        android:textSize="15sp"
-                        android:gravity="center"/>
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -79,20 +78,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
 
-                        android:layout_weight="0.5"
                         android:layout_marginBottom="3dp"
+                        android:layout_weight="0.5"
                         app:srcCompat="@drawable/ic_count" />
 
                     <TextView
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/comic_regular"
                         android:id="@+id/type_logo_text"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
                         android:layout_weight="0.45"
+                        android:fontFamily="@font/comic_regular"
+                        android:gravity="center"
                         android:text="TextView"
-                        android:textSize="15sp"
-                        android:gravity="center"/>
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -109,15 +108,15 @@
                         android:src="@drawable/geo_req" />
 
                     <TextView
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/comic_regular"
                         android:id="@+id/geo_logo_text"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
                         android:layout_weight="0.45"
+                        android:fontFamily="@font/comic_regular"
+                        android:gravity="center"
                         android:text="TextView"
-                        android:textSize="15sp"
-                        android:gravity="center"/>
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -127,9 +126,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -137,10 +135,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Owner:"
+                    android:fontFamily="@font/lato_regular"
                     android:paddingLeft="35dp"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/lato_regular"/>
+                    android:text="Owner:"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/specific_exp_details_owner"
@@ -154,13 +152,11 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -168,10 +164,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Region:"
+                    android:fontFamily="@font/lato_regular"
                     android:paddingLeft="35dp"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/lato_regular"/>
+                    android:text="Region:"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/specific_exp_details_region"
@@ -189,9 +185,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -199,10 +194,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Rules:"
+                    android:fontFamily="@font/lato_regular"
                     android:paddingLeft="35dp"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/lato_regular"/>
+                    android:text="Rules:"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/specific_exp_details_rules_constraints"
@@ -219,9 +214,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -229,10 +223,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Status:"
+                    android:fontFamily="@font/lato_regular"
                     android:paddingLeft="35dp"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/lato_regular"/>
+                    android:text="Status:"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/specific_exp_details_experiment_status"
@@ -249,9 +243,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp"
-                >
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -272,15 +265,15 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
                     android:text="user0000"
+                    android:textColor="#DAA520"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
 
                 <TextView
@@ -290,7 +283,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
                     android:paddingLeft="35dp"
-                    android:text="Current trial count:"
+                    android:text="Current count:"
                     android:textSize="20sp" />
 
                 <TextView
@@ -301,18 +294,15 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
                     android:text="user0000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="20sp" />
             </LinearLayout>
-
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="145dp"
-                android:orientation="horizontal"
-                >
+                android:layout_marginTop="60dp"
+                android:orientation="horizontal">
 
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -337,21 +327,20 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/specific_exp_details_add_trial_button"
-                    android:layout_height="match_parent"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="40dp"
                     android:layout_weight="1"
+
+                    android:background="@drawable/ice_blue_button"
                     android:drawableLeft="@drawable/add"
                     android:fontFamily="@font/lato_regular"
 
                     android:padding="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="40dp"
-
                     android:text="Trial"
-                    android:textAlignment="center"
 
-                    android:background="@drawable/ice_blue_button"
-                    />
+                    android:textAlignment="center" />
 
 
             </LinearLayout>

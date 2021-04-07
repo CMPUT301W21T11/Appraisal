@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Questions"
             android:textColor="@color/ice_blue"
-            android:fontFamily="@font/lato_thin"
+            android:fontFamily="@font/lato_regular"
             android:clickable="false"
             android:padding="10sp"
             android:textAllCaps="false"

@@ -30,7 +30,7 @@
             android:fontFamily="@font/lato_regular"
             android:clickable="false"
             android:padding="10sp"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textSize="40sp"
             android:gravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
