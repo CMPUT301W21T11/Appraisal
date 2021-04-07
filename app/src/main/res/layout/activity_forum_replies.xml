@@ -26,22 +26,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Question"
-            android:textColor="@color/ice_blue"
+            android:textColor="@color/white"
             android:fontFamily="@font/lato_regular"
             android:clickable="false"
-            android:padding="10sp"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
             android:textAllCaps="false"
-            android:textSize="40sp"
-            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_bubble_left"/>
 
         <ListView
             android:id="@+id/forum_replies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="20dp"
-            android:padding="20dp"></ListView>
+            android:padding="20dp" />
 
     </LinearLayout>
 

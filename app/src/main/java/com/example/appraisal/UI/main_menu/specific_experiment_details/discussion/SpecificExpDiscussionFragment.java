@@ -67,7 +67,7 @@ public class SpecificExpDiscussionFragment extends Fragment {
 
         question_display = v.findViewById(R.id.forum_questions);
         questions_list = new ArrayList<>();
-        question_adapter = new ArrayAdapter<>(this.getActivity(), R.layout.list_content, questions_list);
+        question_adapter = new ArrayAdapter<>(this.getActivity(), R.layout.list_question, questions_list);
 
         getDbQuestions();
 

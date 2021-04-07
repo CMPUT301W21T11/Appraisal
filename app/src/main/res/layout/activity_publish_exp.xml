@@ -19,8 +19,9 @@
             <EditText
                 android:id="@+id/expDesc"
                 android:layout_width="318dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="36dp"
+                android:background="@drawable/ice_blue_button_stroke"
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
@@ -86,9 +87,9 @@
                     android:id="@+id/radioButtonNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="No"
-                    android:textColor="#FFFFFF"
-                    android:checked="true"/>
+                    android:textColor="#FFFFFF" />
 
             </RadioGroup>
 
@@ -106,8 +107,9 @@
             <EditText
                 android:id="@+id/expMinTrials"
                 android:layout_width="318dp"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="364dp"
+                android:background="@drawable/ice_blue_button_stroke"
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="number"
@@ -131,8 +133,9 @@
             <EditText
                 android:id="@+id/expRules"
                 android:layout_width="318dp"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="40dp"
+                android:background="@drawable/ice_blue_button_stroke"
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
@@ -155,8 +158,9 @@
             <EditText
                 android:id="@+id/expRegion"
                 android:layout_width="318dp"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="40dp"
+                android:background="@drawable/ice_blue_button_stroke"
                 android:ems="10"
                 android:imeOptions="actionDone"
                 android:inputType="textPersonName"
@@ -175,11 +179,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/expRegion" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/publish_confirm"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="52dp"
+                android:background="@drawable/ice_blue_button"
+                android:fontFamily="@font/lato_regular"
                 android:onClick="createNewExp"
                 android:text="Publish"
                 app:layout_constraintBottom_toBottomOf="parent"

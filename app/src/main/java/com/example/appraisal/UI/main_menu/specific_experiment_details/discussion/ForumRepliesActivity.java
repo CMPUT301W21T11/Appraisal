@@ -1,7 +1,6 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details.discussion;
 
 import android.content.DialogInterface;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -74,9 +73,11 @@ public class ForumRepliesActivity extends  AppCompatActivity {
             e.printStackTrace();
         }
 
+
         reply_display = findViewById(R.id.forum_replies);
         replies_list = new ArrayList<>();
-        reply_adapter = new ArrayAdapter<>(this, R.layout.list_content, replies_list);
+
+        reply_adapter = new ArrayAdapter<>(this, R.layout.list_answer, replies_list);
 
         getDbReplies();
 

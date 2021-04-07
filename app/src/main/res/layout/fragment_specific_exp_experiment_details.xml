@@ -265,7 +265,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/lato_regular"
                     android:text="user0000"
-                    android:textColor="#DAA520"
+                    android:textColor="@color/gold"
                     android:textSize="20sp"
 />
             </LinearLayout>
