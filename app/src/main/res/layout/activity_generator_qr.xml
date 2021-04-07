@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,20 +7,44 @@
     android:background="@drawable/main_menu_bg">
 
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/qr_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/activity_generator_qr_trial_value"
+        app:srcCompat="@drawable/add" />
 
-        <ImageView
-            android:id="@+id/qr_code"
-            android:layout_width="match_parent"
-            android:layout_height="527dp"
-            android:layout_marginTop="120dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/add" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="QR Code for:"
+        app:layout_constraintBottom_toTopOf="@+id/activity_generator_qr_exp_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/activity_generator_qr_exp_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Experiment Title"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/activity_generator_qr_trial_value"
+        android:layout_width="68dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="20dp"
+        android:text="Trial Value"
+        app:layout_constraintStart_toStartOf="@+id/activity_generator_qr_exp_title"
+        app:layout_constraintTop_toBottomOf="@+id/activity_generator_qr_exp_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

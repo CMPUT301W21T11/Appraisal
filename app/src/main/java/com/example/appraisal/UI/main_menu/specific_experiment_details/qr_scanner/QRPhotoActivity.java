@@ -4,11 +4,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -30,7 +32,8 @@ public class QRPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_generator_qr);
 
         qr_code = findViewById(R.id.qr_code);
-        //trial_value_qr_input = findViewById(R.id.trial_value_qr_input);
+        TextView exp_title = findViewById(R.id.activity_generator_qr_exp_title);
+        TextView trial_type = findViewById(R.id.activity_generator_qr_trial_value);
 
         MultiFormatWriter writer = new MultiFormatWriter();
 
@@ -42,8 +45,26 @@ public class QRPhotoActivity extends AppCompatActivity {
             return;
         }
 
+        exp_title.setText(current_exp.getDescription());
         String value = getIntent().getStringExtra("val");
-        String message = getResources().getString(R.string.app_name) + ";" + value + ";" + current_exp.getType() + ";" + current_exp.getExpId();
+        String message = getResources().getString(R.string.app_name) + ";" + current_exp.getType() + ";" + value + ";" + current_exp.getExpId();
+
+        TrialType exp_type = TrialType.getInstance(current_exp.getType());
+        switch (exp_type) {
+            case BINOMIAL_TRIAL:
+                if (value.equalsIgnoreCase("1")) {
+                    trial_type.setText("Binomial Trial: SUCCESS");
+                } else {
+                    trial_type.setText("Binomial Trial: FAILURE");
+                }
+                break;
+            case MEASUREMENT_TRIAL:
+                trial_type.setText("Measurement Trial: " + value);
+            case NON_NEG_INT_TRIAL:
+                trial_type.setText("Non Negative Integer Trial: " + value);
+            default:
+                trial_type.setText("Count Trial + 1");
+        }
 
         BitMatrix bit_matrix;
         try {

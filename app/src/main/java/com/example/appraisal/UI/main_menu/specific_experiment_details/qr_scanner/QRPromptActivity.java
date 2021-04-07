@@ -86,7 +86,6 @@ public class QRPromptActivity extends AppCompatActivity {
 
         String value = trial_value_qr_input.getText().toString();
         intent.putExtra("val", value);
-        intent.putExtra("exp_type", exp_type.getLabel());
         finish();
         startActivity(intent);
     }
@@ -97,7 +96,6 @@ public class QRPromptActivity extends AppCompatActivity {
         Button fail_button = findViewById(R.id.activity_qr_bin_fail_generator);
         fail_button.setOnClickListener(v -> {
             intent.putExtra("val", "0"); // failure
-            intent.putExtra("exp_type", TrialType.BINOMIAL_TRIAL.getLabel());
             finish();
             startActivity(intent);
         });
@@ -105,7 +103,6 @@ public class QRPromptActivity extends AppCompatActivity {
         Button succ_button = findViewById(R.id.activity_qr_bin_succ_generator);
         succ_button.setOnClickListener(v -> {
             intent.putExtra("val", "1"); // success
-            intent.putExtra("exp_type", TrialType.BINOMIAL_TRIAL.getLabel());
             finish();
             startActivity(intent);
         });
@@ -114,7 +111,6 @@ public class QRPromptActivity extends AppCompatActivity {
     private void generateCountTrial() {
         Intent intent = new Intent(this, QRPhotoActivity.class);
         intent.putExtra("val","1");
-        intent.putExtra("exp_type", TrialType.COUNT_TRIAL.getLabel());
         finish(); // finish this generator prompt and start the QR generator
         startActivity(intent);
     }
