@@ -468,7 +468,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
 
                     if (trial_geolocation != null) {
-                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), trial_ID, trial_info));
+                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), trial_ID + " - " + trial_date, trial_info));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
                         count = count + 1.0;
