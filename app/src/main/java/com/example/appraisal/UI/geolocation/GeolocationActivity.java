@@ -467,9 +467,14 @@ public class GeolocationActivity extends AppCompatActivity implements
                     // get all the fields of the experiment
                     String trial_ID = doc.getId();
                     GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+                    String trial_date = doc.getData().get("date").toString();
+                    String experimenter_id = doc.getData().get("experimenterID").toString();
+                    String trial_result = doc.getData().get("result").toString();
+                    String trial_info = "Result: " + trial_result;
+
 
                     if (trial_geolocation != null) {
-                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC"));
+                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), trial_ID, trial_info));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
                         count = count + 1.0;
