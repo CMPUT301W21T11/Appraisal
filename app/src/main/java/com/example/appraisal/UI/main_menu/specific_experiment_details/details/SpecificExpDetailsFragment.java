@@ -156,15 +156,15 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         desc.setText(current_experiment.getDescription());
         // type.setText(current_experiment.getType());
-        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+//        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
 
         owner.setText(current_experiment.getOwner().substring(0, 7));
-        if (current_experiment.getIsPublished()) {
-            status.setText("Published");
-        }
-        else {
-            status.setText("Unpublished");
-        }
+//        if (current_experiment.getIsPublished()) {
+//            status.setText("Published");
+//        }
+//        else {
+//            status.setText("Unpublished");
+//        }
 
         TextView region = v.findViewById(R.id.specific_exp_details_region);
         if (!current_experiment.getRegion().equals("")){
