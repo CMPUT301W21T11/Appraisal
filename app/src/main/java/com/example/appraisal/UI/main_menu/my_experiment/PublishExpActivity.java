@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +22,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +52,16 @@ public class PublishExpActivity extends AppCompatActivity {
         rules_field = findViewById(R.id.expRules);
         region_field = findViewById(R.id.expRegion);
 
+
+        List<String> expTypes = Arrays.asList("Count-based trials",
+        "Binomial Trials",
+        "Non-negative Integer Trials",
+        "Measurement Trials");
+
+        // use custom spinner layout to change text color
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.experiment_spinner, expTypes);
+        type_field.setAdapter(spinnerAdapter);
+
         // get reference of Experiments Collection
         try {
             reference = MainModel.getExperimentReference();
@@ -65,6 +79,13 @@ public class PublishExpActivity extends AppCompatActivity {
         // get values from input fields
         String description = description_field.getText().toString();
         String type = type_field.getSelectedItem().toString();
+
+        if (description.trim().equals("")) {
+            // TODO switch to snack bar
+            Toast.makeText(this, "Experiment description cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         boolean is_geolocation_required = geo_yes.isChecked();
         String rules = rules_field.getText().toString();
         String region = region_field.getText().toString();

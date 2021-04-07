@@ -78,10 +78,8 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
-//        view_trials = (Button) v.findViewById(R.id.viewTrialBtn);
         plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
-//        view_trials.setOnClickListener(v2 -> goToViewTrials());
         plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
 
 
@@ -89,6 +87,10 @@ public class SpecificExpDetailsFragment extends Fragment {
             current_experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (!current_experiment.getIsGeolocationRequired()) {
+            plot_trials.setVisibility(View.INVISIBLE);
         }
 
         try {
@@ -155,35 +157,13 @@ public class SpecificExpDetailsFragment extends Fragment {
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
         }
 
-
         try {
             user_ref = MainModel.getUserReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Author: Google
-        // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
-        user_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        user_subscriptions = (ArrayList <String>) document.get("mySubscriptions");
- 
-                        if (user_subscriptions != null) {
-                            if (user_subscriptions.contains(current_experiment.getExpId())) {
-                                subscriptionBox.setChecked(true);
-                            } else {
-                                subscriptionBox.setChecked(false);
-                            }
- 
-                        }
-                    }
-                }
-            }
-        });
+        checkIfUserSubscribed();
 
         subscriptionBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -200,10 +180,16 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         geolocation_list = new ArrayList<>();
 
-//        getAllGeoLocations();
-
         return v;
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkIfUserSubscribed();
+    }
+
 
     /**
      * Add Trial to an Experiment
@@ -244,24 +230,38 @@ public class SpecificExpDetailsFragment extends Fragment {
         startActivity(intent);
     }
 
-    // TODO: Go to Geolocation Activity with a bundle containing a flag
+
     private void plotAllTrialsOnMap(){
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
         intent.putExtra("Map Request Code", "Plot Trials Map");
         intent.putExtra("Experiment Description", current_experiment.getDescription());
         startActivity(intent);
- 
-        //intent.putExtra("geolocation list", geolocation_list);
-        //startActivityForResult(intent, PLOT_TRIALS_REQUEST_CODE);
- 
     }
 
-    /**
-     * View the trials
-     */
-    private void goToViewTrials() {
-        Intent intent = new Intent(this.getActivity(), ViewTrialActivity.class);
-        startActivity(intent);
+
+    private void checkIfUserSubscribed() {
+        // Author: Google
+        // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
+        user_ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        user_subscriptions = (ArrayList <String>) document.get("mySubscriptions");
+
+                        if (user_subscriptions != null) {
+                            if (user_subscriptions.contains(current_experiment.getExpId())) {
+                                subscriptionBox.setChecked(true);
+                            } else {
+                                subscriptionBox.setChecked(false);
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**

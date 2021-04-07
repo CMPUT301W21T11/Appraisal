@@ -11,6 +11,9 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.appraisal.model.core.MainModel;
 import com.google.zxing.Result;
 
+/**
+ * This is the model class for the camera scanner, that serves to initialize the scanner and sending its result to MainModel.
+ */
 public class CameraScannerModel {
     private final CodeScanner code_scanner;
     private final CodeScannerView view;

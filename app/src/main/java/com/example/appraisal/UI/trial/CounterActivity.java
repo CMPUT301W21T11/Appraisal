@@ -3,12 +3,14 @@ package com.example.appraisal.UI.trial;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -26,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.GeoPoint;
@@ -52,6 +55,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
+    private DocumentReference user_ref;
 
     /**
      * create the activity and inflate it with layout. initialize model
@@ -62,6 +66,8 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter_layout);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         geolocation_button = findViewById(R.id.add_geo);
 
@@ -78,9 +84,18 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
             geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
         }
+        else {
+            geolocation_button.setVisibility(View.GONE);
+        }
 
         try {
             experiment_reference = MainModel.getExperimentReference();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            user_ref = MainModel.getUserReference();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,6 +143,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
             model.toExperiment();
             storeTrialInFireBase();
             addContributor();
+            user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_exp.getExpId()));
             finish();
         }
     }
@@ -248,5 +264,21 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
                 location_saved_snackbar.show();
             }
         }
+    }
+
+    /**
+     * If the back button is pressed, close this activity and go back to previous one
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

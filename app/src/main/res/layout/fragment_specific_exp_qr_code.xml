@@ -13,6 +13,7 @@
         android:layout_height="75dp"
         android:layout_marginTop="60dp"
         android:text="Register Bar Code"
+        android:backgroundTint="@color/ice_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,6 +26,7 @@
         android:layout_height="75dp"
         android:layout_marginTop="60dp"
         android:text="Generate QR Code"
+        android:backgroundTint="@color/ice_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +36,7 @@
         android:layout_width="235dp"
         android:layout_height="75dp"
         android:layout_marginTop="60dp"
+        android:backgroundTint="@color/ice_blue"
         android:text="Scan Code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
