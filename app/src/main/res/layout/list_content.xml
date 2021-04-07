@@ -12,8 +12,6 @@
     android:layout_margin="20dp"
     android:layout_gravity="center_horizontal"
     android:text="something"
-    android:shadowDy="2dp"
-    android:shadowDx="2dp"
     >
 
 </android.widget.TextView>
