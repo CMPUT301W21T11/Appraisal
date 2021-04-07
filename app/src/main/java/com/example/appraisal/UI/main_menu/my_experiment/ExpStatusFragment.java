@@ -20,7 +20,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -102,7 +101,7 @@ public class ExpStatusFragment extends DialogFragment {
 
 
 
-        checkMin();
+        // checkMin();
 //        checkOwnership();
 
         // set textView fields
@@ -331,8 +330,6 @@ public class ExpStatusFragment extends DialogFragment {
 //                }
             }
         });
-
-
     }
 
 //    private void checkOwnership(){
