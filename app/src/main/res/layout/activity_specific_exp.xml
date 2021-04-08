@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         app:tabIconTint="@drawable/tab_selector"
+        app:tabIndicatorColor="@android:color/transparent"
         app:tabTextAppearance="@style/MyTabLayout" />
 
 </LinearLayout>
