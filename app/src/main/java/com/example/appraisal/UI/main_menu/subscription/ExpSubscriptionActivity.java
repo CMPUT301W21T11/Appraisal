@@ -32,7 +32,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * This Activity is for displaying user subscriptions
@@ -41,7 +42,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
     private ListView subscribed_list;
     private ArrayList<String> user_subscriptions;
-    private ArrayList<Experiment> subscribed_experiments;
+    private LinkedHashSet<Experiment> subscribed_experiments;
     private ArrayAdapter<Experiment> adapter;
     private DocumentReference user_ref;
     private CollectionReference exp_ref;
@@ -64,8 +65,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         context = this;
 
         subscribed_list = findViewById(R.id.subscribedList);
-        subscribed_experiments = new ArrayList<>();
-        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
+        subscribed_experiments = new LinkedHashSet<>();
+        adapter = new ExpAdapter(this, new ArrayList<>(subscribed_experiments), "Subscription");
 
         getSubscribedExperiments();
 
@@ -88,8 +89,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
 
         subscribed_list = findViewById(R.id.subscribedList);
-        subscribed_experiments = new ArrayList<>();
-        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
+        subscribed_experiments = new LinkedHashSet<>();
+        adapter = new ExpAdapter(this, new ArrayList<>(subscribed_experiments), "Subscription");
 
         getSubscribedExperiments();
 
@@ -104,7 +105,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     private final AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Experiment experiment = subscribed_experiments.get(position);
+            List<Experiment> experiments_as_list = new ArrayList<>(subscribed_experiments);
+            Experiment experiment = experiments_as_list.get(position);
 
             Intent intent = new Intent(context, SpecificExpActivity.class);
             try {
@@ -117,7 +119,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         }
     };
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -168,9 +170,10 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user_subscriptions = (ArrayList<String>) document.get("mySubscriptions");
+                        Object subs = document.get("mySubscriptions");
 
-                        if (user_subscriptions != null) {
+                        if (subs != null) {
+                            user_subscriptions = (ArrayList<String>) subs;
                             for (String subscription : user_subscriptions) {
 
                                 exp_ref.document(subscription).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -200,11 +203,15 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
                                                 subscribed_experiments.add(experiment);
 
+
                                                 Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
                                                 adapter.notifyDataSetChanged();
-
                                                 subscribed_list.setAdapter(adapter);
+                                            }
+                                        } else {
+                                            if (error != null) {
+                                                error.printStackTrace();
                                             }
                                         }
                                     }
