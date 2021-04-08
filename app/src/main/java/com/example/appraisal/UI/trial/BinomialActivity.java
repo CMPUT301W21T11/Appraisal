@@ -167,7 +167,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     }
 
 
-    public void storeTrialInFireBase(Boolean outcome) {
+    private void storeTrialInFireBase(@NonNull Boolean outcome) {
 
         // save locally
         model.toExperiment();

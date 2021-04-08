@@ -1,5 +1,6 @@
 package com.example.appraisal.UI.trial;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,13 +47,13 @@ import java.util.Map;
  */
 public class CounterActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
 
+    private static final int MAP_REQUEST_CODE = 0;
+
     private CounterModel model;
-    private TextView counter_view;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
     private int firebase_num_trials = 0;
     private String experimenterID;
-    private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
     private Button geolocation_button;
@@ -71,7 +73,6 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
         geolocation_button = findViewById(R.id.add_geo);
 
-        counter_view = (TextView) findViewById(R.id.count_view);
         try {
             current_exp = MainModel.getCurrentExperiment();
             User conductor = MainModel.getCurrentUser();
@@ -106,22 +107,6 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     }
 
-
-    /**
-     * increase the counter
-     * @param v onClick view
-     */
-    public void increment(View v) {
-        // Adjust the model
-        model.increase();
-
-        // The model will change. Then request the data from model, update display
-        // accordingly
-        String result = String.valueOf(model.getCount());
-        counter_view.setText(result);
-    }
-
-
     /**
      * Save the trial to the experiment
      * @param v save button
@@ -148,15 +133,14 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         }
     }
 
-
-    public void storeTrialInFireBase() {
-
+    private void storeTrialInFireBase() {
+        Context self = this;
         String experiment_ID = current_exp.getExpId();
 
         Integer num_of_trials = firebase_num_trials + 1;
         String name = "Trial" + num_of_trials;
         Map<String, Object> trial_info = new HashMap<>();
-        trial_info.put("result", String.valueOf(model.getCount()));
+        trial_info.put("result", String.valueOf(model.getCountTrial()));
 
         // put trial date as current date
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -181,12 +165,14 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Toast.makeText(self, "Upload successful", Toast.LENGTH_SHORT).show();
                         Log.d("***", "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(self, "Failed to upload: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.w("***", "Error writing document", e);
                     }
                 });
@@ -228,6 +214,10 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     }
 
 
+    /**
+     * This method adds the geolocation of the trial
+     * @param v -- Button that gets clicked on to trigger this function
+     */
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
