@@ -137,7 +137,9 @@ public class AddTrialTests {
         Log.d("Width", String.valueOf(width));
         Log.d("Height", String.valueOf(height));
 
-        solo.clickOnScreen(1420, height, 1);
+        solo.clickOnScreen(windowMetrics.getBounds().width(), windowMetrics.getBounds().height(), 1);
+
+//        solo.clickOnScreen(1420, 2800, 1);
 //        all_tabs.getLocationOnScreen(xy);
 //        int width = all_tabs.getWidth();
 //        int height = all_tabs.getHeight();
