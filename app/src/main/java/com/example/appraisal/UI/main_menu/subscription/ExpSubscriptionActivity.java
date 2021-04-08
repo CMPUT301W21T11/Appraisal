@@ -32,8 +32,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This Activity is for displaying user subscriptions
@@ -42,7 +41,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
     private ListView subscribed_list;
     private ArrayList<String> user_subscriptions;
-    private LinkedHashSet<Experiment> subscribed_experiments;
+    private ArrayList<Experiment> subscribed_experiments;
     private ArrayAdapter<Experiment> adapter;
     private DocumentReference user_ref;
     private CollectionReference exp_ref;
@@ -65,8 +64,8 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         context = this;
 
         subscribed_list = findViewById(R.id.subscribedList);
-        subscribed_experiments = new LinkedHashSet<>();
-        adapter = new ExpAdapter(this, new ArrayList<>(subscribed_experiments), "Subscription");
+        subscribed_experiments = new ArrayList<>();
+        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
 
         getSubscribedExperiments();
 
@@ -74,6 +73,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         subscribed_list.setAdapter(adapter);
 
     }
+
 
     /**
      * Gets called when activity gets restarted
@@ -81,16 +81,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     @Override
     protected void onRestart() {
         super.onRestart();
-        setContentView(R.layout.activity_subscription);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        bottomNav.setSelectedItemId(R.id.subscription_bottom_nav);
-
-
-        subscribed_list = findViewById(R.id.subscribedList);
-        subscribed_experiments = new LinkedHashSet<>();
-        adapter = new ExpAdapter(this, new ArrayList<>(subscribed_experiments), "Subscription");
+        subscribed_experiments.clear();
+        adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
 
         getSubscribedExperiments();
 
@@ -98,15 +91,13 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         subscribed_list.setAdapter(adapter);
     }
 
-
     /**
      * This method gets the item in list the user clicks on, and opens up a dialog with the corresponding info.
      */
     private final AdapterView.OnItemClickListener selectExListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            List<Experiment> experiments_as_list = new ArrayList<>(subscribed_experiments);
-            Experiment experiment = experiments_as_list.get(position);
+            Experiment experiment = subscribed_experiments.get(position);
 
             Intent intent = new Intent(context, SpecificExpActivity.class);
             try {
@@ -119,7 +110,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         }
     };
 
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -170,10 +161,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Object subs = document.get("mySubscriptions");
+                        user_subscriptions = (ArrayList<String>) document.get("mySubscriptions");
 
-                        if (subs != null) {
-                            user_subscriptions = (ArrayList<String>) subs;
+                        if (user_subscriptions != null) {
                             for (String subscription : user_subscriptions) {
 
                                 exp_ref.document(subscription).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -201,8 +191,9 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                                 experiment.setIsEnded(is_ended);
                                                 experiment.setIsPublished(is_published);
 
-                                                subscribed_experiments.add(experiment);
-
+                                                if (subscribed_experiments.stream().noneMatch(o -> o.getExpId().equalsIgnoreCase(experiment.getExpId()))) {
+                                                    subscribed_experiments.add(experiment);
+                                                }
 
                                                 Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
