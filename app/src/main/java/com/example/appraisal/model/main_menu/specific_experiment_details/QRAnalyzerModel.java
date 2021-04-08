@@ -153,6 +153,10 @@ public class QRAnalyzerModel {
 
         Map<String, Object> trial_info = new HashMap<>();
 
+        if (qr_values.getGeoPoint() != null) {
+            trial_info.put("geolocation", qr_values.getGeoPoint());
+        }
+
         trial_info.put("result", value);
         // put trial date as current date
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);

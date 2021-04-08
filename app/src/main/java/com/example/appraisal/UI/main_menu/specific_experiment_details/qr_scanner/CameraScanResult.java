@@ -1,7 +1,10 @@
 package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
-import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
@@ -25,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
@@ -40,6 +44,7 @@ public class CameraScanResult extends AppCompatActivity {
     private Activity self;
 
     private Button add_geo_button;
+    private CurrentMarker trial_location;
 
     /**
      * This method creates the CameraScanResultActivity
@@ -65,19 +70,9 @@ public class CameraScanResult extends AppCompatActivity {
             finish();
         });
 
-        try {
-            // Check if result is already obtained
-            Result test = MainModel.getBarcodeResult();
-            if (test == null) {
-                throw new Exception("Barcode is null");
-            } else {
-                displayResult(test);
-            }
-        } catch (Exception e) {
-            Log.d("CameraScannerResult:","No Result detected. Starting camera scanner");
-            Intent intent = new Intent(this, CameraScanner.class);
-            startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
-        }
+        Log.d("CameraScannerResult:","Starting camera scanner");
+        Intent intent = new Intent(this, CameraScanner.class);
+        startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
     }
 
     /**
@@ -105,10 +100,12 @@ public class CameraScanResult extends AppCompatActivity {
                 finish();
             }
         } else if (requestCode == MAP_REQUEST_CODE) {
-            if (requestCode == Activity.RESULT_OK) {
-
+            if (resultCode == Activity.RESULT_OK) {
+                trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+                add_geo_button.setText("Edit Geolocation");
+                Toast.makeText(self, "Trial geolocation has been saved", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(self, "No geoloation is set", Toast.LENGTH_SHORT).show();
+                Toast.makeText(self, "No geolocation is set", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -133,21 +130,48 @@ public class CameraScanResult extends AppCompatActivity {
                 trialValue.setText(String.valueOf(values.getValue()));
                 experiment_id_display.setText(values.getExpId());
 
-                checkGeolocation(values.getExpId());
+                addGeolocation(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
 
-                finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
-                finish_button.setOnClickListener(v -> {
-                    try {
-                        model.addToExperiment(values);
-                        // clear barcode result
-                        MainModel.setBarcodeResult(null);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    finish();
+                CollectionReference experiment = MainModel.getExperimentReference();
+
+                experiment.document(values.getExpId()).get().addOnCompleteListener(task -> {
+                    finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
+                    finish_button.setOnClickListener(v -> {
+                        // get if geolocation is required
+                        Boolean geo_required;
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot result1 = task.getResult();
+                            geo_required = result1.getBoolean("isGeolocationRequired");
+                            if (geo_required == null) {
+                                geo_required = false;
+                            }
+                        } else {
+                            geo_required = false;
+                        }
+
+                        if (geo_required != null && geo_required) {
+                            // obtain trial location
+                            if (trial_location == null) {
+                                Toast.makeText(self, "Geolocation is not set", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else {
+                                GeoPoint geoPoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+                                values.setGeoPoint(geoPoint);
+                            }
+                        }
+                        try {
+                            model.addToExperiment(values);
+                            // clear barcode result
+                            MainModel.setBarcodeResult(null);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        finish();
+                    });
                 });
             } else {
+                Toast.makeText(self, "QR Code is not compatible", Toast.LENGTH_SHORT).show();
                 trialType.setText(R.string.not_recognized);
                 trialValue.setText(R.string.not_recognized);
                 finish_button.setOnClickListener(v -> {
@@ -180,6 +204,7 @@ public class CameraScanResult extends AppCompatActivity {
                         if (task.getException() != null) { // print all possible errors
                             task.getException().printStackTrace();
                         }
+                        Toast.makeText(self, "Barcode is not registered", Toast.LENGTH_SHORT).show();
                         // set the finish button to end the activity
                         finish_button.setOnClickListener(v -> {
                             // clear barcode result
@@ -200,7 +225,7 @@ public class CameraScanResult extends AppCompatActivity {
                         String exp_id = getField(document, "targetExperimentId");
                         String exp_desc = getField(document, "targetExperimentDesc");
 
-                        checkGeolocation(exp_id);
+                        addGeolocation(exp_id);
 
                         experiment_id_display.setText(exp_id);
                         experiment_desc_display.setText(exp_desc);
@@ -208,13 +233,23 @@ public class CameraScanResult extends AppCompatActivity {
                         trialValue.setText(data);
                         if (registered_barcode.equalsIgnoreCase(result.getText())) {
                             // Set the finish button to add to firebase when clicked and end the scanner
+                            Boolean geo_location_required = document.getBoolean("isGeolocationRequired");
                             finish_button.setOnClickListener(v -> {
                                 try {
                                     String signature = getResources().getString(R.string.app_name);
                                     TrialType type = TrialType.getInstance(trial_type);
                                     double trial_value = Double.parseDouble(data);
-
                                     QRValues values = new QRValues(self, signature, type, trial_value, exp_id);
+
+                                    // check if geolocation is required
+                                    if (geo_location_required != null && geo_location_required) {
+                                        if (trial_location == null) {
+                                            throw new Exception("Geolocation not set");
+                                        } else {
+                                            GeoPoint geoPoint = new GeoPoint(trial_location.getLatitude(), trial_location.getLongitude());
+                                            values.setGeoPoint(geoPoint);
+                                        }
+                                    }
                                     MainModel.setBarcodeResult(null); // clear the result in main model
                                     model.addToExperiment(values); // add to firebase
                                 } catch (Exception e) {
@@ -256,7 +291,7 @@ public class CameraScanResult extends AppCompatActivity {
         return result.trim();
     }
 
-    private void checkGeolocation(String exp_id) {
+    private void addGeolocation(String exp_id) {
         try {
             CollectionReference exp_list = MainModel.getExperimentReference();
             exp_list.document(exp_id).get().addOnCompleteListener(task -> {
@@ -264,9 +299,15 @@ public class CameraScanResult extends AppCompatActivity {
                     DocumentSnapshot experiment = task.getResult();
                     Boolean is_required = experiment.getBoolean("isGeolocationRequired");
                     if (is_required != null && is_required) {
+                        showWarningDialog();
                         String exp_desc = getField(experiment, "description");
                         add_geo_button.setVisibility(View.VISIBLE);
-                        add_geo_button.setOnClickListener(v -> addGeoLocation(exp_desc));
+                        add_geo_button.setOnClickListener(v -> {
+                            Intent intent = new Intent(this, GeolocationActivity.class);
+                            intent.putExtra("Map Request Code", "User Location");
+                            intent.putExtra("Experiment Description", exp_desc);
+                            startActivityForResult(intent, MAP_REQUEST_CODE);
+                        });
                     }
                 }
             });
@@ -275,11 +316,27 @@ public class CameraScanResult extends AppCompatActivity {
         }
     }
 
-    private void addGeoLocation(String exp_desc) {
-        Intent intent = new Intent(this, GeolocationActivity.class);
-        intent.putExtra("Map Request Code", "User Location");
-        intent.putExtra("Experiment Description", exp_desc);
-        startActivityForResult(intent, MAP_REQUEST_CODE);
+    private void showWarningDialog() {
+        AlertDialog.Builder alert_builder = new AlertDialog.Builder(self, R.style.AlertDialogTheme);
+        alert_builder.setCancelable(false);
+        alert_builder.setMessage("Warning: The target experiment requires your current location\n" +
+                "Do you agree on sharing your location data?");
+        alert_builder.setPositiveButton("Agree", (dialog, which) -> dialog.cancel());
+        alert_builder.setNegativeButton("Decline", (dialog, which) -> {
+            dialog.cancel();
+            Toast.makeText(self, "Sorry, your location is required for this experiment", Toast.LENGTH_SHORT).show();
+            try {
+                MainModel.setBarcodeResult(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            self.finish();
+        });
+        AlertDialog dialog = alert_builder.create();
+        dialog.show();
+        // NOTE: setting color is effective only after the dialog is shown
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
     }
 
     private void setExperimentDesc(@NonNull TextView exp_desc, String exp_id) {

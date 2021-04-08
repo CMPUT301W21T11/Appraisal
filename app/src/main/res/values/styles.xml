@@ -59,6 +59,11 @@
         <item name="backgroundTint">@color/rich_navy_blue</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="android:Theme.Dialog">
 
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:textColorPrimary">@color/white</item>
 
+    </style>
 </resources>

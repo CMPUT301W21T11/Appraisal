@@ -260,9 +260,9 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the activity which started for result
+     * @param resultCode -- the result of the activity
+     * @param data -- any Intent date from the activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
