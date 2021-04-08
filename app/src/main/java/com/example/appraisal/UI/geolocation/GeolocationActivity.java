@@ -506,7 +506,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng currentLocation = new LatLng(latitude, longitude);
-        currentLocationMarker.showInfoWindow();
+        if (currentLocationMarker != null) {
+            currentLocationMarker.showInfoWindow();
+        }
     }
 
 

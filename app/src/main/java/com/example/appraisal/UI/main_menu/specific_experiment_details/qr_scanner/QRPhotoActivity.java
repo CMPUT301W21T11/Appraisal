@@ -24,15 +24,12 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
  */
 public class QRPhotoActivity extends AppCompatActivity {
 
-    private ImageView qr_code;
-    private EditText trial_value_qr_input;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator_qr);
 
-        qr_code = findViewById(R.id.qr_code);
+        ImageView qr_code = findViewById(R.id.qr_code);
         TextView exp_title = findViewById(R.id.activity_generator_qr_exp_title);
         TextView trial_type = findViewById(R.id.activity_generator_qr_trial_value);
         Button finish_button = findViewById(R.id.generator_qr_finish);
