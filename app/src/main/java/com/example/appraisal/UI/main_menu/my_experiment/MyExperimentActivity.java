@@ -1,16 +1,20 @@
 package com.example.appraisal.UI.main_menu.my_experiment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.MainMenuCommonActivity;
 import com.example.appraisal.backend.experiment.Experiment;
@@ -30,7 +34,7 @@ import java.util.ArrayList;
  * It also allows them to publish more experiments.
  */
 public class MyExperimentActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener{
-    private ListView my_experiment_display;
+    private SwipeMenuListView my_experiment_display;
     private static ArrayAdapter<Experiment> adapter;
     private ArrayList<Experiment> exp_list;
     private CollectionReference reference;
@@ -44,7 +48,6 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_exp);
-
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -65,6 +68,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         }
 
         my_experiment_display = findViewById(R.id.my_experiments);
+        my_experiment_display.setMenuCreator(createMenu());
 
         exp_list = new ArrayList<>();                           // make new list to store experiments
 
@@ -101,6 +105,22 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         }
 
         my_experiment_display = findViewById(R.id.my_experiments);
+        my_experiment_display.setMenuCreator(createMenu());
+        my_experiment_display.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // open
+                        break;
+                    case 1:
+                        // delete
+                        break;
+                }
+                // false : close the menu; true : not close the menu
+                return false;
+            }
+        });
 
         exp_list = new ArrayList<>();                           // make new list to store experiments
 
@@ -215,4 +235,46 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         });
     }
 
+    // https://github.com/baoyongzhang/SwipeMenuListView
+    private SwipeMenuCreator createMenu() {
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "open" item
+                SwipeMenuItem openItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                // openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9, 0xCE)));
+                openItem.setBackground(getDrawable(R.drawable.list_card_blue));
+                // set item width
+                openItem.setWidth((400));
+                // set item title
+                openItem.setTitle("Open/\nClose");
+                // set item title fontsize
+                openItem.setTitleSize(18);
+                // set item title font color
+                openItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(openItem);
+
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                // set item background
+                // deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                deleteItem.setBackground(getDrawable(R.drawable.list_card));
+                // set item width
+                deleteItem.setWidth((400));
+                // set a icon
+                // deleteItem.setIcon(R.drawable.ic_coin);
+                deleteItem.setTitle("Publish/\nUnpublish");
+                deleteItem.setTitleSize(18);
+                deleteItem.setTitleColor(Color.WHITE);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+        return creator;
+    }
 }
