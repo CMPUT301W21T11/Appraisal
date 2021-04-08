@@ -17,6 +17,9 @@
 
     <color name="rich_navy_blue">#242747</color>
     <color name="darker_navy_blue">#171945</color>
+
+    <color name="transparent_darker_navy_blue">#CC171945</color>
+
     <color name="rich_light_blue">#1B1F5E</color>
 
     <color name="pink">#EC008C</color>

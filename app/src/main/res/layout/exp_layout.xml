@@ -1,132 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:orientation="horizontal"
-    android:id="@+id/layout_exp"
-    android:background="@drawable/list_card"
-    android:paddingTop="12dp"
-    android:paddingLeft="8dp"
-    android:paddingBottom="12dp">
-
-    <ImageView
-        android:id="@+id/list_card_logo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.75"
-        android:src="@drawable/ic_count"
-        android:padding="22dp" />
+    android:layout_height="wrap_content"
+    xmlns:cardView="http://schemas.android.com/apk/res-auto"
+    cardView:cardCornerRadius="40dp"
+    android:background="@drawable/list_card">
 
     <LinearLayout
+        android:id="@+id/layout_exp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="0.25">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/list_card"
+        android:paddingLeft="8dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/list_card_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            android:padding="22dp"
+            android:src="@drawable/ic_count" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/exp_desc"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/lato_bold"
-                android:text="Description"
-                android:textSize="20sp" />
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/exp_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_bold"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Description"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/owner_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="right"
+                    android:paddingLeft="5dp"
+                    android:text="Owner:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/owner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="left"
+                    android:paddingLeft="5dp"
+                    android:text="name" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="right"
+                    android:paddingLeft="5dp"
+                    android:text="Type:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/exp_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="type"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Status:"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/exp_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Current Status"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/owner_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:paddingLeft="5dp"
-                android:text="Owner:"
-                android:fontFamily="@font/lato_regular"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/owner_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:fontFamily="@font/lato_regular"
-                android:paddingLeft="5dp"
-                android:text="name"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:fontFamily="@font/lato_regular"
-                android:paddingLeft="5dp"
-                android:text="Type:"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/exp_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:fontFamily="@font/lato_regular"
-                android:padding="5dp"
-                android:text="type"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
-                android:text="Status:"
-                android:fontFamily="@font/lato_regular"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/exp_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:fontFamily="@font/lato_regular"
-                android:padding="5dp"
-                android:paddingBottom="5dp"
-                android:text="Current Status"
-                android:textSize="15sp" />
-
-
-
-        </LinearLayout>
     </LinearLayout>
-
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

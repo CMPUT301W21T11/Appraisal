@@ -2,7 +2,6 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,8 +22,6 @@ import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -115,7 +112,7 @@ public class CameraScanResult extends AppCompatActivity {
         model.displayBarCode(result);
 
         final TextView activity_title = findViewById(R.id.camera_scan_result_title);
-        final TextView experiment_id_display = findViewById(R.id.camera_scan_result_exp_id_display);
+//        final TextView experiment_id_display = findViewById(R.id.camera_scan_result_exp_id_display);
         final TextView experiment_desc_display = findViewById(R.id.camera_scan_result_exp_desc_display);
         final TextView trialType = findViewById(R.id.camera_scan_result_trial_type_display);
         final TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);
@@ -142,7 +139,7 @@ public class CameraScanResult extends AppCompatActivity {
                     default:
                         trialValue.setText(String.valueOf(values.getValue()));
                 }
-                experiment_id_display.setText(values.getExpId());
+//                experiment_id_display.setText(values.getExpId());
 
                 addGeolocation(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
@@ -241,7 +238,7 @@ public class CameraScanResult extends AppCompatActivity {
 
                         addGeolocation(exp_id);
 
-                        experiment_id_display.setText(exp_id);
+//                        experiment_id_display.setText(exp_id);
                         experiment_desc_display.setText(exp_desc);
                         trialType.setText(trial_type);
                         trialValue.setText(data);

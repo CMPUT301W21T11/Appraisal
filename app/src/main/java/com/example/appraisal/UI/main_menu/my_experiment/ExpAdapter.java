@@ -79,7 +79,8 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         TextView type = view.findViewById(R.id.exp_type);
         TextView status = view.findViewById(R.id.exp_status);
 
-        description.setText(exp_current.getDescription());
+        String desc = exp_current.getDescription();
+        description.setText(desc);
         type.setText(exp_current.getType());
 
         // hide owner & show publish status from MyExperiment Activity
