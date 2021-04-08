@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.trial.TrialType;
+import com.google.firebase.firestore.GeoPoint;
 
 /**
  * This class is for holding the contends of our custom QR codes
@@ -14,6 +15,7 @@ public class QRValues {
     private final double value;
     private final String exp_id;
     private final Context parent;
+    private GeoPoint geoPoint;
 
     public QRValues(Context parent, String signature, TrialType type, double value, String exp_id) {
         this.signature = signature;
@@ -23,6 +25,14 @@ public class QRValues {
         this.parent = parent;
     }
 
+    public QRValues(Context parent, String signature, TrialType type, double value, String exp_id, GeoPoint geoPoint) {
+        this.signature = signature;
+        this.type = type;
+        this.value = value;
+        this.exp_id = exp_id;
+        this.parent = parent;
+        this.geoPoint = geoPoint;
+    }
     /**
      * Get the signature of the QR
      * @return String -- signature of the QR
@@ -63,5 +73,21 @@ public class QRValues {
     public boolean checkSignature() {
         String target_signature = parent.getResources().getString(R.string.app_name);
         return getSignature().equalsIgnoreCase(target_signature);
+    }
+
+    /**
+     * This method sets the geopoint for the QR trial
+     * @param geoPoint -- the geopoint of the trial
+     */
+    public void setGeoPoint(GeoPoint geoPoint) {
+        this.geoPoint = geoPoint;
+    }
+
+    /**
+     * This method returns the geopoint of the trial
+     * @return
+     */
+    public GeoPoint getGeoPoint() {
+        return geoPoint;
     }
 }

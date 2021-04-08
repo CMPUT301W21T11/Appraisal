@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
+import com.example.appraisal.UI.geolocation.GeolocationActivity;
+import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
@@ -26,18 +28,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
-
 /**
  * This class handles the result from the {@link CameraScanner}
  */
 public class CameraScanResult extends AppCompatActivity {
 
-    private final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
+    private static final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
+    private static final int MAP_REQUEST_CODE = 0x00000000;
 
     private QRAnalyzerModel model;
     private Activity self;
+
+    private Button add_geo_button;
 
     /**
      * This method creates the CameraScanResultActivity
@@ -51,6 +53,8 @@ public class CameraScanResult extends AppCompatActivity {
         model = new QRAnalyzerModel(this);
         // Initialize the cancel button
         Button cancel_button = findViewById(R.id.camera_scan_result_cancel);
+        add_geo_button = findViewById(R.id.camera_scan_result_add_geo);
+        add_geo_button.setVisibility(View.GONE);
         cancel_button.setOnClickListener(v -> {
             try {
                 // remove the stored barcode result
@@ -85,7 +89,7 @@ public class CameraScanResult extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_SCANNER_REQUEST_CODE) { // we are only processing camera scanner activity
+        if (requestCode == CAMERA_SCANNER_REQUEST_CODE) { // This is the request code for camera scanner
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Result result = MainModel.getBarcodeResult(); // get result bar code
@@ -93,7 +97,6 @@ public class CameraScanResult extends AppCompatActivity {
                         return;
                     }
                     displayResult(result);
-                    addGeolocation();
                 } catch (Exception e) {
                     Log.e("CameraScanResult:", "Error when processing QR codes: " + e.getMessage());
                     e.printStackTrace();
@@ -101,11 +104,13 @@ public class CameraScanResult extends AppCompatActivity {
             } else {
                 finish();
             }
+        } else if (requestCode == MAP_REQUEST_CODE) {
+            if (requestCode == Activity.RESULT_OK) {
+
+            } else {
+                Toast.makeText(self, "No geoloation is set", Toast.LENGTH_SHORT).show();
+            }
         }
-    }
-
-    private void addGeolocation() {
-
     }
 
     private void displayResult(Result result) throws Exception {
@@ -128,7 +133,8 @@ public class CameraScanResult extends AppCompatActivity {
                 trialValue.setText(String.valueOf(values.getValue()));
                 experiment_id_display.setText(values.getExpId());
 
-                findExperimentDesc(experiment_desc_display, values.getExpId());
+                checkGeolocation(values.getExpId());
+                setExperimentDesc(experiment_desc_display, values.getExpId());
 
                 finish_button.setText("ADD QR TRIAL TO EXPERIMENT");
                 finish_button.setOnClickListener(v -> {
@@ -142,8 +148,8 @@ public class CameraScanResult extends AppCompatActivity {
                     finish();
                 });
             } else {
-                trialType.setText("Not recognized");
-                trialValue.setText("Not recognized");
+                trialType.setText(R.string.not_recognized);
+                trialValue.setText(R.string.not_recognized);
                 finish_button.setOnClickListener(v -> {
                     // clear barcode result
                     try {
@@ -155,8 +161,8 @@ public class CameraScanResult extends AppCompatActivity {
                 });
             }
         } else { // else if it is barcode
-            trialType.setText("Not registered");
-            trialValue.setText("Not registered");
+            trialType.setText(R.string.not_recognized);
+            trialValue.setText(R.string.not_recognized);
             activity_title.setText("Detected Bar Code");
 
             // try to find the barcode inside the registered barcodes
@@ -193,6 +199,8 @@ public class CameraScanResult extends AppCompatActivity {
                         String data = getField(document, "action");
                         String exp_id = getField(document, "targetExperimentId");
                         String exp_desc = getField(document, "targetExperimentDesc");
+
+                        checkGeolocation(exp_id);
 
                         experiment_id_display.setText(exp_id);
                         experiment_desc_display.setText(exp_desc);
@@ -241,14 +249,40 @@ public class CameraScanResult extends AppCompatActivity {
         if (attempt == null) {
             Toast.makeText(self, "Error: Unable to get " + field_name, Toast.LENGTH_SHORT).show();
             Log.e("Camera Scan result:", "Unable to get " + field_name);
-            result = "NOT RECOGNIZED";
+            result = getResources().getString(R.string.not_recognized);
         } else {
             result = attempt.toString();
         }
         return result.trim();
     }
 
-    private void findExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
+    private void checkGeolocation(String exp_id) {
+        try {
+            CollectionReference exp_list = MainModel.getExperimentReference();
+            exp_list.document(exp_id).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot experiment = task.getResult();
+                    Boolean is_required = experiment.getBoolean("isGeolocationRequired");
+                    if (is_required != null && is_required) {
+                        String exp_desc = getField(experiment, "description");
+                        add_geo_button.setVisibility(View.VISIBLE);
+                        add_geo_button.setOnClickListener(v -> addGeoLocation(exp_desc));
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addGeoLocation(String exp_desc) {
+        Intent intent = new Intent(this, GeolocationActivity.class);
+        intent.putExtra("Map Request Code", "User Location");
+        intent.putExtra("Experiment Description", exp_desc);
+        startActivityForResult(intent, MAP_REQUEST_CODE);
+    }
+
+    private void setExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
         try {
             CollectionReference experiments = MainModel.getExperimentReference();
             experiments.document(exp_id).get().addOnCompleteListener(task -> {
@@ -256,13 +290,12 @@ public class CameraScanResult extends AppCompatActivity {
                     String text = getField(task.getResult(), "description");
                     exp_desc.setText(text);
                 } else {
-                    exp_desc.setText("NOT RECOGNIZED");
+                    exp_desc.setText(R.string.not_recognized);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            exp_desc.setText("NOT RECOGNIZED");
+            exp_desc.setText(R.string.not_recognized);
         }
-
     }
 }
