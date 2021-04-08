@@ -287,7 +287,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private void generateHistogram() {
         // clear any previous series
         histogram.removeAllSeries();
-        histogram.getGridLabelRenderer().resetStyles();
 
         // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
@@ -315,6 +314,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getViewport().setYAxisBoundsManual(true);
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        histogram.getGridLabelRenderer().reloadStyles();
+        histogram.onDataChanged(false, false);
 
     }
 
@@ -392,6 +393,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         exp_plot_over_time.getViewport().setScalable(true);
         exp_plot_over_time.getViewport().setScrollable(true);
+
+        exp_plot_over_time.getGridLabelRenderer().reloadStyles();
+        exp_plot_over_time.onDataChanged(false, false);
     }
 
     private void toggle_quartiles() {
