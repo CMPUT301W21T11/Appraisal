@@ -27,7 +27,7 @@ public class SpecificExpActivity extends AppCompatActivity {
     private ViewPager2 viewpager;
 
     // tab names
-    private final String[] tab_names= {"DETAILS", "QR CODE", "ANALYSIS", "PARTICIPANTS", "DISCUSSION"};
+    private final String[] tab_names= {"DETAILS_TAB", "QRCODE_TAB", "ANALYSIS_TAB", "PARTICIPANTS_TAB", "DISCUSSION_TAB"};
     private final int[] drawable_icons = {R.drawable.details, R.drawable.qr_code, R.drawable.analysis, R.drawable.participants, R.drawable.discussions};
 
     /**
@@ -52,7 +52,7 @@ public class SpecificExpActivity extends AppCompatActivity {
 
         // initialize tabs and attach to this activity
         TabLayout tabLayout = findViewById(R.id.specific_exp_tab_layout);
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setIcon(drawable_icons[position]));
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setIcon(drawable_icons[position]).setTag(tab_names[position]));
 //        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewpager, (tab, position) -> tab.setText(tab_names[position]));
         tabLayoutMediator.attach();
     }
