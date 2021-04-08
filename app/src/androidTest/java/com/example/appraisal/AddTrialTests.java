@@ -1,11 +1,7 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.graphics.Insets;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowMetrics;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -128,18 +124,25 @@ public class AddTrialTests {
 //        int height = displayMetrics.heightPixels;
 //        int width = displayMetrics.widthPixels;
 
-        int[] xy = new int[2];
-        View all_tabs = (View) solo.getView(R.id.specific_exp_tab_layout);
-        WindowMetrics windowMetrics =  rule.getActivity().getWindowManager().getCurrentWindowMetrics();
-        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
-        int width = windowMetrics.getBounds().width() - insets.left - insets.right;
-        int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
-        Log.d("Width", String.valueOf(width));
-        Log.d("Height", String.valueOf(height));
+//        int[] xy = new int[2];
+//        View all_tabs = (View) solo.getView(R.id.specific_exp_tab_layout);
+//
+//
+//
+//        WindowMetrics windowMetrics =  rule.getActivity().getWindowManager().getCurrentWindowMetrics();
+//        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+//        int width = windowMetrics.getBounds().width() - insets.left - insets.right;
+//        int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
+//        Log.d("Width", String.valueOf(width));
+//        Log.d("Height", String.valueOf(height));
+//
+//        solo.clickOnScreen(windowMetrics.getBounds().width(), windowMetrics.getBounds().height(), 1);
 
-        solo.clickOnScreen(windowMetrics.getBounds().width(), windowMetrics.getBounds().height(), 1);
+        solo.clickOnMenuItem("PARTICIPANTS_TAB");
 
 //        solo.clickOnScreen(1420, 2800, 1);
+
+
 //        all_tabs.getLocationOnScreen(xy);
 //        int width = all_tabs.getWidth();
 //        int height = all_tabs.getHeight();

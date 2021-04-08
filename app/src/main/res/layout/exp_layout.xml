@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
                 android:paddingLeft="5dp"
+                android:paddingRight="8dp"
                 android:paddingBottom="5dp"
                 android:text="Description"
                 android:textSize="20sp"
