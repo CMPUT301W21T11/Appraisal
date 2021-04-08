@@ -127,7 +127,21 @@ public class CameraScanResult extends AppCompatActivity {
 
             if (values != null && values.checkSignature()) {
                 trialType.setText(values.getType().getLabel());
-                trialValue.setText(String.valueOf(values.getValue()));
+                switch (values.getType()) {
+                    case BINOMIAL_TRIAL:
+                        if (Math.round(values.getValue()) == 0) {
+                            trialValue.setText("Failure");
+                        } else {
+                            trialValue.setText("Success");
+                        }
+                        break;
+                    case NON_NEG_INT_TRIAL:
+                    case COUNT_TRIAL:
+                        trialValue.setText(String.valueOf((int) values.getValue()));
+                        break;
+                    default:
+                        trialValue.setText(String.valueOf(values.getValue()));
+                }
                 experiment_id_display.setText(values.getExpId());
 
                 addGeolocation(values.getExpId());
