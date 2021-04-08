@@ -3,6 +3,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -155,7 +156,7 @@ public class RegisterBarcodeResult extends AppCompatActivity {
     public void askIfOverride(Barcode barcode, String old_action) {
         Log.d("override", "prompt reached");
         // Build prompt dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(self);
+        AlertDialog.Builder builder = new AlertDialog.Builder(self, R.style.AlertDialogTheme);
         builder.setTitle("Override barcode registry?");
         builder.setMessage("Previous action: \n" + old_action);
 
@@ -164,5 +165,8 @@ public class RegisterBarcodeResult extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+        // NOTE: setting color is effective only after the dialog is shown
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
     }
 }
