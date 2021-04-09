@@ -114,7 +114,6 @@ public class CameraScanResult extends AppCompatActivity {
         model.displayBarCode(result);
 
         final TextView activity_title = findViewById(R.id.camera_scan_result_title);
-//        final TextView experiment_id_display = findViewById(R.id.camera_scan_result_exp_id_display);
         final TextView experiment_desc_display = findViewById(R.id.camera_scan_result_exp_desc_display);
         final TextView trialType = findViewById(R.id.camera_scan_result_trial_type_display);
         final TextView trialValue = findViewById(R.id.camera_scan_result_trial_value_display);
@@ -141,9 +140,8 @@ public class CameraScanResult extends AppCompatActivity {
                     default:
                         trialValue.setText(String.valueOf(values.getValue()));
                 }
-                exp_id = values.getExpId();
 
-                addGeolocation(values.getExpId());
+                checkIfClosed(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
 
                 CollectionReference experiment = MainModel.getExperimentReference();
@@ -239,9 +237,8 @@ public class CameraScanResult extends AppCompatActivity {
                         String exp_id = getField(document, "targetExperimentId");
                         String exp_desc = getField(document, "targetExperimentDesc");
 
-                        addGeolocation(exp_id);
+                        checkIfClosed(exp_id);
 
-//                        experiment_id_display.setText(exp_id);
                         experiment_desc_display.setText(exp_desc);
                         trialType.setText(trial_type);
                         trialValue.setText(data);
@@ -288,6 +285,44 @@ public class CameraScanResult extends AppCompatActivity {
                     finish();
                 });
             }
+        }
+    }
+
+    private void checkIfClosed(String exp_id) {
+        try {
+            CollectionReference exp_list = MainModel.getExperimentReference();
+            exp_list.document(exp_id).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot experiment = task.getResult();
+                    Boolean is_closed = experiment.getBoolean("isEnded");
+                    Boolean is_published = experiment.getBoolean("isPublished");
+                    if ((is_closed != null && is_closed) || (is_published != null && !is_published)) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(self, R.style.AlertDialogTheme)
+                                .setCancelable(false)
+                                .setMessage("Sorry, the target experiment you scanned is closed or unpublished")
+                                .setPositiveButton("Exit", (dialog, which) -> {
+                                    try {
+                                        MainModel.setBarcodeResult(null);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    self.finish();
+                                })
+                                .create();
+                        alertDialog.show();
+                        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                    } else { // proceed to next step (add geolocation)
+                        addGeolocation(exp_id);
+                    }
+                } else { // ignore this step and proceed
+                   if (task.getException() != null) {
+                       task.getException().printStackTrace();
+                   }
+                   addGeolocation(exp_id);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
