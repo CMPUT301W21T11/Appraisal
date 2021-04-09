@@ -340,15 +340,16 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/fragment_exp_data_time_plot_title"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
-                android:text="Trials Over Time"
-                android:textSize="30sp"
+                android:fontFamily="@font/lato_regular"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
-                android:fontFamily="@font/lato_regular"/>
+                android:text="Trials Over Time"
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/fragment_experiment_data_analysis_plotsDrop"

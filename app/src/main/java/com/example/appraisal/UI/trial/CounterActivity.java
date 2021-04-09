@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.trial.CounterModel;
@@ -148,7 +147,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
         // put current User as the experimenter
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,7 +183,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,6 +238,10 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+                if (trial_location != null){
+                    Log.d("lat", String.valueOf(trial_location.getLatitude()));
+                    Log.d("long", String.valueOf(trial_location.getLongitude()));
+                }
 
                 geolocation_button.setText("Edit Geolocation");
 

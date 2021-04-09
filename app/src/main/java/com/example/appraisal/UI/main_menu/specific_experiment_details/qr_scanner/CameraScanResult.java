@@ -2,7 +2,6 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,14 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -127,7 +124,21 @@ public class CameraScanResult extends AppCompatActivity {
 
             if (values != null && values.checkSignature()) {
                 trialType.setText(values.getType().getLabel());
-                trialValue.setText(String.valueOf(values.getValue()));
+                switch (values.getType()) {
+                    case BINOMIAL_TRIAL:
+                        if (Math.round(values.getValue()) == 0) {
+                            trialValue.setText("Failure");
+                        } else {
+                            trialValue.setText("Success");
+                        }
+                        break;
+                    case NON_NEG_INT_TRIAL:
+                    case COUNT_TRIAL:
+                        trialValue.setText(String.valueOf((int) values.getValue()));
+                        break;
+                    default:
+                        trialValue.setText(String.valueOf(values.getValue()));
+                }
 //                experiment_id_display.setText(values.getExpId());
 
                 addGeolocation(values.getExpId());

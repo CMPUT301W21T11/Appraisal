@@ -73,7 +73,7 @@ public class ViewTrialActivity extends AppCompatActivity {
         }
 
         try {
-            current_user = MainModel.getCurrentUser().getID();
+            current_user = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }

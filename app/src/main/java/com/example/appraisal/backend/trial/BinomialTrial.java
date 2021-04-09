@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * This class represents a binomial trial
  */
-public class BernoulliTrial extends Trial {
+public class BinomialTrial extends Trial {
     private boolean result; // This represents if the trial is a success or failure
 
     /**
@@ -17,7 +17,7 @@ public class BernoulliTrial extends Trial {
      * @param parent_experiment
      *      The parent experiment which this trial belongs to
      */
-    public BernoulliTrial(Experiment parent_experiment, User conductor){
+    public BinomialTrial(Experiment parent_experiment, User conductor){
         super(parent_experiment, conductor, TrialType.BINOMIAL_TRIAL);
     }
 

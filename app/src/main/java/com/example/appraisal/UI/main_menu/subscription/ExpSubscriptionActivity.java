@@ -74,21 +74,15 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
 
     }
 
+
     /**
      * Gets called when activity gets restarted
      */
     @Override
     protected void onRestart() {
         super.onRestart();
-        setContentView(R.layout.activity_subscription);
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        bottomNav.setSelectedItemId(R.id.subscription_bottom_nav);
-
-
-        subscribed_list = findViewById(R.id.subscribedList);
-        subscribed_experiments = new ArrayList<>();
+        subscribed_experiments.clear();
         adapter = new ExpAdapter(this, subscribed_experiments, "Subscription");
 
         getSubscribedExperiments();
@@ -96,7 +90,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
         subscribed_list.setOnItemClickListener(selectExListener);
         subscribed_list.setAdapter(adapter);
     }
-
 
     /**
      * This method gets the item in list the user clicks on, and opens up a dialog with the corresponding info.
@@ -198,13 +191,18 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                                 experiment.setIsEnded(is_ended);
                                                 experiment.setIsPublished(is_published);
 
-                                                subscribed_experiments.add(experiment);
+                                                if (subscribed_experiments.stream().noneMatch(o -> o.getExpId().equalsIgnoreCase(experiment.getExpId()))) {
+                                                    subscribed_experiments.add(experiment);
+                                                }
 
                                                 Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
                                                 adapter.notifyDataSetChanged();
-
                                                 subscribed_list.setAdapter(adapter);
+                                            }
+                                        } else {
+                                            if (error != null) {
+                                                error.printStackTrace();
                                             }
                                         }
                                     }

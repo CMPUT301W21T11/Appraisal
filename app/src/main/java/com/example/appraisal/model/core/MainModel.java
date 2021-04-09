@@ -156,7 +156,7 @@ public class MainModel {
         }
         single_instance.current_user = user;
 
-        user.setID(single_instance.user_id);
+        user.setId(single_instance.user_id);
 
     }
 

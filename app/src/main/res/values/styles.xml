@@ -66,4 +66,9 @@
         <item name="android:textColorPrimary">@color/white</item>
 
     </style>
+
+    <style name="GeoTheme" parent="android:Theme.Dialog">
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
 </resources>

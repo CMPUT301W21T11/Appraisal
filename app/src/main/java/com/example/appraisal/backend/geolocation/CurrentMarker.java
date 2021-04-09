@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.geolocation;
+package com.example.appraisal.backend.geolocation;
 
 import android.os.Parcel;
 import android.os.Parcelable;

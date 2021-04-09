@@ -37,6 +37,7 @@ public class Quartile {
     public List<Trial> getSortedListOfTrials() {
         return this.sorted_list_of_trials;
     }
+
     /**
      * Return the minimum value of all the Trials of the supplied experiment
      * @return min

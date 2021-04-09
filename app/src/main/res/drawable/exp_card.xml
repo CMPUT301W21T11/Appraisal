@@ -2,7 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_window_focused="false">
         <shape>
-            <solid android:color="@color/magenta"></solid>
+            <solid android:color="@color/transparent_darker_navy_blue"/>
+            <corners android:radius="20dp"/>
         </shape>
     </item>
 </selector>

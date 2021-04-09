@@ -21,7 +21,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
-import com.example.appraisal.UI.geolocation.Geopoints;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
@@ -30,7 +29,6 @@ import com.example.appraisal.UI.trial.NonNegIntCountActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.model.core.MainModel;
-import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -57,8 +55,6 @@ public class SpecificExpDetailsFragment extends Fragment {
     private Button view_trials;
     private Button plot_trials;
     private ArrayList<GeoPoint> geolocation_list;
-
-    private ArrayList<Geopoints> geopoints_list;
 
     private TextView is_open_logo_text;
     private TextView type_logo_text;

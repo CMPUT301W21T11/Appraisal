@@ -59,7 +59,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         // get Current User's anonymous id
         try {
             User user = MainModel.getCurrentUser();
-            userID = user.getID();
+            userID = user.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         // get Current User's anonymous id
         try {
             User user = MainModel.getCurrentUser();
-            userID = user.getID();
+            userID = user.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
