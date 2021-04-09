@@ -104,7 +104,7 @@ public abstract class PermissionUtils {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             finishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getActivity(), R.style.GeoTheme)
                     .setMessage(R.string.location_permission_denied)
                     .setPositiveButton(android.R.string.ok, null)
                     .create();
@@ -172,7 +172,7 @@ public abstract class PermissionUtils {
             final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
             finishActivity = arguments.getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getActivity(), R.style.GeoTheme)
                     .setMessage(R.string.permission_rationale_location)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
