@@ -16,10 +16,10 @@ import java.util.TreeMap;
 /**
  * This class represents the statistical details of each experiment, e.g. Mean, Standard Deviations, Owner etc.
  */
-public class SpecificExperiment {
+public class SpecificExperimentStatistics {
     private final Experiment current_experiment;
     private final TrialType experiment_type;
-    private final ArrayList<Trial> list_of_trials;
+    private final List<Trial> list_of_trials;
     private final List<Float> list_of_trials_as_float;
     private final int total;
     private final Quartile quartile;
@@ -29,7 +29,7 @@ public class SpecificExperiment {
      *
      * @param current_experiment -- This is the experiment that needs to generate statistics
      */
-    public SpecificExperiment(@NonNull Experiment current_experiment) {
+    public SpecificExperimentStatistics(@NonNull Experiment current_experiment) {
         this.current_experiment = current_experiment;
         list_of_trials = current_experiment.getTrialList();
         quartile = new Quartile(list_of_trials);
@@ -56,7 +56,7 @@ public class SpecificExperiment {
      *
      * @return list_of_trials -- Copy of the list_of_trials in the experiment
      */
-    public ArrayList<Trial> getListOfTrials() {
+    public List<Trial> getListOfTrials() {
         return new ArrayList<>(list_of_trials);
     }
 

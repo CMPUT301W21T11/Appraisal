@@ -65,7 +65,7 @@ public class SpecificExpContributorsFragment extends Fragment {
         }
 
         try {
-            user = MainModel.getCurrentUser().getID();
+            user = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }

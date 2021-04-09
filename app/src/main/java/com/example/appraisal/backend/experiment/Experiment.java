@@ -175,7 +175,6 @@ public class Experiment implements Parcelable {
      */
     public void setIsEnded(Boolean is_ended) {
         this.is_ended = is_ended;
- 
     }
 
     /**

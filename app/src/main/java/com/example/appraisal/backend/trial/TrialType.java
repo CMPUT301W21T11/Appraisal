@@ -17,7 +17,7 @@ public enum TrialType {
     MEASUREMENT_TRIAL("Measurement Trials"),
     NON_NEG_INT_TRIAL("Non-negative Integer Trials");
 
-    public final String label;
+    private final String label;
 
     TrialType(String label) {
         this.label = label;

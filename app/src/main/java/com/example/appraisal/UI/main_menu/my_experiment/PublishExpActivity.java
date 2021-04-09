@@ -102,7 +102,7 @@ public class PublishExpActivity extends AppCompatActivity {
         DocumentReference owner = MainModel.getUserReference();
         User user = MainModel.getCurrentUser();         // get current user
         Integer number = user.getNumOfExp() + 1;      // increment experiment count
-        String owner_name = user.getID();               // get anonymous user id
+        String owner_name = user.getId();               // get anonymous user id
         String expID = owner_name + number;             // create unique experiment id
 
         // create Hash Map
