@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
-import com.example.appraisal.backend.user.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,7 +70,7 @@ public class SpecificExperimentStatistics {
 
         // Obtain the list of trials sorted by date
         List<Trial> sorted_trial_list_by_date = getListOfTrials();
-        sorted_trial_list_by_date.sort(new SortTrialByDate());
+        sorted_trial_list_by_date.sort(new TrialDateComparator());
 
         // Get the results over time
         TrialResultsOverTime resultsOverTime = new TrialResultsOverTime(sorted_trial_list_by_date);

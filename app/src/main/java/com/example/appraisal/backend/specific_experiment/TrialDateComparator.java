@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * This class is a comparator that sorts the trials based on date with the nearest day
  */
-public class SortTrialByDate implements Comparator<Trial> {
+public class TrialDateComparator implements Comparator<Trial> {
 
     /**
      * This method compares 2 Trial object's date
