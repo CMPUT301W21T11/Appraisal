@@ -37,7 +37,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -52,18 +51,15 @@ public class SpecificExpDetailsFragment extends Fragment {
     private CheckBox subscriptionBox;
     private Button add_trial;
     private CollectionReference exp_ref;
-    private Button view_trials;
     private Button plot_trials;
-    private ArrayList<GeoPoint> geolocation_list;
-
     private TextView is_open_logo_text;
     private TextView type_logo_text;
     private TextView geo_logo_text;
-
     private TextView current_count;
 
     /**
      * Gets called when the fragment gets created
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -74,8 +70,7 @@ public class SpecificExpDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
-
+        View v = inflater.inflate(R.layout.fragment_specific_exp_details, container, false);
 
 
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
@@ -109,29 +104,21 @@ public class SpecificExpDetailsFragment extends Fragment {
 
         ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
 
-       TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
-
-        // TODO Refactor to logo
-        // TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
         TextView rules_constraints = v.findViewById(R.id.specific_exp_details_rules_constraints);
-        // TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
-        // TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
-
         ImageView icon = v.findViewById(R.id.type_icon);
+
         if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_count));
             type_logo_text.setText("Count-Trial");
-        }
-        else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
+        } else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_coin));
             type_logo_text.setText("Binomial");
-        }
-        else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
+        } else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_num));
             type_logo_text.setText("Non-Neg-Trial");
-        }
-        else {
+        } else {
             icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_thermometer_three_quarters_solid));
             type_logo_text.setText("Measurement");
         }
@@ -143,38 +130,24 @@ public class SpecificExpDetailsFragment extends Fragment {
         if (current_experiment.getIsEnded()) {
             ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.cross));
             is_open_logo_text.setText("Ended");
-        }
-        else {
+        } else {
             ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_check_circle_solid));
             is_open_logo_text.setText("Open");
         }
 
         desc.setText(current_experiment.getDescription());
-        // type.setText(current_experiment.getType());
-//        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
-
         owner.setText(current_experiment.getOwner().substring(0, 7));
-//        if (current_experiment.getIsPublished()) {
-//            status.setText("Published");
-//        }
-//        else {
-//            status.setText("Unpublished");
-//        }
 
         TextView region = v.findViewById(R.id.specific_exp_details_region);
-        if (!current_experiment.getRegion().equals("")){
+        if (!current_experiment.getRegion().equals("")) {
             region.setText(current_experiment.getRegion());
-        }
-        else {
-            // region.setVisibility(View.GONE);
+        } else {
             region.setText("N/A");
         }
 
         if (!current_experiment.getRules().equals("")) {
             rules_constraints.setText((current_experiment.getRules()));
-        }
-        else {
-            // rules_constraints.setVisibility(View.GONE);
+        } else {
             rules_constraints.setText("N/A");
         }
 
@@ -183,11 +156,10 @@ public class SpecificExpDetailsFragment extends Fragment {
         updateCount();
 
         ImageView geo_icon = v.findViewById(R.id.geo_icon);
-        if (current_experiment.getIsGeolocationRequired()){
+        if (current_experiment.getIsGeolocationRequired()) {
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_alt_solid));
             geo_logo_text.setText("Geo-Required");
-        }
-        else {
+        } else {
             geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
             geo_logo_text.setText("Non-Geo");
         }
@@ -204,16 +176,13 @@ public class SpecificExpDetailsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if(isChecked) {
+                if (isChecked) {
                     user_ref.update("mySubscriptions", FieldValue.arrayUnion(current_experiment.getExpId()));
-                }
-                else {
+                } else {
                     user_ref.update("mySubscriptions", FieldValue.arrayRemove(current_experiment.getExpId()));
                 }
             }
         });
-
-        geolocation_list = new ArrayList<>();
 
         return v;
     }
@@ -268,7 +237,10 @@ public class SpecificExpDetailsFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void updateCount(){
+    /**
+     * This method gets the updated number of trials from firebase
+     */
+    private void updateCount() {
         exp_ref.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -278,7 +250,10 @@ public class SpecificExpDetailsFragment extends Fragment {
 
     }
 
-    private void plotAllTrialsOnMap(){
+    /**
+     * This method gets called when clicks on Map button
+     */
+    private void plotAllTrialsOnMap() {
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
         intent.putExtra("Map Request Code", "Plot Trials Map");
         intent.putExtra("Experiment Description", current_experiment.getDescription());
@@ -286,6 +261,9 @@ public class SpecificExpDetailsFragment extends Fragment {
     }
 
 
+    /**
+     * This method check if user is subscribed or not and updates the subscription box accordingly
+     */
     private void checkIfUserSubscribed() {
         // Author: Google
         // Reference: https://firebase.google.com/docs/firestore/manage-data/add-data
@@ -295,7 +273,7 @@ public class SpecificExpDetailsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        user_subscriptions = (ArrayList <String>) document.get("mySubscriptions");
+                        user_subscriptions = (ArrayList<String>) document.get("mySubscriptions");
 
                         if (user_subscriptions != null) {
                             if (user_subscriptions.contains(current_experiment.getExpId())) {

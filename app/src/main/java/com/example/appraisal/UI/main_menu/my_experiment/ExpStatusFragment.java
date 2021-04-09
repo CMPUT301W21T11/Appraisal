@@ -22,9 +22,6 @@ import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificEx
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 /**
  * This is the class that controls the DialogFragment for the user to modify an experiment's status.
@@ -78,7 +75,7 @@ public class ExpStatusFragment extends DialogFragment {
         super.onCreateDialog(savedInstanceState);
 
         // inflate layout from xml and get id's of xml objects
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.exp_change_status_fragment, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_exp_change_status, null);
         description = view.findViewById(R.id.description);
         published_status = view.findViewById(R.id.current_published_status);
         ended_status = view.findViewById(R.id.current_ended_status);
@@ -215,7 +212,7 @@ public class ExpStatusFragment extends DialogFragment {
     /**
      * This method goes to the specific activity to display the contents of the experiment selected
      */
-    public void goViewResults(){
+    private void goViewResults(){
         Intent intent = new Intent(getActivity(), SpecificExpActivity.class);
         try {
             MainModel.setCurrentExperiment(experiment);
@@ -229,7 +226,7 @@ public class ExpStatusFragment extends DialogFragment {
     /**
      * This method changed the publish status
      */
-    public void changeIfPublished(){
+    private void changeIfPublished(){
         if (is_published){                              // if it's published, switch to Unpublished
             published_status.setText("Unpublished");
             publish_switch.setText("Publish");
@@ -246,7 +243,7 @@ public class ExpStatusFragment extends DialogFragment {
     /**
      * This method changed ended status
      */
-    public void changeIfEnded(){
+    private void changeIfEnded(){
         if (is_ended){                              // if published and ended, switch to published and open
             ended_status.setText("Open");
             end_switch.setText("End");
@@ -268,25 +265,5 @@ public class ExpStatusFragment extends DialogFragment {
         CollectionReference reference = MainModel.getExperimentReference();
         reference.document(exp_ID).update("isPublished", is_published);
         reference.document(exp_ID).update("isEnded", is_ended);
-    }
-
-    /**
-     * Check if Current Num of Trials is less than Minimum Num of Trial Required
-     */
-    private void checkMin() {
-        try {
-            ref = MainModel.getExperimentReference();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ref.document(exp_ID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                int minNum = Integer.parseInt(value.getData().get("minTrials").toString());
-                int currentNum = Integer.parseInt(value.getData().get("numOfTrials").toString());
-                end_switch.setEnabled(currentNum >= minNum);
-            }
-        });
     }
 }

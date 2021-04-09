@@ -51,7 +51,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     private EditText counter_view;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
-    private int firebase_num_trials = 0;
+    private int firebase_num_trials;
     private String experimenterID;
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
@@ -66,6 +66,9 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebase_num_trials = 0;
+
         setContentView(R.layout.activity_nonneg_count_layout);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -141,7 +144,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     /**
      * This method stores the trial to the firebase
      */
-    public void storeTrialInFireBase() {
+    private void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
@@ -189,7 +192,9 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         current_exp.setTrialCount(num_of_trials);
     }
 
-
+    /**
+     * This method adds contributor to the experimenter list when they upload a trial
+     */
     private void addContributor() {
 
         try {
@@ -199,7 +204,9 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
         }
     }
 
-
+    /**
+     * This method queries the number of trials from firebase and updates the local variable firebase_num_trials
+     */
     private void listenToNumOfTrials() {
 
         experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

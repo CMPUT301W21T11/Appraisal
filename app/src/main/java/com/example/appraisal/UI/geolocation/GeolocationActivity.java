@@ -86,7 +86,7 @@ import java.util.stream.DoubleStream;
  */
 
 /**
- * This activity enables the Gelocation features
+ * This activity enables the Geolocation features
  */
 public class GeolocationActivity extends AppCompatActivity implements
         OnMyLocationButtonClickListener,
@@ -148,13 +148,11 @@ public class GeolocationActivity extends AppCompatActivity implements
             e.printStackTrace();
         }
 
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -174,17 +172,15 @@ public class GeolocationActivity extends AppCompatActivity implements
             save_geolocation_btn.setVisibility(View.GONE);
         }
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-
-
     }
 
     /**
      * This method setup the map when the map is ready
+     *
      * @param googleMap -- the map
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -342,6 +338,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * This method is called when user clicks on save button
+     *
      * @param v -- view of current context
      */
     public void saveMarkerLocation(View v) {
@@ -395,10 +392,11 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * This method is called to plot each trial given a latitude and longitude, with a title and a snippet
-     * @param latitude -- latitude of trial location
+     *
+     * @param latitude  -- latitude of trial location
      * @param longitude -- longitude of trial location
-     * @param title -- Trial number and date
-     * @param snippet -- Result of trial
+     * @param title     -- Trial number and date
+     * @param snippet   -- Result of trial
      * @return
      */
     private @NotNull LatLng drawMarker(double latitude, double longitude, String title, String snippet) {
@@ -491,7 +489,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
 
     /**
-     *  This method polls for location updates every 5 milliseconds
+     * This method polls for location updates every 5 milliseconds
      */
     private void startLocationUpdates() {
         location_request = LocationRequest.create()

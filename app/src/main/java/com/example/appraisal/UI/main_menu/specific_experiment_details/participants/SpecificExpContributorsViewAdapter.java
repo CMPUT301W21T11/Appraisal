@@ -58,7 +58,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
     /**
      * This method creates a View Holder for the list of contributors
      *
-     * @param parent -- parent {@link ViewGroup}
+     * @param parent   -- parent {@link ViewGroup}
      * @param viewType -- the type of the view
      * @return {@link SpecificExpContributorsViewHolder} -- view holder for the list of contributors
      */
@@ -73,25 +73,25 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
     /**
      * This method sets the content and onclick actions for each element in the list of contributors
-     * @param holder -- the ViewHolder to be modified
+     *
+     * @param holder   -- the ViewHolder to be modified
      * @param position -- the position of the ViewHolder
      */
     @Override
     public void onBindViewHolder(@NonNull SpecificExpContributorsViewHolder holder, int position) {
         String name = experimenters.get(position);
 
-        if (name.length() < 7){
-            holder.getUserName().setText("User @" + name.substring(0, name.length()-1));
-        } else{
+        if (name.length() < 7) {
+            holder.getUserName().setText("User @" + name.substring(0, name.length() - 1));
+        } else {
             holder.getUserName().setText("User @" + name.substring(0, 7));
         }
 
         holder.getUserIcon().setImageResource(R.drawable.ic_launcher_foreground);
 
-        if (ignored_list != null && ignored_list.contains(name) && is_owner){
+        if (ignored_list != null && ignored_list.contains(name) && is_owner) {
             holder.setIsIgnored();
-        }
-        else {
+        } else {
             holder.setUnignored();
         }
 
@@ -107,6 +107,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
     /**
      * This method gets the number of view holders to be displayed
+     *
      * @return int -- number of view holders
      */
     @Override
@@ -122,6 +123,9 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         return experimenters.size();
     }
 
+    /**
+     * This method queries firebase to obtain a list of ignored experimenters
+     */
     private void getIgnoredList() {
         try {
             doc = MainModel.getExperimentReference();
@@ -172,12 +176,13 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
         /**
          * This method makes the contributor to be not ignored
          */
-        public void  setUnignored() {
+        public void setUnignored() {
             is_ignored.setVisibility(View.GONE);
         }
 
         /**
          * This method returns the ImageView for displaying the user icon
+         *
          * @return ImageView -- imageview for displaying user icon
          */
         public ImageView getUserIcon() {
@@ -186,6 +191,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
         /**
          * This method returns the TextView for displaying user name
+         *
          * @return TextView -- user name display
          */
         public TextView getUserName() {
@@ -194,6 +200,7 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
         /**
          * Thie method returns the layout of the card
+         *
          * @return ConstraintLayout -- the layout of the card, which is a {@link ConstraintLayout}
          */
         public ConstraintLayout getExpLayout() {

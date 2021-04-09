@@ -30,7 +30,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.appraisal.R;
 
-/**
+/*
  * Source: https://github.com/googlemaps/android-samples/blob/816f8cc4241ec7c4eaf41b16f7fefcf10ae95faf/ApiDemos/java/app/src/v3/java/com/example/mapdemo/PermissionUtils.java <br>
  * License: Apache License Version 2.0 <br>
  * Author: 2020 Google LLC <br>

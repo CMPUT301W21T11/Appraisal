@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This fragment shows the contributors list to an experiment in the participants tab
+ */
 public class SpecificExpContributorsFragment extends Fragment {
     private RecyclerView recyclerView;
     private SpecificExpContributorsViewAdapter adapter;
@@ -98,6 +101,9 @@ public class SpecificExpContributorsFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * This method queries firebase to obtain a list of experimenters
+     */
     private void queryDB() {
         // get document reference
         DocumentReference doc = null;

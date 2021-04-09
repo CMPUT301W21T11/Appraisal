@@ -23,21 +23,20 @@ import java.util.List;
 /**
  * This class is for configuring the camera scanner for QR and Barcode
  */
-public class CameraScanner extends AppCompatActivity {
+public class CameraScannerActivity extends AppCompatActivity {
     // This activity is heavily based the following video tutorial
     // Author: SmallAcademy (https://www.youtube.com/channel/UCR1t5eSmLxLUdBnK2XwZOuw)
     // URL: https://www.youtube.com/watch?v=Iuj4CuWjYF8
 
     private CodeScannerView scanner_view;
     private CameraScannerModel model;
-
     private final int REQUEST_CODE_PERMISSION = 10;
     private final List<String> REQUIRED_PERMISSIONS = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_barcode_qr_scanner);
+        setContentView(R.layout.activity_camera_barcode_qr_scanner);
 
         REQUIRED_PERMISSIONS.add(Manifest.permission.CAMERA);
         scanner_view = findViewById(R.id.camera_scanner_viewFinder);
@@ -48,14 +47,15 @@ public class CameraScanner extends AppCompatActivity {
 
     /**
      * This method get the permission results to check if the necessary permissions are granted
-     * @param requestCode -- the code for this permission request
-     * @param permissions -- All the requested permission
+     *
+     * @param requestCode  -- the code for this permission request
+     * @param permissions  -- All the requested permission
      * @param grantResults -- the result if the permission is granted
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_PERMISSION) { // check for only the specific request code permission
-            if(allPermissionsGranted()) {
+            if (allPermissionsGranted()) {
                 startCamera();
             } else { // inform user that permission is denied
                 Toast toast = Toast.makeText(this, "Error: Permission denied", Toast.LENGTH_SHORT);
@@ -87,6 +87,9 @@ public class CameraScanner extends AppCompatActivity {
         super.onPause();
     }
 
+    /**
+     * This method starts the camera
+     */
     private void startCamera() {
         model.startScanner();
         model.enableCodeScannerViewRefresh();
@@ -102,9 +105,14 @@ public class CameraScanner extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method checks if all permissions are granted by the phone
+     *
+     * @return
+     */
     private boolean allPermissionsGranted() {
         // check if all permissions are granted
-        for (String permission: REQUIRED_PERMISSIONS) {
+        for (String permission : REQUIRED_PERMISSIONS) {
             int result = ContextCompat.checkSelfPermission(this, permission);
             if (result != PackageManager.PERMISSION_GRANTED) {
                 return false;

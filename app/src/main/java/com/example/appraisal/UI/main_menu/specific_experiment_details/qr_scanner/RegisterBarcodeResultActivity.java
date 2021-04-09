@@ -27,7 +27,7 @@ import com.google.zxing.Result;
 /**
  * This class represents the Activity that registers a barcode
  */
-public class RegisterBarcodeResult extends AppCompatActivity {
+public class RegisterBarcodeResultActivity extends AppCompatActivity {
 
     private final int BARCODE_REGISTER_REQUEST_CODE = 0x00000002;
     private BarcodeAnalyzerModel model;
@@ -67,10 +67,17 @@ public class RegisterBarcodeResult extends AppCompatActivity {
 
         model = new BarcodeAnalyzerModel(this);
 
-        Intent intent = new Intent(this, CameraScanner.class);
+        Intent intent = new Intent(this, CameraScannerActivity.class);
         startActivityForResult(intent, BARCODE_REGISTER_REQUEST_CODE);
     }
 
+    /**
+     * This method shows the result of the scan
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,10 +144,11 @@ public class RegisterBarcodeResult extends AppCompatActivity {
 
     /**
      * Thie method create an entry for the scanned barcode
-     * @param rawValue -- value of the barcode as string
-     * @param user -- the {@link User} who is registering the barcode
+     *
+     * @param rawValue   -- value of the barcode as string
+     * @param user       -- the {@link User} who is registering the barcode
      * @param experiment -- the {@link Experiment} which the barcode is assigned to
-     * @param data -- the action of the barcode
+     * @param data       -- the action of the barcode
      */
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
@@ -150,7 +158,8 @@ public class RegisterBarcodeResult extends AppCompatActivity {
     /**
      * This method asks if user want to override the existing barcode entry to a new value
      * If so, it will call model.addToDatabase method
-     * @param barcode -- the new barcode value
+     *
+     * @param barcode    -- the new barcode value
      * @param old_action -- the old action's description string
      */
     public void askIfOverride(Barcode barcode, String old_action) {

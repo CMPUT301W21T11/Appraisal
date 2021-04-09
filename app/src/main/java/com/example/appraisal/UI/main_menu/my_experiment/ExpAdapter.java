@@ -70,7 +70,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.exp_layout, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.view_holder_exp_layout, parent, false);
         }
 
         Experiment exp_current = experimentsFiltered.get(position);
@@ -91,7 +91,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
                 status.setText("Open & Published");
             } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
                 status.setText("Ended & Published");
-            } else if (!exp_current.getIsPublished() && !exp_current.getIsEnded()){
+            } else if (!exp_current.getIsPublished() && !exp_current.getIsEnded()) {
                 status.setText("Open & Unpublished");
             } else {
                 status.setText("Ended & Unpublished");
@@ -109,21 +109,13 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
         ImageView icon = view.findViewById(R.id.list_card_logo);
         if (exp_current.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_count));
-            // exp_current.setText("Count-Trial");
-        }
-        else if (exp_current.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
+        } else if (exp_current.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_coin));
-            // exp_current.setText("Binomial");
-        }
-        else if (exp_current.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
+        } else if (exp_current.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
             icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_num));
-            // exp_current.setText("Non-Neg-Trial");
-        }
-        else {
+        } else {
             icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thermometer_three_quarters_solid));
-            // exp_current.setText("Measurement");
         }
-
 
 
         return view;

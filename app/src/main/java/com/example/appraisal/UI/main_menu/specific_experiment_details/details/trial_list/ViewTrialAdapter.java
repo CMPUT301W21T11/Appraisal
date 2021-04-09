@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
     private ArrayList<ViewTrial> trials;
     private Context context;
-    private  Experiment experiment;
+    private Experiment experiment;
 
     public ViewTrialAdapter(Context context, ArrayList<ViewTrial> trials) {
         super(context, 0, trials);
@@ -33,29 +33,26 @@ public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
     /**
      * This method returns the view for viewing the trial details
      *
-     * @param position -- the position of the view card
+     * @param position    -- the position of the view card
      * @param convertView -- the view to be modified
-     * @param parent -- parent ViewGroup
+     * @param parent      -- parent ViewGroup
      * @return View -- the view to be displayed
      */
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.view_trial_layout, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.view_holder_trial_layout, parent, false);
         }
 
         ViewTrial viewTrial = trials.get(position);
-
         TextView trial_ID = view.findViewById(R.id.trial_ID);
-        // TODO: display success and failure
         TextView result = view.findViewById(R.id.trial_result);
         TextView date = view.findViewById(R.id.view_trial_date);
-
         trial_ID.setText(viewTrial.getID());
 
         try {
-           experiment = MainModel.getCurrentExperiment();
+            experiment = MainModel.getCurrentExperiment();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,12 +61,10 @@ public class ViewTrialAdapter extends ArrayAdapter<ViewTrial> {
         if (experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
             if (Double.parseDouble(viewTrial.getOutcome()) == 0.0) {
                 result.setText("Failure");
-            }
-            else {
+            } else {
                 result.setText("Success");
             }
-        }
-        else {
+        } else {
             result.setText(viewTrial.getOutcome());
         }
 
