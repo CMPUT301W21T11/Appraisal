@@ -301,6 +301,7 @@ public class GeolocationActivity extends AppCompatActivity implements
             // Permission was not granted, display error dialog.
             showMissingPermissionError();
             permissionDenied = false;
+            // save_geolocation_btn.setClickable(false);
         }
     }
 
