@@ -20,6 +20,8 @@ import org.junit.Test;
 /**
  * Test class for User Profiles. All the UI tests are written here. Robotium test framework is
  * used
+ *
+ * Covers User Stories 04.01.01, 04.02.01, 04.04.01
  */
 public class UserProfileTest {
     private Solo solo;
@@ -56,32 +58,30 @@ public class UserProfileTest {
     public void testProfile() {
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Begin");
-
-//        //Asserts that the current activity is the BeginActivity. Otherwise, show “Wrong Activity”
-//        solo.assertCurrentActivity("Wrong activity", BeginActivity.class);
-//        solo.clickOnButton("GUEST");
+        View BeginButton = solo.getView("begin_button");
+        solo.clickOnView(BeginButton);
 
         //Asserts that the current activity is the ExpSubscriptionActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong activity", ExpSubscriptionActivity.class);
-        View CTButton = solo.getView("profile_button");
+        View CTButton = solo.getView("profile_bottom_nav");
         solo.clickOnView(CTButton);
 
         //Asserts that the current activity is the UserProfileActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong activity", UserProfileActivity.class);
-        solo.clickOnButton("Edit Profile");
+        View EditUserButton = solo.getView("edit_profile_btn");
+        solo.clickOnView(EditUserButton);
 
         //Asserts that the current activity is the EditProfileActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong activity", EditProfileActivity.class);
 
-        //Entering in test data
 
+        //Entering in test data
         solo.clearEditText((EditText) solo.getView(R.id.name_edittext));
         solo.clearEditText((EditText) solo.getView(R.id.email_address_edittext));
         solo.clearEditText((EditText) solo.getView(R.id.phone_number_edittext));
 
         solo.enterText((EditText) solo.getView(R.id.name_edittext), "Test User");
-        solo.enterText((EditText) solo.getView(R.id.email_address_edittext), "test@test.ca");
+        solo.enterText((EditText) solo.getView(R.id.email_address_edittext), "test_user@ualberta.ca");
         solo.enterText((EditText) solo.getView(R.id.phone_number_edittext), "+17809990000");
 
         //Saving it
@@ -92,9 +92,9 @@ public class UserProfileTest {
         solo.assertCurrentActivity("Wrong activity", UserProfileActivity.class);
 
         //Verify that the profile was edited
-        solo.waitForText("Username: Test User", 1, delay_time);
-        solo.waitForText("Email: test@test.ca", 1, delay_time);
-        solo.waitForText("Phone: +17809990000", 1, delay_time);
+        solo.waitForText("Test User", 1, delay_time);
+        solo.waitForText("test_user@ualberta.ca", 1, delay_time);
+        solo.waitForText("+17809990000", 1, delay_time);
 
 
     }
