@@ -2,6 +2,10 @@ package com.example.appraisal;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -156,8 +160,18 @@ public class AddTrialTests {
         //     }
         // }
 
-        // solo.clickOnScreen(width - 35, height, 1);
 
+        TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
+
+        int wanted_id = 3;
+        TextView tv = (TextView)(((LinearLayout)((LinearLayout)tabs.getChildAt(0)).getChildAt(wanted_id)).getChildAt(1));
+
+        // TabLayout.Tab viewYouWantToDoStuffWith = tabs.fin
+
+        // solo.clickOnScreen(1305, 2630, 1);
+
+        solo.clickOnView(tv);
+        // solo.clickOnImage(4);
 
         // assertTrue("cp", false);
         // solo.clickOnMenuItem("PARTICIPANTS_TAB");
