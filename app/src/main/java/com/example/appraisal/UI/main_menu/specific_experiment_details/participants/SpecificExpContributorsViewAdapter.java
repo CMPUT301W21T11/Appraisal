@@ -38,17 +38,15 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
     private ArrayList<String> experimenters;
     private ArrayList<String> ignored_list;
-    private final SpecificExpModel model;
     private Context context;
     private SharedPreferences pref;
     private CollectionReference doc;
     private Experiment experiment;
     private Boolean is_owner;
 
-    public SpecificExpContributorsViewAdapter(Context context, ArrayList<String> experimenters, SpecificExpModel model, SharedPreferences pref, Boolean is_owner) {
+    public SpecificExpContributorsViewAdapter(Context context, ArrayList<String> experimenters, SharedPreferences pref, Boolean is_owner) {
         this.experimenters = experimenters;
         this.context = context;
-        this.model = model;
         this.pref = pref;
         ignored_list = new ArrayList<>();
         this.is_owner = is_owner;
