@@ -41,7 +41,6 @@ public class ExpStatusFragment extends DialogFragment {
     private Boolean is_ended;
     private Experiment experiment;
     private String exp_ID;
-    private CollectionReference ref;
 
     /**
      * This interface ensures that the context is an fragment interaction listener
