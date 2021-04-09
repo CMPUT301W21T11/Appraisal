@@ -36,7 +36,7 @@ import static java.lang.Math.abs;
  */
 public class ViewContributorsTest {
     private Solo solo;
-    int delay_time = 300;
+    int delay_time = 500;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -109,10 +109,10 @@ public class ViewContributorsTest {
         //Testing the Details tab
         View ResultsButton = solo.getView("view_results_button");
         solo.clickOnView(ResultsButton);
-        solo.waitForText(exp_name, 1, 300);
-        solo.waitForText("Count-based trials", 1, 300);
-        solo.waitForText("Open", 1, 300);
-        solo.waitForText("Non-Geo", 1, 300);
+        solo.waitForText(exp_name, 1, delay_time);
+        solo.waitForText("Count-based trials", 1, delay_time);
+        solo.waitForText("Open", 1, delay_time);
+        solo.waitForText("Non-Geo", 1, delay_time);
 
         //Adding a trial
         View AddTrialButton = solo.getView("specific_exp_details_add_trial_button");
@@ -138,14 +138,14 @@ public class ViewContributorsTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        solo.waitForText(userID, 1, 300);
+        solo.waitForText(userID, 1, delay_time);
 
         //Test ViewTrialActivity was opened
         solo.clickOnText(userID);
         solo.assertCurrentActivity("Wrong activity", ViewTrialActivity.class);
 
         //Verify that trial was added
-        solo.waitForText("Result: 1", 1, 300);
+        solo.waitForText("Result: 1", 1, delay_time);
 
         // Open other users profile
         View viewProfileButton = solo.getView("view_profile_button");

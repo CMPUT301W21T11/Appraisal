@@ -117,4 +117,27 @@ public class TrialTest {
         trial.setValue(10);
         assertEquals(10, (int) trial.getValue());
     }
+
+    /**
+     * Test Trial Type Enum
+     */
+    @Test
+    public void testTrialType() {
+        BinomialTrial binomialTrial = (BinomialTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        String binomial_label = TrialType.BINOMIAL_TRIAL.getLabel();
+        assertEquals(binomial_label, binomialTrial.getType().getLabel());
+
+        CountTrial countTrial = (CountTrial) factory.createTrial(TrialType.COUNT_TRIAL, test_parent, test_user);
+        String count_label = TrialType.COUNT_TRIAL.getLabel();
+        assertEquals(count_label, countTrial.getType().getLabel());
+
+        NonNegIntCountTrial nonNegIntCountTrial = (NonNegIntCountTrial) factory.createTrial(TrialType.NON_NEG_INT_TRIAL, test_parent, test_user);
+        String non_neg_label = TrialType.NON_NEG_INT_TRIAL.getLabel();
+        assertEquals(non_neg_label, nonNegIntCountTrial.getType().getLabel());
+
+
+        MeasurementTrial measurementTrial = (MeasurementTrial) factory.createTrial(TrialType.MEASUREMENT_TRIAL, test_parent, test_user);
+        String measurement_label = TrialType.MEASUREMENT_TRIAL.getLabel();
+        assertEquals(measurement_label, measurementTrial.getType().getLabel());
+    }
 }

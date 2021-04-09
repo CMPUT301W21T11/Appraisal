@@ -34,7 +34,7 @@ import static java.lang.Math.abs;
  */
 public class IgnoringUsersTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 300;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =

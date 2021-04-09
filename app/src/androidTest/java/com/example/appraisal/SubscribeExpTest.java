@@ -30,7 +30,7 @@ import static java.lang.Math.abs;
  */
 public class SubscribeExpTest {
     private Solo solo;
-    int delay_time = 250;
+    int delay_time = 300;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =

@@ -25,7 +25,7 @@ import org.junit.Test;
  */
 public class UserProfileTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 300;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
