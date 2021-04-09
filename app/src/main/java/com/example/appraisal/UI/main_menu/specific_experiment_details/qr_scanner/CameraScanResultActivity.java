@@ -334,6 +334,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                     Boolean is_required = experiment.getBoolean("isGeolocationRequired");
                     if (is_required != null && is_required) {
                         showWarningDialog();
+                        // generate merge conflicts
                         String exp_desc = getField(experiment, "description");
                         add_geo_button.setVisibility(View.VISIBLE);
                         add_geo_button.setOnClickListener(v -> {
