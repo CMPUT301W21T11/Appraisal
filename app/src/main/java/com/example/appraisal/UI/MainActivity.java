@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View decorView = getWindow().getDecorView();
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -81,9 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method signs in the user
+     *
      * @param v -- begin button
      */
-    public void signIn(View v){
+    public void signIn(View v) {
         Intent intent = new Intent(this, ExpSubscriptionActivity.class);
         startActivity(intent);
     }

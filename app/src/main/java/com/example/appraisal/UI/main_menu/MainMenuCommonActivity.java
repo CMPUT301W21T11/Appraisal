@@ -5,8 +5,9 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResultActivity;
 import com.example.appraisal.UI.main_menu.search.SearchActivity;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScannerActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
 
@@ -37,10 +38,10 @@ public abstract class MainMenuCommonActivity extends AppCompatActivity {
     }
 
     /**
-     * This method starts the QR scanner: {@link com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner}, {@link CameraScanResult}
+     * This method starts the QR scanner: {@link CameraScannerActivity}, {@link CameraScanResultActivity}
      */
     public void toCamera() {
-        Intent intent = new Intent(this, CameraScanResult.class);
+        Intent intent = new Intent(this, CameraScanResultActivity.class);
         startActivity(intent);
     }
 

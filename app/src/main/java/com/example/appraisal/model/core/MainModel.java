@@ -32,19 +32,14 @@ import java.util.Map;
  */
 public class MainModel {
     private static MainModel single_instance;
-
     private final FirebaseFirestore db;
-
     private User current_user;
     private Experiment chosen_experiment;
-
     private Result barcode_result; // This variable is used to store the barcode result
-
     //    public static FirebaseAuthentication auth;
     public String user_id;
     public boolean is_new;
     public boolean is_checked;
-
     public FirebaseAuthentication mAuth;
 
 

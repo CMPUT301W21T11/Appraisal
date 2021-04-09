@@ -100,6 +100,9 @@ public class ViewTrialActivity extends AppCompatActivity {
         trial_display.setAdapter(adapter);
     }
 
+    /**
+     * This method checks if the participant is the owner, and if so, gives them the ignore functionality
+     */
     private void checkOwner() {
         // Sal, 2017-12-31, CC BY-SA 2.5, https://stackoverflow.com/questions/48043461/how-can-i-change-constraint-programmatically/48044912
 
@@ -109,13 +112,12 @@ public class ViewTrialActivity extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.view_trial_constraint_layout);
         set.clone(layout);
 
-        if (current_user.equals(current_experiment.getOwner())){
+        if (current_user.equals(current_experiment.getOwner())) {
             // check if current experimenter is ignored, updated fields accordingly
             checkIfIgnored();
             // set functionality to ignore experimenter
             ignore_button.setOnClickListener(v1 -> ignoreButtonPressed());
-        }
-        else {
+        } else {
             set.connect(R.id.separator, ConstraintSet.TOP, R.id.view_profile_button, ConstraintSet.BOTTOM);
             set.applyTo(layout);
             text.setVisibility(View.GONE);
@@ -163,15 +165,14 @@ public class ViewTrialActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 // get list of ignored experimenters
-                ignored_list  = (ArrayList<String>) value.getData().get("ignoredExperimenters");
+                ignored_list = (ArrayList<String>) value.getData().get("ignoredExperimenters");
 
                 // updated field values accordingly
-                if (ignored_list != null && ignored_list.contains(experimenter)){
+                if (ignored_list != null && ignored_list.contains(experimenter)) {
                     Log.d("Status:", "Already ignored");
                     status.setText("Yes");
                     ignore_button.setText("Unignore");
-                }
-                else {
+                } else {
                     Log.d("Status:", "Not ignored");
                     status.setText("No");
                     ignore_button.setText("Ignore");
@@ -198,8 +199,7 @@ public class ViewTrialActivity extends AppCompatActivity {
             ignore_button.setText("Unignore");
             status.setText("Yes");
             addToIgnored();
-        }
-        else {              // else status is Yes, user wants to unignore trial
+        } else {              // else status is Yes, user wants to unignore trial
             ignore_button.setText("Ignore");
             status.setText("No");
             removeFromIgnored();
@@ -233,6 +233,7 @@ public class ViewTrialActivity extends AppCompatActivity {
 
     /**
      * When the up button gets clicked, the activity is killed.
+     *
      * @param item
      * @return
      */

@@ -52,7 +52,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     private final DecimalFormat dp3 = new DecimalFormat("#.##");
     private Experiment current_exp;
     private CollectionReference experiment_reference;
-    private int firebase_num_trials = 0;
+    private int firebase_num_trials;
     private String experimenterID;
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
@@ -62,11 +62,15 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
     /**
      * create the activity and inflate it with layout. initialize model
+     *
      * @param savedInstanceState -- bundle of the saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebase_num_trials = 0;
+
         setContentView(R.layout.activity_measurement);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -84,8 +88,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         if (current_exp.getIsGeolocationRequired()) {
             GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
             geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
-        }
-        else {
+        } else {
             geolocation_button.setVisibility(View.GONE);
         }
 
@@ -109,6 +112,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
     /**
      * Save measurement to experiment
+     *
      * @param view save button
      */
     public void addMeasurement(View view) {
@@ -123,9 +127,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
                 }
             });
             snackbar.show();
-        }
-
-        else {
+        } else {
             String input = input_measurement.getText().toString();
             model.addMeasurement(input);
             model.toExperiment();
@@ -140,7 +142,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     /**
      * This method stores the trial to firebase
      */
-    public void storeTrialInFireBase() {
+    private void storeTrialInFireBase() {
 
         String experiment_ID = current_exp.getExpId();
         Integer num_of_trials = firebase_num_trials + 1;
@@ -188,7 +190,9 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         current_exp.setTrialCount(num_of_trials);
     }
 
-
+    /**
+     * This method adds contributor to the experimenter list when they upload a trial
+     */
     private void addContributor() {
 
         try {
@@ -198,13 +202,15 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
         }
     }
 
-
+    /**
+     * This method queries the number of trials from firebase and updates the local variable firebase_num_trials
+     */
     private void listenToNumOfTrials() {
 
         experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
 
                     if ((document != null) && document.exists()) {
@@ -224,6 +230,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
     /**
      * This method adds a geolocation for the trial
+     *
      * @param v -- the add geolocation button
      */
     public void addGeolocation(View v) {
@@ -238,8 +245,8 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
      * Dispatch incoming result to the correct fragment.
      *
      * @param requestCode -- the activity which started for result
-     * @param resultCode -- the result of the activity
-     * @param data -- any Intent date from the activity
+     * @param resultCode  -- the result of the activity
+     * @param data        -- any Intent date from the activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

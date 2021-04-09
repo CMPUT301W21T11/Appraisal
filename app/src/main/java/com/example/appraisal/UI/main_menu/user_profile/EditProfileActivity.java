@@ -29,11 +29,10 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText phone_edit;
     private User current_user;
     private DocumentReference user_reference;
-    private View view;
-    private Button save_button;
 
     /**
      * onCreate activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -41,16 +40,14 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        save_button = (Button)findViewById(R.id.apply_changes_btn);
-
-        id_view = (TextView)findViewById(R.id.id_textview);
-        name_edit = (EditText)findViewById(R.id.name_edittext);
-        email_edit = (EditText)findViewById(R.id.email_address_edittext);
-        phone_edit = (EditText)findViewById(R.id.phone_number_edittext);
+        id_view = (TextView) findViewById(R.id.id_textview);
+        name_edit = (EditText) findViewById(R.id.name_edittext);
+        email_edit = (EditText) findViewById(R.id.email_address_edittext);
+        phone_edit = (EditText) findViewById(R.id.phone_number_edittext);
 
         current_user = getIntent().getExtras().getParcelable("user");
 
-        id_view.setText("@"+current_user.getId().substring(0, 7));
+        id_view.setText("@" + current_user.getId().substring(0, 7));
         name_edit.setText(current_user.getUsername());
         email_edit.setText(current_user.getEmail());
         phone_edit.setText(current_user.getPhoneNumber());
@@ -58,13 +55,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the save button
+     *
      * @param v -- view that is clicked
      * @throws Exception -- when the MainModel is not initiated
      */
     public void applyChangesToProfile(View v) throws Exception {
-
-        String email = email_edit.getText().toString();
-        String phone = phone_edit.getText().toString();
 
         User updated_user = new User(current_user.getId(),
                 name_edit.getText().toString(),
@@ -86,11 +81,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
         user_reference
                 .update("userName", name_edit.getText().toString(), "userEmail", email_edit.getText().toString(),
-                            "phoneNumber", phone_edit.getText().toString())
+                        "phoneNumber", phone_edit.getText().toString())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d("USER UPDATE", "DocumentSnapshot successfully updated!");
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("USER UPDATE", "DocumentSnapshot successfully updated!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -107,6 +102,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the cancel button
+     *
      * @param v -- view that is clicked
      */
     public void cancelChangesToProfile(View v) {

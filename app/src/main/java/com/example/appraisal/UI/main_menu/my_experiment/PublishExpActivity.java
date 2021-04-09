@@ -54,12 +54,12 @@ public class PublishExpActivity extends AppCompatActivity {
 
 
         List<String> expTypes = Arrays.asList("Count-based trials",
-        "Binomial Trials",
-        "Non-negative Integer Trials",
-        "Measurement Trials");
+                "Binomial Trials",
+                "Non-negative Integer Trials",
+                "Measurement Trials");
 
         // use custom spinner layout to change text color
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.experiment_spinner, expTypes);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, R.layout.view_holder_experiment_spinner, expTypes);
         type_field.setAdapter(spinnerAdapter);
 
         // get reference of Experiments Collection
@@ -72,6 +72,7 @@ public class PublishExpActivity extends AppCompatActivity {
 
     /**
      * This method created the new experiment when user presses Publish Button
+     *
      * @param view
      * @throws Exception
      */
@@ -91,10 +92,9 @@ public class PublishExpActivity extends AppCompatActivity {
         String region = region_field.getText().toString();
 
         int min_trials;
-        if (min_trials_field.getText().length() == 0){
+        if (min_trials_field.getText().length() == 0) {
             min_trials = 0;
-        }
-        else {
+        } else {
             min_trials = Integer.parseInt(min_trials_field.getText().toString());
         }
 

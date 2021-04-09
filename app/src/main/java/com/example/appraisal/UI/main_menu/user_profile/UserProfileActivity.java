@@ -32,11 +32,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView phone_view;
     private TextView id_view;
     private Button edit_button;
-
     private DocumentReference user_reference;
 
     /**
      * onCreate Activity
+     *
      * @param savedInstanceState -- prevous saved instance state
      */
     @Override
@@ -58,14 +58,13 @@ public class UserProfileActivity extends AppCompatActivity {
         String flag = intent.getStringExtra("flag");
 
         // if came from Specific Activity, to view Other User
-        if (flag.equals("Other")){
+        if (flag.equals("Other")) {
             name = intent.getStringExtra("experimenter");
             int position = intent.getIntExtra("position", -1);
             Log.d("User- name:", name);
             Log.d("User-position:", String.valueOf(position));
             showOtherUser(name);
-        }
-        else {   // else came from main activity, need to display current user
+        } else {   // else came from main activity, need to display current user
             Log.d("user:", "from main");
             showCurrentUser();
         }
@@ -73,6 +72,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Show the details of the user that has been clicked on
+     *
      * @param name -- name of the user
      */
     private void showOtherUser(String name) {
@@ -84,7 +84,6 @@ public class UserProfileActivity extends AppCompatActivity {
         }
         // make edit_button invisible
         edit_button.setVisibility(View.INVISIBLE);
-//        id_view.setVisibility(View.INVISIBLE);
         getUserInfo(user_reference, false);
     }
 
@@ -106,8 +105,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Queries the database depending on which user profile needs to be displayed
+     *
      * @param user_reference -- Document reference of the user table
-     * @param isMain -- if it is main
+     * @param isMain         -- if it is main
      */
     // Author: Google
     // Reference: https://firebase.google.com/docs/firestore/query-data/listen
@@ -116,7 +116,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 String user_id = value.getId();
-                Log.d("value.id:" , user_id);
+                Log.d("value.id:", user_id);
                 String user_name = value.get("userName").toString();
                 String user_email = value.get("userEmail").toString();
                 String phone_number = value.get("phoneNumber").toString();
@@ -126,7 +126,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 user.setNumOfExp(num_of_exp);
 
 
-                if(isMain) {
+                if (isMain) {
                     try {
                         MainModel.setCurrentUser(user);
                     } catch (Exception e) {
@@ -141,6 +141,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Set the TextFields with the user's info
+     *
      * @param u -- User object
      */
     private void setUserDisplay(@NotNull User u) {
@@ -152,6 +153,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     /**
      * Called when Edit Button is clicked, go to EditUserProfile Activity
+     *
      * @param v -- View
      * @throws Exception -- MainModel is not initiated
      */

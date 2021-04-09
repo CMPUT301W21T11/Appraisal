@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult">
+        tools:context=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResultActivity">
 
         <ImageView
             android:id="@+id/activity_camera_scan_result_qr_code_display"

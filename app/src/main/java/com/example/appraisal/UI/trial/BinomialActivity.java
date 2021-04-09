@@ -42,11 +42,11 @@ import java.util.Map;
 /**
  * This is the activity for conducting binomial activity
  */
-public class BinomialActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener{
+public class BinomialActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
     private BinomialModel model;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
-    private int firebase_num_trials = 0;
+    private int firebase_num_trials;
     private String experimenterID;
     private static final int MAP_REQUEST_CODE = 0;
     private CurrentMarker trial_location;
@@ -65,6 +65,8 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binomial);
 
+        firebase_num_trials = 0;
+
         geolocation_button = findViewById(R.id.add_geo);
 
         try {
@@ -75,11 +77,10 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
             e.printStackTrace();
         }
 
-        if (current_exp.getIsGeolocationRequired()){
-           GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
-           geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
-        }
-        else {
+        if (current_exp.getIsGeolocationRequired()) {
+            GeolocationWarningDialog geolocation_warning = GeolocationWarningDialog.newInstance();
+            geolocation_warning.show(getFragmentManager(), "Geolocation Dialog");
+        } else {
             geolocation_button.setVisibility(View.GONE);
         }
 
@@ -118,9 +119,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
                 }
             });
             snackbar.show();
-        }
-
-        else {
+        } else {
             //adjust model
             model.addSuccess();
             storeTrialInFireBase(true);
@@ -147,9 +146,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
                 }
             });
             snackbar.show();
-        }
-
-        else {
+        } else {
             //adjust model
             model.addFailure();
             storeTrialInFireBase(false);
@@ -160,6 +157,11 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     }
 
 
+    /**
+     * This method stores trial in firebase
+     *
+     * @param outcome - result of binomial trial (success or failure)
+     */
     private void storeTrialInFireBase(@NonNull Boolean outcome) {
 
         // save locally
@@ -216,7 +218,9 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         current_exp.setTrialCount(num_of_trials);
     }
 
-
+    /**
+     * This method adds contributor to the experimenter list when they upload a trial
+     */
     private void addContributor() {
 
         try {
@@ -226,7 +230,9 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         }
     }
 
-
+    /**
+     * This method queries the number of trials from firebase and updates the local variable firebase_num_trials
+     */
     private void listenToNumOfTrials() {
 
         experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -249,6 +255,11 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     }
 
 
+    /**
+     * This method is called when user clicks on add geolocation button
+     *
+     * @param v
+     */
     public void addGeolocation(View v) {
         Intent intent = new Intent(this, GeolocationActivity.class);
         intent.putExtra("Map Request Code", "User Location");
@@ -261,8 +272,8 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      * Dispatch incoming result to the correct fragment.
      *
      * @param requestCode -- the activity which started for result
-     * @param resultCode -- the result of the activity
-     * @param data -- any Intent date from the activity
+     * @param resultCode  -- the result of the activity
+     * @param data        -- any Intent date from the activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

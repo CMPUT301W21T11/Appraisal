@@ -16,8 +16,8 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner"
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResultActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScannerActivity"
             android:theme="@style/EditProfileTheme"/>
 
         <meta-data
@@ -80,7 +80,7 @@
         <activity
             android:name=".UI.geolocation.GeolocationActivity"
             android:theme="@style/EditProfileTheme"/>
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResultActivity"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity"
             android:theme="@style/EditProfileTheme">
             <meta-data

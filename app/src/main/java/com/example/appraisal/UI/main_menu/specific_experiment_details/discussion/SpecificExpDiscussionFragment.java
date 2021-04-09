@@ -36,6 +36,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This fragment shows the questions in the discussion tab
+ */
 public class SpecificExpDiscussionFragment extends Fragment {
 
     private ListView question_display;
@@ -44,15 +47,15 @@ public class SpecificExpDiscussionFragment extends Fragment {
     private EditText question_input;
     private Experiment current_experiment;
     private CollectionReference exp_ref;
-    private int firebase_num_questions = 0;
+    private int firebase_num_questions;
     private String ques_text;
     private String question_name_pass;
 
     /**
      * This method creates the discussion fragment and return the View
      *
-     * @param inflater -- LayoutInflater to inflate the view
-     * @param container -- The parent ViewGroup
+     * @param inflater           -- LayoutInflater to inflate the view
+     * @param container          -- The parent ViewGroup
      * @param savedInstanceState -- previous saved instance state
      * @return View -- the inflated view for this fragment
      */
@@ -60,6 +63,8 @@ public class SpecificExpDiscussionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_specific_exp_discussion, container, false);
+
+        firebase_num_questions = 0;
 
         try {
             current_experiment = MainModel.getCurrentExperiment();
@@ -75,7 +80,7 @@ public class SpecificExpDiscussionFragment extends Fragment {
 
         question_display = v.findViewById(R.id.forum_questions);
         questions_list = new ArrayList<>();
-        question_adapter = new ArrayAdapter<>(this.getActivity(), R.layout.list_question, questions_list);
+        question_adapter = new ArrayAdapter<>(this.getActivity(), R.layout.view_holder_list_question, questions_list);
 
         getDbQuestions();
 
@@ -87,12 +92,12 @@ public class SpecificExpDiscussionFragment extends Fragment {
 
                 int selected_question = position;
                 String question_string = questions_list.get(selected_question);
-                question_name_pass = "Question" + (position+1);
+                question_name_pass = "Question" + (position + 1);
 
 
                 Intent intent = new Intent(getContext(), ForumRepliesActivity.class);
                 intent.putExtra("Question", question_string);
-                intent.putExtra("Q_id_name",question_name_pass);
+                intent.putExtra("Q_id_name", question_name_pass);
 
                 startActivity(intent);
             }
@@ -103,7 +108,7 @@ public class SpecificExpDiscussionFragment extends Fragment {
         publishNewQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
                 builder.setTitle("Post a question!");
 
                 question_input = new EditText(getContext());
@@ -197,7 +202,7 @@ public class SpecificExpDiscussionFragment extends Fragment {
     /**
      * Publish the questions to firebase
      */
-    public void storeQuestionInFireBase() {
+    private void storeQuestionInFireBase() {
 
         String experiment_ID = current_experiment.getExpId();
 

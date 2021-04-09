@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * This is the Activity that displays the experiments the user has created.
  * It also allows them to publish more experiments.
  */
-public class MyExperimentActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener{
+public class MyExperimentActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
     private ListView my_experiment_display;
     private static ArrayAdapter<Experiment> adapter;
     private ArrayList<Experiment> exp_list;
@@ -38,6 +38,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
     /**
      * Creates the MyExperimentActivity
+     *
      * @param savedInstanceState -- previous saved instance state
      */
     @Override
@@ -102,11 +103,11 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
         my_experiment_display = findViewById(R.id.my_experiments);
 
-        exp_list = new ArrayList<>();                           // make new list to store experiments
+        exp_list = new ArrayList<>();// make new list to store experiments
 
-        adapter = new ExpAdapter(this, exp_list, "MyExperiment");      // connect adapter
+        adapter = new ExpAdapter(this, exp_list, "MyExperiment");// connect adapter
 
-        getDbExperiments();                                     // get all experiments from Database
+        getDbExperiments();// get all experiments from Database
 
         my_experiment_display.setOnItemClickListener(selectExListener);
         my_experiment_display.setAdapter(adapter);
@@ -115,6 +116,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
     /**
      * This method is called when the user clicks on the Floating Action Button.
      * It opens the PublishExpActivity
+     *
      * @param v -- view that has been clicked
      */
     public void publishNewExperiment(View v) {
@@ -170,7 +172,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
      * This method queries the database and gets all experiments the user has created.
      * These experiments are displayed on the UI.
      */
-    private void getDbExperiments(){
+    private void getDbExperiments() {
         reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -178,22 +180,22 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
                 exp_list.clear();
 
                 // check each experiment document
-                for (QueryDocumentSnapshot doc: value){
+                for (QueryDocumentSnapshot doc : value) {
                     // get the experiment's owner id
-                    String db_user_ID = (String)doc.getData().get("owner");
+                    String db_user_ID = (String) doc.getData().get("owner");
 
                     // if experiment's owner id is the same as the current user's id
-                    if (db_user_ID.equals(userID)){
+                    if (db_user_ID.equals(userID)) {
                         // get all the fields of the experiment
                         String exp_ID = doc.getId();
-                        String description = (String)doc.getData().get("description");
-                        String type = (String)doc.getData().get("type");
-                        Boolean geo_required = (Boolean)doc.getData().get("isGeolocationRequired");
+                        String description = (String) doc.getData().get("description");
+                        String type = (String) doc.getData().get("type");
+                        Boolean geo_required = (Boolean) doc.getData().get("isGeolocationRequired");
                         Integer min_trials = Integer.valueOf(doc.getData().get("minTrials").toString());
-                        String rules = (String)doc.getData().get("rules");
-                        String region = (String)doc.getData().get("region");
-                        Boolean is_ended = (Boolean)doc.getData().get("isEnded");
-                        Boolean is_published = (Boolean)doc.getData().get("isPublished");
+                        String rules = (String) doc.getData().get("rules");
+                        String region = (String) doc.getData().get("region");
+                        Boolean is_ended = (Boolean) doc.getData().get("isEnded");
+                        Boolean is_published = (Boolean) doc.getData().get("isPublished");
                         Integer num_of_trials = Integer.valueOf(doc.getData().get("numOfTrials").toString());
 
                         // make a new experiment object with these fields
@@ -206,7 +208,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
                         // add experiment to the list to display
                         exp_list.add(experiment);
-                        }
+                    }
                     // notify adapter that data has change and to update the UI
                     adapter.notifyDataSetChanged();
                 }

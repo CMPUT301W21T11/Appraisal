@@ -18,7 +18,7 @@ import com.example.appraisal.model.core.MainModel;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This method prompt for QR value input
+ * This activity prompts for QR value input
  */
 public class QRPromptActivity extends AppCompatActivity {
 
@@ -66,16 +66,31 @@ public class QRPromptActivity extends AppCompatActivity {
         exp_type_display.setText(exp_type.getLabel());
     }
 
+    /**
+     * This method initialize the input line for Non-Negative Integer trials
+     *
+     * @param trial_value_qr_input -- trial value input
+     */
     private void setInputNonNeg(@NotNull EditText trial_value_qr_input) {
         trial_value_qr_input.setHint("Enter Integer value");
         trial_value_qr_input.setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 
+    /**
+     * This method initialize the input line for Measurement trials
+     *
+     * @param trial_value_qr_input -- trial value input
+     */
     private void setInputMeasurement(@NotNull EditText trial_value_qr_input) {
         trial_value_qr_input.setHint("Enter Measurement");
         trial_value_qr_input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 
+    /**
+     * This method generates the qr code for trial value
+     *
+     * @param exp_type -- Type of experiment
+     */
     private void generateQRTrialValue(TrialType exp_type) {
         EditText trial_value_qr_input = findViewById(R.id.activity_qr_bin_succ_generator);
         if (trial_value_qr_input.getText().toString().trim().equals("")) {
@@ -90,6 +105,9 @@ public class QRPromptActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * This method generates the qr code for binomial trials
+     */
     private void generateQRBinTrial() {
         Intent intent = new Intent(this, QRPhotoActivity.class);
 
@@ -108,9 +126,12 @@ public class QRPromptActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method generates qr code for count trials
+     */
     private void generateCountTrial() {
         Intent intent = new Intent(this, QRPhotoActivity.class);
-        intent.putExtra("val","1");
+        intent.putExtra("val", "1");
         finish(); // finish this generator prompt and start the QR generator
         startActivity(intent);
     }

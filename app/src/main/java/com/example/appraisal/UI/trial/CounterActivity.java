@@ -47,11 +47,10 @@ import java.util.Map;
 public class CounterActivity extends AppCompatActivity implements GeolocationWarningDialog.OnFragmentInteractionListener {
 
     private static final int MAP_REQUEST_CODE = 0;
-
     private CounterModel model;
     private Experiment current_exp;
     private CollectionReference experiment_reference;
-    private int firebase_num_trials = 0;
+    private int firebase_num_trials;
     private String experimenterID;
     private CurrentMarker trial_location;
     private GeoPoint trial_geopoint;
@@ -65,6 +64,9 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebase_num_trials = 0;
+
         setContentView(R.layout.activity_counter_layout);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -131,6 +133,9 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         }
     }
 
+    /**
+     * This method stores trial in firebase
+     */
     private void storeTrialInFireBase() {
         Context self = this;
         String experiment_ID = current_exp.getExpId();
@@ -179,7 +184,9 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         current_exp.setTrialCount(num_of_trials);
     }
 
-
+    /**
+     * This method adds contributor to the experimenter list when they upload a trial
+     */
     private void addContributor() {
 
         try {
@@ -189,7 +196,9 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
         }
     }
 
-
+    /**
+     * This method queries the number of trials from firebase and updates the local variable firebase_num_trials
+     */
     private void listenToNumOfTrials() {
 
         experiment_reference.document(current_exp.getExpId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

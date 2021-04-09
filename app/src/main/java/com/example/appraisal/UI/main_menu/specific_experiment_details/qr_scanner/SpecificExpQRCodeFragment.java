@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 
+/**
+ * This fragment shows the QR tab in the specific experiment section
+ */
 public class SpecificExpQRCodeFragment extends Fragment {
     // This activity wouldn't be possible without Google's ML kit and its documentations
     // Author: Google
@@ -23,6 +26,7 @@ public class SpecificExpQRCodeFragment extends Fragment {
 
     /**
      * This method sets the parent activity for this fragment
+     *
      * @param savedInstanceState -- prevoius saved instance state
      */
     @Override
@@ -56,18 +60,27 @@ public class SpecificExpQRCodeFragment extends Fragment {
         return v;
     }
 
+    /**
+     * This methods gets called Generate QR button is clicked
+     */
     private void startQRCodeGenerator() {
         Intent intent = new Intent(parent_activity, QRPromptActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * This method gets called when Scan code button is clicked
+     */
     private void startCameraScanner() {
-        Intent intent = new Intent(parent_activity, CameraScanResult.class);
+        Intent intent = new Intent(parent_activity, CameraScanResultActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * This method gets called when Register Bar code button is clicked
+     */
     private void startCodeRegister() {
-        Intent intent = new Intent(parent_activity, RegisterBarcodeResult.class);
+        Intent intent = new Intent(parent_activity, RegisterBarcodeResultActivity.class);
         startActivity(intent);
     }
 }

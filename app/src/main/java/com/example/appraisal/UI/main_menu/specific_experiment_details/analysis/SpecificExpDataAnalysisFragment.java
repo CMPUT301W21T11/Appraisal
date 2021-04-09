@@ -46,13 +46,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private GraphView histogram;
     private GraphView exp_plot_over_time;
     private ConstraintLayout quartileTable;
-
     private SpecificExpModel model;
     private Experiment current_experiment;
     private User current_experimenter;
-
     private Activity mActivity;
-
     private CollectionReference trials;
     private CollectionReference experiment;
 
@@ -123,6 +120,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         mActivity = getActivity();
     }
 
+    /**
+     * This method queries friebase to append trials to current experiment
+     *
+     * @param v
+     */
     private void trialFirebaseInit(View v) {
         // query the database to get trials for the experiment
         trials.addSnapshotListener((value, error) -> {
@@ -140,6 +142,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         });
     }
 
+    /**
+     * This method checks if the experiment is owned by the current user
+     *
+     * @param v
+     */
     private void trialFirebaseOwner(View v) {
         // query the database to get trials for the experiment
         experiment.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -158,8 +165,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
                             if (ignored_experimenters == null) {
                                 // if ignored list doesn't exist just add all trials
                                 addTrialToExp(doc);
-                            }
-                            else if (!ignored_experimenters.contains(experimenter)) {
+                            } else if (!ignored_experimenters.contains(experimenter)) {
                                 // ignored list exists, if current trial's experimenter is not in ignored list, add trial to list
                                 addTrialToExp(doc);
                             }
@@ -175,6 +181,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         });
     }
 
+    /**
+     * This method adds trial to experiment backend
+     *
+     * @param doc -- QueryDocumentSnapshot
+     */
     private void addTrialToExp(QueryDocumentSnapshot doc) {
         TrialFactory factory = new TrialFactory();
         // obtain experiment type
@@ -206,6 +217,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     }
 
 
+    /**
+     * This method plots the graphs
+     *
+     * @param v
+     */
     private void plotGraphs(View v) {
         generateTimePlot();
         generateHistogram();
@@ -213,6 +229,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         generateExpStats(v);
     }
 
+    /**
+     * This method generates the experiment statistics
+     *
+     * @param v
+     */
     private void generateExpStats(@NotNull View v) {
         // initialize and set experiment stats
         TextView mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
@@ -224,6 +245,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         stdDev.setText(model.getStdDev());
     }
 
+    /**
+     * This method initialize graph view GUI's
+     *
+     * @param v
+     */
     private void graphViewInit(@NotNull View v) {
         // initialize graphs
         histogram = v.findViewById(R.id.fragment_experiment_data_analysis_histogramGraph);
@@ -236,6 +262,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         quartileTable.setVisibility(View.GONE);
     }
 
+    /**
+     * This method initializes graph drop down buttons
+     *
+     * @param v
+     */
     private void graphDropInit(@NotNull View v) {
         // initialize buttons and set on click listeners for expanding details
         ImageView histogram_drop = v.findViewById(R.id.fragment_experiment_data_analysis_histogramDrop);
@@ -249,10 +280,10 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         plot_drop.setOnClickListener(v3 -> toggle_plots());
     }
 
+    /**
+     * This method generates the quartiles of the experiment
+     */
     private void generateQuartileTable() {
-        // Note: Box Plot does not have good, off the shelf and free to use library
-        // And no I'm not writing my own renderer, I don't have that time
-        // So ya it will be a table instead, which still gets the job done
 
         // Initialize tables textview
         TextView min = quartileTable.findViewById(R.id.fragment_exp_data_analysis_minimum);
@@ -275,14 +306,17 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         double percent = (outlier_count / (double) total) * 100;
 
         // Set values to TextViews
-        min.setText(String.format(Locale.ENGLISH, "%.2f",minimum));
-        max.setText(String.format(Locale.ENGLISH, "%.2f",maximum));
-        q1.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getFirstQuartile()));
-        q3.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getThirdQuartile()));
-        iqr.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getIQR()));
+        min.setText(String.format(Locale.ENGLISH, "%.2f", minimum));
+        max.setText(String.format(Locale.ENGLISH, "%.2f", maximum));
+        q1.setText(String.format(Locale.ENGLISH, "%.2f", quartiles.getFirstQuartile()));
+        q3.setText(String.format(Locale.ENGLISH, "%.2f", quartiles.getThirdQuartile()));
+        iqr.setText(String.format(Locale.ENGLISH, "%.2f", quartiles.getIQR()));
         outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 
+    /**
+     * This method generates the histogram of the experiment
+     */
     private void generateHistogram() {
         // clear any previous series
         histogram.removeAllSeries();
@@ -308,7 +342,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         Log.d("Datapoint length:", String.valueOf(dataPoints.length));
         histogram.getGridLabelRenderer().setHumanRounding(false); // this line is required to get the labels working correctly
-        histogram.getGridLabelRenderer().setNumHorizontalLabels((2 *dataPoints.length) + 1);
+        histogram.getGridLabelRenderer().setNumHorizontalLabels((2 * dataPoints.length) + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
@@ -318,6 +352,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
     }
 
+    /**
+     * This method generates the time plot of the experiment
+     */
     private void generateTimePlot() {
         // Initialize time plot graph
         // The graph date plot initialization is taken from GraphView's documentation
@@ -336,7 +373,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.addSeries(time_plot_data);   // add to graph
 
         // initialize axises
-        if (mActivity != null) { // This shit is causing so many problem sometimes. I have no idea why. You know what, fuck it.
+        if (mActivity != null) {
             Log.i("Info:", "mActivity is set");
             exp_plot_over_time.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(mActivity));
         } else {
@@ -354,7 +391,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
 
         // setting axises intervals
-        // The ideal of able to set integer intervals on GraphView is taken from this StackOverflow Thread:
+        // The idea of able to set integer intervals on GraphView is taken from this StackOverflow Thread:
         // Author: user3261759 (URL: https://stackoverflow.com/users/3261759/user3261759)
         // Thread URL: https://stackoverflow.com/posts/21505958/revisions
 
@@ -413,6 +450,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         exp_plot_over_time.onDataChanged(false, false);
     }
 
+    /**
+     * This method toggles the visibility of quartile block
+     */
     private void toggle_quartiles() {
         if (quartileTable.isShown()) {
             quartileTable.setVisibility(View.GONE);
@@ -421,6 +461,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
     }
 
+    /**
+     * This method toggles the visibility of histogram block
+     */
     private void toggle_histogram() {
         if (histogram.isShown()) {
             histogram.setVisibility(View.GONE);
@@ -429,6 +472,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
     }
 
+    /**
+     * This method toggles the visibility of time plot block
+     */
     private void toggle_plots() {
         if (exp_plot_over_time.isShown()) {
             exp_plot_over_time.setVisibility(View.GONE);

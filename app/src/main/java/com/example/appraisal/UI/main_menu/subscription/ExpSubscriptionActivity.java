@@ -184,7 +184,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                                 String region = (String) doc.getData().get("region");
                                                 Boolean is_ended = (Boolean) doc.getData().get("isEnded");
 
-
                                                 Experiment experiment = new Experiment(exp_ID, owner_ID, description, type, geo_required, min_trials, rules, region);
 
                                                 experiment.setIsEnded(is_ended);

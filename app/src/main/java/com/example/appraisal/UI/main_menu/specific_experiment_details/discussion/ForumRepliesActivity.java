@@ -35,7 +35,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ForumRepliesActivity extends  AppCompatActivity {
+/**
+ * Activity to display forum replies to questions
+ */
+public class ForumRepliesActivity extends AppCompatActivity {
 
     private ListView reply_display;
     private ArrayList<String> replies_list;
@@ -77,7 +80,7 @@ public class ForumRepliesActivity extends  AppCompatActivity {
         reply_display = findViewById(R.id.forum_replies);
         replies_list = new ArrayList<>();
 
-        reply_adapter = new ArrayAdapter<>(this, R.layout.list_answer, replies_list);
+        reply_adapter = new ArrayAdapter<>(this, R.layout.view_holder_list_answer, replies_list);
 
         getDbReplies();
 
@@ -88,7 +91,7 @@ public class ForumRepliesActivity extends  AppCompatActivity {
         publishNewReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ForumRepliesActivity.this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
                 builder.setTitle("Post a reply!");
 
                 reply_input = new EditText(ForumRepliesActivity.this);
@@ -116,7 +119,6 @@ public class ForumRepliesActivity extends  AppCompatActivity {
                         reply_adapter.notifyDataSetChanged();
                     }
                 });
-
 
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -183,7 +185,7 @@ public class ForumRepliesActivity extends  AppCompatActivity {
     /**
      * Publish the replies to firebase
      */
-    public void storeReplyInFireBase() {
+    private void storeReplyInFireBase() {
 
         String experiment_ID = current_experiment.getExpId();
 
@@ -212,6 +214,7 @@ public class ForumRepliesActivity extends  AppCompatActivity {
 
     /**
      * When the up button gets clicked, the activity is killed.
+     *
      * @param item
      * @return
      */
