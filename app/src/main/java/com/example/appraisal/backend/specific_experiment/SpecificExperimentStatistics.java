@@ -45,7 +45,7 @@ public class SpecificExperimentStatistics {
     /**
      * Return the owner of the provided experiment
      *
-     * @return {@link User} -- This is the owner of the experiment
+     * @return String -- This is the owner of the experiment
      */
     public String getOwner() {
         return current_experiment.getOwner();
