@@ -63,7 +63,7 @@ public class PublishExpTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Publish Exp Test " +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "PublishExpTest" +  String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -104,7 +104,7 @@ public class PublishExpTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Ending Exp Test " + String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "EndingExpTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -137,7 +137,7 @@ public class PublishExpTest {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 
@@ -158,7 +158,7 @@ public class PublishExpTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Unpublish Exp Test " + String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "UnpublishExpTest " + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -191,7 +191,7 @@ public class PublishExpTest {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 

@@ -71,7 +71,7 @@ public class AddTrialTests {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Add Trials Test " +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "AddTrialsTest" +  String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -104,7 +104,7 @@ public class AddTrialTests {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 

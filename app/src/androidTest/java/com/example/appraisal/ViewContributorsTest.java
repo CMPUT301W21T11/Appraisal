@@ -1,10 +1,7 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.graphics.Insets;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowMetrics;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -18,7 +15,6 @@ import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
-import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.material.tabs.TabLayout;
 import com.robotium.solo.Solo;
@@ -73,7 +69,7 @@ public class ViewContributorsTest {
     public void testContributors() throws Exception {
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Contributors Test " + String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "ContributorsTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -106,7 +102,7 @@ public class ViewContributorsTest {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 

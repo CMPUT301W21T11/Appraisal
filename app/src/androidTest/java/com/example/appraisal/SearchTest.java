@@ -6,13 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.robotium.solo.Solo;
 
@@ -20,7 +18,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
 import java.util.Random;
 
 import static java.lang.Math.abs;
@@ -68,7 +65,7 @@ public class SearchTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "SearchExpTest " +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "SearchExpTest" +  String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);

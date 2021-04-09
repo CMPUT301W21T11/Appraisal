@@ -12,11 +12,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
-import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
-import com.example.appraisal.UI.trial.CounterActivity;
-import com.example.appraisal.model.core.MainModel;
 import com.google.android.material.tabs.TabLayout;
 import com.robotium.solo.Solo;
 
@@ -36,7 +32,7 @@ import static java.lang.Math.abs;
  */
 public class StatsTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 250;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -69,7 +65,7 @@ public class StatsTest {
     public void testStatistics() {
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Statistics Test " + String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "StatisticsTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -104,7 +100,7 @@ public class StatsTest {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 

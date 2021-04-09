@@ -8,7 +8,6 @@ import android.widget.RadioButton;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.appraisal.R;
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
@@ -31,7 +30,7 @@ import static java.lang.Math.abs;
  */
 public class SubscribeExpTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 250;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -65,7 +64,7 @@ public class SubscribeExpTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Subscribe Exp Test " + String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "SubscribeExpTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -98,7 +97,7 @@ public class SubscribeExpTest {
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Testing the dialogue box
-        solo.clickOnText(exp_name);
+        solo.clickOnText(exp_name, 1, true);
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 
