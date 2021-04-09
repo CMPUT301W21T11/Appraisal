@@ -360,36 +360,53 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Author: user3261759 (URL: https://stackoverflow.com/users/3261759/user3261759)
         // Thread URL: https://stackoverflow.com/posts/21505958/revisions
 
-        exp_plot_over_time.getViewport().setMinY(0);
-
-        int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
-        int interval;
-        if ((max_value <= 5)) {
-            interval = 1;
-        } else if (max_value <= 10) {
-            interval = 2;
-        } else if (max_value <= 50) {
-            interval = 5;
-        } else if (max_value <= 100) {
-            interval = 100;
-        } else if (max_value <= 500) {
-            interval = 200;
-        } else {
-            interval = 500;
-        }
-
-        int max_label = max_value;
-        while (max_label % interval != 0) {
-            max_label++;
-        }
-        exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(5);
-
-        exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
-
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
+
+        TrialType exp_type = TrialType.getInstance(current_experiment.getType());
+        switch (exp_type) {
+            case NON_NEG_INT_TRIAL:
+                TextView title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+            case COUNT_TRIAL:
+                int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
+                int interval;
+                if ((max_value <= 5)) {
+                    interval = 1;
+                } else if (max_value <= 10) {
+                    interval = 2;
+                } else if (max_value <= 50) {
+                    interval = 5;
+                } else if (max_value <= 100) {
+                    interval = 100;
+                } else if (max_value <= 500) {
+                    interval = 200;
+                } else {
+                    interval = 500;
+                }
+
+                int max_label = max_value;
+                while (max_label % interval != 0) {
+                    max_label++;
+                }
+                exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(max_label);
+                break;
+            case BINOMIAL_TRIAL:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Success Rate Over Time");
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(1);
+                break;
+            default:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+                exp_plot_over_time.getViewport().setMinY(time_plot_data.getLowestValueY());
+                exp_plot_over_time.getViewport().setMaxY(time_plot_data.getHighestValueY());
+        }
 
         exp_plot_over_time.getViewport().setScalable(true);
         exp_plot_over_time.getViewport().setScrollable(true);
