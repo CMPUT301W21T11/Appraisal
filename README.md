@@ -1,6 +1,5 @@
 <h1 align="center">Appraisal</h1>
 <h3 align="center"><i>A complete tracking and statistic tool</i></h3>
-___
 <p align="center">
     <img src="asset/screenshot/loading_screen.png" alt="loading_screen" height="500px" >
 </p>
