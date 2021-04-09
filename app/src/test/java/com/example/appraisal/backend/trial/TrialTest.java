@@ -1,20 +1,12 @@
-package com.example.appraisal;
+package com.example.appraisal.backend.trial;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.BinomialTrial;
-import com.example.appraisal.backend.trial.CountTrial;
-import com.example.appraisal.backend.trial.MeasurementTrial;
-import com.example.appraisal.backend.trial.NonNegIntCountTrial;
-import com.example.appraisal.backend.trial.Trial;
-import com.example.appraisal.backend.trial.TrialFactory;
-import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 /**
  * This class is for testing the functionality of the Trial package

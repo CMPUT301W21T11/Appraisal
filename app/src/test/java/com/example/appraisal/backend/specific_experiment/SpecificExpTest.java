@@ -1,10 +1,8 @@
-package com.example.appraisal;
+package com.example.appraisal.backend.specific_experiment;
 
 import androidx.annotation.NonNull;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.specific_experiment.SpecificExperimentStatistics;
-import com.example.appraisal.backend.specific_experiment.TrialResultsOverTime;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;

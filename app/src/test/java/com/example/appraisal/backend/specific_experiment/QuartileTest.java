@@ -1,7 +1,6 @@
-package com.example.appraisal;
+package com.example.appraisal.backend.specific_experiment;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.specific_experiment.Quartile;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
 import com.example.appraisal.backend.trial.Trial;
