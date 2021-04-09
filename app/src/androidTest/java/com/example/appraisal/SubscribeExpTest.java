@@ -1,7 +1,6 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,14 +22,15 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 /**
- * Test class for publishing an experiment and searching it. All the UI tests are written here.
+ * Test class for publishing an experiments and subscribing to it. All the UI tests are written here.
  * Robotium test framework is used
  *
- * Covers User Stories 05.01.01, 05.02.01
+ * Covers User Story 01.04.01
+ *
  */
-public class SearchTest {
+public class SubscribeExpTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 250;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -56,16 +56,15 @@ public class SearchTest {
         Activity activity = rule.getActivity();
     }
 
-
     /**
-     * Publishes an experiment and searches for it.
+     * Publishes the experiment and subscribes to it.
      */
     @Test
-    public void testSearch() {
+    public void testSubscribe() {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "SearchExpTest" +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "SubscribeExpTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -97,35 +96,31 @@ public class SearchTest {
         solo.waitForText(exp_name, 1, delay_time);
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
-        //Go to the Search page
-        View SearchButton = solo.getView("search_bottom_nav");
-        solo.clickOnView(SearchButton);
+        //Testing the dialogue box
+        solo.clickOnText(exp_name, 1, true);
+        solo.waitForText("Publish Status: Published", 1, delay_time);
+        solo.waitForText("Ended Status: Open", 1, delay_time);
 
-        //Click on exp search bar and typing in the search input
-        View SearchBar = solo.getView("exp_search_bar");
-        solo.clickOnView(SearchBar);
-        solo.sendKey(KeyEvent.KEYCODE_S);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_A);
-        solo.sendKey(KeyEvent.KEYCODE_R);
-        solo.sendKey(KeyEvent.KEYCODE_C);
-        solo.sendKey(KeyEvent.KEYCODE_H);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_X);
-        solo.sendKey(KeyEvent.KEYCODE_P);
-        solo.sendKey(KeyEvent.KEYCODE_T);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_S);
-        solo.sendKey(KeyEvent.KEYCODE_T);
-        solo.sendKey(KeyEvent.KEYCODE_ENTER);
+        //Testing the Details tab
+        View ResultsButton = solo.getView("view_results_button");
+        solo.clickOnView(ResultsButton);
+        solo.waitForText(exp_name, 1, 300);
+        solo.waitForText("Count-based trials", 1, 300);
+        solo.waitForText("Open", 1, 300);
+        solo.waitForText("Geo-Required", 1, 300);
 
-        //Verify if search was found
-        solo.waitForText(exp_name, 1, 700);
+        //Subscribe to an experiment
+        solo.clickOnCheckBox(0);
+
+        solo.goBack();
+
+        //Go to the My Subscription page
+        View SubscriptionButton = solo.getView("subscription_bottom_nav");
+        solo.clickOnView(SubscriptionButton);
+
+        //Verify that the experiment is subscribed to
+        solo.waitForText(exp_name, 1, delay_time);
 
 
     }
 }
-
-
-
-
