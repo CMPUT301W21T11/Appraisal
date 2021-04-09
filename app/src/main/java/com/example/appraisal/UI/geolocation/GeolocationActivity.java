@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;

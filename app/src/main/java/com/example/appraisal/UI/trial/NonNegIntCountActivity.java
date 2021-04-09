@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
