@@ -10,7 +10,7 @@ ___
 
 <h3>2. Instruction</h3>
 
-<h3>2. Acknowledgement</h3>
-[Code Attribution](https://github.com/CMPUT301W21T11/Appraisal/wiki/Code-Attribution)
+<h3>3. Acknowledgement</h3>
+Some of the code are borrowed from these [sources](https://github.com/CMPUT301W21T11/Appraisal/wiki/Code-Attribution)
 
-</p>
+
