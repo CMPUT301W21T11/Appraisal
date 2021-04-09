@@ -1,3 +1,5 @@
+![Android-CI](https://github.com/CMPUT301W21T11/Appraisal/actions/workflows/android-ci.yml/badge.svg)
+
 <h1 align="center">Appraisal</h1>
 <h3 align="center"><i>A complete tracking and statistic tool</i></h3>
 <p align="center">
