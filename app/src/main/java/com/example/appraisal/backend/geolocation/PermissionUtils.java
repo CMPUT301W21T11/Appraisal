@@ -54,7 +54,6 @@ public abstract class PermissionUtils {
         } else {
             // Location permission has not been granted yet, request it.
             ActivityCompat.requestPermissions(activity, new String[]{permission}, requestId);
-
         }
     }
 
@@ -101,6 +100,7 @@ public abstract class PermissionUtils {
          * {@inheritDoc}
          */
         @Override
+        @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             finishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
