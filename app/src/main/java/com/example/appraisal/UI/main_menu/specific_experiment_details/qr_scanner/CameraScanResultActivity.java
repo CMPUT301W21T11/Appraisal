@@ -24,8 +24,6 @@ import com.example.appraisal.backend.trial.TrialType;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,9 +33,9 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 /**
- * This class handles the result from the {@link CameraScanner}
+ * This class handles the result from the {@link CameraScannerActivity'}
  */
-public class CameraScanResult extends AppCompatActivity {
+public class CameraScanResultActivity extends AppCompatActivity {
 
     private static final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
     private static final int MAP_REQUEST_CODE = 0x00000000;
@@ -80,7 +78,7 @@ public class CameraScanResult extends AppCompatActivity {
         }
 
         Log.d("CameraScannerResult:","Starting camera scanner");
-        Intent intent = new Intent(this, CameraScanner.class);
+        Intent intent = new Intent(this, CameraScannerActivity.class);
         startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
     }
 
