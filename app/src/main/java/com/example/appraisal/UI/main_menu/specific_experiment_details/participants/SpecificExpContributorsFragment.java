@@ -38,7 +38,14 @@ public class SpecificExpContributorsFragment extends Fragment {
     private SharedPreferences.Editor editor;
     private String user;
 
-
+    /**
+     * This method creates view for the contributors fragment
+     *
+     * @param inflater -- LayoutInflater to inflate the view
+     * @param container -- The parent ViewGroup
+     * @param savedInstanceState -- previous saved instance state
+     * @return View -- the inflated view for this fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +65,7 @@ public class SpecificExpContributorsFragment extends Fragment {
         }
 
         try {
-            user = MainModel.getCurrentUser().getID();
+            user = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +87,9 @@ public class SpecificExpContributorsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * This method query the database and notify the adapter when on resume is called
+     */
     @Override
     public void onResume() {
         super.onResume();

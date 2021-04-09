@@ -19,11 +19,7 @@ public class Experiment implements Parcelable {
     private String exp_id;
     private String owner;
     private String description;
-
-//    private ArrayList<Experimenter> experimenters;
-//    private ArrayList<String> trial_id_list;
     private ArrayList<Trial> trial_list;
-
     private String type;
     private String rules;
     private String region;
@@ -36,9 +32,7 @@ public class Experiment implements Parcelable {
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
-
         this.trial_list = new ArrayList<>();
-
         this.description = description;
         this.type = type;
         this.is_geolocation_required = is_geolocation_required;
@@ -177,7 +171,6 @@ public class Experiment implements Parcelable {
      */
     public void setIsEnded(Boolean is_ended) {
         this.is_ended = is_ended;
- 
     }
 
     /**
@@ -194,20 +187,6 @@ public class Experiment implements Parcelable {
     public void setTrialCount(Integer trial_count) {
         this.trial_count = trial_count;
     }
-
-//    /**
-//     * Get a list of the ID's of all the trials
-//     * @return
-//     */
-//    public ArrayList<String> getTrials() {
-//
-//        for(Experimenter experimenter: experimenters){
-//            ArrayList<String> trials = experimenter.getTrialList();
-//            trial_id_list.addAll(trials);
-//        }
-//        return trial_id_list;
-//    }
-
 
     /**
      * Get a list of Trials
@@ -230,18 +209,6 @@ public class Experiment implements Parcelable {
     public void clearTrial() {
         trial_list.clear();
     }
-
-//    /**
-//     * Get a list of experimenters
-//     * @return
-//     */
-//    public ArrayList<Experimenter> getExperimenters() {
-//        return experimenters;
-//    }
-//
-//    public void addExperimenters(Experimenter experimenter) {
-//        this.experimenters.add(experimenter);
-//    }
 
     /**
      * Describe the kinds of special objects contained in this Parcelable

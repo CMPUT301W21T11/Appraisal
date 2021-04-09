@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="64dp"
             android:scaleType="fitCenter"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/camera_scan_result_title" />
@@ -85,21 +87,6 @@
 
         </TableLayout>
 
-        <EditText
-            android:id="@+id/barcode_scan_result_count_input"
-            android:layout_width="178dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:hint="0"
-            android:inputType="number"
-            android:textSize="60sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
 
         <Button
             android:id="@+id/barcode_scan_result_finish_button"
@@ -118,11 +105,12 @@
             android:id="@+id/barcode_scan_result_count_increment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Assign barcode to add trial"
+            android:layout_marginTop="28dp"
+            android:text="Assign barcode to add +1 trial"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barcode_scan_result_count_input" />
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

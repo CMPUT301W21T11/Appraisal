@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
@@ -107,12 +106,6 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
      *
      * @param v increase button
      */
-    // public void incrementSuccess(View v){
-    //     // adjust model
-    //     model.addSuccess();
-    //     storeTrialInFireBase(true);
-    //     addContributor();
-    //     finish();
     public void uploadSuccess(View v) {
 
         if (trial_location == null && current_exp.getIsGeolocationRequired()) {
@@ -195,24 +188,27 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
         // put current User as the experimenter
 
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
         trial_info.put("experimenterID", experimenterID);
 
+        Context self = this;
         // create new document for experiment with values from hash map
         experiment_reference.document(experiment_ID).collection("Trials").document(name).set(trial_info)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("***", "DocumentSnapshot successfully written!");
+                        Toast.makeText(self, "Trial Addition successful!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("***", "Error writing document", e);
+                        Toast.makeText(self, "Trail Addition failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -224,7 +220,7 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -264,12 +260,12 @@ public class BinomialActivity extends AppCompatActivity implements GeolocationWa
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the activity which started for result
+     * @param resultCode -- the result of the activity
+     * @param data -- any Intent date from the activity
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MAP_REQUEST_CODE) {

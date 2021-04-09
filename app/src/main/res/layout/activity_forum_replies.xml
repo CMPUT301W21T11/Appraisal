@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/main_menu_bg">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -11,30 +12,38 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Question:"
-            android:clickable="false"
-            android:textSize="40sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"> </TextView>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Question:"-->
+<!--            android:clickable="false"-->
+<!--            android:textSize="40sp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"> </TextView>-->
 
         <TextView
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Question"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_regular"
             android:clickable="false"
-            android:textSize="35sp"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"> </TextView>
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_bubble_left"/>
 
         <ListView
             android:id="@+id/forum_replies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"></ListView>
+            android:dividerHeight="20dp"
+            android:padding="20dp" />
 
     </LinearLayout>
 
@@ -44,7 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
-        android:text="+ REPLY"
+        android:text="+  REPLY"
+        android:backgroundTint="@color/ice_blue"
+
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         />

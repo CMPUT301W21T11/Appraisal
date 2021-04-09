@@ -10,5 +10,27 @@
     <color name="green">#57B2A7</color>
     <color name="blue">#270C97</color>
     <color name="grey">#4E4E4E</color>
+
+    <color name="light_blue">#00AEEF</color>
+    <color name="navy_blue">#2E3192</color>
+    <color name="ice_blue">#4dc6f4</color>
+
+    <color name="rich_navy_blue">#242747</color>
+    <color name="darker_navy_blue">#171945</color>
+
+    <color name="transparent_darker_navy_blue">#CC171945</color>
+
+    <color name="rich_light_blue">#1B1F5E</color>
+
+    <color name="pink">#EC008C</color>
+    <color name="magenta">#9E1F63</color>
+
+    <color name="pink_grad">@color/pink_magenta_gradient</color>
+
+    <color name="textColorPrimary">@color/white</color>
+    <color name="textColorSecondary">@color/white</color>
+    <color name="textColorTertiary">@color/white</color>
+    <color name="gold">#DAA520</color>
+
 </resources>
 

@@ -18,6 +18,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.zxing.Result;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +37,6 @@ public class MainModel {
 
     private User current_user;
     private Experiment chosen_experiment;
-    private ArrayList<Experiment> my_experiments;
 
     private Result barcode_result; // This variable is used to store the barcode result
 
@@ -45,8 +46,6 @@ public class MainModel {
     public boolean is_checked;
 
     public FirebaseAuthentication mAuth;
-
-    public ArrayList<Experiment> sub_experiments;
 
 
     private MainModel() {
@@ -92,14 +91,6 @@ public class MainModel {
         single_instance = new MainModel();
     }
 
-
-    public List<String> requestMyExpIndex() {
-        CollectionReference ref = db.collection("Users")
-                .document("User0000")
-                .collection("Subscriptions");
-        return new ArrayList<String>();
-    }
-
     /**
      * Setting the chosen experiment and store in this global space
      *
@@ -110,18 +101,6 @@ public class MainModel {
             throw new Exception("single_instance is not initiated");
         }
         single_instance.chosen_experiment = experiment;
-    }
-
-    /**
-     * Remove the chosen experiment and store in this global space. THIS RENDERS CHOSEN_EXPERIMENT TO NULL!
-     *
-     * @throws Exception thrown when either the MainModel is not instantiated
-     */
-    public static void removeChosenExperiment() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-        single_instance.chosen_experiment = null;
     }
 
     /**
@@ -154,20 +133,8 @@ public class MainModel {
         }
         single_instance.current_user = user;
 
-        user.setID(single_instance.user_id);
+        user.setId(single_instance.user_id);
 
-    }
-
-    /**
-     * Remove the chosen user and store in this global space. THIS RENDERS CURRENT_USER TO NULL!
-     *
-     * @throws Exception thrown when either the MainModel is not instantiated
-     */
-    public static void removeCurrentUser() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-        single_instance.chosen_experiment = null;
     }
 
     /**
@@ -189,7 +156,13 @@ public class MainModel {
         return single_instance.current_user;
     }
 
-    public static DocumentReference getUserReference() throws Exception {
+    /**
+     * This method obtains the document reference of the user collection
+     *
+     * @return DocumentReference -- user reference
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static @NotNull DocumentReference getUserReference() throws Exception {
 
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");
@@ -202,6 +175,11 @@ public class MainModel {
     }
 
 
+    /**
+     * This method check if the user is signed in or requires to set up
+     *
+     * @throws Exception -- MainModel is not initiated
+     */
     public static void checkUserStatus() throws Exception {
 
         if (single_instance == null) {
@@ -220,17 +198,21 @@ public class MainModel {
 
     }
 
+    /**
+     * This method calls {@link FirebaseAuthentication} to sign in the user
+     * @return String -- user id of the singed in user
+     */
     public static String signInUser() {
        return single_instance.mAuth.getUserID();
     }
 
+    /**
+     * This method calls {@link FirebaseAuthentication} to create a new user
+     */
     public static void setUpNewUser(){
         CollectionReference new_user = single_instance.db.collection("Users");
 
         single_instance.current_user = new User(single_instance.user_id, "", "", "");
-
-//        User user = new User(user_id, "", "", "");
-//        current_user = user;
 
         // Create a new user with a first and last name
         Map<String, Object> user_info = new HashMap<>();
@@ -255,6 +237,9 @@ public class MainModel {
                 });
     }
 
+    /**
+     * This method loads the current user
+     */
     public static void loadCurrentUser() {
         // get data from firebase
         // update local user object
@@ -284,8 +269,14 @@ public class MainModel {
         });
     }
 
-    // Method to be called to retrieve a document reference of a specific user on the database
-    public static DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
+    /**
+     * This method is called to retrieve a document reference of a specific user on the database
+     *
+     * @param other_user_id -- the user id
+     * @return DocumentReference -- the document reference of the given user id
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static @NotNull DocumentReference retrieveSpecificUser (String other_user_id) throws Exception {
 
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");
@@ -297,8 +288,12 @@ public class MainModel {
         return other_user_reference;
     }
 
-
-    public static CollectionReference getExperimentReference() throws Exception {
+    /**
+     * This method returns the collection reference of the experiment collection
+     * @return CollectionReference -- collection reference of experiment
+     * @throws Exception -- MainModel is not initiated
+     */
+    public static @NotNull CollectionReference getExperimentReference() throws Exception {
         if (single_instance == null) {
             throw new Exception("single_instance is not initiated");
         }

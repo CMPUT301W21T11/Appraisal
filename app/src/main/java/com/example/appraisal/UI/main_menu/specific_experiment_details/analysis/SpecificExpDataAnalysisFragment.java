@@ -28,12 +28,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,7 +62,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
      * @param inflater           -- LayoutInflater object for inflating the Fragment
      * @param container          -- ViewGroup object that contains the layout
      * @param savedInstanceState -- Bundle object
-     * @return v -- View of the initialized Fragment
+     * @return View -- View of the initialized Fragment
      */
     @Nullable
     @Override
@@ -95,7 +96,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
 
         // check if current user owns experiment, call corresponding query
-        if (current_experiment.getOwner().equals(current_experimenter.getID())) {
+        if (current_experiment.getOwner().equals(current_experimenter.getId())) {
             trialFirebaseOwner(v);
         } else {
             trialFirebaseInit(v);
@@ -114,7 +115,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
      * Could sometimes return null pointer exception, due to the query thread not finished
      * Therefore saving the activity to a local variable at the very beginning should solve this problem.
      *
-     * @param savedInstanceState -- Bundle from previous activity
+     * @param savedInstanceState -- saved instance state
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -212,7 +213,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         generateExpStats(v);
     }
 
-    private void generateExpStats(View v) {
+    private void generateExpStats(@NotNull View v) {
         // initialize and set experiment stats
         TextView mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
         TextView median = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMedianText);
@@ -223,7 +224,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         stdDev.setText(model.getStdDev());
     }
 
-    private void graphViewInit(View v) {
+    private void graphViewInit(@NotNull View v) {
         // initialize graphs
         histogram = v.findViewById(R.id.fragment_experiment_data_analysis_histogramGraph);
         exp_plot_over_time = v.findViewById(R.id.fragment_experiment_data_analysis_plotsGraph);
@@ -235,7 +236,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         quartileTable.setVisibility(View.GONE);
     }
 
-    private void graphDropInit(View v) {
+    private void graphDropInit(@NotNull View v) {
         // initialize buttons and set on click listeners for expanding details
         ImageView histogram_drop = v.findViewById(R.id.fragment_experiment_data_analysis_histogramDrop);
         ImageView quartiles_drop = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesDrop);
@@ -264,15 +265,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // obtain quartile info from model
         Quartile quartiles = model.getQuartileInfo();
 
-        // Calculate Maximum and minimum excluding outliers
-        double minimum = quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR());
-        if (minimum < quartiles.getTrialMinValue()) {
-            minimum = quartiles.getTrialMinValue();
-        }
-        double maximum = quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR());
-        if (maximum > quartiles.getTrialMaxValue()) {
-            maximum = quartiles.getTrialMaxValue();
-        }
+        // get min and max
+        double minimum = quartiles.getTrialMinValue();
+        double maximum = quartiles.getTrialMaxValue();
 
         // Calculate outlier percentage
         int outlier_count = quartiles.getOutLiers().size();
@@ -280,18 +275,17 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         double percent = (outlier_count / (double) total) * 100;
 
         // Set values to TextViews
-        min.setText(String.valueOf(minimum));
-        max.setText(String.valueOf(maximum));
-        q1.setText(String.valueOf(quartiles.getFirstQuartile()));
-        q3.setText(String.valueOf(quartiles.getThirdQuartile()));
-        iqr.setText(String.valueOf(quartiles.getIQR()));
+        min.setText(String.format(Locale.ENGLISH, "%.2f",minimum));
+        max.setText(String.format(Locale.ENGLISH, "%.2f",maximum));
+        q1.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getFirstQuartile()));
+        q3.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getThirdQuartile()));
+        iqr.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getIQR()));
         outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 
     private void generateHistogram() {
         // clear any previous series
         histogram.removeAllSeries();
-        histogram.getGridLabelRenderer().resetStyles();
 
         // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
@@ -314,11 +308,13 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         Log.d("Datapoint length:", String.valueOf(dataPoints.length));
         histogram.getGridLabelRenderer().setHumanRounding(false); // this line is required to get the labels working correctly
-        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
+        histogram.getGridLabelRenderer().setNumHorizontalLabels((2 *dataPoints.length) + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        histogram.getGridLabelRenderer().reloadStyles();
+        histogram.onDataChanged(false, false);
 
     }
 
@@ -330,7 +326,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // clear any previous data
         exp_plot_over_time.removeAllSeries();
-        exp_plot_over_time.getGridLabelRenderer().resetStyles();
 
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
@@ -363,39 +358,59 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Author: user3261759 (URL: https://stackoverflow.com/users/3261759/user3261759)
         // Thread URL: https://stackoverflow.com/posts/21505958/revisions
 
-        exp_plot_over_time.getViewport().setMinY(0);
-
-        int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
-        int interval;
-        if ((max_value <= 5)) {
-            interval = 1;
-        } else if (max_value <= 10) {
-            interval = 2;
-        } else if (max_value <= 50) {
-            interval = 5;
-        } else if (max_value <= 100) {
-            interval = 100;
-        } else if (max_value <= 500) {
-            interval = 200;
-        } else {
-            interval = 500;
-        }
-
-        int max_label = max_value;
-        while (max_label % interval != 0) {
-            max_label++;
-        }
-        exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(5);
-
-        exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
-
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
+
+        TrialType exp_type = TrialType.getInstance(current_experiment.getType());
+        switch (exp_type) {
+            case NON_NEG_INT_TRIAL:
+                TextView title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+            case COUNT_TRIAL:
+                int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
+                int interval;
+                if ((max_value <= 5)) {
+                    interval = 1;
+                } else if (max_value <= 10) {
+                    interval = 2;
+                } else if (max_value <= 50) {
+                    interval = 5;
+                } else if (max_value <= 100) {
+                    interval = 100;
+                } else if (max_value <= 500) {
+                    interval = 200;
+                } else {
+                    interval = 500;
+                }
+
+                int max_label = max_value;
+                while (max_label % interval != 0) {
+                    max_label++;
+                }
+                exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(max_label);
+                break;
+            case BINOMIAL_TRIAL:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Success Rate Over Time");
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(1);
+                break;
+            default:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+                exp_plot_over_time.getViewport().setMinY(time_plot_data.getLowestValueY());
+                exp_plot_over_time.getViewport().setMaxY(time_plot_data.getHighestValueY());
+        }
 
         exp_plot_over_time.getViewport().setScalable(true);
         exp_plot_over_time.getViewport().setScrollable(true);
+
+        exp_plot_over_time.getGridLabelRenderer().reloadStyles();
+        exp_plot_over_time.onDataChanged(false, false);
     }
 
     private void toggle_quartiles() {

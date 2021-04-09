@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/exp_search_bar"
-
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:queryHint="Search for an experiment"
+        android:layout_height="wrap_content"
         app:iconifiedByDefault="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search for an experiment"
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
@@ -27,6 +29,8 @@
             android:id="@+id/search_results"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:dividerHeight="20sp"
+            android:divider="@android:color/transparent"
             android:padding="20dp">
 
         </ListView>
@@ -45,36 +49,12 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:menu="@menu/bottom_navigation_menu" />
+            app:menu="@menu/bottom_navigation_menu"
 
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="home" android:onClick="toHome"-->
-<!--            android:textSize="15sp"/>-->
+            app:itemIconTint="@color/bottom_navigation_menu_pallete"
+            android:background="@color/black"
+            />
 
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="search" android:onClick="toSearch"-->
-<!--            android:textSize="15sp"/>-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:onClick="toMyExps"-->
-<!--            android:text="list"-->
-<!--            android:textSize="15sp"/>-->
-
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="profile" android:onClick="toProfile"-->
-<!--            android:textSize="15sp"/>-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

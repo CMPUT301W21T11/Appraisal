@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.GeolocationWarningDialog;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.trial.CounterModel;
@@ -61,8 +60,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * create the activity and inflate it with layout. initialize model
-     * @param savedInstanceState
-     *      bundle from the previous activity
+     * @param savedInstanceState -- bundle from the previous activity
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +107,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * Save the trial to the experiment
-     * @param v save button
+     * @param v -- save button
      */
     public void save(View v) {
         if (trial_location == null && current_exp.getIsGeolocationRequired()) {
@@ -149,7 +147,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
         // put current User as the experimenter
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,7 +183,7 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,17 +227,21 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
     /**
      * Dispatch incoming result to the correct fragment.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode -- the request code of the activity
+     * @param resultCode -- the result code indicating how the activity finished
+     * @param data -- any Intent data from previous activity
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == MAP_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 trial_location = (CurrentMarker) data.getParcelableExtra("currentMarker");
+                if (trial_location != null){
+                    Log.d("lat", String.valueOf(trial_location.getLatitude()));
+                    Log.d("long", String.valueOf(trial_location.getLongitude()));
+                }
 
                 geolocation_button.setText("Edit Geolocation");
 
@@ -258,15 +260,14 @@ public class CounterActivity extends AppCompatActivity implements GeolocationWar
 
     /**
      * If the back button is pressed, close this activity and go back to previous one
-     * @param item
-     * @return
+     * @param item -- the MenuItem
+     * @return boolean -- if the back button is pressed
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

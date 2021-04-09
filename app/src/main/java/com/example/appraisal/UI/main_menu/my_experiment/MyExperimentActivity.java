@@ -38,7 +38,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
 
     /**
      * Creates the MyExperimentActivity
-     * @param savedInstanceState
+     * @param savedInstanceState -- previous saved instance state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         // get Current User's anonymous id
         try {
             User user = MainModel.getCurrentUser();
-            userID = user.getID();
+            userID = user.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
         // get Current User's anonymous id
         try {
             User user = MainModel.getCurrentUser();
-            userID = user.getID();
+            userID = user.getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,7 +115,7 @@ public class MyExperimentActivity extends MainMenuCommonActivity implements ExpS
     /**
      * This method is called when the user clicks on the Floating Action Button.
      * It opens the PublishExpActivity
-     * @param v
+     * @param v -- view that has been clicked
      */
     public void publishNewExperiment(View v) {
         Intent publishExp_intent = new Intent(this, PublishExpActivity.class);

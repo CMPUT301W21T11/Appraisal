@@ -6,44 +6,46 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".UI.MainActivity">
+    tools:context=".UI.MainActivity"
+    android:background="@drawable/loading_screen"
+    android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Appraisal"
-        android:textColor="@color/purple_700"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/appraisal_logo"
-        app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/appraisal_logo"
-        android:layout_width="258dp"
-        android:layout_height="261dp"
-        android:layout_marginBottom="296dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo_transparent" />
 
-    <Button
+        <ImageView
+            android:id="@+id/title_display"
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/title" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/begin_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="220dp"
         android:onClick="signIn"
-        android:text="Begin"
+        android:text="BEGIN"
+        android:fontFamily="@font/lato_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appraisal_logo" />
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:width="150dp"
+        android:textColor="@color/white"
+
+        android:stateListAnimator="@animator/click_blue_button"
+
+        android:background="@drawable/navy_blue_button"/>
 
     <ProgressBar
         android:id="@+id/loadingPanel"
@@ -53,10 +55,10 @@
         android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/begin_button"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

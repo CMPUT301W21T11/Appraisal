@@ -6,13 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.search.SearchActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.robotium.solo.Solo;
 
@@ -20,10 +18,19 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
+import java.util.Random;
 
+import static java.lang.Math.abs;
+
+/**
+ * Test class for publishing an experiment and searching it. All the UI tests are written here.
+ * Robotium test framework is used
+ *
+ * Covers User Stories 05.01.01, 05.02.01
+ */
 public class SearchTest {
     private Solo solo;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -51,20 +58,23 @@ public class SearchTest {
 
 
     /**
-     * Edits the profile
+     * Publishes an experiment and searches for it.
      */
     @Test
     public void testSearch() {
 
+        //Generating a random exp name for intent test
+        Random rn = new Random();
+        final String exp_name = "SearchExpTest" +  String.valueOf(abs(rn.nextInt()));
+
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Begin");
+        View BeginButton = solo.getView("begin_button");
+        solo.clickOnView(BeginButton);
 
         //Asserts that the current activity is the ExpSubscriptionActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong activity", ExpSubscriptionActivity.class);
-
-        //Go to the My Experiments page
-        View CTButton = solo.getView("my_exp_button");
+        View CTButton = solo.getView("experiment_bottom_nav");
         solo.clickOnView(CTButton);
 
         //Asserts that the current activity is the MyExperimentActivity. Otherwise, show “Wrong Activity”
@@ -73,7 +83,7 @@ public class SearchTest {
         solo.clickOnView(fab);
 
         //Entering in test data
-        solo.enterText((EditText) solo.getView(R.id.expDesc), "SearchExperimentDemo");
+        solo.enterText((EditText) solo.getView(R.id.expDesc), exp_name);
         solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonYes));
         solo.enterText((EditText) solo.getView(R.id.expMinTrials), "20");
         solo.enterText((EditText) solo.getView(R.id.expRules), "IntentTest Rule #1");
@@ -84,11 +94,11 @@ public class SearchTest {
         solo.clickOnView(PubButton);
 
         //Verify that the experiment was published
-        solo.waitForText("SearchExperimentDemo", 1, 300);
-        solo.waitForText("Status: Published & Open", 1, 300);
+        solo.waitForText(exp_name, 1, delay_time);
+        solo.waitForText("Status: Published & Open", 1, delay_time);
 
         //Go to the Search page
-        View SearchButton = solo.getView("search_button");
+        View SearchButton = solo.getView("search_bottom_nav");
         solo.clickOnView(SearchButton);
 
         //Click on exp search bar and typing in the search input
@@ -103,21 +113,14 @@ public class SearchTest {
         solo.sendKey(KeyEvent.KEYCODE_E);
         solo.sendKey(KeyEvent.KEYCODE_X);
         solo.sendKey(KeyEvent.KEYCODE_P);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_R);
-        solo.sendKey(KeyEvent.KEYCODE_I);
-        solo.sendKey(KeyEvent.KEYCODE_M);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_N);
         solo.sendKey(KeyEvent.KEYCODE_T);
-        solo.sendKey(KeyEvent.KEYCODE_D);
         solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_M);
-        solo.sendKey(KeyEvent.KEYCODE_O);
+        solo.sendKey(KeyEvent.KEYCODE_S);
+        solo.sendKey(KeyEvent.KEYCODE_T);
         solo.sendKey(KeyEvent.KEYCODE_ENTER);
 
         //Verify if search was found
-        solo.waitForText("SearchExperimentDemo", 1, 700);
+        solo.waitForText(exp_name, 1, 700);
 
 
     }

@@ -1,11 +1,14 @@
 package com.example.appraisal.backend.specific_experiment;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
+import com.google.common.collect.Ordering;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +24,14 @@ public class TrialResultsOverTime {
     private final List<Trial> sorted_trial_list_by_date;
     private final Date trial_start_date;
 
-    public TrialResultsOverTime(@NonNull List<Trial> sorted_trial_list_by_date) {
-        this.sorted_trial_list_by_date = sorted_trial_list_by_date;
+    public TrialResultsOverTime(@NonNull List<Trial> trial_list) {
+        this.sorted_trial_list_by_date = trial_list;
         if (sorted_trial_list_by_date.size() > 0) {
+            // check if the input list is sorted
+            Comparator<Trial> sort_by_date = new TrialDateComparator();
+            if (!Ordering.from(sort_by_date).isOrdered(sorted_trial_list_by_date)) {
+                sorted_trial_list_by_date.sort(sort_by_date);
+            }
             trial_start_date = roundToDay(sorted_trial_list_by_date.get(0).getTrialDate());
         } else {
             trial_start_date = new Date();
@@ -49,6 +57,11 @@ public class TrialResultsOverTime {
         }
     }
 
+    /**
+     * This method creates a hashmap of each date and the number of trials done at that date
+     *
+     * @return SortedMap -- Date and Number of Trials per date
+     */
     @NonNull
     private SortedMap<Date, Double> trialResultsPerDate() {
         SortedMap<Date, Double> data_points = new TreeMap<>();
@@ -97,6 +110,11 @@ public class TrialResultsOverTime {
         return data_points;
     }
 
+    /**
+     * This method counts the number of trials done per day
+     *
+     * @return SortedMap -- Date and Number of Trials per date
+     */
     @NonNull
     private SortedMap<Date, Double> countTrialsPerDate() {
         SortedMap<Date, Double> data_points = new TreeMap<>();
@@ -118,7 +136,11 @@ public class TrialResultsOverTime {
         return data_points;
     }
 
-
+    /**
+     * This method round to the nearest day
+     *
+     * @return Date -- the date
+     */
     @NonNull
     private Date roundToDay(@NonNull Date date) {
         Calendar cal = Calendar.getInstance();
@@ -130,6 +152,11 @@ public class TrialResultsOverTime {
         return cal.getTime();
     }
 
+    /**
+     * This method increments to the next day
+     *
+     * @return Date -- the date of the next day
+     */
     @NonNull
     private Date incrementDayByOne(@NonNull Date date) {
         Calendar cal = Calendar.getInstance();
@@ -138,7 +165,12 @@ public class TrialResultsOverTime {
         return cal.getTime();
     }
 
-    private double ifNullDouble(Double value) {
+    /**
+     * This method ensures that days where no trials have been uploaded are treated as a zero and not a null
+     * @param  value -- number of trials to be checked
+     * @return Double-- either zero if value is null or returns the value itself
+     */
+    private double ifNullDouble(@Nullable Double value) {
         if (value == null) {
             return 0;
         } else {

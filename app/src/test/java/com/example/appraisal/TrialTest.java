@@ -1,7 +1,7 @@
 package com.example.appraisal;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.trial.BernoulliTrial;
+import com.example.appraisal.backend.trial.BinomialTrial;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
 import com.example.appraisal.backend.trial.NonNegIntCountTrial;
@@ -68,7 +68,7 @@ public class TrialTest {
      */
     @Test
     public void testParent() {
-        BernoulliTrial trial = (BernoulliTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        BinomialTrial trial = (BinomialTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
         assertEquals(test_parent.getClass(), trial.getParentExperiment().getClass());
     }
 
@@ -77,7 +77,7 @@ public class TrialTest {
      */
     @Test
     public void testBinomial() {
-        BernoulliTrial trial = (BernoulliTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
+        BinomialTrial trial = (BinomialTrial) factory.createTrial(TrialType.BINOMIAL_TRIAL, test_parent, test_user);
         assertEquals(0, (int) trial.getValue());
 
         trial.setToSuccess();

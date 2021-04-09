@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
+/**
+ * This activity allows users to edit their profiles
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private TextView id_view;
@@ -47,7 +50,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         current_user = getIntent().getExtras().getParcelable("user");
 
-        id_view.setText("@"+current_user.getID().substring(0, 7));
+        id_view.setText("@"+current_user.getId().substring(0, 7));
         name_edit.setText(current_user.getUsername());
         email_edit.setText(current_user.getEmail());
         phone_edit.setText(current_user.getPhoneNumber());
@@ -55,15 +58,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the save button
-     * @param v
-     * @throws Exception
+     * @param v -- view that is clicked
+     * @throws Exception -- when the MainModel is not initiated
      */
     public void applyChangesToProfile(View v) throws Exception {
 
         String email = email_edit.getText().toString();
         String phone = phone_edit.getText().toString();
 
-        User updated_user = new User(current_user.getID(),
+        User updated_user = new User(current_user.getId(),
                 name_edit.getText().toString(),
                 email_edit.getText().toString(),
                 phone_edit.getText().toString()
@@ -104,7 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the cancel button
-     * @param v
+     * @param v -- view that is clicked
      */
     public void cancelChangesToProfile(View v) {
         Intent intent = new Intent(this, UserProfileActivity.class);
