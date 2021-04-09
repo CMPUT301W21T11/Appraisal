@@ -21,6 +21,7 @@ import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,7 +47,7 @@ public class CameraScanResult extends AppCompatActivity {
 
     private Button add_geo_button;
     private CurrentMarker trial_location;
-    private String exp_id;
+    private User current_user;
 
     /**
      * This method creates the CameraScanResultActivity
@@ -71,6 +72,12 @@ public class CameraScanResult extends AppCompatActivity {
             }
             finish();
         });
+
+        try {
+            User current_user = MainModel.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Log.d("CameraScannerResult:","Starting camera scanner");
         Intent intent = new Intent(this, CameraScanner.class);
@@ -164,7 +171,7 @@ public class CameraScanResult extends AppCompatActivity {
                             geo_required = false;
                         }
 
-                        if (geo_required != null && geo_required) {
+                        if (geo_required) {
                             // obtain trial location
                             if (trial_location == null) {
                                 Toast.makeText(self, "Geolocation is not set", Toast.LENGTH_SHORT).show();
@@ -181,7 +188,7 @@ public class CameraScanResult extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        addContributor();
+                        addContributor(values.getExpId());
                         finish();
                     });
                 });
@@ -264,6 +271,7 @@ public class CameraScanResult extends AppCompatActivity {
                                             values.setGeoPoint(geoPoint);
                                         }
                                     }
+                                    addContributor(exp_id);
                                     MainModel.setBarcodeResult(null); // clear the result in main model
                                     model.addToExperiment(values); // add to firebase
                                 } catch (Exception e) {
@@ -299,29 +307,32 @@ public class CameraScanResult extends AppCompatActivity {
                     DocumentSnapshot experiment = task.getResult();
                     Boolean is_closed = experiment.getBoolean("isEnded");
                     Boolean is_published = experiment.getBoolean("isPublished");
-                    if ((is_closed != null && is_closed) || (is_published != null && !is_published)) {
-                        AlertDialog alertDialog = new AlertDialog.Builder(self, R.style.AlertDialogTheme)
-                                .setCancelable(false)
-                                .setMessage("Sorry, the target experiment you scanned is closed or unpublished")
-                                .setPositiveButton("Exit", (dialog, which) -> {
-                                    try {
-                                        MainModel.setBarcodeResult(null);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    self.finish();
-                                })
-                                .create();
-                        alertDialog.show();
-                        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
-                    } else { // proceed to next step (add geolocation)
-                        addGeolocation(exp_id);
+                    if ((is_closed != null && is_closed) || (is_published != null && !is_published)) { // check if experiment is ended or unpublished
+                        String current_user_id = current_user.getId();
+                        String exp_owner_id = getField(experiment, "owner");
+                        if (!current_user_id.equalsIgnoreCase(exp_owner_id) || (is_closed != null && is_closed)) { // if the current user is not the owner or it is ended
+                            AlertDialog alertDialog = new AlertDialog.Builder(self, R.style.AlertDialogTheme)
+                                    .setCancelable(false)
+                                    .setMessage("Sorry, the target experiment you scanned is closed or unpublished")
+                                    .setPositiveButton("Exit", (dialog, which) -> {
+                                        try {
+                                            MainModel.setBarcodeResult(null);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        self.finish();
+                                    })
+                                    .create();
+                            alertDialog.show();
+                            alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                            return;
+                        }
                     }
-                } else { // ignore this step and proceed
-                   if (task.getException() != null) {
-                       task.getException().printStackTrace();
-                   }
-                   addGeolocation(exp_id);
+
+                    if (task.getException() != null) {
+                        task.getException().printStackTrace();
+                    }
+                    addGeolocation(exp_id);
                 }
             });
         } catch (Exception e) {
@@ -408,8 +419,7 @@ public class CameraScanResult extends AppCompatActivity {
         }
     }
 
-    private void addContributor() {
-
+    private void addContributor(String exp_id) {
         try {
             CollectionReference experiments = MainModel.getExperimentReference();
             experiments.document(exp_id).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
