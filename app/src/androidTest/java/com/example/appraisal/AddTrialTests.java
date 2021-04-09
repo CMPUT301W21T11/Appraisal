@@ -26,7 +26,7 @@ import java.util.Random;
  */
 public class AddTrialTests {
     private Solo solo;
-    int delay_time = 2000;
+    int delay_time = 20;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -149,8 +149,14 @@ public class AddTrialTests {
         System.out.println();
 
 
+        // for (int i = height; i > 0; i--) {
+        //     for (int j = width; j > ((float)width) * (0.8); j--) {
+        //         solo.clickOnScreen(j, i, 1);
+        //     }
+        // }
 
-        solo.clickOnScreen(((float)width/ 10) * 7, 20, 1);
+        solo.clickOnScreen(width - 35, height, 1);
+
 
         // assertTrue("cp", false);
         // solo.clickOnMenuItem("PARTICIPANTS_TAB");
