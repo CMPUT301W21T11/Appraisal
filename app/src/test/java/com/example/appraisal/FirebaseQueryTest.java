@@ -4,6 +4,7 @@ import com.example.appraisal.model.core.MainModel;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 public class FirebaseQueryTest {
 
@@ -13,10 +14,12 @@ public class FirebaseQueryTest {
     @Before
     public void init() {
         MainModel.createInstance();
-
-
     }
 
+    @Test
+    public void getUserTest() {
+
+    }
 
     /**
      * Finish test and remove main model

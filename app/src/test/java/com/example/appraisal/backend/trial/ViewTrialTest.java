@@ -1,4 +1,4 @@
-package com.example.appraisal;
+package com.example.appraisal.backend.trial;
 
 import com.example.appraisal.backend.specific_experiment.ViewTrial;
 
