@@ -156,7 +156,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
 
         // put current User as the experimenter
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,7 +193,7 @@ public class NonNegIntCountActivity extends AppCompatActivity implements Geoloca
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

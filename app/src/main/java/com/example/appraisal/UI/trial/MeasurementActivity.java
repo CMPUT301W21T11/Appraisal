@@ -155,7 +155,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
 
         // put current User as the experimenter
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +192,7 @@ public class MeasurementActivity extends AppCompatActivity implements Geolocatio
     private void addContributor() {
 
         try {
-            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getID()));
+            experiment_reference.document(current_exp.getExpId()).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

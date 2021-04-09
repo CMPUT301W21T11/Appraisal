@@ -28,7 +28,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -97,7 +96,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
 
         // check if current user owns experiment, call corresponding query
-        if (current_experiment.getOwner().equals(current_experimenter.getID())) {
+        if (current_experiment.getOwner().equals(current_experimenter.getId())) {
             trialFirebaseOwner(v);
         } else {
             trialFirebaseInit(v);

@@ -144,7 +144,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * @param u -- User object
      */
     private void setUserDisplay(@NotNull User u) {
-        id_view.setText("@" + u.getID().substring(0, 7));
+        id_view.setText("@" + u.getId().substring(0, 7));
         name_view.setText(u.getUsername());
         email_view.setText(u.getEmail());
         phone_view.setText(u.getPhoneNumber());
