@@ -1,16 +1,14 @@
-<h1>Appraisal</h1>
-<h3><i>A complete tracking and statistic tool</i></h3>
+# Appraisal
+### A complete tracking and statistic tool
 ___
 
-<h3>1. Introduction</h3>
-<p>
-    <i>Appraisal</i> is an experiment tracking tool with in-depth analysis, that allows peer-to-peer discussion
-    and many more.
-</p>
+## 1. Introduction
+Appraisal is an experiment tracking tool with in-depth analysis, that allows peer-to-peer discussion and many more.
 
-<h3>2. Instruction</h3>
 
-<h3>3. Acknowledgement</h3>
+## 2. Instruction
+
+## 3. Acknowledgement
 Some of the code are borrowed from these [sources](https://github.com/CMPUT301W21T11/Appraisal/wiki/Code-Attribution)
 
 
