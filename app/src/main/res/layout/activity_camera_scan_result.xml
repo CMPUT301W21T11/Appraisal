@@ -78,25 +78,6 @@
                     android:textSize="18sp" />
             </TableRow>
 
-<!--            <TableRow-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Target \nExperiment ID:   "-->
-<!--                    android:textSize="18sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/camera_scan_result_exp_id_display"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="end|center_vertical"-->
-<!--                    android:text="@string/not_recognized"-->
-<!--                    android:textSize="18sp" />-->
-<!--            </TableRow>-->
-
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
