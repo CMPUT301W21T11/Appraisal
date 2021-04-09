@@ -42,7 +42,7 @@
 
 <h3>4. License</h3>
 <p>
-    Developed by Team 11, CMPUT301, Winter 2021, Under <a href="https://github.com/CMPUT301W21T11/Appraisal/blob/UI_revamp/LICENSE">MIT LICENSE</a><br><br>
+    Developed by Team 11, CMPUT301, Winter 2021, Under <a href="https://github.com/CMPUT301W21T11/Appraisal/blob/master/LICENSE">MIT LICENSE</a><br><br>
     All rights reserved
 </p>
 
