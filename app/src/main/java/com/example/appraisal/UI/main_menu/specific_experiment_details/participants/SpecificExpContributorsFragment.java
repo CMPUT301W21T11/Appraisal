@@ -34,7 +34,6 @@ import java.util.Set;
 public class SpecificExpContributorsFragment extends Fragment {
     private RecyclerView recyclerView;
     private SpecificExpContributorsViewAdapter adapter;
-    private SpecificExpModel model;
     private Experiment current_experiment;
     private ArrayList<String> experimenters;
     private SharedPreferences pref;
@@ -75,15 +74,13 @@ public class SpecificExpContributorsFragment extends Fragment {
 
         Boolean is_owner = user.equals(current_experiment.getOwner());
 
-        // initialize model
-        model = new SpecificExpModel(current_experiment);
 
         queryDB();
 
 
         // initialize recyclerView
         recyclerView = view.findViewById(R.id.fragment_specific_exp_contributors_recyclerView);
-        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, model, pref, is_owner); // initialize adapter
+        adapter = new SpecificExpContributorsViewAdapter(this.getActivity(), experimenters, pref, is_owner); // initialize adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext())); // set layout manager to simply be LinearLayout
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator()); // Use default animation for now

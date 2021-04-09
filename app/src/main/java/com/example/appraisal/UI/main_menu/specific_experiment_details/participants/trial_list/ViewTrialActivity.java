@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.participants.trial_list;
 
 import android.content.Context;
 import android.content.Intent;

@@ -16,10 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.participants.trial_list.ViewTrialActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
-import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,17 +37,15 @@ public class SpecificExpContributorsViewAdapter extends RecyclerView.Adapter<Spe
 
     private ArrayList<String> experimenters;
     private ArrayList<String> ignored_list;
-    private final SpecificExpModel model;
     private Context context;
     private SharedPreferences pref;
     private CollectionReference doc;
     private Experiment experiment;
     private Boolean is_owner;
 
-    public SpecificExpContributorsViewAdapter(Context context, ArrayList<String> experimenters, SpecificExpModel model, SharedPreferences pref, Boolean is_owner) {
+    public SpecificExpContributorsViewAdapter(Context context, ArrayList<String> experimenters, SharedPreferences pref, Boolean is_owner) {
         this.experimenters = experimenters;
         this.context = context;
-        this.model = model;
         this.pref = pref;
         ignored_list = new ArrayList<>();
         this.is_owner = is_owner;
