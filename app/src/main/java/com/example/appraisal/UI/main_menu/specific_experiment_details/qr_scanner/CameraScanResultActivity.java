@@ -31,21 +31,22 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 /**
- * This class handles the result from the {@link CameraScannerActivity}
+ * This class handles the result from the {@link CameraScanner}
  */
-public class CameraScanResultActivity extends AppCompatActivity {
+public class CameraScanResult extends AppCompatActivity {
 
     private static final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
     private static final int MAP_REQUEST_CODE = 0x00000000;
+
     private QRAnalyzerModel model;
     private Activity self;
+
     private Button add_geo_button;
     private CurrentMarker trial_location;
     private String exp_id;
 
     /**
      * This method creates the CameraScanResultActivity
-     *
      * @param savedInstanceState -- Bundle from saved instance
      */
     @Override
@@ -68,17 +69,16 @@ public class CameraScanResultActivity extends AppCompatActivity {
             finish();
         });
 
-        Log.d("CameraScannerResult:", "Starting camera scanner");
-        Intent intent = new Intent(this, CameraScannerActivity.class);
+        Log.d("CameraScannerResult:","Starting camera scanner");
+        Intent intent = new Intent(this, CameraScanner.class);
         startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
     }
 
     /**
      * This method overrides the parent method and obtain the scanned result code
-     *
      * @param requestCode -- check which activity has finished
-     * @param resultCode  -- check if activity is properly terminated
-     * @param data        -- any intent data from the previous activity
+     * @param resultCode -- check if activity is properly terminated
+     * @param data -- any intent data from the previous activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -109,12 +109,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This method displays the scan result
-     *
-     * @param result
-     * @throws Exception
-     */
     private void displayResult(Result result) throws Exception {
         // We are gonna display the detected code on the activity
         model.displayBarCode(result);
@@ -146,9 +140,8 @@ public class CameraScanResultActivity extends AppCompatActivity {
                     default:
                         trialValue.setText(String.valueOf(values.getValue()));
                 }
-                exp_id = values.getExpId();
 
-                addGeolocation(values.getExpId());
+                checkIfClosed(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
 
                 CollectionReference experiment = MainModel.getExperimentReference();
@@ -244,7 +237,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                         String exp_id = getField(document, "targetExperimentId");
                         String exp_desc = getField(document, "targetExperimentDesc");
 
-                        addGeolocation(exp_id);
+                        checkIfClosed(exp_id);
 
                         experiment_desc_display.setText(exp_desc);
                         trialType.setText(trial_type);
@@ -272,7 +265,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                                     model.addToExperiment(values); // add to firebase
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Toast.makeText(self, "Failed to add to experiment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(self, "Failed to add to experiment: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                                 finish();
                             });
@@ -295,13 +288,44 @@ public class CameraScanResultActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This method gets the field of a given document snapshot
-     *
-     * @param doc        -- DocumentSnapshot
-     * @param field_name -- field name
-     * @return -- String of the field value
-     */
+    private void checkIfClosed(String exp_id) {
+        try {
+            CollectionReference exp_list = MainModel.getExperimentReference();
+            exp_list.document(exp_id).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot experiment = task.getResult();
+                    Boolean is_closed = experiment.getBoolean("isEnded");
+                    Boolean is_published = experiment.getBoolean("isPublished");
+                    if ((is_closed != null && is_closed) || (is_published != null && !is_published)) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(self, R.style.AlertDialogTheme)
+                                .setCancelable(false)
+                                .setMessage("Sorry, the target experiment you scanned is closed or unpublished")
+                                .setPositiveButton("Exit", (dialog, which) -> {
+                                    try {
+                                        MainModel.setBarcodeResult(null);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    self.finish();
+                                })
+                                .create();
+                        alertDialog.show();
+                        alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                    } else { // proceed to next step (add geolocation)
+                        addGeolocation(exp_id);
+                    }
+                } else { // ignore this step and proceed
+                   if (task.getException() != null) {
+                       task.getException().printStackTrace();
+                   }
+                   addGeolocation(exp_id);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @NonNull
     private String getField(@NonNull DocumentSnapshot doc, @NonNull String field_name) {
         Object attempt = doc.get(field_name);
@@ -316,11 +340,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
         return result.trim();
     }
 
-    /**
-     * This method adds geolocation for geo-required experiments
-     *
-     * @param exp_id -- experiment id in firebase
-     */
     private void addGeolocation(String exp_id) {
         try {
             CollectionReference exp_list = MainModel.getExperimentReference();
@@ -346,9 +365,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This method warns the user that it is a geolocation experiment
-     */
     private void showWarningDialog() {
         AlertDialog.Builder alert_builder = new AlertDialog.Builder(self, R.style.AlertDialogTheme);
         alert_builder.setCancelable(false);
@@ -367,16 +383,11 @@ public class CameraScanResultActivity extends AppCompatActivity {
         });
         AlertDialog dialog = alert_builder.create();
         dialog.show();
+        // NOTE: setting color is effective only after the dialog is shown
         dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
         dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
     }
 
-    /**
-     * This method queries the firebase to find the experiment description
-     *
-     * @param exp_desc -- TextView of experiment description
-     * @param exp_id   -- experiment id in firebase
-     */
     private void setExperimentDesc(@NonNull TextView exp_desc, String exp_id) {
         try {
             CollectionReference experiments = MainModel.getExperimentReference();
@@ -394,9 +405,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * This methods adds experiments to the list of experiments once they upload their trial
-     */
     private void addContributor() {
 
         try {
@@ -406,8 +414,4 @@ public class CameraScanResultActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    /**
-     * This method check if the experiment is ended or unpublished
-     */
 }
