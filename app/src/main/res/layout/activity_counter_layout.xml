@@ -11,6 +11,8 @@
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
@@ -46,7 +48,7 @@
         app:layout_constraintVertical_bias="0.259" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/title_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -58,6 +60,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.395" />
 
+    <TextView
+        android:id="@+id/plus_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="+1"
+        android:textSize="55dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_count"
+        app:layout_constraintBottom_toTopOf="@id/save_btn"/>
 
     <Button
         android:id="@+id/save_btn"
@@ -66,7 +80,7 @@
         android:layout_gravity="center"
         android:backgroundTint="@color/rich_navy_blue"
         android:onClick="save"
-        android:text="Save Observation"
+        android:text="Upload"
         android:textAllCaps="true"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

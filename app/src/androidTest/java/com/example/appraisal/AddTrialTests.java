@@ -8,6 +8,7 @@ import android.view.WindowMetrics;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -152,7 +153,6 @@ public class AddTrialTests {
         solo.clickOnView(tv1);
         TextView tv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
         solo.clickOnView(tv2);
-
 
         //Click on name of user
         String userID = null;
