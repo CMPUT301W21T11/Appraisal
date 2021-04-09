@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-package com.example.appraisal.UI.geolocation;
+package com.example.appraisal.backend.geolocation;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -29,8 +29,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.appraisal.R;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Utility class for access to runtime permissions.
