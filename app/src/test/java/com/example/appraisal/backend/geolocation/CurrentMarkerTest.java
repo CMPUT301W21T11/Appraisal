@@ -1,6 +1,4 @@
-package com.example.appraisal;
-
-import com.example.appraisal.backend.geolocation.CurrentMarker;
+package com.example.appraisal.backend.geolocation;
 
 import org.junit.Before;
 import org.junit.Test;
