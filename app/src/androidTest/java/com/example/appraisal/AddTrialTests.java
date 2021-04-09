@@ -5,6 +5,8 @@ import android.graphics.Insets;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -12,6 +14,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.model.core.MainModel;
+import com.google.android.material.tabs.TabLayout;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -155,8 +158,17 @@ public class AddTrialTests {
         //     }
         // }
 
-        solo.clickOnScreen(width - 35, height, 1);
+        TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
 
+        int wanted_id = 3;
+        TextView tv = (TextView)(((LinearLayout)((LinearLayout)tabs.getChildAt(0)).getChildAt(wanted_id)).getChildAt(1));
+
+        // TabLayout.Tab viewYouWantToDoStuffWith = tabs.fin
+
+        // solo.clickOnScreen(1305, 2630, 1);
+
+        solo.clickOnView(tv);
+        // solo.clickOnImage(4);
 
         // assertTrue("cp", false);
         // solo.clickOnMenuItem("PARTICIPANTS_TAB");
