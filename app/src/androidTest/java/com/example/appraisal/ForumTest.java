@@ -115,20 +115,12 @@ public class ForumTest {
 
         //Opening the Questions tab
         TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
-/**
- * CHANGEEEEFKLSDFKLSDKLQ4I329
- */
-        int wanted_id = 4;
-        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(wanted_id)).getChildAt(1));
+        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
         solo.clickOnView(tv);
-        TextView tv1 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
-        solo.clickOnView(tv1);
         TextView tv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
         solo.clickOnView(tv2);
         TextView tv3 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
         solo.clickOnView(tv3);
-        TextView tv4 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
-        solo.clickOnView(tv4);
 
         //Posting a question
         View PostQuestion = solo.getView("AddQuestionButton");
@@ -212,18 +204,10 @@ public class ForumTest {
 
         //Opening the Questions tab
         TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
-/**
- * CHANGEEEEFKLSDFKLSDKLQ4I329
- */
-        int wanted_id = 4;
-        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(wanted_id)).getChildAt(1));
+        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
         solo.clickOnView(tv);
-        TextView tv1 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
-        solo.clickOnView(tv1);
         TextView tv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
         solo.clickOnView(tv2);
-        TextView tv3 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
-        solo.clickOnView(tv3);
         TextView tv4 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
         solo.clickOnView(tv4);
 

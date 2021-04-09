@@ -58,7 +58,7 @@ public class SubscribeExpTest {
     }
 
     /**
-     * Publishes the experiment and subscribes to it
+     * Publishes the experiment and subscribes to it.
      */
     @Test
     public void testSubscribe() {

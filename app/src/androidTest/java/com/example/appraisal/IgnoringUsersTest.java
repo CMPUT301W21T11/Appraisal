@@ -63,7 +63,7 @@ public class IgnoringUsersTest {
     }
 
     /**
-     * Publishes the experiment and checks if owner is listed as the contributor
+     * Publishes the experiment and ignores the users and verifies statistics
      */
     @Test
     public void testIgnoreUser() {
@@ -123,15 +123,8 @@ public class IgnoringUsersTest {
         //Opening the Analysis tab
         TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
 
-        int wanted_id = 2;
-        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(wanted_id)).getChildAt(1));
+        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
         solo.clickOnView(tv);
-        TextView tv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
-        solo.clickOnView(tv2);
-        TextView tv3 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
-        solo.clickOnView(tv3);
-        TextView tv4 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
-        solo.clickOnView(tv4);
 
         // test if analysis results are correct
         solo.waitForText("Median: 1.00", 1, 300);
@@ -139,18 +132,11 @@ public class IgnoringUsersTest {
 
 
         //Opening the participants tab
-/**
- * CHANGEEEEFKLSDFKLSDKLQ4I329
- */
-
         TextView tv22 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
         solo.clickOnView(tv22);
         TextView tv5 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
         solo.clickOnView(tv5);
-        TextView tv6 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
-        solo.clickOnView(tv6);
-        TextView tv7 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
-        solo.clickOnView(tv7);
+
 
         //Click on name of user
         String userID = null;
@@ -174,17 +160,9 @@ public class IgnoringUsersTest {
 
         solo.goBack();
 
-
-
         // go to analysis tab
         TextView tvv1 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
         solo.clickOnView(tvv1);
-        TextView tvv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
-        solo.clickOnView(tvv2);
-        TextView tvv3 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
-        solo.clickOnView(tvv3);
-        TextView tvv4 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
-        solo.clickOnView(tvv4);
 
         // test if analysis results are correct
         solo.waitForText("Median: 0.00", 1, 300);

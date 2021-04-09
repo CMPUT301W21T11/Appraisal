@@ -104,7 +104,7 @@ public class PublishExpTest {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Ending Exp Test " + String.valueOf(rn.nextInt());
+        final String exp_name = "Ending Exp Test " + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -151,14 +151,14 @@ public class PublishExpTest {
     }
 
     /**
-     * Unpublishes the experiment
+     * Unpublishes the experiment.
      */
     @Test
     public void testUnpublish() {
 
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Unpublish Exp Test " + String.valueOf(rn.nextInt());
+        final String exp_name = "Unpublish Exp Test " + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -195,15 +195,9 @@ public class PublishExpTest {
         solo.waitForText("Publish Status: Published", 1, delay_time);
         solo.waitForText("Ended Status: Open", 1, delay_time);
 
-        //Ending the experiment
+        //Ending and unpublishing the experiment
         View EndButton = solo.getView("end_button");
         solo.clickOnView(EndButton);
-        solo.waitForText("Ended Status: Ended", 1, delay_time);
-        solo.clickOnButton("Done");
-        solo.waitForText("Status: Published & Ended", 1, delay_time);
-
-        //Un-publishing the experiment
-        solo.clickOnText(exp_name);
         View UnpublishButton = solo.getView("publish_button");
         solo.clickOnView(UnpublishButton);
 

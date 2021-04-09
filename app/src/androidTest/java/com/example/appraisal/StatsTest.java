@@ -1,10 +1,7 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.graphics.Insets;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowMetrics;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,6 +14,8 @@ import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
+import com.example.appraisal.UI.main_menu.user_profile.UserProfileActivity;
+import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.material.tabs.TabLayout;
 import com.robotium.solo.Solo;
@@ -30,14 +29,14 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 /**
- * Test class for Adding Trials. All the UI tests are written here. Robotium test framework is
+ * Test class for Ignoring Users. All the UI tests are written here. Robotium test framework is
  * used
  *
- * Covers User Stories 01.05.01, 06.01.01, 06.02.01, 06.03.01, 06.04.01
+ * Covers User Story 01.06.01, 01.07.01, 01.09.01,
  */
-public class AddTrialTests {
+public class StatsTest {
     private Solo solo;
-    int delay_time = 20;
+    int delay_time = 50;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -64,14 +63,13 @@ public class AddTrialTests {
     }
 
     /**
-     * Publishes the experiment, and adds a trial
+     * Publishes the experiment, adds trials and tests statistics
      */
     @Test
-    public void testAddTrials() {
-
+    public void testStatistics() {
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "Add Trials Test " +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "Statistics Test " + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -90,10 +88,12 @@ public class AddTrialTests {
 
         //Entering in test data
         solo.enterText((EditText) solo.getView(R.id.expDesc), exp_name);
-        solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonYes));
+        solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonNo));
         solo.enterText((EditText) solo.getView(R.id.expMinTrials), "20");
         solo.enterText((EditText) solo.getView(R.id.expRules), "IntentTest Rule #1");
         solo.enterText((EditText) solo.getView(R.id.expRegion), "Canada");
+        solo.clickOnText("Count-based trials");
+        solo.clickOnText("Non-negative Integer Trials");
 
         //Publishing the test data
         View PubButton = solo.getView("publish_confirm");
@@ -114,61 +114,44 @@ public class AddTrialTests {
         solo.waitForText(exp_name, 1, 300);
         solo.waitForText("Count-based trials", 1, 300);
         solo.waitForText("Open", 1, 300);
-        solo.waitForText("Geo-Required", 1, 300);
+        solo.waitForText("Non-Geo", 1, 300);
 
         //Adding a trial
-        View AddTrialButton = solo.getView("specific_exp_details_add_trial_button");
-        solo.clickOnView(AddTrialButton);
+        View AddTrialBtn = solo.getView("specific_exp_details_add_trial_button");
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "20");
+        View SaveTrialBtn = solo.getView("upload_observe_btn");
+        solo.clickOnView(SaveTrialBtn);
 
-        //Adding geolocation
-        solo.clickOnButton("Accept");
-        View AddGeoButton = solo.getView("add_geo");
-        solo.clickOnView(AddGeoButton);
-        View SaveGeoButton = solo.getView("save_geo_btn");
-        solo.clickOnView(SaveGeoButton);
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "30");
+        solo.clickOnView(SaveTrialBtn);
 
-        //Saving observation for count based trial
-        View SaveCountTrial = solo.getView("save_btn");
-        solo.clickOnView(SaveCountTrial);
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "40");
+        solo.clickOnView(SaveTrialBtn);
 
-        //Verifying the map for the added trial
-        View MapButton = solo.getView("specific_exp_details_geolocation_map_button");
-        solo.clickOnView(MapButton);
-
-        WindowMetrics windowMetrics =  rule.getActivity().getWindowManager().getCurrentWindowMetrics();
-        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
-        int width = windowMetrics.getBounds().width() - insets.left - insets.right;
-        int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
-        solo.clickOnScreen(width/2, height/2, 1);
-        solo.waitForText("Result: 1", 1, 300);
-        solo.goBack();
-
-        //Opening the participants tab
+        //Opening the Analysis tab
         TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
-
-        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
+        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
         solo.clickOnView(tv);
-        TextView tv1 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(4)).getChildAt(1));
-        solo.clickOnView(tv1);
-        TextView tv2 = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(3)).getChildAt(1));
-        solo.clickOnView(tv2);
 
 
-        //Click on name of user
-        String userID = null;
-        try {
-            userID = "User @" + MainModel.getCurrentExperiment().getOwner().substring(0, 7);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        solo.waitForText(userID, 1, 300);
+        //Test if analysis results are correct
+        solo.waitForText("Median: 30.00", 1, 300);
+        solo.waitForText("Mean: 30.00", 1, 300);
 
-        //Test ViewTrialActivity was opened
-        solo.clickOnText(userID);
-        solo.assertCurrentActivity("Wrong activity", ViewTrialActivity.class);
+        //View trials over time
+        View TrialsOverTime = solo.getView("fragment_experiment_data_analysis_plotsDrop");
+        solo.clickOnView(TrialsOverTime);
 
-        //Verify that trial was added
-        solo.waitForText("Result: 1", 1, 300);
+        //View histogram
+        View Histogram = solo.getView("fragment_experiment_data_analysis_histogramDrop");
+        solo.clickOnView(Histogram);
+
+        //View quartiles
+        View Quartiles = solo.getView("fragment_experiment_data_analysis_quartilesDrop");
+        solo.clickOnView(Quartiles);
 
     }
 }

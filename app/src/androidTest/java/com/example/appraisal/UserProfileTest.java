@@ -52,7 +52,7 @@ public class UserProfileTest {
     }
 
     /**
-     * Edits the profile
+     * Edits the profile.
      */
     @Test
     public void testProfile() {
