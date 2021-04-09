@@ -13,6 +13,9 @@ import com.example.appraisal.UI.main_menu.specific_experiment_details.discussion
 import com.example.appraisal.UI.main_menu.specific_experiment_details.participants.SpecificExpContributorsFragment;
 import com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanner.SpecificExpQRCodeFragment;
 
+/**
+ * This class is an Adapter that holds all the fragments for {@link SpecificExpActivity}
+ */
 public class SpecificExpViewAdapter extends FragmentStateAdapter {
     // This tab view and view pager UI interface is taken from android developers documentation
     // Author: Google
@@ -26,6 +29,12 @@ public class SpecificExpViewAdapter extends FragmentStateAdapter {
         this.PAGE_COUNT = PAGE_COUNT;
     }
 
+    /**
+     * This method is called when a new tab is selected
+     *
+     * @param position -- position of the selected tab
+     * @return Fragment -- the fragment for the given position
+     */
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -48,6 +57,11 @@ public class SpecificExpViewAdapter extends FragmentStateAdapter {
         }
     }
 
+    /**
+     * This method is to determine how many pages are there
+     *
+     * @return int -- page count
+     */
     @Override
     public int getItemCount() {
         return PAGE_COUNT;

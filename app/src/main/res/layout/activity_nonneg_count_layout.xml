@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/main_menu_bg">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -78,11 +79,11 @@
         app:layout_constraintVertical_bias="0.622" />
 
     <Button
-        android:id="@+id/save_btn"
+        android:id="@+id/upload_observe_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/rich_navy_blue"
         android:onClick="saveAndReturn"
         android:text="Upload"
         android:textAllCaps="true"

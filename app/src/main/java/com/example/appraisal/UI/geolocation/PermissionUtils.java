@@ -23,11 +23,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.appraisal.R;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Utility class for access to runtime permissions.
@@ -57,7 +60,7 @@ public abstract class PermissionUtils {
      *
      * @see androidx.core.app.ActivityCompat.OnRequestPermissionsResultCallback
      */
-    public static boolean isPermissionGranted(String[] grantPermissions, int[] grantResults,
+    public static boolean isPermissionGranted(@NonNull String[] grantPermissions, int[] grantResults,
                                               String permission) {
         for (int i = 0; i < grantPermissions.length; i++) {
             if (permission.equals(grantPermissions[i])) {
@@ -80,6 +83,7 @@ public abstract class PermissionUtils {
          * Creates a new instance of this dialog and optionally finishes the calling Activity
          * when the 'Ok' button is clicked.
          */
+        @NonNull
         public static PermissionDeniedDialog newInstance(boolean finishActivity) {
             Bundle arguments = new Bundle();
             arguments.putBoolean(ARGUMENT_FINISH_ACTIVITY, finishActivity);
@@ -89,6 +93,9 @@ public abstract class PermissionUtils {
             return dialog;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             finishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
@@ -99,6 +106,9 @@ public abstract class PermissionUtils {
                     .create();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);
@@ -138,6 +148,7 @@ public abstract class PermissionUtils {
          * @param finishActivity Whether the calling Activity should be finished if the dialog is
          *                       cancelled.
          */
+        @NonNull
         public static RationaleDialog newInstance(int requestCode, boolean finishActivity) {
             Bundle arguments = new Bundle();
             arguments.putInt(ARGUMENT_PERMISSION_REQUEST_CODE, requestCode);
@@ -147,7 +158,11 @@ public abstract class PermissionUtils {
             return dialog;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
+        @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             Bundle arguments = getArguments();
             final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
@@ -170,6 +185,9 @@ public abstract class PermissionUtils {
                     .create();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void onDismiss(DialogInterface dialog) {
             super.onDismiss(dialog);

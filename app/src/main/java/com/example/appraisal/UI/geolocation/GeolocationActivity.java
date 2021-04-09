@@ -58,12 +58,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.stream.DoubleStream;
 
-//import com.google.android.gms.maps.SupportMapFragment;
-
-// Location Purposes
-// Google Maps Beta (Not the production version)
-// Tasks
-
+/**
+ * This activity enables the Gelocation features
+ */
 public class GeolocationActivity extends AppCompatActivity implements
         OnMyLocationButtonClickListener,
         OnMyLocationClickListener,
@@ -101,8 +98,6 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     private double markerLat;
     private double markerLong;
-//    private static final int MAP_REQUEST_CODE = 0;
-//    private static final int PLOT_TRIALS_REQUEST_CODE = 1;
 
     Marker currentLocationMarker;
 
@@ -170,27 +165,28 @@ public class GeolocationActivity extends AppCompatActivity implements
         save_geolocation_btn = findViewById(R.id.save_geo_btn);
 
         if (flag.equals("User Location")) {
-//            Log.d("Loc", "User Location");
+            Log.d("Loc", "User Location");
         } else if (flag.equals("Plot Trials Map")) {
-//            Log.d("Loc", "Plot Trials");
+            Log.d("Loc", "Plot Trials");
             save_geolocation_btn.setVisibility(View.GONE);
         }
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
   
 
     }
 
+    /**
+     * This method setup the map when the map is ready
+     * @param googleMap -- the map
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-//        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
-
-
         mMap = googleMap;
 
         mUiSettings = mMap.getUiSettings();
@@ -206,16 +202,12 @@ public class GeolocationActivity extends AppCompatActivity implements
         } else if (flag.equals("Plot Trials Map")) {
             // Fetch firebase
             // Plot the markers
-//            mockPlotTrialMarkers();
             getAllGeoLocations();
         }
 
 
         mMap.setOnMarkerClickListener(this);
-//        mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerDragListener(this);
-//        mMap.setOnInfoWindowCloseListener(this);
-//        mMap.setOnInfoWindowLongClickListener(this);
 
     }
 
@@ -242,21 +234,20 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Gets called when the user clicks the crosshair icon
      *
-     * @return
+     * @return boolean -- if the button is clicked
      */
     @Override
     public boolean onMyLocationButtonClick() {
-//        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
         return false;
     }
 
     /**
      * Gets called when user clicks the blue dot on the map
      *
-     * @param location
+     * @param location -- Location of the user
      */
     @Override
-    public void onMyLocationClick(@NonNull @NotNull Location location) {
+    public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 
@@ -350,6 +341,12 @@ public class GeolocationActivity extends AppCompatActivity implements
         finish();
     }
 
+    /**
+     * This method is called when marker is clicked
+     *
+     * @param marker -- the Marker
+     * @return boolean -- if the marker is clicked
+     */
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
@@ -358,7 +355,7 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Gets activated as soon as the user holds the marker
      *
-     * @param marker
+     * @param marker -- a Marker object
      */
     @Override
     public void onMarkerDragStart(Marker marker) {
@@ -368,7 +365,7 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Gets activated while user is dragging the marker across the map
      *
-     * @param marker
+     * @param marker -- a Marker object
      */
     @Override
     public void onMarkerDrag(Marker marker) {
@@ -379,10 +376,10 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Gets activated once the user dropped the marker somewhere else
      *
-     * @param marker
+     * @param marker -- a Marker object
      */
     @Override
-    public void onMarkerDragEnd(Marker marker) {
+    public void onMarkerDragEnd(@NotNull Marker marker) {
         marker.showInfoWindow();
         markerLat = marker.getPosition().latitude;
         markerLong = marker.getPosition().longitude;
@@ -392,16 +389,15 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Draw multiple markers on the map
      *
-     * @param trials
+     * @param trials -- a list of {@link Trial}
      */
-
-    private void drawMultipleMarkers(ArrayList<Trial> trials) {
+    private void drawMultipleMarkers(@NotNull ArrayList<Trial> trials) {
         for (Trial trial : trials) {
             mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Trial").snippet("I am a trial"));
         }
     }
 
-    private LatLng drawMarker(double latitude, double longitude, String title, String snippet) {
+    private @NotNull LatLng drawMarker(double latitude, double longitude, String title, String snippet) {
         LatLng markerLocation = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(markerLocation).title(title).snippet(snippet));
         return markerLocation;
@@ -431,7 +427,7 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Saved the instance of a map when an activity is paused or the user rotates their devices.
      *
-     * @param outState
+     * @param outState -- the Bundle object
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -451,8 +447,6 @@ public class GeolocationActivity extends AppCompatActivity implements
         exp_ref.document(current_experiment.getExpId()).collection("Trials").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                // clear old list
-//                geolocation_list.clear();
 
                 // check each experiment document
                 double sum_latitudes = 0;
@@ -467,20 +461,22 @@ public class GeolocationActivity extends AppCompatActivity implements
                     // get all the fields of the experiment
                     String trial_ID = doc.getId();
                     GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
+                    String trial_date = doc.getData().get("date").toString();
+                    String experimenter_id = doc.getData().get("experimenterID").toString();
+                    String trial_result = doc.getData().get("result").toString();
+                    String trial_info = "Result: " + trial_result;
+
 
                     if (trial_geolocation != null) {
-                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), "Sample Title", "ABC"));
+                        builder.include(drawMarker(trial_geolocation.getLatitude(), trial_geolocation.getLongitude(), trial_ID + " - " + trial_date, trial_info));
                         sum_latitudes += trial_geolocation.getLatitude();
                         sum_longitudes += trial_geolocation.getLongitude();
                         count = count + 1.0;
                     }
-                    // add experiment to the list to display
-//                    geolocation_list.add(trial_geolocation);
                 }
 
                 avg_latitudes = sum_latitudes / count;
                 avg_longitudes = sum_longitudes / count;
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(avg_latitudes, avg_longitudes), 5));
 
                 // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
 
@@ -496,11 +492,6 @@ public class GeolocationActivity extends AppCompatActivity implements
                 else{
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
                 }
-//                    });
-//                    location_saved_snackbar.show();
-//                }
-//                mMap.animateCamera(CameraUpdateFactory.zoomTo(5), 2000, null);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 15));
             }
         });
     }
@@ -508,48 +499,32 @@ public class GeolocationActivity extends AppCompatActivity implements
     /**
      * Called when the location has changed.
      *
-     * @param location the updated location
+     * @param location -- the updated location
      */
     @Override
     public void onLocationChanged(@NonNull Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         LatLng currentLocation = new LatLng(latitude, longitude);
-//        currentLocationMarker = mMap.addMarker(new MarkerOptions().position(currentLocation).title("You're here").draggable(true));
-//        currentLocationMarker.setPosition(currentLocation);
-        currentLocationMarker.showInfoWindow();
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-//        getDeviceLocation();
-//        Log.d("OLC", "Oops");
+        if (currentLocationMarker != null) {
+            currentLocationMarker.showInfoWindow();
+        }
     }
 
 
     private void startLocationUpdates() {
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        fusedLocationProviderClient.requestLocationUpdates(location_request,
-//                location_callback,
-//                Looper.getMainLooper());
+        location_request = LocationRequest.create()
+                .setInterval(60 * 1000)
+                .setFastestInterval(5 * 1000)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        location_request = LocationRequest.create().setInterval(60 * 1000).setFastestInterval(5 * 1000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         fusedLocationProviderClient.requestLocationUpdates(location_request, new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull @NotNull LocationResult locationResult) {
@@ -560,6 +535,12 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     }
 
+    /**
+     * Check if the menu item is selected
+     * 
+     * @param item -- the selected menu item
+     * @return boolean -- if it is selected
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

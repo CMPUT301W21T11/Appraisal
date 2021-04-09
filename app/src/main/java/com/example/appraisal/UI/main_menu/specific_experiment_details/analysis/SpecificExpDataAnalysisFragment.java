@@ -35,6 +35,8 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
      * @param inflater           -- LayoutInflater object for inflating the Fragment
      * @param container          -- ViewGroup object that contains the layout
      * @param savedInstanceState -- Bundle object
-     * @return v -- View of the initialized Fragment
+     * @return View -- View of the initialized Fragment
      */
     @Nullable
     @Override
@@ -114,7 +116,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
      * Could sometimes return null pointer exception, due to the query thread not finished
      * Therefore saving the activity to a local variable at the very beginning should solve this problem.
      *
-     * @param savedInstanceState -- Bundle from previous activity
+     * @param savedInstanceState -- saved instance state
      */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -212,7 +214,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         generateExpStats(v);
     }
 
-    private void generateExpStats(View v) {
+    private void generateExpStats(@NotNull View v) {
         // initialize and set experiment stats
         TextView mean = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMeanText);
         TextView median = v.findViewById(R.id.fragment_experiment_data_analysis_experimentMedianText);
@@ -223,7 +225,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         stdDev.setText(model.getStdDev());
     }
 
-    private void graphViewInit(View v) {
+    private void graphViewInit(@NotNull View v) {
         // initialize graphs
         histogram = v.findViewById(R.id.fragment_experiment_data_analysis_histogramGraph);
         exp_plot_over_time = v.findViewById(R.id.fragment_experiment_data_analysis_plotsGraph);
@@ -235,7 +237,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         quartileTable.setVisibility(View.GONE);
     }
 
-    private void graphDropInit(View v) {
+    private void graphDropInit(@NotNull View v) {
         // initialize buttons and set on click listeners for expanding details
         ImageView histogram_drop = v.findViewById(R.id.fragment_experiment_data_analysis_histogramDrop);
         ImageView quartiles_drop = v.findViewById(R.id.fragment_experiment_data_analysis_quartilesDrop);
@@ -264,15 +266,9 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // obtain quartile info from model
         Quartile quartiles = model.getQuartileInfo();
 
-        // Calculate Maximum and minimum excluding outliers
-        double minimum = quartiles.getFirstQuartile() - (1.5 * quartiles.getIQR());
-        if (minimum < quartiles.getTrialMinValue()) {
-            minimum = quartiles.getTrialMinValue();
-        }
-        double maximum = quartiles.getThirdQuartile() + (1.5 * quartiles.getIQR());
-        if (maximum > quartiles.getTrialMaxValue()) {
-            maximum = quartiles.getTrialMaxValue();
-        }
+        // get min and max
+        double minimum = quartiles.getTrialMinValue();
+        double maximum = quartiles.getTrialMaxValue();
 
         // Calculate outlier percentage
         int outlier_count = quartiles.getOutLiers().size();
@@ -280,11 +276,11 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         double percent = (outlier_count / (double) total) * 100;
 
         // Set values to TextViews
-        min.setText(String.valueOf(minimum));
-        max.setText(String.valueOf(maximum));
-        q1.setText(String.valueOf(quartiles.getFirstQuartile()));
-        q3.setText(String.valueOf(quartiles.getThirdQuartile()));
-        iqr.setText(String.valueOf(quartiles.getIQR()));
+        min.setText(String.format(Locale.ENGLISH, "%.2f",minimum));
+        max.setText(String.format(Locale.ENGLISH, "%.2f",maximum));
+        q1.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getFirstQuartile()));
+        q3.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getThirdQuartile()));
+        iqr.setText(String.format(Locale.ENGLISH, "%.2f",quartiles.getIQR()));
         outlier_percent.setText(String.format(Locale.ENGLISH, "%.2f%%", percent));
     }
 

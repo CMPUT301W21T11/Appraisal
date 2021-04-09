@@ -3,6 +3,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -23,6 +24,9 @@ import com.example.appraisal.model.main_menu.specific_experiment_details.Barcode
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
+/**
+ * This class represents the Activity that registers a barcode
+ */
 public class RegisterBarcodeResult extends AppCompatActivity {
 
     private final int BARCODE_REGISTER_REQUEST_CODE = 0x00000002;
@@ -104,8 +108,7 @@ public class RegisterBarcodeResult extends AppCompatActivity {
                 switch (currentExperimentType) {
                     case COUNT_TRIAL:
                         Button increment_button = findViewById(R.id.barcode_scan_result_count_increment);
-                        EditText count_field = findViewById(R.id.barcode_scan_result_count_input);
-                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, count_field.getText().toString()));
+                        increment_button.setOnClickListener(v -> createBarcode(result.getText(), current_user, current_experiment, "1"));
                         break;
                     case BINOMIAL_TRIAL:
                         Button success_button = findViewById(R.id.barcode_scan_result_binomial_sucess);
@@ -132,6 +135,13 @@ public class RegisterBarcodeResult extends AppCompatActivity {
         }
     }
 
+    /**
+     * Thie method create an entry for the scanned barcode
+     * @param rawValue -- value of the barcode as string
+     * @param user -- the {@link User} who is registering the barcode
+     * @param experiment -- the {@link Experiment} which the barcode is assigned to
+     * @param data -- the action of the barcode
+     */
     public void createBarcode(String rawValue, User user, Experiment experiment, String data) {
         Barcode barcode = new Barcode(rawValue, user, experiment, data);
         model.checkBarcode(barcode);
@@ -146,7 +156,7 @@ public class RegisterBarcodeResult extends AppCompatActivity {
     public void askIfOverride(Barcode barcode, String old_action) {
         Log.d("override", "prompt reached");
         // Build prompt dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(self);
+        AlertDialog.Builder builder = new AlertDialog.Builder(self, R.style.AlertDialogTheme);
         builder.setTitle("Override barcode registry?");
         builder.setMessage("Previous action: \n" + old_action);
 
@@ -155,5 +165,8 @@ public class RegisterBarcodeResult extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+        // NOTE: setting color is effective only after the dialog is shown
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
     }
 }

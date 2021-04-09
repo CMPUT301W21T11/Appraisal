@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/main_menu_bg">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="64dp"
             android:scaleType="fitCenter"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/camera_scan_result_title" />
@@ -33,23 +35,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/camera_scan_result_add_geo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="Add geolocation"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_camera_scan_result_qr_code_display" />
+
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:stretchColumns="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_camera_scan_result_qr_code_display">
+            app:layout_constraintTop_toBottomOf="@+id/camera_scan_result_add_geo">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,9 +74,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="Placeholder"
+                    android:text="@string/not_recognized"
                     android:textSize="18sp" />
             </TableRow>
+
+<!--            <TableRow-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Target \nExperiment ID:   "-->
+<!--                    android:textSize="18sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/camera_scan_result_exp_id_display"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="end|center_vertical"-->
+<!--                    android:text="@string/not_recognized"-->
+<!--                    android:textSize="18sp" />-->
+<!--            </TableRow>-->
 
             <TableRow
                 android:layout_width="match_parent"
@@ -73,26 +104,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Target \nExperiment ID: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/camera_scan_result_exp_id_display"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:text="Placeholder"
-                    android:textSize="18sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Target \nExperiment \nDescription: "
+                    android:text="Target \nExperiment: \n"
                     android:textSize="18sp" />
 
                 <TextView
@@ -100,7 +112,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    android:text="Placeholder"
+                    android:text="@string/not_recognized"
                     android:textSize="18sp" />
             </TableRow>
 
@@ -111,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trial Type: "
+                    android:text="Trial Type: \n"
                     android:textSize="18sp" />
 
                 <TextView
@@ -119,7 +131,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="Not Recognized"
+                    android:text="@string/not_recognized"
                     android:textSize="18sp" />
 
             </TableRow>
@@ -139,7 +151,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="Not Recognized"
+                    android:text="@string/not_recognized"
                     android:textSize="18sp" />
 
             </TableRow>

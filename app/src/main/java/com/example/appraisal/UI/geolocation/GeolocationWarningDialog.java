@@ -11,13 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
+
 import com.example.appraisal.R;
 import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
 import com.example.appraisal.backend.experiment.Experiment;
 
+/**
+ * This class represents the Geolocation warning dialog
+ */
 public class GeolocationWarningDialog extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
+    /**
+     * This method inflates the warning dialog with the
+     * @param savedInstanceState -- Bundle from previous instance state
+     * @return
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -41,6 +51,9 @@ public class GeolocationWarningDialog extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -53,12 +66,19 @@ public class GeolocationWarningDialog extends DialogFragment {
         }
     }
 
+    /**
+     * This interface ensures the context is a fragment interaction listener
+     */
     public interface OnFragmentInteractionListener{
     }
 
+    /**
+     * This method creates a new instance of the warning dialog
+     * @return GeolocationWarningDialog -- this
+     */
+    @NonNull
     public static GeolocationWarningDialog newInstance() {
-        GeolocationWarningDialog geolocation_warning = new GeolocationWarningDialog();
-        return geolocation_warning;
+        return new GeolocationWarningDialog();
     }
 
 }

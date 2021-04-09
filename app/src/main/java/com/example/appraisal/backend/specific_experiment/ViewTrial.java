@@ -34,5 +34,8 @@ public class ViewTrial {
      * Gets the date of the trial
      * @return  String -- date of the trial as string
      */
-    public String getDate() {return date;}
+    public String getDate() {
+        return date;
+    }
+
 }

@@ -9,16 +9,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.appraisal.R;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.UI.geolocation.Geopoints;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.SpecificExpActivity;
 import com.example.appraisal.UI.trial.BinomialActivity;
 import com.example.appraisal.UI.trial.CounterActivity;
 import com.example.appraisal.UI.trial.MeasurementActivity;
@@ -32,7 +36,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
@@ -42,7 +48,6 @@ import java.util.ArrayList;
  */
 public class SpecificExpDetailsFragment extends Fragment {
 
-    private SpecificExpModel model;
     private Experiment current_experiment;
     private DocumentReference user_ref;
     private ArrayList<String> user_subscriptions;
@@ -54,6 +59,12 @@ public class SpecificExpDetailsFragment extends Fragment {
     private ArrayList<GeoPoint> geolocation_list;
 
     private ArrayList<Geopoints> geopoints_list;
+
+    private TextView is_open_logo_text;
+    private TextView type_logo_text;
+    private TextView geo_logo_text;
+
+    private TextView current_count;
 
     /**
      * Gets called when the fragment gets created
@@ -70,11 +81,18 @@ public class SpecificExpDetailsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_specific_exp_experiment_details, container, false);
 
 
+
         subscriptionBox = (CheckBox) v.findViewById(R.id.specific_exp_details_subscribe_checkBox);
         add_trial = (Button) v.findViewById(R.id.specific_exp_details_add_trial_button);
         plot_trials = (Button) v.findViewById(R.id.specific_exp_details_geolocation_map_button);
         add_trial.setOnClickListener(v1 -> addTrial());
         plot_trials.setOnClickListener(v3 -> plotAllTrialsOnMap());
+
+        is_open_logo_text = v.findViewById(R.id.is_open_logo_text);
+        type_logo_text = v.findViewById(R.id.type_logo_text);
+        geo_logo_text = v.findViewById(R.id.geo_logo_text);
+
+        current_count = v.findViewById(R.id.specific_exp_details_current_trial_count);
 
 
         try {
@@ -93,32 +111,89 @@ public class SpecificExpDetailsFragment extends Fragment {
             e.printStackTrace();
         }
 
+        ((SpecificExpActivity) getActivity()).getSupportActionBar().setTitle(current_experiment.getDescription());
 
-        TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
-        TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
+       TextView desc = v.findViewById(R.id.specific_exp_details_experiment_title);
+
+        // TODO Refactor to logo
+        // TextView type = v.findViewById(R.id.specific_exp_details_experiment_type);
         TextView owner = v.findViewById(R.id.specific_exp_details_owner);
-        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
-        TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+        TextView rules_constraints = v.findViewById(R.id.specific_exp_details_rules_constraints);
+        // TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+        // TextView geo_required = v.findViewById(R.id.specific_exp_details_geolocation_required);
+
+        ImageView icon = v.findViewById(R.id.type_icon);
+        if (current_experiment.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_count));
+            type_logo_text.setText("Count-Trial");
+        }
+        else if (current_experiment.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_coin));
+            type_logo_text.setText("Binomial");
+        }
+        else if (current_experiment.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_num));
+            type_logo_text.setText("Non-Neg-Trial");
+        }
+        else {
+            icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_thermometer_three_quarters_solid));
+            type_logo_text.setText("Measurement");
+        }
+        icon.setOnClickListener((listener) -> madeToast());
 
         add_trial.setEnabled(!current_experiment.getIsEnded());
 
+        ImageView ended_icon = v.findViewById(R.id.is_ended_icon);
+        if (current_experiment.getIsEnded()) {
+            ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.cross));
+            is_open_logo_text.setText("Ended");
+        }
+        else {
+            ended_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_check_circle_solid));
+            is_open_logo_text.setText("Open");
+        }
+
         desc.setText(current_experiment.getDescription());
-        type.setText(current_experiment.getType());
+        // type.setText(current_experiment.getType());
+//        TextView status = v.findViewById(R.id.specific_exp_details_experiment_status);
+
         owner.setText(current_experiment.getOwner().substring(0, 7));
-        if (current_experiment.getIsPublished() && !current_experiment.getIsEnded()) {
-            status.setText("Open");
-        }
-        else if (current_experiment.getIsPublished() && current_experiment.getIsEnded()) {
-            status.setText("Ended");
+//        if (current_experiment.getIsPublished()) {
+//            status.setText("Published");
+//        }
+//        else {
+//            status.setText("Unpublished");
+//        }
+
+        TextView region = v.findViewById(R.id.specific_exp_details_region);
+        if (!current_experiment.getRegion().equals("")){
+            region.setText(current_experiment.getRegion());
         }
         else {
-            status.setText("Unpublished");
+            // region.setVisibility(View.GONE);
+            region.setText("N/A");
         }
+
+        if (!current_experiment.getRules().equals("")) {
+            rules_constraints.setText((current_experiment.getRules()));
+        }
+        else {
+            // rules_constraints.setVisibility(View.GONE);
+            rules_constraints.setText("N/A");
+        }
+
+        TextView min_trials = v.findViewById(R.id.specific_exp_details_min_trials);
+        min_trials.setText(current_experiment.getMinimumTrials().toString());
+        updateCount();
+
+        ImageView geo_icon = v.findViewById(R.id.geo_icon);
         if (current_experiment.getIsGeolocationRequired()){
-            geo_required.setText("Yes");
+            geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_alt_solid));
+            geo_logo_text.setText("Geo-Required");
         }
         else {
-            geo_required.setText("No");
+            geo_icon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_map_marker_crossed));
+            geo_logo_text.setText("Non-Geo");
         }
 
         try {
@@ -148,6 +223,9 @@ public class SpecificExpDetailsFragment extends Fragment {
     }
 
 
+    /**
+     * This method checks if the user is subscribed when on resume is called
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -194,6 +272,15 @@ public class SpecificExpDetailsFragment extends Fragment {
         startActivity(intent);
     }
 
+    private void updateCount(){
+        exp_ref.document(current_experiment.getExpId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                current_count.setText(value.getData().get("numOfTrials").toString());
+            }
+        });
+
+    }
 
     private void plotAllTrialsOnMap(){
         Intent intent = new Intent(getActivity(), GeolocationActivity.class);
@@ -228,5 +315,16 @@ public class SpecificExpDetailsFragment extends Fragment {
         });
     }
 
+    /**
+     * Create toast when user click exp type icon
+     */
+    private void madeToast() {
+        String type = current_experiment.getType().toString();
 
+        Toast toast = Toast.makeText(getContext(),
+                "This is a " + type,
+                Toast.LENGTH_SHORT);
+
+        toast.show();
+    }
 }

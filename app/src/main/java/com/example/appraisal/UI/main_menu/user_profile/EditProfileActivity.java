@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
+/**
+ * This activity allows users to edit their profiles
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private TextView id_view;
@@ -55,8 +58,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the save button
-     * @param v
-     * @throws Exception
+     * @param v -- view that is clicked
+     * @throws Exception -- when the MainModel is not initiated
      */
     public void applyChangesToProfile(View v) throws Exception {
 
@@ -104,7 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     /**
      * Gets called when user clicks the cancel button
-     * @param v
+     * @param v -- view that is clicked
      */
     public void cancelChangesToProfile(View v) {
         Intent intent = new Intent(this, UserProfileActivity.class);

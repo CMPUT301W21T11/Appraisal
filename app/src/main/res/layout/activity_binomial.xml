@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/main_menu_bg">
     
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/teal_700"
         android:gravity="center"
         android:onClick="uploadSuccess"
         android:text="upload success"
@@ -75,14 +76,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.573" />
+        app:layout_constraintVertical_bias="0.573"
+        android:background="@drawable/navy_blue_button"/>
 
     <Button
         android:id="@+id/failure_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/magenta"
         android:onClick="uploadFailure"
         android:text="upload failure"
         app:layout_constraintBottom_toBottomOf="parent"

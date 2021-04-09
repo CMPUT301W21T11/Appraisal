@@ -17,32 +17,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Appraisal">
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanResult" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.CameraScanner"
+            android:theme="@style/EditProfileTheme"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD4UH--Vik76Id6If-pomOq18k1F7TjV-o" />
 
-        <activity android:name=".UI.MainActivity">
+        <activity android:name=".UI.MainActivity"
+            android:theme="@style/LoadingScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".UI.main_menu.subscription.ExpSubscriptionActivity"
             android:label="My Subscriptions" />
-        <activity android:name=".UI.main_menu.forum.ForumRepliesActivity" android:label="Forum Replies">
-        </activity>
+        <activity android:name=".UI.main_menu.specific_experiment_details.discussion.ForumRepliesActivity" android:label="Forum Replies"
+            android:theme="@style/EditProfileTheme"
+            />
         <activity
             android:name=".UI.main_menu.my_experiment.MyExperimentActivity"
             android:label="My Experiments" />
-        <activity android:name=".UI.trial.BinomialActivity" />
-        <activity android:name=".UI.trial.CounterActivity" />
-        <activity android:name=".UI.trial.MeasurementActivity" />
-        <activity android:name=".UI.trial.NonNegIntCountActivity" />
-        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity" />
+        <activity android:name=".UI.trial.BinomialActivity"
+            android:theme="@style/EditProfileTheme"/>
+        <activity android:name=".UI.trial.CounterActivity"
+            android:theme="@style/EditProfileTheme"/>
+        <activity android:name=".UI.trial.MeasurementActivity"
+            android:theme="@style/EditProfileTheme"/>
+        <activity android:name=".UI.trial.NonNegIntCountActivity"
+            android:theme="@style/EditProfileTheme"/>
+        <activity android:name=".UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity"
+            android:theme="@style/EditProfileTheme"/>
         <activity
             android:name=".UI.main_menu.my_experiment.PublishExpActivity"
             android:label="Publish Experiment">
@@ -53,23 +62,31 @@
 
         <activity
             android:name=".UI.main_menu.user_profile.EditProfileActivity"
-            android:label="Edit Profile"></activity>
+            android:label="Edit Profile"
+            android:theme="@style/EditProfileTheme"/>
         <activity
             android:name=".UI.main_menu.user_profile.UserProfileActivity"
-            android:label="Profile">
+            android:label="Profile"
+            android:theme="@style/EditProfileTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UI.main_menu.subscription.ExpSubscriptionActivity" />
         </activity>
-        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.SpecificExpActivity"
+            android:theme="@style/EditProfileTheme"/>
         <activity
             android:name=".UI.main_menu.search.SearchActivity"
             android:label="Search" />
         <activity
             android:name=".UI.geolocation.GeolocationActivity"
-            android:label="Binomial Trial #2" />
+            android:theme="@style/EditProfileTheme"/>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.RegisterBarcodeResult"/>
-        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity" />
+        <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPhotoActivity"
+            android:theme="@style/EditProfileTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UI.main_menu.specific_experiment_details.SpecificExpActivity" />
+        </activity>
         <activity android:name=".UI.main_menu.specific_experiment_details.qr_scanner.QRPromptActivity" />
 
     </application>

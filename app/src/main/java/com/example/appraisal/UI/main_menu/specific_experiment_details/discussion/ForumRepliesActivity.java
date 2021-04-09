@@ -1,4 +1,4 @@
-package com.example.appraisal.UI.main_menu.forum;
+package com.example.appraisal.UI.main_menu.specific_experiment_details.discussion;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -73,9 +73,11 @@ public class ForumRepliesActivity extends  AppCompatActivity {
             e.printStackTrace();
         }
 
+
         reply_display = findViewById(R.id.forum_replies);
         replies_list = new ArrayList<>();
-        reply_adapter = new ArrayAdapter<>(this, R.layout.list_content, replies_list);
+
+        reply_adapter = new ArrayAdapter<>(this, R.layout.list_answer, replies_list);
 
         getDbReplies();
 
@@ -86,7 +88,7 @@ public class ForumRepliesActivity extends  AppCompatActivity {
         publishNewReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this);
+                AlertDialog.Builder builder  = new AlertDialog.Builder(ForumRepliesActivity.this, R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background);
                 builder.setTitle("Post a reply!");
 
                 reply_input = new EditText(ForumRepliesActivity.this);
@@ -114,6 +116,8 @@ public class ForumRepliesActivity extends  AppCompatActivity {
                         reply_adapter.notifyDataSetChanged();
                     }
                 });
+
+
 
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

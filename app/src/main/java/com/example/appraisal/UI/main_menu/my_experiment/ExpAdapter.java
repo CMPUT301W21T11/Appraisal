@@ -7,14 +7,24 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.trial.TrialType;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+/**
+ * This class is an adapter for displaying experiment status
+ */
 public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     private ArrayList<Experiment> experiments;
     private ArrayList<Experiment> experimentsFiltered;
@@ -95,14 +105,24 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
             }
         }
 
-        // show status of experiment
-//        if (exp_current.getIsPublished() && !exp_current.getIsEnded()) {
-//            status.setText("Open");
-//        } else if (exp_current.getIsPublished() && exp_current.getIsEnded()) {
-//            status.setText("Ended");
-//        } else {
-//            status.setText("Unpublished");
-//        }
+        ImageView icon = view.findViewById(R.id.list_card_logo);
+        if (exp_current.getType().equals(TrialType.COUNT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_count));
+            // exp_current.setText("Count-Trial");
+        }
+        else if (exp_current.getType().equals(TrialType.BINOMIAL_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_coin));
+            // exp_current.setText("Binomial");
+        }
+        else if (exp_current.getType().equals(TrialType.NON_NEG_INT_TRIAL.getLabel())) {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_num));
+            // exp_current.setText("Non-Neg-Trial");
+        }
+        else {
+            icon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_thermometer_three_quarters_solid));
+            // exp_current.setText("Measurement");
+        }
+
 
 
         return view;
@@ -112,13 +132,13 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     /**
      * This method filters the list with the text specified by the user
      *
-     * @return
+     * @return Filter -- the filter object
      */
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
             @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
+            protected @NotNull FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults filterResults = new FilterResults();
 
@@ -151,7 +171,7 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
             }
 
             @Override
-            protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+            protected void publishResults(CharSequence constraint, @NotNull FilterResults filterResults) {
 
                 experimentsFiltered = (ArrayList<Experiment>) filterResults.values;
                 notifyDataSetChanged();
@@ -163,10 +183,11 @@ public class ExpAdapter extends ArrayAdapter<Experiment> implements Filterable {
     /**
      * This method checks the status of the experiment and returns corresponding string
      *
-     * @param exp
-     * @return
+     * @param exp -- {@link Experiment} to be checked
+     * @return String -- status of the experiment
      */
-    private String checkStat(Experiment exp) {
+    @NonNull
+    private String checkStat(@NonNull Experiment exp) {
         if (exp.getIsEnded()) {
             return "Ended";
         } else {

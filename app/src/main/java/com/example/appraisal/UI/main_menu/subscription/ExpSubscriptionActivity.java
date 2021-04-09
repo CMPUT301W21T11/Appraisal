@@ -34,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+/**
+ * This Activity is for displaying user subscriptions
+ */
 public class ExpSubscriptionActivity extends MainMenuCommonActivity implements ExpStatusFragment.OnFragmentInteractionListener {
 
     private ListView subscribed_list;
@@ -51,6 +54,7 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_subscription);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
