@@ -1,7 +1,6 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.graphics.Insets;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowMetrics;
@@ -137,26 +136,30 @@ public class AddTrialTests {
 //
 //
 //
-       WindowMetrics windowMetrics =  rule.getActivity().getWindowManager().getCurrentWindowMetrics();
-       Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
-       int width = windowMetrics.getBounds().width() - insets.left - insets.right;
-       int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
+//        WindowMetrics windowMetrics =  rule.getActivity().getWindowManager().getCurrentWindowMetrics();
+//        Insets insets = windowMetrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+//        int width = windowMetrics.getBounds().width() - insets.left - insets.right;
+//        int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
        // Log.d("Width", System.out.);
        // Log.d("Height", String.valueOf(height));
 
-        System.out.println();
-        System.out.println();
-        System.out.println(width);
-        System.out.println(height);
-        System.out.println();
-        System.out.println();
+        // System.out.println();
+        // System.out.println();
+        // System.out.println(width);
+        // System.out.println(height);
+        // System.out.println();
+        // System.out.println();
 
+
+        TabLayout tabs = (TabLayout) solo.getView(android.R.id.tabs);
+        TabLayout.Tab participant_tab = tabs.getTabAt(3);
 
         // for (int i = height; i > 0; i--) {
         //     for (int j = width; j > ((float)width) * (0.8); j--) {
         //         solo.clickOnScreen(j, i, 1);
         //     }
         // }
+
 
         TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
 
