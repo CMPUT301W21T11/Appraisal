@@ -16,10 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.participants.trial_list.ViewTrialActivity;
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.model.core.MainModel;
-import com.example.appraisal.model.main_menu.specific_experiment_details.SpecificExpModel;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;

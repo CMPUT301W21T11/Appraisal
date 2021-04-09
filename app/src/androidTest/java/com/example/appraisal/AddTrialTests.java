@@ -8,7 +8,6 @@ import android.view.WindowMetrics;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -16,7 +15,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
-import com.example.appraisal.UI.main_menu.specific_experiment_details.details.trial_list.ViewTrialActivity;
+import com.example.appraisal.UI.main_menu.specific_experiment_details.participants.trial_list.ViewTrialActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.material.tabs.TabLayout;
