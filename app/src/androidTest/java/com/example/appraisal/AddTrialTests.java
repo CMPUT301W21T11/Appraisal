@@ -26,7 +26,7 @@ import java.util.Random;
  */
 public class AddTrialTests {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 2000;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -105,7 +105,9 @@ public class AddTrialTests {
 //        solo.waitForText("Open", 1, 300);
 //        solo.waitForText("Geo-Required", 1, 300);
 
+        solo.waitForText("11nonneg", 1, delay_time);
         solo.clickOnText("11nonneg");
+        solo.waitForText("11nonneg", 1, delay_time*2);
 
 //        //Adding a trial
 //        View AddTrialButton = solo.getView("specific_exp_details_add_trial_button");
@@ -138,11 +140,19 @@ public class AddTrialTests {
        int height = windowMetrics.getBounds().height() - insets.top - insets.bottom;
        // Log.d("Width", System.out.);
        // Log.d("Height", String.valueOf(height));
-       System.out.println(width);
-       System.out.println(height);
 
-//        solo.clickOnScreen(windowMetrics.getBounds().width(), windowMetrics.getBounds().height(), 1);
+        System.out.println();
+        System.out.println();
+        System.out.println(width);
+        System.out.println(height);
+        System.out.println();
+        System.out.println();
 
+
+
+        solo.clickOnScreen(((float)width/ 10) * 7, 20, 1);
+
+        // assertTrue("cp", false);
         // solo.clickOnMenuItem("PARTICIPANTS_TAB");
 
 //        solo.clickOnScreen(1420, 2800, 1);
@@ -160,11 +170,11 @@ public class AddTrialTests {
         //go to contributors tab
 //        solo.clickOnImage(3);
 
-        try {
-            solo.waitForText(MainModel.getCurrentExperiment().getOwner(), 1, delay_time);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     solo.waitForText(MainModel.getCurrentExperiment().getOwner(), 1, delay_time);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         // click on name of user
         String userID = null;
