@@ -316,9 +316,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getGridLabelRenderer().reloadStyles();
         histogram.onDataChanged(false, false);
 
-        histogram.getGridLabelRenderer().reloadStyles();
-        histogram.onDataChanged(false, false);
-
     }
 
     private void generateTimePlot() {
@@ -329,7 +326,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // clear any previous data
         exp_plot_over_time.removeAllSeries();
-        exp_plot_over_time.getGridLabelRenderer().resetStyles();
 
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
