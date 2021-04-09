@@ -1,7 +1,5 @@
 package com.example.appraisal;
 
-import com.example.appraisal.model.core.MainModel;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +11,6 @@ public class FirebaseQueryTest {
      */
     @Before
     public void init() {
-        MainModel.createInstance();
     }
 
     @Test
@@ -26,6 +23,5 @@ public class FirebaseQueryTest {
      */
     @After
     public void end() {
-        MainModel.kill();
     }
 }
