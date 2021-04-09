@@ -313,6 +313,8 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         histogram.getViewport().setYAxisBoundsManual(true);
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        histogram.getGridLabelRenderer().reloadStyles();
+        histogram.onDataChanged(false, false);
 
         histogram.getGridLabelRenderer().reloadStyles();
         histogram.onDataChanged(false, false);
