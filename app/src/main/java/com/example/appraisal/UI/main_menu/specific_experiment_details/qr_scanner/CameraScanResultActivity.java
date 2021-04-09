@@ -317,6 +317,10 @@ public class CameraScanResultActivity extends AppCompatActivity {
     }
 
     /**
+     * This method check if the experiment is ended or unpublished
+     */
+
+    /**
      * This method adds geolocation for geo-required experiments
      *
      * @param exp_id -- experiment id in firebase
@@ -406,8 +410,4 @@ public class CameraScanResultActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    /**
-     * This method check if the experiment is ended or unpublished
-     */
 }
