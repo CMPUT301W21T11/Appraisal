@@ -2,6 +2,7 @@ package com.example.appraisal.UI.main_menu.specific_experiment_details.qr_scanne
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.example.appraisal.backend.geolocation.CurrentMarker;
 import com.example.appraisal.UI.geolocation.GeolocationActivity;
 import com.example.appraisal.backend.specific_experiment.QRValues;
 import com.example.appraisal.backend.trial.TrialType;
+import com.example.appraisal.backend.user.User;
 import com.example.appraisal.model.core.MainModel;
 import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnalyzerModel;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,15 +39,16 @@ public class CameraScanResultActivity extends AppCompatActivity {
 
     private static final int CAMERA_SCANNER_REQUEST_CODE = 0x00000001;
     private static final int MAP_REQUEST_CODE = 0x00000000;
+
     private QRAnalyzerModel model;
     private Activity self;
+
     private Button add_geo_button;
     private CurrentMarker trial_location;
-    private String exp_id;
+    private User current_user;
 
     /**
      * This method creates the CameraScanResultActivity
-     *
      * @param savedInstanceState -- Bundle from saved instance
      */
     @Override
@@ -68,7 +71,13 @@ public class CameraScanResultActivity extends AppCompatActivity {
             finish();
         });
 
-        Log.d("CameraScannerResult:", "Starting camera scanner");
+        try {
+            User current_user = MainModel.getCurrentUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.d("CameraScannerResult:","Starting camera scanner");
         Intent intent = new Intent(this, CameraScannerActivity.class);
         startActivityForResult(intent, CAMERA_SCANNER_REQUEST_CODE);
     }
@@ -146,9 +155,8 @@ public class CameraScanResultActivity extends AppCompatActivity {
                     default:
                         trialValue.setText(String.valueOf(values.getValue()));
                 }
-                exp_id = values.getExpId();
 
-                addGeolocation(values.getExpId());
+                checkIfClosed(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
 
                 CollectionReference experiment = MainModel.getExperimentReference();
@@ -168,7 +176,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                             geo_required = false;
                         }
 
-                        if (geo_required != null && geo_required) {
+                        if (geo_required) {
                             // obtain trial location
                             if (trial_location == null) {
                                 Toast.makeText(self, "Geolocation is not set", Toast.LENGTH_SHORT).show();
@@ -185,7 +193,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        addContributor();
+                        addContributor(values.getExpId());
                         finish();
                     });
                 });
@@ -244,7 +252,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                         String exp_id = getField(document, "targetExperimentId");
                         String exp_desc = getField(document, "targetExperimentDesc");
 
-                        addGeolocation(exp_id);
+                        checkIfClosed(exp_id);
 
                         experiment_desc_display.setText(exp_desc);
                         trialType.setText(trial_type);
@@ -268,6 +276,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
                                             values.setGeoPoint(geoPoint);
                                         }
                                     }
+                                    addContributor(exp_id);
                                     MainModel.setBarcodeResult(null); // clear the result in main model
                                     model.addToExperiment(values); // add to firebase
                                 } catch (Exception e) {
@@ -296,6 +305,50 @@ public class CameraScanResultActivity extends AppCompatActivity {
     }
 
     /**
+     * This method check if the experiment is ended or unpublished
+     */
+    private void checkIfClosed(String exp_id) {
+        try {
+            CollectionReference exp_list = MainModel.getExperimentReference();
+            exp_list.document(exp_id).get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot experiment = task.getResult();
+                    Boolean is_closed = experiment.getBoolean("isEnded");
+                    Boolean is_published = experiment.getBoolean("isPublished");
+                    if ((is_closed != null && is_closed) || (is_published != null && !is_published)) { // check if experiment is ended or unpublished
+                        String current_user_id = current_user.getId();
+                        String exp_owner_id = getField(experiment, "owner");
+                        if (!current_user_id.equalsIgnoreCase(exp_owner_id) || (is_closed != null && is_closed)) { // if the current user is not the owner or it is ended
+                            AlertDialog alertDialog = new AlertDialog.Builder(self, R.style.AlertDialogTheme)
+                                    .setCancelable(false)
+                                    .setMessage("Sorry, the target experiment you scanned is closed or unpublished")
+                                    .setPositiveButton("Exit", (dialog, which) -> {
+                                        try {
+                                            MainModel.setBarcodeResult(null);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        self.finish();
+                                    })
+                                    .create();
+                            alertDialog.show();
+                            alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+                            return;
+                        }
+                    }
+
+                    if (task.getException() != null) {
+                        task.getException().printStackTrace();
+                    }
+                    addGeolocation(exp_id);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * This method gets the field of a given document snapshot
      *
      * @param doc        -- DocumentSnapshot
@@ -317,10 +370,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
     }
 
     /**
-     * This method check if the experiment is ended or unpublished
-     */
-
-    /**
      * This method adds geolocation for geo-required experiments
      *
      * @param exp_id -- experiment id in firebase
@@ -334,7 +383,6 @@ public class CameraScanResultActivity extends AppCompatActivity {
                     Boolean is_required = experiment.getBoolean("isGeolocationRequired");
                     if (is_required != null && is_required) {
                         showWarningDialog();
-                        // generate merge conflicts
                         String exp_desc = getField(experiment, "description");
                         add_geo_button.setVisibility(View.VISIBLE);
                         add_geo_button.setOnClickListener(v -> {
@@ -402,7 +450,7 @@ public class CameraScanResultActivity extends AppCompatActivity {
     /**
      * This methods adds experiments to the list of experiments once they upload their trial
      */
-    private void addContributor() {
+    private void addContributor(String exp_id) {
 
         try {
             CollectionReference experiments = MainModel.getExperimentReference();
