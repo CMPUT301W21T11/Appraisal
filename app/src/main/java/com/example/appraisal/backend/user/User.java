@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 public class User implements Parcelable {
 
     private String Id;
-
     private String username;
     private String email;
     private String phone_number;
@@ -25,6 +24,10 @@ public class User implements Parcelable {
         this.num_of_exp = 0;
     }
 
+    /**
+     * Constructor for parcelable
+     * @param in -- the parcel
+     */
     protected User(Parcel in) {
         Id = in.readString();
         username = in.readString();
@@ -32,6 +35,9 @@ public class User implements Parcelable {
         phone_number = in.readString();
     }
 
+    /**
+     * Creator method for Parcelable interface
+     */
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {

@@ -65,19 +65,19 @@ import java.util.stream.DoubleStream;
  * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/MapWithMarker/app/src/main/java/com/example/mapwithmarker/MapsMarkerActivity.java <br>
  * License: Apache License Version 2.0 <br>
  * Author: 2020 Google LLC <br>
- *
+ * <p>
  * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/CurrentPlaceDetailsOnMap/app/src/main/java/com/example/currentplacedetailsonmap/MapsActivityCurrentPlace.java <br>
  * License: Apache License Version 2.0 <br>
  * Author: 2020 Google LLC <br>
- *
+ * <p>
  * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/StyledMap/app/src/main/java/com/example/styledmap/MapsActivityRaw.java <br>
  * License: Apache License Version 2.0 <br>
  * Author: 2020 Google LLC <br>
- *
+ * <p>
  * Source: https://github.com/android/location-samples/blob/main/LocationUpdates/app/src/main/java/com/google/android/gms/location/sample/locationupdates/MainActivity.java <br>
  * License: Apache License Version 2.0 <br>
  * Author: 2020 Google LLC <br>
- *
+ * <p>
  * Source:  https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2 <br>
  * Question: https://stackoverflow.com/q/16416041 <br>
  * Answer: https://stackoverflow.com/a/59544743 <br>
@@ -94,54 +94,30 @@ public class GeolocationActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback,
         GoogleMap.OnMarkerClickListener, GoogleMap.OnMarkerDragListener, LocationListener {
+
     private GoogleMap mMap;
-
     private CollectionReference exp_ref;
-
     private Experiment current_experiment;
-
     private UiSettings mUiSettings;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     private boolean permissionDenied = false;
     private boolean locationPermissionGranted;
-
     private FusedLocationProviderClient fusedLocationProviderClient;
-
     // Set up key values for storing activity state
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
-
     private Location lastKnownLocation;
-
-    private LatLng currentLocation;
-
     private CameraPosition cameraPosition;
-
     // Default location is near Edmonton City Centre
     private final LatLng defaultLocation = new LatLng(53.546123, -113.493822);
     private static final int DEFAULT_ZOOM = 15;
-
     private double markerLat;
     private double markerLong;
-
-    Marker currentLocationMarker;
-
+    private Marker currentLocationMarker;
     private String flag;
-
     private Button save_geolocation_btn;
-
     private LocationRequest location_request;
-
     private LocationCallback location_callback;
-
-    // TODO:
-    // 1. Add geolocation -> current location -> but marker can be draggable
-    // 2. Once they upload -> they can store it on Firestore (Geocode Lat/Long)
-    // 3. Extract all the firestore geocoded for all the trials on the experiment and plot them on the map
-    // 3b. Specific ID of the experimenter (owner, timestamp, other details)
-    // when the user clicks on the marker, it opens a text box
 
     @Override
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -203,7 +179,7 @@ public class GeolocationActivity extends AppCompatActivity implements
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-  
+
 
     }
 
@@ -278,6 +254,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
@@ -293,7 +272,9 @@ public class GeolocationActivity extends AppCompatActivity implements
         }
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
@@ -359,11 +340,13 @@ public class GeolocationActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * This method is called when user clicks on save button
+     * @param v -- view of current context
+     */
     public void saveMarkerLocation(View v) {
         Intent intent = new Intent();
         CurrentMarker marker = new CurrentMarker(markerLat, markerLong);
-        Log.d("Latitude", String.valueOf(markerLat));
-        Log.d("Longitude", String.valueOf(markerLong));
         intent.putExtra("currentMarker", marker);
         setResult(RESULT_OK, intent);
         finish();
@@ -387,7 +370,6 @@ public class GeolocationActivity extends AppCompatActivity implements
      */
     @Override
     public void onMarkerDragStart(Marker marker) {
-//        Toast.makeText(this, "User starts to drag me.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -397,8 +379,6 @@ public class GeolocationActivity extends AppCompatActivity implements
      */
     @Override
     public void onMarkerDrag(Marker marker) {
-//        Toast.makeText(this, "I'm being dragged.", Toast.LENGTH_SHORT).show();
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude)));
     }
 
     /**
@@ -411,45 +391,20 @@ public class GeolocationActivity extends AppCompatActivity implements
         marker.showInfoWindow();
         markerLat = marker.getPosition().latitude;
         markerLong = marker.getPosition().longitude;
-//        Toast.makeText(this, "Lat: " + String.valueOf(markerLat) + "\n" + "Long: " + String.valueOf(markerLong), Toast.LENGTH_SHORT).show();
     }
 
     /**
-     * Draw multiple markers on the map
-     *
-     * @param trials -- a list of {@link Trial}
+     * This method is called to plot each trial given a latitude and longitude, with a title and a snippet
+     * @param latitude -- latitude of trial location
+     * @param longitude -- longitude of trial location
+     * @param title -- Trial number and date
+     * @param snippet -- Result of trial
+     * @return
      */
-    private void drawMultipleMarkers(@NotNull ArrayList<Trial> trials) {
-        for (Trial trial : trials) {
-            mMap.addMarker(new MarkerOptions().position(defaultLocation).title("Trial").snippet("I am a trial"));
-        }
-    }
-
     private @NotNull LatLng drawMarker(double latitude, double longitude, String title, String snippet) {
         LatLng markerLocation = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(markerLocation).title(title).snippet(snippet));
         return markerLocation;
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void mockPlotTrialMarkers() {
-        // Edmonton Landmarks Latitudes/Longitudes
-        double[] latitudes = {53.546123, 53.5627, 53.5225, 53.5232, 53.5442};
-        double[] longitudes = {-113.493822, -113.5055, -113.6242, -113.5263, -113.4925};
-        String[] names = {"City Centre", "Kingsway Mall", "West Edmonton Mall", "University of Alberta", "Government of Alberta"};
-        String[] snippets = {"Mall", "Mall", "Mall", "University", "Government"};
-        for (int i = 0; i < 5; i++) {
-            drawMarker(latitudes[i], longitudes[i], names[i], snippets[i]);
-        }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(average(latitudes), average(longitudes)), 10));
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private double average(double[] nums) {
-        double avg = 1.0d * DoubleStream.of(nums).sum() / nums.length;
-        return avg;
     }
 
     /**
@@ -467,8 +422,11 @@ public class GeolocationActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * This method queries firebase and goes through each trial of experiments and plots it on map
+     */
     private void getAllGeoLocations() {
-// https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
+        // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -481,8 +439,6 @@ public class GeolocationActivity extends AppCompatActivity implements
                 double sum_longitudes = 0;
 
                 double count = 0.0;
-                double avg_latitudes;
-                double avg_longitudes;
 
                 for (QueryDocumentSnapshot doc : value) {
 
@@ -490,7 +446,6 @@ public class GeolocationActivity extends AppCompatActivity implements
                     String trial_ID = doc.getId();
                     GeoPoint trial_geolocation = (GeoPoint) doc.getData().get("geolocation");
                     String trial_date = doc.getData().get("date").toString();
-                    String experimenter_id = doc.getData().get("experimenterID").toString();
                     String trial_result = doc.getData().get("result").toString();
                     String trial_info = "Result: " + trial_result;
 
@@ -503,21 +458,16 @@ public class GeolocationActivity extends AppCompatActivity implements
                     }
                 }
 
-                avg_latitudes = sum_latitudes / count;
-                avg_longitudes = sum_longitudes / count;
-
                 // https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2
 
-                if (count != 0.0){
+                if (count != 0.0) {
                     LatLngBounds bounds = builder.build();
                     int width = getResources().getDisplayMetrics().widthPixels;
                     int height = getResources().getDisplayMetrics().heightPixels;
                     int padding = (int) (width * 0.30); // offset from edges of the map 15% of screen
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
                     mMap.animateCamera(cu);
-                }
-                // TODO: Add a message if there's no trials
-                else{
+                } else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(defaultLocation));
                 }
             }
@@ -540,6 +490,9 @@ public class GeolocationActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     *  This method polls for location updates every 5 milliseconds
+     */
     private void startLocationUpdates() {
         location_request = LocationRequest.create()
                 .setInterval(60 * 1000)
@@ -565,7 +518,7 @@ public class GeolocationActivity extends AppCompatActivity implements
 
     /**
      * Check if the menu item is selected
-     * 
+     *
      * @param item -- the selected menu item
      * @return boolean -- if it is selected
      */

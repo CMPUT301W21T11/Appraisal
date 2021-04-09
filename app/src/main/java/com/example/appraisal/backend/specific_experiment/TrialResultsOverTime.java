@@ -57,6 +57,11 @@ public class TrialResultsOverTime {
         }
     }
 
+    /**
+     * This method creates a hashmap of each date and the number of trials done at that date
+     *
+     * @return SortedMap -- Date and Number of Trials per date
+     */
     @NonNull
     private SortedMap<Date, Double> trialResultsPerDate() {
         SortedMap<Date, Double> data_points = new TreeMap<>();
@@ -105,6 +110,11 @@ public class TrialResultsOverTime {
         return data_points;
     }
 
+    /**
+     * This method counts the number of trials done per day
+     *
+     * @return SortedMap -- Date and Number of Trials per date
+     */
     @NonNull
     private SortedMap<Date, Double> countTrialsPerDate() {
         SortedMap<Date, Double> data_points = new TreeMap<>();
@@ -126,7 +136,11 @@ public class TrialResultsOverTime {
         return data_points;
     }
 
-
+    /**
+     * This method round to the nearest day
+     *
+     * @return Date -- the date
+     */
     @NonNull
     private Date roundToDay(@NonNull Date date) {
         Calendar cal = Calendar.getInstance();
@@ -138,6 +152,11 @@ public class TrialResultsOverTime {
         return cal.getTime();
     }
 
+    /**
+     * This method increments to the next day
+     *
+     * @return Date -- the date of the next day
+     */
     @NonNull
     private Date incrementDayByOne(@NonNull Date date) {
         Calendar cal = Calendar.getInstance();
@@ -146,6 +165,11 @@ public class TrialResultsOverTime {
         return cal.getTime();
     }
 
+    /**
+     * This method ensures that days where no trials have been uploaded are treated as a zero and not a null
+     * @param  value -- number of trials to be checked
+     * @return Double-- either zero if value is null or returns the value itself
+     */
     private double ifNullDouble(@Nullable Double value) {
         if (value == null) {
             return 0;

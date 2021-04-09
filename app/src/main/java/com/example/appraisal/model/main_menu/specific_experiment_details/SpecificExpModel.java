@@ -67,16 +67,6 @@ public class SpecificExpModel {
     }
 
     /**
-     * This function returns the number of trials conducted by the given Experiment
-     *
-     * @return trial_length_string
-     * This is the length of list_of_trials (Note: NOT necessary the no. of trials conducted
-     */
-    public String getListOfTrialLength() {
-        return String.valueOf(specificExperimentStatistics.getListOfTrials().size());
-    }
-
-    /**
      * This function returns the standard deviation of the given experiment
      *
      * @return stdDev_string
