@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-package com.example.appraisal.UI.geolocation;
+package com.example.appraisal.backend.geolocation;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -30,7 +30,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.appraisal.R;
 
-import org.jetbrains.annotations.NotNull;
+/**
+ * Source: https://github.com/googlemaps/android-samples/blob/816f8cc4241ec7c4eaf41b16f7fefcf10ae95faf/ApiDemos/java/app/src/v3/java/com/example/mapdemo/PermissionUtils.java <br>
+ * License: Apache License Version 2.0 <br>
+ * Author: 2020 Google LLC <br>
+ */
 
 /**
  * Utility class for access to runtime permissions.
@@ -50,7 +54,6 @@ public abstract class PermissionUtils {
         } else {
             // Location permission has not been granted yet, request it.
             ActivityCompat.requestPermissions(activity, new String[]{permission}, requestId);
-
         }
     }
 
@@ -97,10 +100,11 @@ public abstract class PermissionUtils {
          * {@inheritDoc}
          */
         @Override
+        @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             finishActivity = getArguments().getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getActivity(), R.style.GeoTheme)
                     .setMessage(R.string.location_permission_denied)
                     .setPositiveButton(android.R.string.ok, null)
                     .create();
@@ -168,7 +172,7 @@ public abstract class PermissionUtils {
             final int requestCode = arguments.getInt(ARGUMENT_PERMISSION_REQUEST_CODE);
             finishActivity = arguments.getBoolean(ARGUMENT_FINISH_ACTIVITY);
 
-            return new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getActivity(), R.style.GeoTheme)
                     .setMessage(R.string.permission_rationale_location)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override

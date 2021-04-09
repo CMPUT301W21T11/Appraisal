@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.backend.trial.TrialType;
-import com.google.common.collect.Comparators;
 import com.google.common.collect.Ordering;
 
 import java.util.Calendar;
@@ -25,11 +24,11 @@ public class TrialResultsOverTime {
     private final List<Trial> sorted_trial_list_by_date;
     private final Date trial_start_date;
 
-    public TrialResultsOverTime(@NonNull List<Trial> sorted_trial_list_by_date) {
-        this.sorted_trial_list_by_date = sorted_trial_list_by_date;
+    public TrialResultsOverTime(@NonNull List<Trial> trial_list) {
+        this.sorted_trial_list_by_date = trial_list;
         if (sorted_trial_list_by_date.size() > 0) {
             // check if the input list is sorted
-            Comparator<Trial> sort_by_date = new SortTrialByDate();
+            Comparator<Trial> sort_by_date = new TrialDateComparator();
             if (!Ordering.from(sort_by_date).isOrdered(sorted_trial_list_by_date)) {
                 sorted_trial_list_by_date.sort(sort_by_date);
             }

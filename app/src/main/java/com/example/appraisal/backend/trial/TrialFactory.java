@@ -23,7 +23,7 @@ public class TrialFactory {
 
         switch (create_key) {
             case BINOMIAL_TRIAL:
-                created_trial = new BernoulliTrial(parent_experiment, conductor);
+                created_trial = new BinomialTrial(parent_experiment, conductor);
                 break;
             case COUNT_TRIAL:
                 created_trial = new CountTrial(parent_experiment, conductor);

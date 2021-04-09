@@ -10,15 +10,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class User implements Parcelable {
 
-    private String ID;
+    private String Id;
 
     private String username;
     private String email;
     private String phone_number;
     private Integer num_of_exp;
 
-    public User(String ID, String username, String email, String phone_number) {
-        this.ID = ID;
+    public User(String Id, String username, String email, String phone_number) {
+        this.Id = Id;
         this.username = username;
         this.email = email;
         this.phone_number = phone_number;
@@ -26,7 +26,7 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        ID = in.readString();
+        Id = in.readString();
         username = in.readString();
         email = in.readString();
         phone_number = in.readString();
@@ -47,10 +47,10 @@ public class User implements Parcelable {
     /**
      * This method sets the user id
      *
-     * @param ID -- the user id as String
+     * @param id -- the user id as String
      */
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String id) {
+        this.Id = id;
     }
 
     /**
@@ -58,8 +58,8 @@ public class User implements Parcelable {
      *
      * @return String -- user id
      */
-    public String getID() {
-        return ID;
+    public String getId() {
+        return Id;
     }
 
     /**
@@ -102,7 +102,7 @@ public class User implements Parcelable {
      */
     @Override
     public void writeToParcel(@NotNull Parcel dest, int flags) {
-        dest.writeString(this.ID);
+        dest.writeString(this.Id);
         dest.writeString(this.username);
         dest.writeString(this.email);
         dest.writeString(this.phone_number);

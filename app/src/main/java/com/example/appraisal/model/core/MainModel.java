@@ -37,7 +37,6 @@ public class MainModel {
 
     private User current_user;
     private Experiment chosen_experiment;
-    private ArrayList<Experiment> my_experiments;
 
     private Result barcode_result; // This variable is used to store the barcode result
 
@@ -47,8 +46,6 @@ public class MainModel {
     public boolean is_checked;
 
     public FirebaseAuthentication mAuth;
-
-    public ArrayList<Experiment> sub_experiments;
 
 
     private MainModel() {
@@ -92,14 +89,6 @@ public class MainModel {
      */
     public static void reset() {
         single_instance = new MainModel();
-    }
-
-
-    public List<String> requestMyExpIndex() {
-        CollectionReference ref = db.collection("Users")
-                .document("User0000")
-                .collection("Subscriptions");
-        return new ArrayList<String>();
     }
 
     /**
@@ -156,7 +145,7 @@ public class MainModel {
         }
         single_instance.current_user = user;
 
-        user.setID(single_instance.user_id);
+        user.setId(single_instance.user_id);
 
     }
 

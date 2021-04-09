@@ -1,10 +1,11 @@
 package com.example.appraisal;
 
 import android.app.Activity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -12,6 +13,7 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.appraisal.UI.MainActivity;
 import com.example.appraisal.UI.main_menu.my_experiment.MyExperimentActivity;
 import com.example.appraisal.UI.main_menu.subscription.ExpSubscriptionActivity;
+import com.google.android.material.tabs.TabLayout;
 import com.robotium.solo.Solo;
 
 import org.junit.Before;
@@ -23,14 +25,14 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 /**
- * Test class for publishing an experiment and searching it. All the UI tests are written here.
- * Robotium test framework is used
+ * Test class for Ignoring Users. All the UI tests are written here. Robotium test framework is
+ * used
  *
- * Covers User Stories 05.01.01, 05.02.01
+ * Covers User Story 01.06.01, 01.07.01, 01.09.01,
  */
-public class SearchTest {
+public class StatsTest {
     private Solo solo;
-    int delay_time = 50;
+    int delay_time = 250;
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
@@ -56,16 +58,14 @@ public class SearchTest {
         Activity activity = rule.getActivity();
     }
 
-
     /**
-     * Publishes an experiment and searches for it.
+     * Publishes the experiment, adds trials and tests statistics
      */
     @Test
-    public void testSearch() {
-
+    public void testStatistics() {
         //Generating a random exp name for intent test
         Random rn = new Random();
-        final String exp_name = "SearchExpTest" +  String.valueOf(abs(rn.nextInt()));
+        final String exp_name = "StatisticsTest" + String.valueOf(abs(rn.nextInt()));
 
         //Asserts that the current activity is the MainActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -84,10 +84,12 @@ public class SearchTest {
 
         //Entering in test data
         solo.enterText((EditText) solo.getView(R.id.expDesc), exp_name);
-        solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonYes));
+        solo.clickOnView((RadioButton) solo.getView(R.id.radioButtonNo));
         solo.enterText((EditText) solo.getView(R.id.expMinTrials), "20");
         solo.enterText((EditText) solo.getView(R.id.expRules), "IntentTest Rule #1");
         solo.enterText((EditText) solo.getView(R.id.expRegion), "Canada");
+        solo.clickOnText("Count-based trials");
+        solo.clickOnText("Non-negative Integer Trials");
 
         //Publishing the test data
         View PubButton = solo.getView("publish_confirm");
@@ -97,35 +99,55 @@ public class SearchTest {
         solo.waitForText(exp_name, 1, delay_time);
         solo.waitForText("Status: Published & Open", 1, delay_time);
 
-        //Go to the Search page
-        View SearchButton = solo.getView("search_bottom_nav");
-        solo.clickOnView(SearchButton);
+        //Testing the dialogue box
+        solo.clickOnText(exp_name, 1, true);
+        solo.waitForText("Publish Status: Published", 1, delay_time);
+        solo.waitForText("Ended Status: Open", 1, delay_time);
 
-        //Click on exp search bar and typing in the search input
-        View SearchBar = solo.getView("exp_search_bar");
-        solo.clickOnView(SearchBar);
-        solo.sendKey(KeyEvent.KEYCODE_S);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_A);
-        solo.sendKey(KeyEvent.KEYCODE_R);
-        solo.sendKey(KeyEvent.KEYCODE_C);
-        solo.sendKey(KeyEvent.KEYCODE_H);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_X);
-        solo.sendKey(KeyEvent.KEYCODE_P);
-        solo.sendKey(KeyEvent.KEYCODE_T);
-        solo.sendKey(KeyEvent.KEYCODE_E);
-        solo.sendKey(KeyEvent.KEYCODE_S);
-        solo.sendKey(KeyEvent.KEYCODE_T);
-        solo.sendKey(KeyEvent.KEYCODE_ENTER);
+        //Testing the Details tab
+        View ResultsButton = solo.getView("view_results_button");
+        solo.clickOnView(ResultsButton);
+        solo.waitForText(exp_name, 1, 300);
+        solo.waitForText("Count-based trials", 1, 300);
+        solo.waitForText("Open", 1, 300);
+        solo.waitForText("Non-Geo", 1, 300);
 
-        //Verify if search was found
-        solo.waitForText(exp_name, 1, 700);
+        //Adding a trial
+        View AddTrialBtn = solo.getView("specific_exp_details_add_trial_button");
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "20");
+        View SaveTrialBtn = solo.getView("upload_observe_btn");
+        solo.clickOnView(SaveTrialBtn);
 
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "30");
+        solo.clickOnView(SaveTrialBtn);
+
+        solo.clickOnView(AddTrialBtn);
+        solo.enterText((EditText) solo.getView(R.id.nonneg_count_input), "40");
+        solo.clickOnView(SaveTrialBtn);
+
+        //Opening the Analysis tab
+        TabLayout tabs = (TabLayout) solo.getView(R.id.specific_exp_tab_layout);
+        TextView tv = (TextView) (((LinearLayout) ((LinearLayout) tabs.getChildAt(0)).getChildAt(2)).getChildAt(1));
+        solo.clickOnView(tv);
+
+
+        //Test if analysis results are correct
+        solo.waitForText("Median: 30.00", 1, 300);
+        solo.waitForText("Mean: 30.00", 1, 300);
+
+        //View trials over time
+        View TrialsOverTime = solo.getView("fragment_experiment_data_analysis_plotsDrop");
+        solo.clickOnView(TrialsOverTime);
+
+        //View histogram
+        View Histogram = solo.getView("fragment_experiment_data_analysis_histogramDrop");
+        solo.clickOnView(Histogram);
+
+        //View quartiles
+        View Quartiles = solo.getView("fragment_experiment_data_analysis_quartilesDrop");
+        solo.clickOnView(Quartiles);
 
     }
 }
-
-
-
-

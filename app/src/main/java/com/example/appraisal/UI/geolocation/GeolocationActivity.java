@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.appraisal.R;
 import com.example.appraisal.backend.experiment.Experiment;
+import com.example.appraisal.backend.geolocation.CurrentMarker;
+import com.example.appraisal.backend.geolocation.PermissionUtils;
 import com.example.appraisal.backend.trial.Trial;
 import com.example.appraisal.model.core.MainModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,6 +59,31 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.stream.DoubleStream;
+
+/**
+ * Geolocation Code Citation
+ * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/MapWithMarker/app/src/main/java/com/example/mapwithmarker/MapsMarkerActivity.java <br>
+ * License: Apache License Version 2.0 <br>
+ * Author: 2020 Google LLC <br>
+ *
+ * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/CurrentPlaceDetailsOnMap/app/src/main/java/com/example/currentplacedetailsonmap/MapsActivityCurrentPlace.java <br>
+ * License: Apache License Version 2.0 <br>
+ * Author: 2020 Google LLC <br>
+ *
+ * Source: https://github.com/googlemaps/android-samples/blob/df3d129b7624b2fc0a93be8e28c4111884f1578b/tutorials/java/StyledMap/app/src/main/java/com/example/styledmap/MapsActivityRaw.java <br>
+ * License: Apache License Version 2.0 <br>
+ * Author: 2020 Google LLC <br>
+ *
+ * Source: https://github.com/android/location-samples/blob/main/LocationUpdates/app/src/main/java/com/google/android/gms/location/sample/locationupdates/MainActivity.java <br>
+ * License: Apache License Version 2.0 <br>
+ * Author: 2020 Google LLC <br>
+ *
+ * Source:  https://stackoverflow.com/questions/16416041/zoom-to-fit-all-markers-on-map-google-maps-v2 <br>
+ * Question: https://stackoverflow.com/q/16416041 <br>
+ * Answer: https://stackoverflow.com/a/59544743 <br>
+ * Author: https://stackoverflow.com/users/11027716/mahmoud-zaher <br>
+ * License: CC BY-SA 3.0
+ */
 
 /**
  * This activity enables the Gelocation features
@@ -274,6 +301,7 @@ public class GeolocationActivity extends AppCompatActivity implements
             // Permission was not granted, display error dialog.
             showMissingPermissionError();
             permissionDenied = false;
+            // save_geolocation_btn.setClickable(false);
         }
     }
 

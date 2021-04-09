@@ -165,7 +165,7 @@ public class QRAnalyzerModel {
 
 
         try {
-            experimenterID = MainModel.getCurrentUser().getID();
+            experimenterID = MainModel.getCurrentUser().getId();
         } catch (Exception e) {
             e.printStackTrace();
         }

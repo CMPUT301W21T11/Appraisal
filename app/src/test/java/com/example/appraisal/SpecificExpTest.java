@@ -3,7 +3,7 @@ package com.example.appraisal;
 import androidx.annotation.NonNull;
 
 import com.example.appraisal.backend.experiment.Experiment;
-import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
+import com.example.appraisal.backend.specific_experiment.SpecificExperimentStatistics;
 import com.example.appraisal.backend.specific_experiment.TrialResultsOverTime;
 import com.example.appraisal.backend.trial.CountTrial;
 import com.example.appraisal.backend.trial.MeasurementTrial;
@@ -24,8 +24,8 @@ import static org.junit.Assert.*;
  * Test class for Specific Experiment
  */
 public class SpecificExpTest {
-    private SpecificExperiment test_obj_int;
-    private SpecificExperiment test_obj_float;
+    private SpecificExperimentStatistics test_obj_int;
+    private SpecificExperimentStatistics test_obj_float;
 
     private final int TRIAL_SIZE = 1000;
     private final double MARGIN_OF_ERROR = 0.5;
@@ -62,8 +62,8 @@ public class SpecificExpTest {
             experiment_float.addTrial(trial);
         }
 
-        test_obj_float = new SpecificExperiment(experiment_float);
-        test_obj_int = new SpecificExperiment(experiment_int);
+        test_obj_float = new SpecificExperimentStatistics(experiment_float);
+        test_obj_int = new SpecificExperimentStatistics(experiment_int);
     }
 
     /**

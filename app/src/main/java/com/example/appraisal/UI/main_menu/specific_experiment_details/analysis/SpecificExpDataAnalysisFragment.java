@@ -28,7 +28,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -97,7 +96,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         }
 
         // check if current user owns experiment, call corresponding query
-        if (current_experiment.getOwner().equals(current_experimenter.getID())) {
+        if (current_experiment.getOwner().equals(current_experimenter.getId())) {
             trialFirebaseOwner(v);
         } else {
             trialFirebaseInit(v);
@@ -287,7 +286,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     private void generateHistogram() {
         // clear any previous series
         histogram.removeAllSeries();
-        histogram.getGridLabelRenderer().resetStyles();
 
         // obtain data points
         DataPoint[] dataPoints = model.getHistogramDataPoints();
@@ -310,11 +308,13 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         Log.d("Datapoint length:", String.valueOf(dataPoints.length));
         histogram.getGridLabelRenderer().setHumanRounding(false); // this line is required to get the labels working correctly
-        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
+        histogram.getGridLabelRenderer().setNumHorizontalLabels((2 *dataPoints.length) + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
         histogram.getGridLabelRenderer().setHorizontalLabelsAngle(135);
+        histogram.getGridLabelRenderer().reloadStyles();
+        histogram.onDataChanged(false, false);
 
     }
 
@@ -326,7 +326,6 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         // clear any previous data
         exp_plot_over_time.removeAllSeries();
-        exp_plot_over_time.getGridLabelRenderer().resetStyles();
 
         DataPoint[] data_points = model.getTimePlotDataPoints(); // obtain datapoints from  model
 
@@ -359,39 +358,59 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         // Author: user3261759 (URL: https://stackoverflow.com/users/3261759/user3261759)
         // Thread URL: https://stackoverflow.com/posts/21505958/revisions
 
-        exp_plot_over_time.getViewport().setMinY(0);
-
-        int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
-        int interval;
-        if ((max_value <= 5)) {
-            interval = 1;
-        } else if (max_value <= 10) {
-            interval = 2;
-        } else if (max_value <= 50) {
-            interval = 5;
-        } else if (max_value <= 100) {
-            interval = 100;
-        } else if (max_value <= 500) {
-            interval = 200;
-        } else {
-            interval = 500;
-        }
-
-        int max_label = max_value;
-        while (max_label % interval != 0) {
-            max_label++;
-        }
-        exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
         exp_plot_over_time.getGridLabelRenderer().setNumHorizontalLabels(5);
-
-        exp_plot_over_time.getViewport().setMaxY(max_label);
         exp_plot_over_time.getViewport().setXAxisBoundsManual(true);
         exp_plot_over_time.getViewport().setYAxisBoundsManual(true);
-
         exp_plot_over_time.getGridLabelRenderer().setHumanRounding(false);
+
+        TrialType exp_type = TrialType.getInstance(current_experiment.getType());
+        switch (exp_type) {
+            case NON_NEG_INT_TRIAL:
+                TextView title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+            case COUNT_TRIAL:
+                int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
+                int interval;
+                if ((max_value <= 5)) {
+                    interval = 1;
+                } else if (max_value <= 10) {
+                    interval = 2;
+                } else if (max_value <= 50) {
+                    interval = 5;
+                } else if (max_value <= 100) {
+                    interval = 100;
+                } else if (max_value <= 500) {
+                    interval = 200;
+                } else {
+                    interval = 500;
+                }
+
+                int max_label = max_value;
+                while (max_label % interval != 0) {
+                    max_label++;
+                }
+                exp_plot_over_time.getGridLabelRenderer().setNumVerticalLabels(max_label / interval + 1);
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(max_label);
+                break;
+            case BINOMIAL_TRIAL:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Success Rate Over Time");
+                exp_plot_over_time.getViewport().setMinY(0);
+                exp_plot_over_time.getViewport().setMaxY(1);
+                break;
+            default:
+                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title.setText("Results Over Time");
+                exp_plot_over_time.getViewport().setMinY(time_plot_data.getLowestValueY());
+                exp_plot_over_time.getViewport().setMaxY(time_plot_data.getHighestValueY());
+        }
 
         exp_plot_over_time.getViewport().setScalable(true);
         exp_plot_over_time.getViewport().setScrollable(true);
+
+        exp_plot_over_time.getGridLabelRenderer().reloadStyles();
+        exp_plot_over_time.onDataChanged(false, false);
     }
 
     private void toggle_quartiles() {

@@ -50,7 +50,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         current_user = getIntent().getExtras().getParcelable("user");
 
-        id_view.setText("@"+current_user.getID().substring(0, 7));
+        id_view.setText("@"+current_user.getId().substring(0, 7));
         name_edit.setText(current_user.getUsername());
         email_edit.setText(current_user.getEmail());
         phone_edit.setText(current_user.getPhoneNumber());
@@ -66,7 +66,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String email = email_edit.getText().toString();
         String phone = phone_edit.getText().toString();
 
-        User updated_user = new User(current_user.getID(),
+        User updated_user = new User(current_user.getId(),
                 name_edit.getText().toString(),
                 email_edit.getText().toString(),
                 phone_edit.getText().toString()

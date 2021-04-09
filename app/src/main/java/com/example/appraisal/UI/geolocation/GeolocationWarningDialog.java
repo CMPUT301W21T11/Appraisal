@@ -5,17 +5,19 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 
 import com.example.appraisal.R;
-import com.example.appraisal.UI.main_menu.my_experiment.ExpStatusFragment;
-import com.example.appraisal.backend.experiment.Experiment;
+
+/**
+ * Source: https://developer.android.com/reference/android/app/DialogFragment
+ * Author: 2020 Google LLC
+ * License: Apache License 2.0
+ */
 
 /**
  * This class represents the Geolocation warning dialog

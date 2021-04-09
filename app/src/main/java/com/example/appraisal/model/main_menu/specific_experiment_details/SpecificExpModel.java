@@ -2,7 +2,7 @@ package com.example.appraisal.model.main_menu.specific_experiment_details;
 
 import com.example.appraisal.backend.experiment.Experiment;
 import com.example.appraisal.backend.specific_experiment.Quartile;
-import com.example.appraisal.backend.specific_experiment.SpecificExperiment;
+import com.example.appraisal.backend.specific_experiment.SpecificExperimentStatistics;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
@@ -12,20 +12,20 @@ import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * This model is for communicating with {@link SpecificExperiment} class
+ * This model is for communicating with {@link SpecificExperimentStatistics} class
  * for obtaining graphing data points and other experiment stats
  */
 public class SpecificExpModel {
-    private final SpecificExperiment specificExperiment;
+    private final SpecificExperimentStatistics specificExperimentStatistics;
     private final double stdDev;
     private final Quartile quartile;
     private final double mean;
 
     public SpecificExpModel(Experiment current_experiment) {
-        specificExperiment = new SpecificExperiment(current_experiment);
-        stdDev = specificExperiment.getExperimentStDev();
-        quartile = specificExperiment.getQuartile();
-        mean = specificExperiment.getExperimentMean();
+        specificExperimentStatistics = new SpecificExperimentStatistics(current_experiment);
+        stdDev = specificExperimentStatistics.getExperimentStDev();
+        quartile = specificExperimentStatistics.getQuartile();
+        mean = specificExperimentStatistics.getExperimentMean();
     }
 
     /**
@@ -35,7 +35,7 @@ public class SpecificExpModel {
      * Return DataPoint objects for plotting. Used by GraphView
      */
     public DataPoint[] getTimePlotDataPoints() {
-        SortedMap<Date, Double> data_points = specificExperiment.getTrialsPerDate();
+        SortedMap<Date, Double> data_points = specificExperimentStatistics.getTrialsPerDate();
 
         // Convert HashMap to DataPoint
         List<DataPoint> data_list = new ArrayList<>();
@@ -55,7 +55,7 @@ public class SpecificExpModel {
      * Return DataPoint objects for plotting. Used by GraphView
      */
     public DataPoint[] getHistogramDataPoints() {
-        SortedMap<Float, Integer> data_points = specificExperiment.getHistogramIntervalFrequency();
+        SortedMap<Float, Integer> data_points = specificExperimentStatistics.getHistogramIntervalFrequency();
         List<DataPoint> data_list = new ArrayList<>();
         for (Map.Entry<Float, Integer> entry : data_points.entrySet()) {
             float interval = entry.getKey();
@@ -73,7 +73,7 @@ public class SpecificExpModel {
      * This is the length of list_of_trials (Note: NOT necessary the no. of trials conducted
      */
     public String getListOfTrialLength() {
-        return String.valueOf(specificExperiment.getListOfTrials().size());
+        return String.valueOf(specificExperimentStatistics.getListOfTrials().size());
     }
 
     /**
@@ -112,7 +112,7 @@ public class SpecificExpModel {
      * @return
      */
     public float getHistogramIntervalWidth() {
-        return (float) specificExperiment.getHistogramIntervalWidth();
+        return (float) specificExperimentStatistics.getHistogramIntervalWidth();
     }
 
 }

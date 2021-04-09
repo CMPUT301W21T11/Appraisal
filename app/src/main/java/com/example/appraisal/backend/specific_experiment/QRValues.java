@@ -14,25 +14,17 @@ public class QRValues {
     private final TrialType type;
     private final double value;
     private final String exp_id;
-    private final Context parent;
+    private final Context parent_context;
     private GeoPoint geoPoint;
 
-    public QRValues(Context parent, String signature, TrialType type, double value, String exp_id) {
+    public QRValues(Context parent_context, String signature, TrialType type, double value, String exp_id) {
         this.signature = signature;
         this.type = type;
         this.value = value;
         this.exp_id = exp_id;
-        this.parent = parent;
+        this.parent_context = parent_context;
     }
 
-    public QRValues(Context parent, String signature, TrialType type, double value, String exp_id, GeoPoint geoPoint) {
-        this.signature = signature;
-        this.type = type;
-        this.value = value;
-        this.exp_id = exp_id;
-        this.parent = parent;
-        this.geoPoint = geoPoint;
-    }
     /**
      * Get the signature of the QR
      * @return String -- signature of the QR
@@ -71,7 +63,7 @@ public class QRValues {
      * @return boolean -- true if compatible, false otherwise
      */
     public boolean checkSignature() {
-        String target_signature = parent.getResources().getString(R.string.app_name);
+        String target_signature = parent_context.getResources().getString(R.string.app_name);
         return getSignature().equalsIgnoreCase(target_signature);
     }
 
@@ -85,7 +77,7 @@ public class QRValues {
 
     /**
      * This method returns the geopoint of the trial
-     * @return
+     * @return GeoPoint -- geopoint of the trial
      */
     public GeoPoint getGeoPoint() {
         return geoPoint;
