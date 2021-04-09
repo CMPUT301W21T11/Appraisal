@@ -41,7 +41,7 @@ public class QRAnalyzerModel {
 
     private final Activity parent_activity;
     private final ImageView qr_code_image;
-    int firebase_num_trials = 0;
+    private int firebase_num_trials = 0;
     private String experimenterID;
 
     public QRAnalyzerModel(@NonNull Activity parent_activity) {
@@ -53,6 +53,7 @@ public class QRAnalyzerModel {
 
     /**
      * This method displays the detected Barcode and its raw value to the parent activity
+     *
      * @param result -- the detection result
      * @throws WriterException -- when MultiFormatWriter refuse to write
      */
@@ -86,22 +87,13 @@ public class QRAnalyzerModel {
 
     /**
      * Obtain the commands in the string passed in the QR
+     *
      * @param encoded_info -- the String of the QR code value
      * @return QRValues -- the object that represents the value of the QR
      */
     public QRValues decodeTrialQR(@NonNull String encoded_info) {
         String[] contents = encoded_info.split(";");
-        /*
-        Note: For contents, if the QR code is compatible:
-        0 index is the app signature
-        1 index is for Type (binomial, count,...)
-        2 index value {binomial -> "0/1" (0 for fail, 1 for success)
-                       count -> "int number"
-                       non-neg -> "int num"
-                       measurement -> "double"
-                       }
-        3 index is the experiment ID.
-         */
+
         try {
             TrialType trialType = TrialType.getInstance(contents[1]);
             double value = Double.parseDouble(contents[2]);
@@ -145,6 +137,12 @@ public class QRAnalyzerModel {
         });
     }
 
+    /**
+     * This method stores the trial into firebase
+     *
+     * @param qr_values -- the raw value of QR
+     * @throws Exception
+     */
     private void modifyExperiment(@NonNull QRValues qr_values) throws Exception {
         double value = qr_values.getValue();
         String ID = qr_values.getExpId();

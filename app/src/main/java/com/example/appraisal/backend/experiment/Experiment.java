@@ -19,9 +19,7 @@ public class Experiment implements Parcelable {
     private String exp_id;
     private String owner;
     private String description;
-
     private ArrayList<Trial> trial_list;
-
     private String type;
     private String rules;
     private String region;
@@ -34,9 +32,7 @@ public class Experiment implements Parcelable {
     public Experiment(String exp_id, String owner, String description, String type, Boolean is_geolocation_required, Integer minimum_trials, String rules, String region){
         this.exp_id = exp_id;
         this.owner = owner;
-
         this.trial_list = new ArrayList<>();
-
         this.description = description;
         this.type = type;
         this.is_geolocation_required = is_geolocation_required;

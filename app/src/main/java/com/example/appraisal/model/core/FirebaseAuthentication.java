@@ -13,8 +13,6 @@ class FirebaseAuthentication {
     // Authentication
 
     private static FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private final String BROADCAST_FILTER = "connection_established";
 
     /**
      * Constructor for Firebase Authentication
@@ -22,18 +20,6 @@ class FirebaseAuthentication {
     public FirebaseAuthentication(){
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-    }
-
-    @Deprecated
-    public void signOut(){
-        mAuth.signOut();
-    }
-
-    /**
-     * Sign in the user anonymously
-     */
-    public void signIn() {
-        mAuth.signInAnonymously();
     }
 
     /**
@@ -53,7 +39,6 @@ class FirebaseAuthentication {
      * Get the current user
      * @return the current firebase user
      */
-
     public FirebaseUser getCurrentUser(){
         return mAuth.getCurrentUser();
     }

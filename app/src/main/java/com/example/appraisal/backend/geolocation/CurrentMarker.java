@@ -24,14 +24,6 @@ public class CurrentMarker implements Parcelable {
     }
 
     /**
-     * set latitiude of the marker
-     * @param latitude -- new latitude to set
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
      * get longitude of the marker
      * @return double -- longitude
      */
@@ -40,18 +32,17 @@ public class CurrentMarker implements Parcelable {
     }
 
     /**
-     * Set the longitude of the marker
-     * @param longitude -- new longitude to set
+     * Constructor for parcelable
+     * @param in -- the parcel
      */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
     protected CurrentMarker(Parcel in) {
         this.latitude = in.readDouble();
         this.longitude = in.readDouble();
     }
-    
+
+    /**
+     * Creator method for Parcelable interface
+     */
     public static final Creator<CurrentMarker> CREATOR = new Creator<CurrentMarker>() {
         @Override
         public CurrentMarker createFromParcel(Parcel in) {

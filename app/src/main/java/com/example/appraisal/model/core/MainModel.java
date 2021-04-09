@@ -104,18 +104,6 @@ public class MainModel {
     }
 
     /**
-     * Remove the chosen experiment and store in this global space. THIS RENDERS CHOSEN_EXPERIMENT TO NULL!
-     *
-     * @throws Exception thrown when either the MainModel is not instantiated
-     */
-    public static void removeChosenExperiment() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-        single_instance.chosen_experiment = null;
-    }
-
-    /**
      * Getting the chosen experiment stored in this global space
      *
      * @return chosen {@link Experiment}
@@ -147,18 +135,6 @@ public class MainModel {
 
         user.setId(single_instance.user_id);
 
-    }
-
-    /**
-     * Remove the chosen user and store in this global space. THIS RENDERS CURRENT_USER TO NULL!
-     *
-     * @throws Exception thrown when either the MainModel is not instantiated
-     */
-    public static void removeCurrentUser() throws Exception {
-        if (single_instance == null) {
-            throw new Exception("single_instance is not initiated");
-        }
-        single_instance.chosen_experiment = null;
     }
 
     /**

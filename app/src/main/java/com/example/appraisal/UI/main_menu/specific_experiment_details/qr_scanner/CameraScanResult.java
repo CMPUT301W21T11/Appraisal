@@ -25,6 +25,7 @@ import com.example.appraisal.model.main_menu.specific_experiment_details.QRAnaly
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -42,6 +43,7 @@ public class CameraScanResult extends AppCompatActivity {
 
     private Button add_geo_button;
     private CurrentMarker trial_location;
+    private String exp_id;
 
     /**
      * This method creates the CameraScanResultActivity
@@ -139,7 +141,7 @@ public class CameraScanResult extends AppCompatActivity {
                     default:
                         trialValue.setText(String.valueOf(values.getValue()));
                 }
-//                experiment_id_display.setText(values.getExpId());
+                exp_id = values.getExpId();
 
                 addGeolocation(values.getExpId());
                 setExperimentDesc(experiment_desc_display, values.getExpId());
@@ -178,6 +180,7 @@ public class CameraScanResult extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        addContributor();
                         finish();
                     });
                 });
@@ -364,6 +367,16 @@ public class CameraScanResult extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
             exp_desc.setText(R.string.not_recognized);
+        }
+    }
+
+    private void addContributor() {
+
+        try {
+            CollectionReference experiments = MainModel.getExperimentReference();
+            experiments.document(exp_id).update("experimenters", FieldValue.arrayUnion(MainModel.getCurrentUser().getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

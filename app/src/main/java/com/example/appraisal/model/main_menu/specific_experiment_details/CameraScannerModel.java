@@ -26,14 +26,9 @@ public class CameraScannerModel {
         this.view = view;
     }
 
-    public CameraScannerModel(@NonNull Context context, @NonNull CodeScannerView view, int cameraId) {
-        code_scanner = new CodeScanner(context, view, cameraId);
-        parent_context = context;
-        this.view = view;
-    }
-
     /**
      * This function set the decode call back for the code scanner
+     *
      * @param callback -- decode call back
      */
     public void setDecodeCallback(DecodeCallback callback) {

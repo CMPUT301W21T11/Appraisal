@@ -170,7 +170,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                     @Override
                                     public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                                         if (doc != null && doc.exists()) {
-                                            Log.d("Current data: ", doc.getData().toString());
 
                                             Boolean is_published = (Boolean) doc.getData().get("isPublished");
                                             if (is_published) {
@@ -194,8 +193,6 @@ public class ExpSubscriptionActivity extends MainMenuCommonActivity implements E
                                                 if (subscribed_experiments.stream().noneMatch(o -> o.getExpId().equalsIgnoreCase(experiment.getExpId()))) {
                                                     subscribed_experiments.add(experiment);
                                                 }
-
-                                                Log.d("Subscribed Experiments:", subscribed_experiments.toString());
 
                                                 adapter.notifyDataSetChanged();
                                                 subscribed_list.setAdapter(adapter);
