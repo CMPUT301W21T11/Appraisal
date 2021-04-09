@@ -308,7 +308,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
 
         Log.d("Datapoint length:", String.valueOf(dataPoints.length));
         histogram.getGridLabelRenderer().setHumanRounding(false); // this line is required to get the labels working correctly
-        histogram.getGridLabelRenderer().setNumHorizontalLabels(dataPoints.length + 1);
+        histogram.getGridLabelRenderer().setNumHorizontalLabels((2 *dataPoints.length) + 1);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setYAxisBoundsManual(true);
 
