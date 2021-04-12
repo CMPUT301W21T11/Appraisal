@@ -223,7 +223,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
      * @param v
      */
     private void plotGraphs(View v) {
-        generateTimePlot();
+        generateTimePlot(v);
         generateHistogram();
         generateQuartileTable();
         generateExpStats(v);
@@ -355,7 +355,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
     /**
      * This method generates the time plot of the experiment
      */
-    private void generateTimePlot() {
+    private void generateTimePlot(View v) {
         // Initialize time plot graph
         // The graph date plot initialization is taken from GraphView's documentation
         // Author:
@@ -403,7 +403,7 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
         TrialType exp_type = TrialType.getInstance(current_experiment.getType());
         switch (exp_type) {
             case NON_NEG_INT_TRIAL:
-                TextView title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                TextView title = v.findViewById(R.id.fragment_exp_data_time_plot_title);
                 title.setText("Results Over Time");
             case COUNT_TRIAL:
                 int max_value = (int) Math.floor(time_plot_data.getHighestValueY() + 1);
@@ -431,13 +431,13 @@ public class SpecificExpDataAnalysisFragment extends Fragment {
                 exp_plot_over_time.getViewport().setMaxY(max_label);
                 break;
             case BINOMIAL_TRIAL:
-                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title = v.findViewById(R.id.fragment_exp_data_time_plot_title);
                 title.setText("Success Rate Over Time");
                 exp_plot_over_time.getViewport().setMinY(0);
                 exp_plot_over_time.getViewport().setMaxY(1);
                 break;
             default:
-                title = mActivity.findViewById(R.id.fragment_exp_data_time_plot_title);
+                title = v.findViewById(R.id.fragment_exp_data_time_plot_title);
                 title.setText("Results Over Time");
                 exp_plot_over_time.getViewport().setMinY(time_plot_data.getLowestValueY());
                 exp_plot_over_time.getViewport().setMaxY(time_plot_data.getHighestValueY());
