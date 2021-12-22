@@ -1,1 +1,2 @@
 project-docs/* linguist-documentation
+javadocs/ linguist-documentation=false
